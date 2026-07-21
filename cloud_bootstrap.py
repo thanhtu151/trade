@@ -21,6 +21,7 @@ the scheduler's latest state within the cache TTL below.
 """
 
 import os
+import time
 from pathlib import Path
 
 import requests
@@ -57,8 +58,26 @@ def _secret(key, default=None):
         return default
 
 
+def is_cloud_viewer():
+    """True when running on Streamlit Cloud as a read-only viewer.
+
+    Gated on the CLOUD_STATE_REPO secret, which only exists in the cloud
+    deployment. Used to disable compute/write-heavy auto-triggers (e.g. the
+    on-load auto-analysis) that the GitHub Actions scheduler now owns.
+    """
+    return bool(_secret("CLOUD_STATE_REPO"))
+
+
 def bridge_secrets():
     """st.secrets -> os.environ (only fills keys not already set)."""
+    # Use Vietnam market time so displayed times / date logic match the market.
+    # No-op on Windows (no time.tzset); applies on the Linux Streamlit runner.
+    try:
+        os.environ.setdefault("TZ", "Asia/Ho_Chi_Minh")
+        if hasattr(time, "tzset"):
+            time.tzset()
+    except Exception:
+        pass
     try:
         for key, val in st.secrets.items():
             if isinstance(val, str) and not os.environ.get(key):

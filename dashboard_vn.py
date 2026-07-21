@@ -1307,7 +1307,7 @@ def collect_system_health():
                 limit_text = f"{per_minute}/phut, {per_hour}/gio" if per_minute or per_hour else str(limits)
             items.append(health_item("VNStock API", "ok", f"API key OK - goi {tier}", limit_text))
         else:
-            items.append(health_item("VNStock API", "critical", "Chua co API key VNStock", "Can cau hinh API key de lay du lieu VCI."))
+            items.append(health_item("VNStock API", "warning", "Dung VNStock tier mien phi (VCI)", "Chua cau hinh API key tra phi - van lay du lieu VCI binh thuong, chi gioi han rate."))
     except Exception as exc:
         level = classify_health_error(exc)
         items.append(health_item("VNStock API", level, "Khong kiem tra duoc API key VNStock", str(exc)[:240]))
@@ -4615,6 +4615,15 @@ def should_run_auto_analysis():
     return today_state.get("status") != "completed"
 
 def run_auto_analysis_if_due(symbols, ollama_ok, list_name="watchlist"):
+    # On the Streamlit Cloud viewer the GitHub Actions scheduler owns analysis —
+    # never run it on page load (it would re-fire on every reload and burn LLM).
+    try:
+        import cloud_bootstrap
+
+        if cloud_bootstrap.is_cloud_viewer():
+            return
+    except Exception:
+        pass
     if not should_run_auto_analysis():
         return
     now = datetime.now()
