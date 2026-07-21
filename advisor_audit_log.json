@@ -1,0 +1,50 @@
+[
+  {
+    "ts": "2026-07-12T17:01:45",
+    "branch": "education",
+    "question": "Quỹ khẩn cấp là gì và tôi cần bao nhiêu?",
+    "provider": "groq",
+    "flags": [],
+    "risk_band": null
+  },
+  {
+    "ts": "2026-07-12T18:54:34",
+    "branch": "education",
+    "question": "Tôi bán cổ phiếu bị lỗ thì có phải nộp thuế không? Lãi tiết kiệm có bị đánh thuế không?",
+    "provider": "groq",
+    "flags": [],
+    "risk_band": null
+  },
+  {
+    "ts": "2026-07-12T23:33:43",
+    "branch": "planning",
+    "question": "financial_plan",
+    "provider": "groq",
+    "flags": [],
+    "risk_band": "Cân bằng"
+  },
+  {
+    "ts": "2026-07-12T23:37:41",
+    "branch": "channels",
+    "question": "compare_channels[Thận trọng – Cân bằng]",
+    "provider": "groq",
+    "flags": [],
+    "risk_band": "Thận trọng – Cân bằng"
+  },
+  {
+    "ts": "2026-07-12T23:50:31",
+    "branch": "stock_edu",
+    "question": "analyze[VCB]",
+    "provider": "groq",
+    "flags": [],
+    "risk_band": null
+  },
+  {
+    "ts": "2026-07-13T00:03:16",
+    "branch": "channels",
+    "question": "compare_channels[Thận trọng – Cân bằng]",
+    "provider": "groq",
+    "flags": [],
+    "risk_band": "Thận trọng – Cân bằng"
+  }
+]

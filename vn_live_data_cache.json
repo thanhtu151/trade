@@ -1,0 +1,23 @@
+{
+  "deposit": {
+    "_cached_at": "2026-07-13T00:02:26",
+    "value": {
+      "live": false,
+      "as_of": "đầu 2026 — theo nghiên cứu, CẦN KIỂM CHỨNG",
+      "note": "Không có API lãi suất miễn phí ổn định. Đây là số liệu tham khảo từ nghiên cứu (đầu 2026). Lãi suất thay đổi liên tục & khác nhau theo kênh (quầy/online) — hãy xem bảng lãi suất chính thức trên website/app ngân hàng để có số mới nhất.",
+      "structure": "Nhóm Big 4 quốc doanh (Agribank/BIDV/VietinBank/Vietcombank) LUÔN trả lãi THẤP hơn ngân hàng cổ phần 0,5–1,5%/năm, đổi lại độ an toàn cảm nhận cao hơn.",
+      "rows": [
+        {
+          "nhom": "Big 4 quốc doanh",
+          "ky_han_12m": "~5,9%/năm",
+          "ghi_chu": "Agribank thường cao nhất nhóm short-term"
+        },
+        {
+          "nhom": "NH cổ phần top",
+          "ky_han_12m": "~7,0–7,4%/năm",
+          "ghi_chu": "VD HLBank, OceanBank, PG Bank, Cake"
+        }
+      ]
+    }
+  }
+}

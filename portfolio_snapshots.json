@@ -1,0 +1,262 @@
+[
+  {
+    "date": "2026-06-15",
+    "time": "2026-06-15T15:42:10.864930",
+    "cash": 238.80000000074506,
+    "market_value": 99796855.9,
+    "equity": 99797094.7,
+    "unrealized_pnl": -202905.30000000016,
+    "pnl_pct": -0.20290529999999704,
+    "positions": [
+      "VCB",
+      "BID",
+      "VIC",
+      "VHM",
+      "VRE"
+    ],
+    "n_positions": 5
+  },
+  {
+    "date": "2026-06-16",
+    "time": "2026-06-16T09:07:09.800133",
+    "cash": 59456136.7,
+    "market_value": 40267916.0,
+    "equity": 99724052.7,
+    "unrealized_pnl": 267965.5000000021,
+    "pnl_pct": -0.275947299999997,
+    "positions": [
+      "VCB",
+      "BID"
+    ],
+    "n_positions": 2
+  },
+  {
+    "date": "2026-06-17",
+    "time": "2026-06-17T10:02:32.613494",
+    "cash": 59456136.7,
+    "market_value": 40535842.0,
+    "equity": 99991978.7,
+    "unrealized_pnl": 535891.5000000019,
+    "pnl_pct": -0.00802129999999702,
+    "positions": [
+      "VCB",
+      "BID"
+    ],
+    "n_positions": 2
+  },
+  {
+    "date": "2026-06-18",
+    "time": "2026-06-18T10:12:37.610859",
+    "cash": 59456136.7,
+    "market_value": 40990545.0,
+    "equity": 100446681.7,
+    "unrealized_pnl": 990594.5000000014,
+    "pnl_pct": 0.446681700000003,
+    "positions": [
+      "VCB",
+      "BID"
+    ],
+    "n_positions": 2
+  },
+  {
+    "date": "2026-06-19",
+    "time": "2026-06-19T09:10:36.972526",
+    "cash": 59456136.7,
+    "market_value": 40828207.5,
+    "equity": 100284344.2,
+    "unrealized_pnl": 828257.0000000014,
+    "pnl_pct": 0.284344200000003,
+    "positions": [
+      "VCB",
+      "BID"
+    ],
+    "n_positions": 2
+  },
+  {
+    "date": "2026-06-20",
+    "time": "2026-06-20T10:57:21.189000",
+    "cash": 71359759.7,
+    "market_value": 28869897.5,
+    "equity": 100229657.2,
+    "unrealized_pnl": 164557.50000000012,
+    "pnl_pct": 0.22965720000000298,
+    "positions": [
+      "VCB",
+      "VJC"
+    ],
+    "n_positions": 2
+  },
+  {
+    "date": "2026-06-21",
+    "time": "2026-06-21T14:44:09.581798",
+    "cash": 40092010.34000001,
+    "market_value": 119462762.3,
+    "equity": 159554772.64000002,
+    "unrealized_pnl": 59325115.44,
+    "pnl_pct": 59.55477264000002,
+    "positions": [
+      "HVN",
+      "POW",
+      "VJC"
+    ],
+    "n_positions": 3
+  },
+  {
+    "date": "2026-06-22",
+    "time": "2026-06-22T09:13:48.786044",
+    "cash": 75687031.94000001,
+    "market_value": 83867740.7,
+    "equity": 159554772.64000002,
+    "unrealized_pnl": 0.0,
+    "pnl_pct": 59.55477264000002,
+    "positions": [
+      "VJC",
+      "HVN",
+      "POW"
+    ],
+    "n_positions": 3
+  },
+  {
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:13:35.192671",
+    "cash": 1381360.1400000006,
+    "market_value": 156984774.3,
+    "equity": 158366134.44,
+    "unrealized_pnl": -142675.0,
+    "pnl_pct": 58.366134439999996,
+    "positions": [
+      "VJC",
+      "VHM",
+      "BMP",
+      "PC1",
+      "KDH"
+    ],
+    "n_positions": 5
+  },
+  {
+    "date": "2026-06-24",
+    "time": "2026-06-24T11:02:54.692624",
+    "cash": 124803422.14,
+    "market_value": 32101177.5,
+    "equity": 156904599.64,
+    "unrealized_pnl": 428015.69999999885,
+    "pnl_pct": 56.90459963999999,
+    "positions": [
+      "VHM"
+    ],
+    "n_positions": 1
+  },
+  {
+    "date": "2026-06-25",
+    "time": "2026-06-25T09:49:16.653393",
+    "cash": 7563982.140000001,
+    "market_value": 150103553.2,
+    "equity": 157667535.33999997,
+    "unrealized_pnl": 761371.3999999999,
+    "pnl_pct": 57.66753533999997,
+    "positions": [
+      "VHM",
+      "PVD",
+      "VCB",
+      "GAS"
+    ],
+    "n_positions": 4
+  },
+  {
+    "date": "2026-06-29",
+    "time": "2026-06-29T13:43:02.422637",
+    "cash": 46915582.14,
+    "market_value": 110452590.8,
+    "equity": 157368172.94,
+    "unrealized_pnl": 333409.00000000396,
+    "pnl_pct": 57.368172939999994,
+    "positions": [
+      "VHM",
+      "PVD",
+      "GAS"
+    ],
+    "n_positions": 3
+  },
+  {
+    "date": "2026-06-30",
+    "time": "2026-06-30T10:36:52.200970",
+    "cash": 157307027.84,
+    "market_value": 0.0,
+    "equity": 157307027.84,
+    "unrealized_pnl": 0.0,
+    "pnl_pct": 57.30702784,
+    "positions": [],
+    "n_positions": 0
+  },
+  {
+    "date": "2026-07-01",
+    "time": "2026-07-01T10:09:50.224476",
+    "cash": 396950.1899999976,
+    "market_value": 157344921.2,
+    "equity": 157741871.39,
+    "unrealized_pnl": 434843.5499999976,
+    "pnl_pct": 57.741871389999986,
+    "positions": [
+      "PVD",
+      "PC1",
+      "POW",
+      "GAS",
+      "STB"
+    ],
+    "n_positions": 5
+  },
+  {
+    "date": "2026-07-02",
+    "time": "2026-07-02T14:25:48.642531",
+    "cash": 39457790.19,
+    "market_value": 117536088.44999999,
+    "equity": 156993878.64,
+    "unrealized_pnl": -47429.20000000244,
+    "pnl_pct": 56.993878639999984,
+    "positions": [
+      "PVD",
+      "PC1",
+      "GAS",
+      "STB"
+    ],
+    "n_positions": 4
+  },
+  {
+    "date": "2026-07-08",
+    "time": "2026-07-08T16:44:49.200557",
+    "cash": 121643305.19,
+    "market_value": 31174078.949999996,
+    "equity": 152817384.14,
+    "unrealized_pnl": -287318.7000000041,
+    "pnl_pct": 52.81738413999999,
+    "positions": [
+      "PVD"
+    ],
+    "n_positions": 1
+  },
+  {
+    "date": "2026-07-10",
+    "time": "2026-07-10T09:48:08.107827",
+    "cash": 38917759973.54,
+    "market_value": 0.0,
+    "equity": 38917759973.54,
+    "unrealized_pnl": 0.0,
+    "pnl_pct": 38817.75997354,
+    "positions": [],
+    "n_positions": 0
+  },
+  {
+    "date": "2026-07-15",
+    "time": "2026-07-15T17:42:08.069806",
+    "cash": 40668950.0,
+    "market_value": 49384090.0,
+    "equity": 90053040.0,
+    "unrealized_pnl": -346210.0000000011,
+    "pnl_pct": -9.94696,
+    "positions": [
+      "TCB",
+      "VHM"
+    ],
+    "n_positions": 2
+  }
+]

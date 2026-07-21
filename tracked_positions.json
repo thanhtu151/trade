@@ -1,0 +1,11 @@
+[
+  {
+    "symbol": "STB",
+    "qty": 7,
+    "buy_price": 72.22,
+    "stop_loss": 0,
+    "take_profit": 0,
+    "note": "",
+    "source": "manual"
+  }
+]

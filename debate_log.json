@@ -1,0 +1,4494 @@
+[
+  {
+    "ticker": "VCB",
+    "date": "2026-06-16",
+    "time": "2026-06-16T16:11:58.090874",
+    "market_data": {
+      "price": 62000,
+      "rsi": 27,
+      "macd_bull": true,
+      "vol_ratio": 1.1,
+      "score": 2.5,
+      "ensemble_signal": "khong ro",
+      "weekly_trend": "downtrend",
+      "news_sentiment": 0.1,
+      "market_regime": "BEAR_TREND",
+      "cash_available": 59000000
+    },
+    "bull_case": {
+      "confidence": 77,
+      "summary": "ok",
+      "action": "MUA",
+      "target": 123,
+      "stoploss": 100,
+      "risk_reward": 2.0,
+      "agreed_with": "bull",
+      "key_reason": "test",
+      "top_3_reasons": [
+        "a"
+      ],
+      "top_3_risks": [
+        "b"
+      ],
+      "stance": "BULL"
+    },
+    "bear_case": {
+      "confidence": 77,
+      "summary": "ok",
+      "action": "MUA",
+      "target": 123,
+      "stoploss": 100,
+      "risk_reward": 2.0,
+      "agreed_with": "bull",
+      "key_reason": "test",
+      "top_3_reasons": [
+        "a"
+      ],
+      "top_3_risks": [
+        "b"
+      ],
+      "stance": "BEAR"
+    },
+    "final_decision": {
+      "confidence": 77,
+      "summary": "ok",
+      "action": "MUA",
+      "target": 123,
+      "stoploss": 100,
+      "risk_reward": 2.0,
+      "agreed_with": "bull",
+      "key_reason": "test",
+      "top_3_reasons": [
+        "a"
+      ],
+      "top_3_risks": [
+        "b"
+      ],
+      "position_size_pct": 0
+    },
+    "elapsed_sec": 1.0,
+    "outcome": "incorrect",
+    "reflection": "Phân tích kỹ lưỡng và xem xét các yếu tố rủi ro trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": -99.9,
+    "actual_price_3d": 61.4
+  },
+  {
+    "ticker": "VCB",
+    "date": "2026-06-16",
+    "time": "2026-06-16T16:12:14.356738",
+    "market_data": {
+      "price": 62000,
+      "rsi": 27,
+      "macd_bull": true,
+      "vol_ratio": 1.1,
+      "score": 2.5,
+      "ensemble_signal": "khong ro",
+      "weekly_trend": "downtrend",
+      "news_sentiment": 0.1,
+      "market_regime": "BEAR_TREND",
+      "cash_available": 59000000
+    },
+    "bull_case": {
+      "confidence": 77,
+      "summary": "ok",
+      "action": "MUA",
+      "target": 123,
+      "stoploss": 100,
+      "risk_reward": 2.0,
+      "agreed_with": "bull",
+      "key_reason": "test",
+      "top_3_reasons": [
+        "a"
+      ],
+      "top_3_risks": [
+        "b"
+      ],
+      "stance": "BULL"
+    },
+    "bear_case": {
+      "confidence": 77,
+      "summary": "ok",
+      "action": "MUA",
+      "target": 123,
+      "stoploss": 100,
+      "risk_reward": 2.0,
+      "agreed_with": "bull",
+      "key_reason": "test",
+      "top_3_reasons": [
+        "a"
+      ],
+      "top_3_risks": [
+        "b"
+      ],
+      "stance": "BEAR"
+    },
+    "final_decision": {
+      "confidence": 77,
+      "summary": "ok",
+      "action": "MUA",
+      "target": 123,
+      "stoploss": 100,
+      "risk_reward": 2.0,
+      "agreed_with": "bull",
+      "key_reason": "test",
+      "top_3_reasons": [
+        "a"
+      ],
+      "top_3_risks": [
+        "b"
+      ],
+      "position_size_pct": 0
+    },
+    "elapsed_sec": 1.0,
+    "outcome": "incorrect",
+    "reflection": "Phân tích đúng bull case và bear case nhưng quyết định đầu tư không chính xác cần được cải thiện",
+    "pnl_pct": -99.9,
+    "actual_price_3d": 61.4
+  },
+  {
+    "ticker": "VIC",
+    "date": "2026-06-17",
+    "time": "2026-06-17T10:56:09.090340",
+    "market_data": {
+      "price": 188.1,
+      "rsi": 27.7,
+      "macd_bull": false,
+      "vol_ratio": 0.32,
+      "score": 3.5,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "RSI ở mức thấp (27.7) cho thấy cổ phiếu đang ở trong vùng oversold",
+        "Giá hiện tại (188 VND) có thể được coi là mức giá hấp dẫn cho việc mua",
+        "Stage1 Score (3.5/7) còn dư địa để cải thiện và tăng trưởng"
+      ],
+      "target_price": 220,
+      "catalyst": "Sự cải thiện trong Stage1 Score và tin tức tích cực về công ty",
+      "summary": "Cổ phiếu VIC có tiềm năng tăng trưởng mạnh mẽ khi thị trường bắt đầu đánh giá cao giá trị thực của nó."
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "RSI thấp chỉ ra sự bán tháo",
+        "MACD bearish cho thấy xu hướng giảm",
+        "Volume thấp cho thấy thiếu động lực mua"
+      ],
+      "downside_target": 150,
+      "main_risk": "Xu hướng giảm do chỉ số kỹ thuật tiêu cực",
+      "summary": "VIC có thể giảm do chỉ số kỹ thuật và động lượng tiêu cực"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "RSI ở mức thấp và giá hiện tại có thể được coi là mức giá hấp dẫn",
+      "risk_reward": 2.17,
+      "target": 220,
+      "stoploss": 150
+    },
+    "elapsed_sec": 4.8,
+    "outcome": "correct",
+    "reflection": "Phân tích kỹ lưỡng cả bull case và bear case trước khi đưa ra quyết định đầu tư để tối ưu hóa lợi nhuận và giảm thiểu rủi ro.",
+    "pnl_pct": 9.25,
+    "actual_price_3d": 205.5
+  },
+  {
+    "ticker": "VHM",
+    "date": "2026-06-17",
+    "time": "2026-06-17T10:56:12.433297",
+    "market_data": {
+      "price": 131.5,
+      "rsi": 13.4,
+      "macd_bull": false,
+      "vol_ratio": 0.57,
+      "score": 3.5,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "Giá đang ở mức thấp hấp dẫn với RSI chỉ 13.4, cho thấy có tiềm năng tăng trưởng",
+        "Volume giao dịch thấp cho thấy có thể có sự tích lũy trước khi tăng",
+        "Stage1 Score 3.5/7 cho thấy có tiềm năng tăng trưởng trong dài hạn"
+      ],
+      "target_price": 150,
+      "catalyst": "Sự thay đổi tích cực trong news sentiment",
+      "summary": "VHM có tiềm năng tăng trưởng do giá đang ở mức thấp và có sự tích lũy trước khi tăng"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "RSI quá thấp có thể dẫn đến hồi phục giả",
+        "MACD bearish cho thấy xu hướng giảm",
+        "Lưu lượng giao dịch thấp cho thấy sự thiếu hấp dẫn"
+      ],
+      "downside_target": 115,
+      "main_risk": "Xu hướng giảm do tín hiệu MACD bearish",
+      "summary": "Xu hướng giảm của VHM được củng cố bởi tín hiệu MACD bearish và RSI thấp."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 60,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Giá đang ở mức thấp hấp dẫn với RSI chỉ 13.4",
+      "risk_reward": 1.7,
+      "target": 150,
+      "stoploss": 120
+    },
+    "elapsed_sec": 3.1,
+    "outcome": "correct",
+    "reflection": "Phân tích kỹ thuật và xu hướng thị trường cần được kết hợp với phân tích cơ bản để đưa ra quyết định đầu tư chính xác hơn.",
+    "pnl_pct": 10.49,
+    "actual_price_3d": 145.3
+  },
+  {
+    "ticker": "VND",
+    "date": "2026-06-17",
+    "time": "2026-06-17T10:56:15.933306",
+    "market_data": {
+      "price": 18.1,
+      "rsi": 57.8,
+      "macd_bull": true,
+      "vol_ratio": 0.31,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "Xu hướng tăng trên khung thời gian tuần",
+        "RSI chưa ở trong vùng vượt mua",
+        "MACD đang chỉ ra tín hiệu tăng"
+      ],
+      "target_price": 22,
+      "catalyst": "Sự cải thiện trong volume giao dịch",
+      "summary": "Xu hướng tăng đang được củng cố và có thể tiếp tục tăng trong thời gian tới"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 60,
+      "top_3_risks": [
+        "Giá đã tăng quá nhanh và có thể điều chỉnh",
+        "Volume giao dịch thấp cho thấy thiếu lực hỗ trợ",
+        "News sentiment trung lập không hỗ trợ tăng trưởng"
+      ],
+      "downside_target": 15.5,
+      "main_risk": "Rủi ro giá điều chỉnh do thiếu lực hỗ trợ",
+      "summary": "Giá có thể giảm do thiếu lực hỗ trợ và điều chỉnh sau uptrend"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tăng trên khung thời gian tuần và RSI chưa ở trong vùng vượt mua",
+      "risk_reward": 2.1,
+      "target": 22,
+      "stoploss": 16
+    },
+    "elapsed_sec": 3.3,
+    "outcome": "incorrect",
+    "reflection": "Phân tích kỹ lưỡng cả hai trường hợp tăng và giảm trước khi đưa ra quyết định đầu tư để hạn chế rủi ro.",
+    "pnl_pct": -2.21,
+    "actual_price_3d": 17.7
+  },
+  {
+    "ticker": "SHS",
+    "date": "2026-06-17",
+    "time": "2026-06-17T10:56:19.384977",
+    "market_data": {
+      "price": 19.1,
+      "rsi": 66.7,
+      "macd_bull": true,
+      "vol_ratio": 0.51,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "Xu hướng tuần tăng (uptrend) cho thấy động lực tăng trưởng mạnh mẽ",
+        "MACD bullish Chỉ số MACD đang nằm trong vùng tăng giá",
+        "Giá hiện tại 19 VND có thể coi là vùng giá tốt cho việc mua vào"
+      ],
+      "target_price": 25,
+      "catalyst": "Sự cải thiện trong chỉ số kinh tế vĩ mô và hoạt động kinh doanh của công ty",
+      "summary": "SHS có cơ hội tăng trưởng mạnh mẽ nhờ xu hướng tăng và tín hiệu kỹ thuật tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 60,
+      "top_3_risks": [
+        "RSI cao có thể dẫn đến điều chỉnh",
+        "Volume thấp so với trung bình",
+        "News sentiment trung lập có thể dẫn đến giảm niềm tin"
+      ],
+      "downside_target": 16,
+      "main_risk": "Tình trạng quá mua tiềm ẩn do RSI cao",
+      "summary": "Tiềm năng điều chỉnh cao do chỉ số RSI vượt ngưỡng và khối lượng giao dịch thấp"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tuần tăng và tín hiệu kỹ thuật tích cực",
+      "risk_reward": 1.67,
+      "target": 25,
+      "stoploss": 16
+    },
+    "elapsed_sec": 3.2,
+    "outcome": "incorrect",
+    "reflection": "Cần cân nhắc kỹ lưỡng cả hai trường hợp tăng trưởng và điều chỉnh trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": -1.57,
+    "actual_price_3d": 18.8
+  },
+  {
+    "ticker": "SAB",
+    "date": "2026-06-17",
+    "time": "2026-06-17T10:56:22.843249",
+    "market_data": {
+      "price": 49.0,
+      "rsi": 69.1,
+      "macd_bull": true,
+      "vol_ratio": 0.23,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 75,
+      "top_3_reasons": [
+        "Đường xu hướng tuần đang ở uptrend",
+        "Chỉ số MACD đang ở vùng bullish",
+        "Giá đang ở mức hấp dẫn so với triển vọng tăng trưởng"
+      ],
+      "target_price": 60,
+      "catalyst": "Sự cải thiện của chỉ số Stage1 Score trong tương lai",
+      "summary": "Cổ phiếu SAB có tiềm năng tăng trưởng mạnh mẽ trong ngắn hạn nhờ vào các tín hiệu kỹ thuật tích cực và triển vọng tăng trưởng khả quan."
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Tình trạng RSI cao có thể dẫn đến điều chỉnh",
+        "Thiếu thông tin về Ensemble có thể che giấu rủi ro",
+        "Tình hình Market regime неизвест có thể ảnh hưởng đến xu hướng"
+      ],
+      "downside_target": 42,
+      "main_risk": "Tình trạng RSI cao có thể dẫn đến điều chỉnh",
+      "summary": "Dự báo giá có thể giảm do RSI cao và thiếu thông tin về Ensemble."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 75,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "Đường xu hướng tuần đang ở uptrend và chỉ số MACD đang ở vùng bullish",
+      "risk_reward": 1.67,
+      "target": 60,
+      "stoploss": 45
+    },
+    "elapsed_sec": 3.2,
+    "outcome": "incorrect",
+    "reflection": "Nên cân nhắc kỹ lưỡng cả tín hiệu kỹ thuật và thông tin cơ bản trước khi đưa ra quyết định mua hay bán cổ phiếu.",
+    "pnl_pct": -1.73,
+    "actual_price_3d": 48.15
+  },
+  {
+    "ticker": "POW",
+    "date": "2026-06-17",
+    "time": "2026-06-17T10:56:26.390301",
+    "market_data": {
+      "price": 14.2,
+      "rsi": 57.9,
+      "macd_bull": true,
+      "vol_ratio": 0.48,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "Xu hướng tuần tăng",
+        "MACD hiển thị tín hiệu tăng",
+        "Giá hiện tại còn thấp so với tiềm năng tăng trưởng"
+      ],
+      "target_price": 20,
+      "catalyst": "Sự cải thiện trong Stage1 Score và tăng trưởng volume giao dịch",
+      "summary": "Tiềm năng tăng trưởng cao với tín hiệu tăng từ MACD và xu hướng tuần tăng"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 60,
+      "top_3_risks": [
+        "Rủi ro do thiếu thông tin về Ensemble",
+        "Rủi ro do Market regime không rõ ràng",
+        "Rủi ro do Stage1 Score thấp"
+      ],
+      "downside_target": 10,
+      "main_risk": "Rủi ro do thiếu thông tin về Ensemble",
+      "summary": "Mức giá có thể giảm do thiếu thông tin và rủi ro không rõ ràng về thị trường"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tuần tăng và tín hiệu tăng từ MACD",
+      "risk_reward": 2,
+      "target": 20,
+      "stoploss": 12
+    },
+    "elapsed_sec": 3.3,
+    "outcome": "incorrect",
+    "reflection": "Nên cân nhắc kỹ lưỡng giữa tín hiệu kỹ thuật và rủi ro thị trường trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": -2.11,
+    "actual_price_3d": 13.9
+  },
+  {
+    "ticker": "GMD",
+    "date": "2026-06-17",
+    "time": "2026-06-17T10:56:29.575998",
+    "market_data": {
+      "price": 79.1,
+      "rsi": 85.9,
+      "macd_bull": true,
+      "vol_ratio": 0.16,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "Xu hướng tăng trưởng tuần (Weekly trend: uptrend)",
+        "Dấu hiệu MACD tích cực (MACD: bullish)",
+        "Giá vẫn còn dư địa tăng trưởng (Stage1 Score: 3.0/7)"
+      ],
+      "target_price": 95,
+      "catalyst": "Sự cải thiện của chỉ số RSI và tăng trưởng Volume",
+      "summary": "Cổ phiếu GMD có tiềm năng tăng trưởng mạnh mẽ do xu hướng tăng trưởng tuần và dấu hiệu kỹ thuật tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "RSI quá cao",
+        "Volume thấp",
+        "Không có thông tin về Ensemble"
+      ],
+      "downside_target": 60,
+      "main_risk": "RSI quá cao",
+      "summary": "Xu hướng tăng ngắn hạn nhưng chỉ báo RSI vượt quá mức an toàn có thể dẫn đến điều chỉnh giá"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tăng trưởng tuần và dấu hiệu kỹ thuật tích cực",
+      "risk_reward": 1.83,
+      "target": 95,
+      "stoploss": 60
+    },
+    "elapsed_sec": 3.0,
+    "outcome": "incorrect",
+    "reflection": "Nên cân nhắc yếu tố chỉ báo kỹ thuật như RSI để tránh mua vào khi vượt quá mức an toàn.",
+    "pnl_pct": -2.65,
+    "actual_price_3d": 77.0
+  },
+  {
+    "ticker": "VIC",
+    "date": "2026-06-18",
+    "time": "2026-06-18T21:36:20.239175",
+    "market_data": {
+      "price": 205.4,
+      "rsi": 45.1,
+      "macd_bull": false,
+      "vol_ratio": 2.05,
+      "score": 4.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "sideways",
+      "news_sentiment": 1.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "News sentiment cao (1.00) cho thấy quan điểm tích cực từ các nguồn tin",
+        "RSI (45.1) chưa vào vùng quá bán, cho thấy dư địa để tăng trưởng",
+        "Lịch sử quyết định gần nhất là MUA với độ tin cậy cao (80%)"
+      ],
+      "target_price": 230,
+      "catalyst": "Sự cải thiện trong chỉ số Stage1 Score và tình hình kinh doanh của VIC",
+      "summary": "VIC có tiềm năng tăng trưởng mạnh mẽ nhờ sự cải thiện trong các chỉ số và quan điểm tích cực từ phía nhà đầu tư."
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Xu hướng thị trường không rõ ràng",
+        "Chỉ số RSI không quá thấp nhưng MACD đang cho tín hiệu bán",
+        "News sentiment không phản ánh đúng tình hình hiện tại"
+      ],
+      "downside_target": 180,
+      "main_risk": "Thị trường có thể điều chỉnh do thiếu thông tin tích cực",
+      "summary": "VIC có khả năng giảm do tín hiệu kỹ thuật không tích cực và thiếu thông tinupport"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Tiềm năng tăng trưởng mạnh mẽ và quan điểm tích cực từ phía nhà đầu tư",
+      "risk_reward": 2.1,
+      "target": 230,
+      "stoploss": 190
+    },
+    "elapsed_sec": 5.0,
+    "outcome": "correct",
+    "reflection": "Nên cân nhắc kết hợp phân tích kỹ thuật và cơ bản để đưa ra quyết định đầu tư chính xác hơn.",
+    "pnl_pct": 9.25,
+    "actual_price_3d": 205.5
+  },
+  {
+    "ticker": "VRE",
+    "date": "2026-06-18",
+    "time": "2026-06-18T21:36:30.154891",
+    "market_data": {
+      "price": 30.1,
+      "rsi": 38.9,
+      "macd_bull": false,
+      "vol_ratio": 1.79,
+      "score": 3.5,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "sideways",
+      "news_sentiment": 1.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "RSI đang ở mức thấp, gợi ý về khả năng tăng trưởng",
+        "Volume tăng cao so với trung bình 20 ngày, chỉ ra sự quan tâm của nhà đầu tư",
+        "News sentiment tích cực, hỗ trợ cho xu hướng tăng"
+      ],
+      "target_price": 40,
+      "catalyst": "Sự cải thiện trong Stage1 Score và xu hướng sideways kết thúc",
+      "summary": "VRE có potential tăng trưởng mạnh với các tín hiệu kỹ thuật và tin tức tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 72,
+      "top_3_risks": [
+        "Giá đã tăng không bền vững",
+        " Volume tăng đột biến không được xác nhận bởi RSI",
+        "MACD cho tín hiệu bán"
+      ],
+      "downside_target": 25,
+      "main_risk": "Đà giảm do tín hiệu bearish từ MACD",
+      "summary": "Xu hướng giảm có thể diễn ra do mất động lực tăng trưởng"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "RSI đang ở mức thấp và volume tăng cao so với trung bình 20 ngày",
+      "risk_reward": 2.4,
+      "target": 40,
+      "stoploss": 25
+    },
+    "elapsed_sec": 3.4,
+    "outcome": "incorrect",
+    "reflection": "Phải cân nhắc kỹ lưỡng giữa các tín hiệu tăng trưởng và xu hướng giảm để đưa ra quyết định mua bán chính xác.",
+    "pnl_pct": -2.49,
+    "actual_price_3d": 29.35
+  },
+  {
+    "ticker": "VND",
+    "date": "2026-06-18",
+    "time": "2026-06-18T21:36:40.406346",
+    "market_data": {
+      "price": 17.9,
+      "rsi": 59.4,
+      "macd_bull": true,
+      "vol_ratio": 0.66,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "ĐườngMACD đang cho tín hiệu bullish",
+        "Xu hướng tuần đang trong uptrend",
+        "Volume giao dịch đang ở mức thấp so với trung bình 20 ngày"
+      ],
+      "target_price": 22,
+      "catalyst": "Sự gia tăng của volume giao dịch",
+      "summary": "VND có tiềm năng tăng giá do tín hiệu kỹ thuật và xu hướng tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 60,
+      "top_3_risks": [
+        "Tình hình thị trường không rõ ràng (Market regime: UNKNOWN)",
+        "RSI không thể hiện sự vượt mua (59.4)",
+        "Volume thấp so với trung bình 20 ngày (0.7x TB20)"
+      ],
+      "downside_target": 15,
+      "main_risk": "Tình hình thị trường không rõ ràng",
+      "summary": "Case bear được đưa ra do Market regime không rõ ràng và các tín hiệu trung gian không lạc quan."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Đường MACD đang cho tín hiệu bullish và xu hướng tuần đang trong uptrend",
+      "risk_reward": 2.2,
+      "target": 22,
+      "stoploss": 16
+    },
+    "elapsed_sec": 3.8,
+    "outcome": "incorrect",
+    "reflection": "Nên xem xét kỹ lưỡng cả các tín hiệu kỹ thuật và yếu tố thị trường trước khi đưa ra quyết định mua hoặc bán.",
+    "pnl_pct": -2.21,
+    "actual_price_3d": 17.7
+  },
+  {
+    "ticker": "HCM",
+    "date": "2026-06-18",
+    "time": "2026-06-18T21:36:50.051006",
+    "market_data": {
+      "price": 28.4,
+      "rsi": 58.9,
+      "macd_bull": true,
+      "vol_ratio": 1.47,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "MACD bullish cho thấy động lượng tăng trưởng",
+        "Volume lớn hơn 1.5 lần TB20 chỉ ra sự quan tâm của nhà đầu tư",
+        "RSI ở mức 58.9 cho thấy vẫn còn nhiều không gian để tăng trưởng"
+      ],
+      "target_price": 32,
+      "catalyst": "Sự cải thiện trong Stage1 Score",
+      "summary": "HCM có tiềm năng tăng trưởng mạnh mẽ nhờ vào động lượng tăng trưởng và sự quan tâm của nhà đầu tư"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 60,
+      "top_3_risks": [
+        "Tình hình thị trường không rõ ràng",
+        "Chỉ số RSI chưa vượt qua mức 60",
+        "Trend tuần sidewards không tạo đà tăng"
+      ],
+      "downside_target": 24,
+      "main_risk": "Thị trường bất ổn dẫn đến giảm mạnh",
+      "summary": "HCM có thể giảm do tình hình thị trường không rõ ràng và thiếu động lực tăng trưởng"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "MACD bullish và volume lớn hơn 1.5 lần TB20",
+      "risk_reward": 1.78,
+      "target": 32,
+      "stoploss": 24
+    },
+    "elapsed_sec": 3.2,
+    "outcome": "incorrect",
+    "reflection": "Cần xem xét kỹ lưỡng cả hai trường hợp tăng trưởng và giảm thiểu rủi ro trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": -0.53,
+    "actual_price_3d": 28.25
+  },
+  {
+    "ticker": "SHS",
+    "date": "2026-06-18",
+    "time": "2026-06-18T21:37:00.345173",
+    "market_data": {
+      "price": 19.1,
+      "rsi": 65.7,
+      "macd_bull": true,
+      "vol_ratio": 0.61,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "Xu hướng uptrend hàng tuần cho thấy động lượng tích cực",
+        "Chỉ báo MACD bullish chỉ ra sự tăng trưởng có thể tiếp tục",
+        "Giá hiện tại 19 VND vẫn còn tiềm năng tăng trưởng"
+      ],
+      "target_price": 22,
+      "catalyst": "Sự cải thiện trong news sentiment và tăng volume giao dịch",
+      "summary": "SHS có tiềm năng tăng giá với động lượng uptrend và chỉ báo MACD tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Khối lượng giao dịch thấp so với trung bình 20 ngày",
+        "Điểm Stage1 Score thấp",
+        "Không có thông tin về Ensemble và Market regime"
+      ],
+      "downside_target": 16,
+      "main_risk": "Khối lượng giao dịch thấp so với trung bình 20 ngày",
+      "summary": "Tiềm năng giảm do khối lượng giao dịch thấp và thông tin không đầy đủ về một số chỉ số"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng uptrend hàng tuần cho thấy động lượng tích cực và chỉ báo MACD bullish chỉ ra sự tăng trưởng có thể tiếp tục",
+      "risk_reward": 1.8,
+      "target": 22,
+      "stoploss": 17
+    },
+    "elapsed_sec": 3.7,
+    "outcome": "incorrect",
+    "reflection": "Cần xem xét kỹ cả hai trường hợp tăng và giảm trước khi đưa ra quyết định đầu tư để tránh tổn thất không đáng có.",
+    "pnl_pct": -1.57,
+    "actual_price_3d": 18.8
+  },
+  {
+    "ticker": "POW",
+    "date": "2026-06-18",
+    "time": "2026-06-18T21:37:10.149846",
+    "market_data": {
+      "price": 14.2,
+      "rsi": 63.9,
+      "macd_bull": true,
+      "vol_ratio": 1.15,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "Xu hướng uptrend trong tuần",
+        "MACD bullish chỉ ra động lượng tăng",
+        "Volume cao hơn trung bình 20 ngày"
+      ],
+      "target_price": 18,
+      "catalyst": "Sự cải thiện trong Stage1 Score",
+      "summary": "Cơ hội mua với động lượng tăng và xu hướng uptrend"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Tín hiệu phân kỳ tiềm năng giữa RSI và giá",
+        "Volume giao dịch thấp so với trung bình",
+        "Thiếu thông tin về chế độ thị trường"
+      ],
+      "downside_target": 12,
+      "main_risk": "Rủi ro điều chỉnh do tăng trưởng quá nhanh",
+      "summary": "CASE BEAR do lo ngại về tín hiệu kỹ thuật và điều kiện thị trường không rõ ràng"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng uptrend trong tuần và MACD bullish",
+      "risk_reward": 2.0,
+      "target": 18,
+      "stoploss": 12
+    },
+    "elapsed_sec": 3.3,
+    "outcome": "incorrect",
+    "reflection": "Nên cân nhắc kỹ lưỡng các yếu tố kỹ thuật và điều kiện thị trường trước khi đưa ra quyết định mua bán.",
+    "pnl_pct": -2.11,
+    "actual_price_3d": 13.9
+  },
+  {
+    "ticker": "PVS",
+    "date": "2026-06-18",
+    "time": "2026-06-18T21:37:20.052692",
+    "market_data": {
+      "price": 39.0,
+      "rsi": 50.0,
+      "macd_bull": true,
+      "vol_ratio": 1.83,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 70,
+      "top_3_reasons": [
+        "MACD có tín hiệu bullish",
+        "Volume cao hơn trung bình 20 ngày",
+        "Giá đang ở mức hấp dẫn để mua"
+      ],
+      "target_price": 45,
+      "catalyst": "Tín hiệu breakout khỏi xu hướng sideways",
+      "summary": "PVS có tiềm năng tăng giá nhờ tín hiệu kỹ thuật và khối lượng giao dịch cao"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 60,
+      "top_3_risks": [
+        "Thị trường không rõ ràng về xu hướng (UNKNOWN)",
+        "RSI không quá nóng nhưng cũng không quá lạnh (50.0)",
+        "Volume tăng nhưng không đủ mạnh để xác định xu hướng rõ ràng (1.8x TB20)"
+      ],
+      "downside_target": 35,
+      "main_risk": "Thị trường không rõ ràng về xu hướng",
+      "summary": "Khả năng cao giá sẽ giảm do thiếu thông tin rõ ràng về xu hướng thị trường"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 70,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "MACD có tín hiệu bullish và Volume cao hơn trung bình 20 ngày",
+      "risk_reward": 1.67,
+      "target": 45,
+      "stoploss": 35
+    },
+    "elapsed_sec": 3.3,
+    "outcome": "incorrect",
+    "reflection": "Cần phân tích kỹ lưỡng cả tín hiệu kỹ thuật và thông tin thị trường trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": 0.0,
+    "actual_price_3d": 39.0
+  },
+  {
+    "ticker": "GMD",
+    "date": "2026-06-18",
+    "time": "2026-06-18T21:37:31.222585",
+    "market_data": {
+      "price": 77.6,
+      "rsi": 75.2,
+      "macd_bull": true,
+      "vol_ratio": 0.98,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "Xu hướng uptrend hàng tuần",
+        "Chỉ số MACD bullish",
+        "Lịch sử quyết định MUA gần nhất với confidence cao"
+      ],
+      "target_price": 92,
+      "catalyst": "Tiếp tục duy trì xu hướng uptrend hàng tuần",
+      "summary": "Cơ hội MUA GMD với upside mạnh nhờ xu hướng uptrend và chỉ số kỹ thuật tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "RSI quá cao có thể dẫn đến điều chỉnh",
+        " Thiếu thông tin về thị trường Ensemble",
+        "Xu hướng tuần tăng nhưng không biết chắc chắn về Market regime"
+      ],
+      "downside_target": 65,
+      "main_risk": "RSI quá cao",
+      "summary": "Case bear vì RSI quá cao và thiếu thông tin về thị trường"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng uptrend hàng tuần và chỉ số MACD bullish",
+      "risk_reward": 2.13,
+      "target": 92,
+      "stoploss": 70
+    },
+    "elapsed_sec": 4.6,
+    "outcome": "incorrect",
+    "reflection": "Cần cân nhắc cả các yếu tố kỹ thuật và thông tin thị trường trước khi đưa ra quyết định mua hoặc bán.",
+    "pnl_pct": -2.65,
+    "actual_price_3d": 77.0
+  },
+  {
+    "ticker": "VJC",
+    "date": "2026-06-18",
+    "time": "2026-06-18T21:37:41.449088",
+    "market_data": {
+      "price": 143900.0,
+      "rsi": 65.6,
+      "macd_bull": true,
+      "vol_ratio": 0.72,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "Xu hướng tăng trên khung tuần",
+        "MACD đang báo hiệu tăng trưởng",
+        "RSI vẫn còn dư địa tăng trưởng"
+      ],
+      "target_price": 170000,
+      "catalyst": "Tin tức thị trường tích cực về ngành hàng không",
+      "summary": "VJC có tiềm năng tăng giá ngắn hạn nhờ vào tín hiệu kỹ thuật và xu hướng tăng trưởng"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 60,
+      "top_3_risks": [
+        "RSI ở mức cao có thể dẫn đến điều chỉnh giá",
+        "Volume thấp so với trung bình 20 phiên gần nhất",
+        "News sentiment trung lập có thể ẩn dấu rủi ro không rõ ràng"
+      ],
+      "downside_target": 130000,
+      "main_risk": "RSI cao có thể dẫn đến điều chỉnh giá",
+      "summary": "Cổ phiếu VJC có thể đối mặt với rủi ro điều chỉnh giá do RSI cao và volume thấp"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tăng trên khung tuần và MACD đang báo hiệu tăng trưởng",
+      "risk_reward": 1.75,
+      "target": 170000,
+      "stoploss": 130000
+    },
+    "elapsed_sec": 3.4,
+    "outcome": "incorrect",
+    "reflection": "Nếu mua cổ phiếu chỉ dựa vào tín hiệu kỹ thuật và bỏ qua chỉ số RSI cao, có thể dẫn đến tổn thất lớn.",
+    "pnl_pct": -99.9,
+    "actual_price_3d": 140.5
+  },
+  {
+    "ticker": "HVN",
+    "date": "2026-06-18",
+    "time": "2026-06-18T21:37:51.236983",
+    "market_data": {
+      "price": 4.9,
+      "rsi": 65.7,
+      "macd_bull": true,
+      "vol_ratio": 0.64,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "Xu hướng tuần tăng",
+        "MACD chỉ ra tín hiệu tăng",
+        "Giá đang ở mức hợp lý so với giá trị nội tại"
+      ],
+      "target_price": 7.5,
+      "catalyst": "Tin tức tích cực về ngành hàng không",
+      "summary": "HVN có nhiều yếu tố tăng trưởng mạnh với xu hướng tích cực và tiềm năng đạt giá mục tiêu trong thời gian tới"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "RSI cao nhưng không quá cao",
+        "Volume thấp so với trung bình",
+        "Thiếu thông tin về Ensemble"
+      ],
+      "downside_target": 4.2,
+      "main_risk": "Khối lượng giao dịch thấp",
+      "summary": "HVN có thể giảm do thiếu động lực từ khối lượng giao dịch thấp."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tăng và giá hợp lý",
+      "risk_reward": 2.38,
+      "target": 7.5,
+      "stoploss": 4.2
+    },
+    "elapsed_sec": 3.2,
+    "outcome": "correct",
+    "reflection": "Nên xem xét cả yếu tố động lực từ khối lượng giao dịch khi đưa ra quyết định mua để tối ưu hóa chiến lược đầu tư",
+    "pnl_pct": 373.47,
+    "actual_price_3d": 23.2
+  },
+  {
+    "ticker": "HVN",
+    "date": "2026-06-19",
+    "time": "2026-06-19T09:12:53.697853",
+    "market_data": {
+      "price": 22.9,
+      "rsi": 62.5,
+      "macd_bull": true,
+      "vol_ratio": 3.11,
+      "score": 3.5,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "Xu hướng tăng trong tuần",
+        "Chỉ số MACD bullish",
+        "Lưu lượng giao dịch cao so với trung bình"
+      ],
+      "target_price": 28,
+      "catalyst": "Sự đột phá về thông tin tích cực",
+      "summary": "HVN có nhiều tín hiệu kỹ thuật và cơ bản tích cực để tiếp tục tăng trưởng"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Giá tăng quá nhanh dẫn đến điều chỉnh",
+        "RSI ở gần mức quá mua",
+        "Không có tín hiệu xác nhận từ Ensemble"
+      ],
+      "downside_target": 18,
+      "main_risk": "Giá tăng quá nhanh dẫn đến điều chỉnh",
+      "summary": "HVN có thể gặp rủi ro điều chỉnh do tăng quá nhanh và không có tín hiệu xác nhận từ các chỉ số kỹ thuật khác"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 82.5,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "Tín hiệu kỹ thuật và cơ bản tích cực",
+      "risk_reward": 1.82,
+      "target": 28,
+      "stoploss": 20
+    },
+    "elapsed_sec": 5.1,
+    "outcome": "correct",
+    "reflection": "Phân tích kỹ lưỡng cả tín hiệu bull và bear case trước khi đưa ra quyết định đầu tư để tối ưu hóa chiến lược đầu tư.",
+    "pnl_pct": 373.47,
+    "actual_price_3d": 23.2
+  },
+  {
+    "ticker": "PC1",
+    "date": "2026-06-19",
+    "time": "2026-06-19T09:13:04.077771",
+    "market_data": {
+      "price": 21.2,
+      "rsi": 70.7,
+      "macd_bull": true,
+      "vol_ratio": 2.86,
+      "score": 3.5,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "RSI ở gần vùng quá mua, nhưng MACD vẫn cho tín hiệu tăng",
+        "Volume giao dịch cao hơn 2.9 lần trung bình 20 ngày",
+        "Xu hướng tuần tăng"
+      ],
+      "target_price": 25,
+      "catalyst": "Tin tức tích cực trong tương lai",
+      "summary": "PC1 có nhiều yếu tố tích cực về mặt kỹ thuật và dòng tiền, tạo cơ hội tăng trưởng"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "RSI đang ở mức quá mua (70.7)",
+        "Tình hình thị trường không chắc chắn (Market regime: UNKNOWN)",
+        "Volume giao dịch cao bất thường (2.9x TB20)"
+      ],
+      "downside_target": 18,
+      "main_risk": "RSI quá mua và có thể điều chỉnh",
+      "summary": "Tiềm ẩn rủi ro điều chỉnh do RSI quá mua và tình hình thị trường không chắc chắn"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 50,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Ensemble bearish và Risk/Reward không vượt qua ngưỡng 1.5",
+      "risk_reward": 0.875,
+      "target": 25,
+      "stoploss": 18
+    },
+    "elapsed_sec": 3.0,
+    "outcome": "neutral",
+    "reflection": "Cần cân nhắc kỹ giữa tín hiệu tăng trưởng và rủi ro điều chỉnh khi đưa ra quyết định đầu tư.",
+    "pnl_pct": 6.13,
+    "actual_price_3d": 22.5
+  },
+  {
+    "ticker": "VND",
+    "date": "2026-06-19",
+    "time": "2026-06-19T09:13:13.829454",
+    "market_data": {
+      "price": 17.9,
+      "rsi": 59.4,
+      "macd_bull": true,
+      "vol_ratio": 0.66,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 90,
+      "top_3_reasons": [
+        " MACD đang ở vùng bullish",
+        "Weekly trend đang ở uptrend",
+        "RSI ở mức 59.4, còn dư địa tăng trưởng"
+      ],
+      "target_price": 20,
+      "catalyst": "Sự gia tăng của volume và tiếp tục xu hướng uptrend",
+      "summary": "VND có cơ hội tăng giá mạnh nhờ vào tín hiệu kỹ thuật và xu hướng tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "_volume thấp",
+        "_news_sentiment trung lập",
+        "_stage1_score thấp"
+      ],
+      "downside_target": 15.5,
+      "main_risk": "Không có tín hiệu mạnh từ các chỉ số kỹ thuật",
+      "summary": "Rủi ro giảm giá do thiếu hỗ trợ từ các chỉ số và yếu tố kỹ thuật"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 82,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "MACD đang ở vùng bullish và RSI ở mức 59.4",
+      "risk_reward": 1.56,
+      "target": 20,
+      "stoploss": 16.5
+    },
+    "elapsed_sec": 2.8,
+    "outcome": "incorrect",
+    "reflection": "Cần xem xét kỹ lưỡng cả tín hiệu kỹ thuật và yếu tố cơ bản trước khi đưa ra quyết định mua bán.",
+    "pnl_pct": -2.21,
+    "actual_price_3d": 17.7
+  },
+  {
+    "ticker": "HCM",
+    "date": "2026-06-19",
+    "time": "2026-06-19T09:13:23.782572",
+    "market_data": {
+      "price": 28.4,
+      "rsi": 58.9,
+      "macd_bull": true,
+      "vol_ratio": 1.47,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "MACD bullish chỉ ra xu hướng tăng",
+        "Volume giao dịch cao hơn trung bình 20 ngày",
+        "RSI dưới 60 cho thấy cổ phiếu có tiềm năng tăng trưởng"
+      ],
+      "target_price": 32,
+      "catalyst": "Sự thay đổi tích cực trong xu hướng Weekly",
+      "summary": "Cổ phiếu HCM có tiềm năng tăng trưởng mạnh mẽ nhờ MACD bullish và Volume cao"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "RSI chưa vượt qua ngưỡng quá mua",
+        "Thiếu thông tin từ Ensemble",
+        "Market regime chưa xác định"
+      ],
+      "downside_target": 25,
+      "main_risk": "Thị trường có thể điều chỉnh mạnh khi thông tin xấu xuất hiện",
+      "summary": "HCM có thể giảm do thiếu thông tin tích cực và rủi ro tiềm ẩn"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "MACD bullish và Volume giao dịch cao",
+      "risk_reward": 1.8,
+      "target": 32,
+      "stoploss": 25
+    },
+    "elapsed_sec": 3.0,
+    "outcome": "incorrect",
+    "reflection": "Cần cân nhắc kỹ lưỡng cả yếu tố kỹ thuật và cơ bản trước khi đưa ra quyết định đầu tư",
+    "pnl_pct": -0.53,
+    "actual_price_3d": 28.25
+  },
+  {
+    "ticker": "SHS",
+    "date": "2026-06-19",
+    "time": "2026-06-19T09:13:33.517505",
+    "market_data": {
+      "price": 19.0,
+      "rsi": 61.8,
+      "macd_bull": true,
+      "vol_ratio": 0.01,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 90,
+      "top_3_reasons": [
+        "RSI ở mức 61.8 cho thấy tiềm năng tăng trưởng tiếp theo",
+        "MACD bullish xác nhận xu hướng tăng",
+        "Weekly trend uptrend chỉ ra động lực tăng trưởng mạnh"
+      ],
+      "target_price": 22,
+      "catalyst": "Sự tiếp tục của xu hướng uptrend",
+      "summary": "SHS có tiềm năng tăng trưởng cao với các chỉ số kỹ thuật và xu hướng hỗ trợ"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Giá đang tăng trong khi Volume thấp",
+        "RSI đã gần ngưỡng overbought",
+        ".Stage1 Score thấp"
+      ],
+      "downside_target": 17.5,
+      "main_risk": "Giá đang tăng không có khối lượng hỗ trợ",
+      "summary": "SHS có thể giảm do thiếu động lực tăng trưởng thực sự"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "RSI ở mức 61.8 cho thấy tiềm năng tăng trưởng tiếp theo",
+      "risk_reward": 1.83,
+      "target": 22,
+      "stoploss": 17.5
+    },
+    "elapsed_sec": 2.8,
+    "outcome": "incorrect",
+    "reflection": "Nên xem xét kỹ cả hai trường hợp tăng trưởng và giảm trưởng trước khi đưa ra quyết định mua một cổ phiếu.",
+    "pnl_pct": -1.57,
+    "actual_price_3d": 18.8
+  },
+  {
+    "ticker": "VIC",
+    "date": "2026-06-19",
+    "time": "2026-06-19T09:13:43.277339",
+    "market_data": {
+      "price": 205.4,
+      "rsi": 45.1,
+      "macd_bull": false,
+      "vol_ratio": 2.05,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 82,
+      "top_3_reasons": [
+        "Giá đang ở mức hỗ trợ mạnh",
+        "Volume giao dịch cao hơn trung bình",
+        "Lịch sử quyết định gần đây chỉ ra xu hướng tăng"
+      ],
+      "target_price": 220,
+      "catalyst": "Tin tức tích cực về kết quả kinh doanh",
+      "summary": "VIC có khả năng tăng giá nhờ vào hỗ trợ mạnh và lịch sử quyết định gần đây"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "RSI không quá bán",
+        "MACD bearish",
+        "volume lớn hơn TB20"
+      ],
+      "downside_target": 185,
+      "main_risk": " MACD bearish",
+      "summary": "VIC có thể giảm do MACD bearish và volume giao dịch cao"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 82,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Giá đang ở mức hỗ trợ mạnh và lịch sử quyết định gần đây chỉ ra xu hướng tăng",
+      "risk_reward": 1.83,
+      "target": 220,
+      "stoploss": 185
+    },
+    "elapsed_sec": 2.9,
+    "outcome": "correct",
+    "reflection": "Quyết định đầu tư cần cân nhắc kỹ giữa điểm hỗ trợ và chỉ số kỹ thuật để có được phân tích toàn diện.",
+    "pnl_pct": 9.25,
+    "actual_price_3d": 205.5
+  },
+  {
+    "ticker": "POW",
+    "date": "2026-06-19",
+    "time": "2026-06-19T09:13:53.147874",
+    "market_data": {
+      "price": 14.2,
+      "rsi": 63.9,
+      "macd_bull": true,
+      "vol_ratio": 1.15,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 90,
+      "top_3_reasons": [
+        "Xu hướng tăng tuần đã được thiết lập",
+        "MACD đang thể hiện tín hiệu tăng giá",
+        "Lịch sử quyết định mua gần đây cho thấy xu hướng tích cực"
+      ],
+      "target_price": 18,
+      "catalyst": "Tín hiệu tăng giá từ MACD và RSI dưới 70",
+      "summary": "Xu hướng tăng và tín hiệu kỹ thuật tích cực cho thấy cơ hội mua POW"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "RSI đang gần vùng vượt mua",
+        "Volume không tăng mạnh",
+        "Stage1 Score thấp"
+      ],
+      "downside_target": 12.5,
+      "main_risk": "RSI đang gần vùng vượt mua",
+      "summary": "Case bán POW do RSI đang gần vùng vượt mua và Stage1 Score thấp"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tăng và tín hiệu kỹ thuật tích cực",
+      "risk_reward": 1.8,
+      "target": 18,
+      "stoploss": 12.5
+    },
+    "elapsed_sec": 2.8,
+    "outcome": "incorrect",
+    "reflection": "Phân tích kỹ thuật và tín hiệu thị trường cần được cân nhắc một cách toàn diện trước khi đưa ra quyết định mua bán.",
+    "pnl_pct": -2.11,
+    "actual_price_3d": 13.9
+  },
+  {
+    "ticker": "GMD",
+    "date": "2026-06-19",
+    "time": "2026-06-19T09:14:03.060870",
+    "market_data": {
+      "price": 77.6,
+      "rsi": 75.2,
+      "macd_bull": true,
+      "vol_ratio": 0.98,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 90,
+      "top_3_reasons": [
+        "Xu hướng uptrend hàng tuần",
+        "Chỉ số MACD bullish",
+        "Lịch sử quyết định mua gần đây với độ tin cậy cao"
+      ],
+      "target_price": 85,
+      "catalyst": "Tin tức tích cực về sự tăng trưởng của công ty",
+      "summary": "GMD có cơ hội tăng giá do xu hướng uptrend và chỉ số kỹ thuật tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "RSI quá cao (75.2) dẫn đến khả năng điều chỉnh",
+        "Không có thông tin đáng tin cậy về Ensemble",
+        "Market regime không rõ ràng làm tăng rủi ro"
+      ],
+      "downside_target": 65,
+      "main_risk": "RSI quá cao dẫn đến khả năng điều chỉnh mạnh",
+      "summary": "Rủi ro điều chỉnh mạnh do RSI quá cao và thiếu thông tin về thị trường"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 82.5,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng uptrend và chỉ số kỹ thuật tích cực",
+      "risk_reward": 1.71,
+      "target": 85,
+      "stoploss": 73
+    },
+    "elapsed_sec": 2.9,
+    "outcome": "incorrect",
+    "reflection": "Cần xem xét cả hai trường hợp tăng và giảm giá để có quyết định đầu tư chính xác hơn.",
+    "pnl_pct": -2.65,
+    "actual_price_3d": 77.0
+  },
+  {
+    "ticker": "VJC",
+    "date": "2026-06-19",
+    "time": "2026-06-19T09:14:13.097090",
+    "market_data": {
+      "price": 138.4,
+      "rsi": 56.8,
+      "macd_bull": true,
+      "vol_ratio": 1.11,
+      "score": 3.0,
+      "ensemble_signal": "N/A",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59456136.7
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "Xu hướng uptrend trong tuần",
+        "MACD bullish cho thấy động lượng tăng",
+        "RSI dưới 60 cho thấy còn dư địa tăng"
+      ],
+      "target_price": 155,
+      "catalyst": "Tiếp tục duy trì xu hướng tăng",
+      "summary": "VJC có cơ hội tăng giá nhờ duy trì xu hướng uptrend và chỉ số kỹ thuật hỗ trợ"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Tiếp tục tăng mà không có phản ứng pullback",
+        "Không có tín hiệu xác nhận rõ ràng từ MACD và RSI",
+        "Thị trường có thể đang trong giai đoạn điều chỉnh"
+      ],
+      "downside_target": 128,
+      "main_risk": "Không có phản ứng hồi chỉnh mặc dù RSI đang ở vùng cao",
+      "summary": "VJC có thể sẽ giảm do thiếu phản ứng hồi chỉnh và tín hiệu không rõ ràng từ các chỉ số kỹ thuật"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85.0,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng uptrend trong tuần và MACD bullish cho thấy động lượng tăng",
+      "risk_reward": 2.12,
+      "target": 155,
+      "stoploss": 130
+    },
+    "elapsed_sec": 3.1,
+    "outcome": "incorrect",
+    "reflection": "Nên cân nhắc kỹ lưỡng cả hai trường hợp tăng và giảm trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": -99.9,
+    "actual_price_3d": 140.5
+  },
+  {
+    "ticker": "STB",
+    "date": "2026-06-22",
+    "time": "2026-06-22T09:15:32.492546",
+    "market_data": {
+      "price": 72.3,
+      "rsi": 67.3,
+      "macd_bull": true,
+      "vol_ratio": 1.42,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 75687031.94000001
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "Xu hướng uptrend đang duy trì",
+        "MACD cho tín hiệu bullish mạnh mẽ",
+        "Volume giao dịch cao hơn trung bình 20 ngày"
+      ],
+      "target_price": 85,
+      "catalyst": "Sự cải thiện trong Stage1 Score",
+      "summary": "STB có cơ hội tăng trưởng mạnh mẽ nhờ xu hướng uptrend và tín hiệu kỹ thuật tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Độ rộng thị trường đang giảm dần",
+        "Tình hình kinh tế vĩ mô không rõ ràng",
+        "RSI đang ở vùng gần quá mua"
+      ],
+      "downside_target": 65,
+      "main_risk": "Sự điều chỉnh kỹ thuật sau uptrend mạnh",
+      "summary": "Khả năng điều chỉnh tăng khi RSI gần vùng quá mua và tín hiệu MACD bắt đầu suy yếu"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng uptrend đang duy trì và tín hiệu kỹ thuật tích cực",
+      "risk_reward": 2.0,
+      "target": 85,
+      "stoploss": 68
+    },
+    "elapsed_sec": 5.8,
+    "outcome": "correct",
+    "reflection": "Nên cân nhắc tín hiệu kỹ thuật tiêu cực như RSI và MACD trước khi đưa ra quyết định mua bán để tối ưu hóa lợi nhuận.",
+    "pnl_pct": 4.84,
+    "actual_price_3d": 75.8
+  },
+  {
+    "ticker": "VHM",
+    "date": "2026-06-22",
+    "time": "2026-06-22T09:15:43.102668",
+    "market_data": {
+      "price": 145.3,
+      "rsi": 40.9,
+      "macd_bull": false,
+      "vol_ratio": 2.12,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 75687031.94000001
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 70,
+      "top_3_reasons": [
+        "Giá hiện tại thấp hơn so với giai đoạn trước, tạo cơ hội mua",
+        "RSI ở mức 40.9, chỉ ra rằng cổ phiếu có thể được mua quá mức",
+        "Lịch sử quyết định trước đó cho thấy phân tích kỹ thuật và cơ bản có thể dẫn đến quyết định đầu tư chính xác"
+      ],
+      "target_price": 165,
+      "catalyst": "Tin tức tích cực về kết quả kinh doanh hoặc thay đổi chính sách",
+      "summary": "Cơ hội mua VHM với tiềm năng tăng trưởng trong ngắn hạn nhờ phân tích kỹ thuật và cơ bản"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Xu hướng MACD bearish",
+        " Volume tăng bất thường",
+        " Thị trường không rõ ràng"
+      ],
+      "downside_target": 120,
+      "main_risk": "Xu hướng MACD bearish",
+      "summary": "Xu hướng giảm có thể xảy ra do MACD bearish và các tín hiệu kỹ thuật khác"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 65,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Tiềm năng tăng trưởng ngắn hạn và phân tích kỹ thuật",
+      "risk_reward": 1.83,
+      "target": 165,
+      "stoploss": 135
+    },
+    "elapsed_sec": 3.1,
+    "outcome": "correct",
+    "reflection": "Luôn kết hợp phân tích kỹ thuật và cơ bản để đánh giá chính xác tiềm năng tăng trưởng của cổ phiếu.",
+    "pnl_pct": 4.89,
+    "actual_price_3d": 152.4
+  },
+  {
+    "ticker": "POW",
+    "date": "2026-06-22",
+    "time": "2026-06-22T09:15:53.852751",
+    "market_data": {
+      "price": 13.9,
+      "rsi": 52.5,
+      "macd_bull": true,
+      "vol_ratio": 1.55,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 75687031.94000001
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 70,
+      "top_3_reasons": [
+        "MACD bullish chỉ ra xu hướng tăng",
+        "Volume lớn hơn 1.6 lần trung bình 20 ngày chỉ ra sự quan tâm mạnh mẽ của nhà đầu tư",
+        "Weekly trend uptrend cho thấy xu hướng tăng trưởng dài hạn"
+      ],
+      "target_price": 17.5,
+      "catalyst": "Sự cải thiện trong Stage1 Score và tiếp tục uptrend",
+      "summary": "Xu hướng tăng trưởng tích cực và tín hiệu kỹ thuật thuận lợi tạo cơ hội mua hấp dẫn cho POW."
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "Tiếp tục uptrend nhưng MACD và volume không đồng nhất",
+        "Tín hiệu rủi ro từ lịch sử quyết định POW",
+        " Thiếu thông tin về Ensemble và Market regime"
+      ],
+      "downside_target": 12,
+      "main_risk": "Tín hiệu kỹ thuật không rõ ràng và lịch sử quyết định đầu tư không chính xác",
+      "summary": "Nhiều tín hiệu kỹ thuật và rủi ro thị trường không chắc chắn dẫn đến quyết định bán POW."
+    },
+    "final_decision": {
+      "action": "BÁN",
+      "confidence": 80,
+      "position_size_pct": 0,
+      "agreed_with": "bear",
+      "key_reason": "Tiếp tục uptrend nhưng MACD và volume không đồng nhất, tín hiệu rủi ro từ lịch sử quyết định POW",
+      "risk_reward": 0.7,
+      "target": 12,
+      "stoploss": 15.5
+    },
+    "elapsed_sec": 3.3,
+    "outcome": "incorrect",
+    "reflection": "Nên cân nhắc kỹ lưỡng cả hai trường hợp tăng trưởng và rủi ro trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": 7.19,
+    "actual_price_3d": 14.9
+  },
+  {
+    "ticker": "VND",
+    "date": "2026-06-22",
+    "time": "2026-06-22T09:16:04.203646",
+    "market_data": {
+      "price": 17.7,
+      "rsi": 51.6,
+      "macd_bull": true,
+      "vol_ratio": 0.73,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 75687031.94000001
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 78,
+      "top_3_reasons": [
+        "MACD bullish chỉ ra xu hướng tăng ngắn hạn",
+        "Weekly trend uptrend cho thấy động lượng tăng trưởng",
+        "RSI 51.6 cho thấy vẫn còn dư địa để tiếp tục tăng"
+      ],
+      "target_price": 20.5,
+      "catalyst": "Sự cải thiện trong các tín hiệu kỹ thuật và tăng trưởng volume",
+      "summary": "Tiềm năng tăng trưởng ngắn hạn với các tín hiệu kỹ thuật tích cực và xu hướng uptrend"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "RSI ở mức trung bình có thể đảo chiều",
+        "Lịch sử quyết định đầu tư gần đây không chính xác",
+        "Thị trường chưa có tín hiệu rõ ràng"
+      ],
+      "downside_target": 16.5,
+      "main_risk": "Sự không chắc chắn về xu hướng thị trường",
+      "summary": "Rủi ro giảm giá cao do thiếu tín hiệu tăng trưởng mạnh mẽ và lịch sử đầu tư không chính xác"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 60,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Lịch sử quyết định đầu tư gần đây không chính xác và rủi ro giảm giá cao",
+      "risk_reward": 0.83,
+      "target": null,
+      "stoploss": null
+    },
+    "elapsed_sec": 3.0,
+    "outcome": "neutral",
+    "reflection": "Phân tích kỹ thuật và tín hiệu tăng trưởng cần được cân nhắc kỹ lưỡng để đưa ra quyết định đầu tư chính xác.",
+    "pnl_pct": -0.56,
+    "actual_price_3d": 17.6
+  },
+  {
+    "ticker": "GMD",
+    "date": "2026-06-22",
+    "time": "2026-06-22T09:16:16.032425",
+    "market_data": {
+      "price": 77.0,
+      "rsi": 68.3,
+      "macd_bull": true,
+      "vol_ratio": 1.18,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 75687031.94000001
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "RSI 68.3 cho thấy chưa đạt mức quá mua",
+        "MACD bullish và Volume lớn hơn trung bình 20 ngày",
+        "Weekly trend đang ở uptrend"
+      ],
+      "target_price": 90,
+      "catalyst": "Sự kết hợp giữa chỉ báo kỹ thuật tích cực và xu hướng tăng",
+      "summary": "GMD có tiềm năng tăng giá nhờ sự kết hợp giữa chỉ báo kỹ thuật tích cực và xu hướng tăng"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 90,
+      "top_3_risks": [
+        "Tình trạng RSI ở mức cao (68.3) có thể dẫn đến sự điều chỉnh giảm",
+        "Lịch sử quyết định mua GMD gần đây có kết quả không chính xác",
+        "Thiếu thông tin về Ensemble và Market regime tạo ra sự không chắc chắn"
+      ],
+      "downside_target": 65,
+      "main_risk": "RSI cao và lịch sử quyết định mua không chính xác",
+      "summary": "Giá GMD có thể giảm do RSI cao và lịch sử quyết định mua không tốt"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 65,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Lịch sử quyết định mua GMD gần đây không tốt và RSI cao",
+      "risk_reward": 0.93,
+      "target": null,
+      "stoploss": null
+    },
+    "elapsed_sec": 4.3,
+    "outcome": "neutral",
+    "reflection": "Cần xem xét nhiều yếu tố hơn, bao gồm cả lịch sử quyết định mua trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": -4.42,
+    "actual_price_3d": 73.6
+  },
+  {
+    "ticker": "VJC",
+    "date": "2026-06-22",
+    "time": "2026-06-22T09:16:26.962316",
+    "market_data": {
+      "price": 140.5,
+      "rsi": 59.6,
+      "macd_bull": true,
+      "vol_ratio": 1.13,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 75687031.94000001
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 70,
+      "top_3_reasons": [
+        "Xu hướng uptrend trên khung thời gian tuần",
+        "Tín hiệu technical MACD bullish hỗ trợ tăng trưởng",
+        "Lịch sử quyết định cho thấy cần cân nhắc kỹ cả hai trường hợp tăng giảm nhưng tín hiệu kỹ thuật đang ủng hộ"
+      ],
+      "target_price": 155,
+      "catalyst": "Sự cải thiện trong Stage1 Score và tích cực trong tình hình kinh tế vĩ mô",
+      "summary": "Cổ phiếu VJC có cơ hội tăng giá với tín hiệu technical tích cực và uptrend trên khung thời gian tuần"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "RSI cao có thể dẫn đến điều chỉnh giảm",
+        "Không có tín hiệu rõ ràng từ Ensemble",
+        "Lịch sử quyết định gần đây không chính xác"
+      ],
+      "downside_target": 120,
+      "main_risk": "RSI cao có thể dẫn đến điều chỉnh giảm",
+      "summary": "Cổ phiếu VJC có khả năng giảm do RSI cao và lịch sử quyết định không chính xác gần đây"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 60,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Lịch sử quyết định không chính xác gần đây và RSI cao",
+      "risk_reward": 1.2,
+      "target": 0,
+      "stoploss": 0
+    },
+    "elapsed_sec": 3.3,
+    "outcome": "neutral",
+    "reflection": "Nên cân nhắc kỹ lưỡng giữa các yếu tố技术 và cơ bản khi đưa ra quyết định đầu tư để tránh những sai lầm không cần thiết.",
+    "pnl_pct": -1.21,
+    "actual_price_3d": 138.8
+  },
+  {
+    "ticker": "POW",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:09:35.144496",
+    "market_data": {
+      "price": 14.5,
+      "rsi": 70.2,
+      "macd_bull": true,
+      "vol_ratio": 2.05,
+      "score": 4.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "Xu hướng tăng trên khung thời gian tuần",
+        "MACD bullish cho thấy động lượng tăng trưởng",
+        "Lưu lượng giao dịch tăng cao (2.0x TB20) cho thấy sự quan tâm của nhà đầu tư"
+      ],
+      "target_price": 18,
+      "catalyst": "Sự cải thiện trong chỉ số RSI và duy trì xu hướng tăng",
+      "summary": "Giá có thể tăng do duy trì xu hướng tăng và sự cải thiện trong các chỉ số kỹ thuật"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 90,
+      "top_3_risks": [
+        "RSI cao cho thấy cổ phiếu đang trong vùng quá mua",
+        "Lịch sử quyết định mua gần đây đã chứng minh sai lầm",
+        "Thị trường có thể đảo chiều khi có tín hiệu ngược chiều"
+      ],
+      "downside_target": 10,
+      "main_risk": "Rủi ro điều chỉnh mạnh do RSI cao và thiếu tín hiệu vững chắc cho xu hướng tăng",
+      "summary": "Cổ phiếu đang đối mặt với rủi ro điều chỉnh mạnh do chỉ số RSI cao và thiếu tín hiệu vững chắc cho xu hướng tăng"
+    },
+    "final_decision": {
+      "action": "BÁN",
+      "confidence": 90,
+      "position_size_pct": 0,
+      "agreed_with": "bear",
+      "key_reason": "RSI cao và lịch sử quyết định mua gần đây đã chứng minh sai lầm",
+      "risk_reward": 0.67,
+      "target": 10,
+      "stoploss": 12
+    },
+    "elapsed_sec": 5.5,
+    "outcome": "incorrect",
+    "reflection": "Nên cân nhắc kỹ lưỡng cả bull case và bear case trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": 7.19,
+    "actual_price_3d": 14.9
+  },
+  {
+    "ticker": "POW",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:09:35.812705",
+    "market_data": {
+      "price": 14.5,
+      "rsi": 70.2,
+      "macd_bull": true,
+      "vol_ratio": 2.05,
+      "score": 4.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "Weekly trend đang trong uptrend, chỉ ra xu hướng tăng trưởng dài hạn",
+        "MACD bullish, tín hiệu kỹ thuật cho thấy khả năng tăng giá",
+        "Volume gấp 2 lần TB20, chỉ ra sự quan tâm và giao dịch mạnh mẽ"
+      ],
+      "target_price": 17,
+      "catalyst": "Tín hiệu kỹ thuật và xu hướng tăng trưởng",
+      "summary": "Xu hướng tăng trưởng và tín hiệu kỹ thuật tích cực cho thấy POW có thể tiếp tục tăng giá"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 92,
+      "top_3_risks": [
+        "RSI đã ở vùng quá mua (70.2)",
+        "Lịch sử quyết định mua gần đây không chính xác",
+        "Thiếu thông tin về Ensemble và Market regime"
+      ],
+      "downside_target": 10.5,
+      "main_risk": "RSI đã ở vùng quá mua (70.2)",
+      "summary": "Nhiều yếu tố kỹ thuật và thiếu thông tin quan trọng dẫn đến khả năng giảm giá"
+    },
+    "final_decision": {
+      "action": "BÁN",
+      "confidence": 92,
+      "position_size_pct": 0,
+      "agreed_with": "bear",
+      "key_reason": "RSI đã ở vùng quá mua và thiếu thông tin về Ensemble và Market regime",
+      "risk_reward": 0.67,
+      "target": 10.5,
+      "stoploss": 15.5
+    },
+    "elapsed_sec": 5.1,
+    "outcome": "incorrect",
+    "reflection": "Cần cân nhắc kỹ lưỡng cả bull case và bear case trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": 7.19,
+    "actual_price_3d": 14.9
+  },
+  {
+    "ticker": "BMP",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:09:46.836940",
+    "market_data": {
+      "price": 151.5,
+      "rsi": 78.6,
+      "macd_bull": true,
+      "vol_ratio": 3.53,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "MACD bullish chỉ ra xu hướng tăng mạnh",
+        "Volume cao hơn 3.5 lần trung bình 20 ngày, cho thấy sự quan tâm mạnh mẽ của nhà đầu tư",
+        "Xu hướng uptrend qua tuần cho thấy động lượng tích cực"
+      ],
+      "target_price": 180,
+      "catalyst": "Tin tức tích cực về công ty hoặc ngành có thể làm tăng niềm tin của nhà đầu tư",
+      "summary": "Xu hướng uptrend và các tín hiệu kỹ thuật tích cực cho thấy tiềm năng tăng trưởng mạnh mẽ của BMP"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "Giá đang ở vùng quá mua với RSI 78.6",
+        "Trend uptrend có thể đảo chiều",
+        "Thiếu thông tin về Market regime"
+      ],
+      "downside_target": 120,
+      "main_risk": "Giá đang ở vùng quá mua với RSI 78.6",
+      "summary": "Tiềm năng giảm giá do chỉ số RSI vượt ngưỡng quá mua"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "MACD bullish và volume cao hơn 3.5 lần trung bình 20 ngày",
+      "risk_reward": 2.17,
+      "target": 180,
+      "stoploss": 130
+    },
+    "elapsed_sec": 3.3,
+    "outcome": "correct",
+    "reflection": "Cải thiện phân tích kỹ thuật bằng cách kết hợp nhiều chỉ số như RSI và xu hướng chung để tăng độ chính xác cho quyết định đầu tư",
+    "pnl_pct": 1.65,
+    "actual_price_3d": 154.0
+  },
+  {
+    "ticker": "BMP",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:09:47.646784",
+    "market_data": {
+      "price": 151.5,
+      "rsi": 78.6,
+      "macd_bull": true,
+      "vol_ratio": 3.53,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "Xu hướng uptrend trên biểu đồ tuần",
+        "RSI cao và MACD bullish cho thấy đà tăng mạnh",
+        "Volume vượt trội so với trung bình 20 phiên"
+      ],
+      "target_price": 180,
+      "catalyst": "Tin tức tích cực về BMP",
+      "summary": "BMP có tiềm năng tăng trưởng mạnh do xu hướng uptrend và chỉ số kỹ thuật tích cực."
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "RSI quá mua",
+        "Tăng trưởng khối lượng không bền vững",
+        "Thiếu thông tin về Market regime"
+      ],
+      "downside_target": 130,
+      "main_risk": "RSI quá mua",
+      "summary": "Tiềm ẩn rủi ro điều chỉnh mạnh do chỉ số RSI quá mua"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng uptrend và chỉ số kỹ thuật tích cực",
+      "risk_reward": 2.22,
+      "target": 180,
+      "stoploss": 130
+    },
+    "elapsed_sec": 3.3,
+    "outcome": "correct",
+    "reflection": "Cần kết hợp thêm phân tích cơ bản và quản lý rủi ro để tối ưu hóa quyết định đầu tư.",
+    "pnl_pct": 1.65,
+    "actual_price_3d": 154.0
+  },
+  {
+    "ticker": "PC1",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:09:59.187102",
+    "market_data": {
+      "price": 22.5,
+      "rsi": 81.8,
+      "macd_bull": true,
+      "vol_ratio": 1.89,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "RSI cao cho thấy động lực tăng trưởng mạnh",
+        "MACD bullish chỉ ra xu hướng tăng",
+        "Volume giao dịch lớn hơn 1.9 lần trung bình 20 phiên"
+      ],
+      "target_price": 28,
+      "catalyst": "Sự duy trì của xu hướng uptrend hàng tuần",
+      "summary": "Động lực tăng trưởng mạnh và tín hiệu kỹ thuật tích cực đưa PC1 đến cơ hội mua hấp dẫn"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Rủi ro điều chỉnh do RSI cao",
+        "Rủi ro không sustain được uptrend",
+        "Rủi ro thông tin thị trường không rõ ràng"
+      ],
+      "downside_target": 18,
+      "main_risk": "Rủi ro điều chỉnh do RSI cao",
+      "summary": "RSI cao và tín hiệu thiếu rõ ràng tạo ra rủi ro điều chỉnh lớn"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Động lực tăng trưởng mạnh và tín hiệu kỹ thuật tích cực",
+      "risk_reward": 1.55,
+      "target": 28,
+      "stoploss": 20
+    },
+    "elapsed_sec": 2.9,
+    "outcome": "incorrect",
+    "reflection": "Nên cân nhắc kỹ lưỡng giữa tín hiệu kỹ thuật tích cực và rủi ro điều chỉnh khi đưa ra quyết định mua.",
+    "pnl_pct": -1.33,
+    "actual_price_3d": 22.2
+  },
+  {
+    "ticker": "PC1",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:09:59.587137",
+    "market_data": {
+      "price": 22.5,
+      "rsi": 81.8,
+      "macd_bull": true,
+      "vol_ratio": 1.89,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "Xu hướng uptrend hàng tuần cho thấy động lực tăng trưởng mạnh mẽ",
+        "Chỉ số MACD bullish chỉ ra tín hiệu mua tăng trưởng",
+        "Volume cao hơn 1.9 lần trung bình 20 phiên cho thấy sự quan tâm mạnh mẽ của nhà đầu tư"
+      ],
+      "target_price": 28,
+      "catalyst": "Sự cải thiện trong tín hiệu kỹ thuật và dòng tiền mạnh mẽ",
+      "summary": "PC1 có cơ hội tăng trưởng mạnh mẽ với động lực uptrend và tín hiệu kỹ thuật thuận lợi"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "RSI quá mua",
+        "Tín hiệu MACD bullish có thể đảo chiều",
+        "Thị trường uptrend nhưng không có tín hiệu rõ ràng từ News sentiment"
+      ],
+      "downside_target": 18,
+      "main_risk": "RSI quá mua có thể dẫn đến điều chỉnh mạnh",
+      "summary": "Tiềm năng giảm giá do chỉ số RSI quá mua và tình hình thị trường không rõ ràng"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 82,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng uptrend và tín hiệu kỹ thuật thuận lợi",
+      "risk_reward": 1.85,
+      "target": 28,
+      "stoploss": 20
+    },
+    "elapsed_sec": 3.3,
+    "outcome": "incorrect",
+    "reflection": "Cần cân nhắc kỹ lưỡng cả hai trường hợp tăng trưởng và giảm giá trước khi đưa ra quyết định mua bán.",
+    "pnl_pct": -1.33,
+    "actual_price_3d": 22.2
+  },
+  {
+    "ticker": "BID",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:10:11.824478",
+    "market_data": {
+      "price": 42.5,
+      "rsi": 55.0,
+      "macd_bull": true,
+      "vol_ratio": 1.22,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 70,
+      "top_3_reasons": [
+        "MACD bullish chỉ ra xu hướng tăng",
+        "Volume cao hơn trung bình 20 ngày cho thấy sự quan tâm của nhà đầu tư",
+        "Giá hiện tại 42 VND có thể là điểm mua tốt"
+      ],
+      "target_price": 50,
+      "catalyst": "Sự cải thiện của Stage1 Score hoặc tin tức tích cực",
+      "summary": "Xu hướng tăng tiềm năng với MACD bullish và volume cao"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Rủi ro giảm giá do thiếu động lực tăng trưởng",
+        "Rủi ro thị trường chuyển từ sideways sang downtrend",
+        "Rủi ro không rõ ràng về Market regime"
+      ],
+      "downside_target": 38,
+      "main_risk": "Thị trường không có xu hướng tăng rõ ràng",
+      "summary": "Giá có thể giảm do thiếu động lực tăng trưởng và rủi ro thị trường"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 50,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Risk/Reward không đủ lớn và thiếu thông tin về market regime",
+      "risk_reward": 1.32,
+      "target": 0,
+      "stoploss": 0
+    },
+    "elapsed_sec": 3.2,
+    "outcome": "neutral",
+    "reflection": "Cần cân nhắc kỹ lưỡng giữa tín hiệu tăng trưởng và rủi ro thị trường để đưa ra quyết định đầu tư hợp lý.",
+    "pnl_pct": -0.24,
+    "actual_price_3d": 42.4
+  },
+  {
+    "ticker": "BID",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:10:11.860312",
+    "market_data": {
+      "price": 42.5,
+      "rsi": 55.0,
+      "macd_bull": true,
+      "vol_ratio": 1.22,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 70,
+      "top_3_reasons": [
+        "MACD đang cho tín hiệu tăng",
+        "Volume giao dịch cao hơn trung bình 20 ngày",
+        "RSI chưa nằm trong vùng quá mua"
+      ],
+      "target_price": 50,
+      "catalyst": "Tin tức tích cực về công ty",
+      "summary": "BID có cơ hội tăng giá nhờ tín hiệu kỹ thuật tích cực và khối lượng giao dịch lớn"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 60,
+      "top_3_risks": [
+        "Market regime không rõ ràng",
+        "RSI ở mức trung bình cao",
+        "Volume không đủ mạnh"
+      ],
+      "downside_target": 38,
+      "main_risk": "Market regime không rõ ràng",
+      "summary": "Nhiều chỉ số chưa rõ ràng và thiếu thông tin khiến cho rủi ro giảm giá cao"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 70,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Tín hiệu kỹ thuật tích cực và khối lượng giao dịch lớn",
+      "risk_reward": 1.67,
+      "target": 50,
+      "stoploss": 38
+    },
+    "elapsed_sec": 3.0,
+    "outcome": "incorrect",
+    "reflection": "Nên cân nhắc kỹ lưỡng cả tín hiệu kỹ thuật và thông tin cơ bản trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": -0.24,
+    "actual_price_3d": 42.4
+  },
+  {
+    "ticker": "VND",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:10:24.721846",
+    "market_data": {
+      "price": 18.1,
+      "rsi": 59.6,
+      "macd_bull": true,
+      "vol_ratio": 1.01,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "RSI ở mức 59.6 cho thấy tiềm năng tăng trưởng",
+        "MACD bullish chỉ ra xu hướng tăng",
+        "Weekly trend đang ở uptrend"
+      ],
+      "target_price": 20,
+      "catalyst": "Sự cải thiện của tín hiệu kỹ thuật và yếu tố thị trường",
+      "summary": "CASE TỐT NHẤT để MUA VND với tiềm năng tăng trưởng mạnh"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Tín hiệu kỹ thuật không đồng nhất với xu hướng",
+        "Lịch sử quyết định mua gần đây không chính xác",
+        "Thị trường thiếu thông tin về xu hướng rõ ràng"
+      ],
+      "downside_target": 16.5,
+      "main_risk": "Sự không chắc chắn về xu hướng thị trường",
+      "summary": "Xu hướng tăng không được hỗ trợ đầy đủ bởi tín hiệu kỹ thuật và lịch sử quyết định mua gần đây không thành công."
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 60,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đáp ứng quy tắc risk/reward và lịch sử quyết định mua gần đây không chính xác",
+      "risk_reward": 0.83,
+      "target": 0,
+      "stoploss": 0
+    },
+    "elapsed_sec": 3.6,
+    "outcome": "neutral",
+    "reflection": "Cần cân nhắc kỹ lưỡng tín hiệu kỹ thuật và lịch sử quyết định trước khi mua để tránh rủi ro thua lỗ.",
+    "pnl_pct": -0.56,
+    "actual_price_3d": 17.6
+  },
+  {
+    "ticker": "VND",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:10:24.828310",
+    "market_data": {
+      "price": 18.1,
+      "rsi": 59.6,
+      "macd_bull": true,
+      "vol_ratio": 1.01,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 78,
+      "top_3_reasons": [
+        "Xu hướng uptrend trên khung tuần",
+        "Tín hiệu MACD bullish",
+        "Giá đang ở mức hấp dẫn so với lịch sử"
+      ],
+      "target_price": 20.5,
+      "catalyst": "Sự cải thiện trong yếu tố thị trường và tín hiệu kỹ thuật",
+      "summary": "Xu hướng uptrend và tín hiệu kỹ thuật thuận lợi cho thấy tiềm năng tăng giá của VND"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "RSI cao tiềm năng đảo chiều",
+        "Lịch sử quyết định mua gần đây không chính xác",
+        "Thị trường không rõ ràng và thiếu thông tin"
+      ],
+      "downside_target": 15,
+      "main_risk": "Tiềm năng điều chỉnh mạnh do tín hiệu kỹ thuật hỗn hợp",
+      "summary": "VND có thể đối mặt với rủi ro giảm giá do tín hiệu kỹ thuật không đồng nhất và lịch sử quyết định mua bán không chính xác gần đây"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 55,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Lịch sử quyết định gần đây không chính xác và tín hiệu kỹ thuật không đồng nhất",
+      "risk_reward": 0.83,
+      "target": 0,
+      "stoploss": 0
+    },
+    "elapsed_sec": 3.7,
+    "outcome": "neutral",
+    "reflection": "Phân tích kỹ thuật và lịch sử quyết định cần được xem xét kỹ lưỡng để tối ưu hóa chiến lược đầu tư",
+    "pnl_pct": -0.56,
+    "actual_price_3d": 17.6
+  },
+  {
+    "ticker": "KDH",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:10:37.451522",
+    "market_data": {
+      "price": 22.5,
+      "rsi": 43.5,
+      "macd_bull": true,
+      "vol_ratio": 0.99,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "RSI ở mức 43.5 cho thấy cổ phiếu không quá nóng",
+        "MACD bullish cho thấy xu hướng tăng đang được duy trì",
+        "Weekly trend uptrend cho thấy động lượng tăng trưởng"
+      ],
+      "target_price": 30,
+      "catalyst": "Sự cải thiện về Stage1 Score và Ensemble",
+      "summary": "KDH có tiềm năng tăng trưởng mạnh nhờ xu hướng tích cực và các chỉ số kỹ thuật hỗ trợ"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 60,
+      "top_3_risks": [
+        "Giá cổ phiếu có thể điều chỉnh do RSI không quá thấp",
+        "Tình hình thị trường không rõ ràng với Market regime UNKNOWN",
+        "Tâm lý thị trường không ủng hộ với News sentiment 0.00"
+      ],
+      "downside_target": 18.5,
+      "main_risk": "Thị trường biến động không rõ ràng",
+      "summary": "Cổ phiếu có thể giảm do thị trường biến động và thông tin không ủng hộ"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "RSI ở mức 43.5 cho thấy cổ phiếu không quá nóng và xu hướng tăng trưởng mạnh mẽ",
+      "risk_reward": 2.1,
+      "target": 30,
+      "stoploss": 19
+    },
+    "elapsed_sec": 3.8,
+    "outcome": "incorrect",
+    "reflection": "Nên cân nhắc kỹ lưỡng giữa các yếu tố tăng trưởng và rủi ro khi đưa ra quyết định đầu tư.",
+    "pnl_pct": -3.78,
+    "actual_price_3d": 21.65
+  },
+  {
+    "ticker": "KDH",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:10:39.026775",
+    "market_data": {
+      "price": 22.5,
+      "rsi": 43.5,
+      "macd_bull": true,
+      "vol_ratio": 0.99,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "Xu hướng tăng theo tuần",
+        "MACD bullish chỉ định động lượng tăng",
+        "RSI 43.5 cho thấy tiềm năng phục hồi"
+      ],
+      "target_price": 28,
+      "catalyst": "Thay đổi tích cực trong quan điểm của nhà đầu tư",
+      "summary": "KDH có tiềm năng tăng giá ngắn hạn do các tín hiệu kỹ thuật thuận lợi và sự ổn định của xu hướng tăng"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 60,
+      "top_3_risks": [
+        "Tình hình thị trường không rõ ràng (Market regime: UNKNOWN)",
+        "Điểm số Stage1 thấp (3.0/7)",
+        "Thiếu thông tin về Ensemble"
+      ],
+      "downside_target": 18,
+      "main_risk": "Tình hình thị trường không rõ ràng",
+      "summary": "Nhiều yếu tố chưa rõ ràng và thiếu thông tin có thể dẫn đến rủi ro giảm giá"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tăng theo tuần và tiềm năng phục hồi",
+      "risk_reward": 2.22,
+      "target": 28,
+      "stoploss": 20
+    },
+    "elapsed_sec": 4.4,
+    "outcome": "incorrect",
+    "reflection": "Phân tích kỹ thuật và xác định các yếu tố rủi ro là quan trọng trước khi đưa ra quyết định mua bán",
+    "pnl_pct": -3.78,
+    "actual_price_3d": 21.65
+  },
+  {
+    "ticker": "DGC",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:10:49.738893",
+    "market_data": {
+      "price": 51.5,
+      "rsi": 80.2,
+      "macd_bull": true,
+      "vol_ratio": 2.83,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 70,
+      "top_3_reasons": [
+        "MACD bullish cho thấy xu hướng tăng",
+        "Volume 2.8x TB20 chỉ ra cường độ mua mạnh",
+        "RSI 80.2 gần vùng quá mua, tiềm năng điều chỉnh trước khi tiếp tục tăng"
+      ],
+      "target_price": 65,
+      "catalyst": "Sự cải thiện trong Weekly trend chuyển từ sideways sang tăng",
+      "summary": "DGC có tiềm năng tăng giá với các tín hiệu kỹ thuật và khối lượng mua tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "Quá mua với RSI cao",
+        "Trend tuần sideway không rõ định hướng",
+        "Không có thông tin rõ ràng về Ensemble"
+      ],
+      "downside_target": 45,
+      "main_risk": "Quá mua với RSI cao",
+      "summary": "DGC có thể giảm do RSI cao và thiếu thông tin rõ ràng về xu hướng"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 70,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "MACD bullish và Volume 2.8x TB20 chỉ ra cường độ mua mạnh",
+      "risk_reward": 1.8,
+      "target": 65,
+      "stoploss": 48
+    },
+    "elapsed_sec": 3.4,
+    "outcome": "incorrect",
+    "reflection": "Phân tích kỹ thuật và tín hiệu cần được kết hợp với thông tin cơ bản để đưa ra quyết định đầu tư chính xác hơn.",
+    "pnl_pct": -5.24,
+    "actual_price_3d": 48.8
+  },
+  {
+    "ticker": "DGC",
+    "date": "2026-06-23",
+    "time": "2026-06-23T09:10:51.052980",
+    "market_data": {
+      "price": 51.5,
+      "rsi": 80.2,
+      "macd_bull": true,
+      "vol_ratio": 2.83,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 106789810.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "RSI ở mức cao nhưng vẫn dưới 90, cho thấy còn dư địa để tăng",
+        "MACD bullish cho thấy đà tăng vẫn được giữ vững",
+        "Volume lớn hơn 2.8 lần trung bình 20 ngày, thể hiện nhu cầu mua mạnh"
+      ],
+      "target_price": 65,
+      "catalyst": "BREAKOUT khỏi xu hướng sideways trong tuần",
+      "summary": "DGC có tiềm năng tăng mạnh do nhiều tín hiệu kỹ thuật tích cực và nhu cầu mua cao"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "RSI quá cao có thể dẫn đến điều chỉnh",
+        "Khối lượng giao dịch tăng đột ngột có thể không bền vững",
+        "Thị trường có xu hướng đi ngang có thể chuyển sang giảm"
+      ],
+      "downside_target": 40,
+      "main_risk": "RSI quá cao (80.2) có thể dẫn đến điều chỉnh giá",
+      "summary": "Giá có thể giảm do chỉ số RSI quá cao và khối lượng giao dịch không bền vững"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "RSI ở mức cao nhưng vẫn dưới 90 và MACD bullish",
+      "risk_reward": 2.06,
+      "target": 65,
+      "stoploss": 45
+    },
+    "elapsed_sec": 4.5,
+    "outcome": "incorrect",
+    "reflection": "Cần cân nhắc cả tín hiệu kỹ thuật và chỉ số RSI khi quyết định mua để tránh rủi ro mất mát.",
+    "pnl_pct": -5.24,
+    "actual_price_3d": 48.8
+  },
+  {
+    "ticker": "GAS",
+    "date": "2026-06-25",
+    "time": "2026-06-25T09:15:22.747201",
+    "market_data": {
+      "price": 79.3,
+      "rsi": 30.2,
+      "macd_bull": false,
+      "vol_ratio": 1.45,
+      "score": 4.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 125233002.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 70,
+      "top_3_reasons": [
+        "Giá đang ở vùng oversold với RSI thấp (30.2)",
+        "Volume giao dịch tăng cao so với trung bình 20 ngày (1.4x TB20)",
+        " Stage1 Score ở mức 4.0/7 cho thấy tiềm năng tăng trưởng"
+      ],
+      "target_price": 90,
+      "catalyst": "Sự cải thiện của news sentiment và breakout khỏi xu hướng sideways",
+      "summary": "Cơ hội mua GAS với tiềm năng tăng trưởng cao do oversold và tăng volume"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "Giá có thể điều chỉnh do chỉ số RSI quá bán chưa được giải phóng hoàn toàn",
+        "Xu hướng bearish của MACD có thể gây áp lực giảm giá",
+        "Khối lượng giao dịch cao hơn trung bình 20 ngày có thể dẫn đến sự điều chỉnh mạnh"
+      ],
+      "downside_target": 69,
+      "main_risk": "Xu hướng giảm giá do tín hiệu bearish của MACD và khối lượng giao dịch tăng cao",
+      "summary": "Giá có thể giảm mạnh do tín hiệu bearish và khối lượng giao dịch lớn."
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 80,
+      "position_size_pct": 0,
+      "agreed_with": "bear",
+      "key_reason": "Khối lượng giao dịch cao và tín hiệu bearish mạnh",
+      "risk_reward": 0.69,
+      "target": null,
+      "stoploss": null
+    },
+    "elapsed_sec": 5.4,
+    "outcome": "neutral",
+    "reflection": "Phân tích kỹ lưỡng cả bull case và bear case trước khi đưa ra quyết định đầu tư để giảm thiểu rủi ro.",
+    "pnl_pct": -0.88,
+    "actual_price_3d": 78.6
+  },
+  {
+    "ticker": "VCB",
+    "date": "2026-06-25",
+    "time": "2026-06-25T09:15:33.423521",
+    "market_data": {
+      "price": 61.0,
+      "rsi": 32.4,
+      "macd_bull": false,
+      "vol_ratio": 0.6,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 125233002.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 82,
+      "top_3_reasons": [
+        "RSI thấp (32.4) cho thấy VCB đang ở vùng oversold",
+        "Giá hiện tại (61 VND) có tiềm năng tăng trưởng cao",
+        "Lịch sử quyết định trước đó cho thấy cần cải thiện phân tích và quyết định đầu tư"
+      ],
+      "target_price": 75,
+      "catalyst": "Sự cải thiện của nền kinh tế và tăng trưởng của ngành ngân hàng",
+      "summary": "VCB có tiềm năng tăng trưởng mạnh mẽ trong ngắn hạn nhờ vào vị trí hiện tại và các yếu tố nền tảng thuận lợi."
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "RSI thấp nhưng MACD bearish cho thấy xu hướng giảm có thể tiếp tục",
+        "Volume thấp hơn trung bình 20 ngày qua cho thấy thiếu sự hỗ trợ từ khối lượng giao dịch",
+        "Stage1 Score thấp và Weekly trend sideways cho thấy sự thiếu chắc chắn trong xu hướng tăng trưởng"
+      ],
+      "downside_target": 55,
+      "main_risk": "Xu hướng giảm được xác nhận bởi chỉ số kỹ thuật bearish",
+      "summary": "Rủi ro giảm giá cao do chỉ số kỹ thuật và khối lượng giao dịch không hỗ trợ cho xu hướng tăng"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 82,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "VCB có tiềm năng tăng trưởng mạnh mẽ trong ngắn hạn nhờ vào vị trí hiện tại và các yếu tố nền tảng thuận lợi",
+      "risk_reward": 1.67,
+      "target": 75,
+      "stoploss": 55
+    },
+    "elapsed_sec": 3.5,
+    "outcome": "correct",
+    "reflection": "Luôn cân nhắc cả bull case và bear case trước khi đưa ra quyết định đầu tư để có cái nhìn tổng quan và đa chiều.",
+    "pnl_pct": 1.8,
+    "actual_price_3d": 62.1
+  },
+  {
+    "ticker": "PVD",
+    "date": "2026-06-25",
+    "time": "2026-06-25T09:15:43.573793",
+    "market_data": {
+      "price": 31.9,
+      "rsi": 59.0,
+      "macd_bull": true,
+      "vol_ratio": 1.63,
+      "score": 3.5,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 125233002.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "MACD đang ở trong xu hướng tăng",
+        "Volume đang cao hơn trung bình 20 ngày",
+        "Ensemble dự báo tăng mạnh"
+      ],
+      "target_price": 40,
+      "catalyst": "Sự kết hợp của tín hiệu MACD và xu hướng tăng trên biểu đồ hàng tuần",
+      "summary": "PVD có cơ hội tăng giá mạnh do tín hiệu kỹ thuật thuận lợi và động lực tăng trưởng"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 60,
+      "top_3_risks": [
+        "Stage1 Score thấp",
+        "RSI gần vùng overbought",
+        "Market regime không rõ ràng"
+      ],
+      "downside_target": 28,
+      "main_risk": "Sự kết hợp của chỉ số kỹ thuật và thiếu thông tin về thị trường",
+      "summary": "Tiềm năng giảm mạnh do sự không chắc chắn về thị trường và các tín hiệu kỹ thuật âm."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "MACD đang ở trong xu hướng tăng và Volume đang cao hơn trung bình 20 ngày",
+      "risk_reward": 1.67,
+      "target": 40,
+      "stoploss": 28
+    },
+    "elapsed_sec": 3.1,
+    "outcome": "correct",
+    "reflection": "Cần cân nhắc kỹ lưỡng giữa cơ hội tăng trưởng và rủi ro giảm mạnh trước khi đưa ra quyết định mua bán cổ phiếu.",
+    "pnl_pct": 3.29,
+    "actual_price_3d": 32.95
+  },
+  {
+    "ticker": "VIB",
+    "date": "2026-06-29",
+    "time": "2026-06-29T13:48:25.588496",
+    "market_data": {
+      "price": 16.5,
+      "rsi": 70.6,
+      "macd_bull": true,
+      "vol_ratio": 2.14,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 126306462.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "Xu hướng uptrend trong tuần",
+        "MACD báo hiệu bullish",
+        "Volume tăng mạnh (2.1x TB20)"
+      ],
+      "target_price": 20,
+      "catalyst": "Tin tức tích cực về ngân hàng VIB",
+      "summary": "Giá VIB có thể tăng do xu hướng uptrend và tín hiệu tích cực từ các chỉ số kỹ thuật."
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "Khả năng điều chỉnh sau xu hướng tăng",
+        "RSI quá cao dẫn đến tín hiệu bán",
+        "Thiếu thông tin về Ensemble"
+      ],
+      "downside_target": 14.2,
+      "main_risk": "Khả năng điều chỉnh sau xu hướng tăng",
+      "summary": "Xu hướng tăng có thể dẫn đến điều chỉnh mạnh do RSI cao và thiếu thông tin về Ensemble."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng uptrend và tín hiệu tích cực từ các chỉ số kỹ thuật",
+      "risk_reward": 1.75,
+      "target": 20,
+      "stoploss": 14.2
+    },
+    "elapsed_sec": 5.8,
+    "outcome": "incorrect",
+    "reflection": "Phân tích kỹ lưỡng cả hai trường hợp tăng và giảm để đưa ra quyết định đầu tư chính xác hơn.",
+    "pnl_pct": -1.52,
+    "actual_price_3d": 16.25
+  },
+  {
+    "ticker": "POW",
+    "date": "2026-06-29",
+    "time": "2026-06-29T13:48:29.844281",
+    "market_data": {
+      "price": 14.9,
+      "rsi": 71.2,
+      "macd_bull": true,
+      "vol_ratio": 1.27,
+      "score": 3.5,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 126306462.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "MACD báo hiệu trend tăng",
+        "Volume giao dịch lớn hơn trung bình 20 phiên",
+        "Weekly trend duy trì uptrend"
+      ],
+      "target_price": 20,
+      "catalyst": "Ensemble tăng mạnh",
+      "summary": "Tiềm năng tăng trưởng mạnh nhờ các tín hiệu kỹ thuật tích cực và tăng trưởng tập trung"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 85,
+      "top_3_risks": [
+        "Quá mua với RSI cao (71.2)",
+        "Tín hiệu tăng mạnh từ Ensemble và uptrend trong khi news sentiment không ủng hộ",
+        "Lịch sử quyết định bán gần nhất không thành công nhưng rủi ro vẫn còn"
+      ],
+      "downside_target": 12.5,
+      "main_risk": "Quá mua với RSI cao (71.2)",
+      "summary": "Rủi ro quá mua và thiếu hỗ trợ từ news sentiment khiến giá có thể giảm mạnh."
+    },
+    "final_decision": {
+      "action": "BÁN",
+      "confidence": 85,
+      "position_size_pct": 0,
+      "agreed_with": "bear",
+      "key_reason": "Rủi ro quá mua và thiếu hỗ trợ từ news sentiment",
+      "risk_reward": 0.625,
+      "target": 12.5,
+      "stoploss": 17.5
+    },
+    "elapsed_sec": 3.5,
+    "outcome": "incorrect",
+    "reflection": "Nên cân nhắc thêm yếu tố news sentiment và tránh mua quá mức để hạn chế rủi ro trong tương lai.",
+    "pnl_pct": 7.19,
+    "actual_price_3d": 14.9
+  },
+  {
+    "ticker": "PVD",
+    "date": "2026-06-29",
+    "time": "2026-06-29T13:48:35.492989",
+    "market_data": {
+      "price": 33.0,
+      "rsi": 66.5,
+      "macd_bull": true,
+      "vol_ratio": 1.67,
+      "score": 3.5,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 126306462.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 90,
+      "top_3_reasons": [
+        "RSI ở mức 66.5 cho thấy động lực tăng trưởng vẫn còn",
+        "MACD đang ở trạng thái bullish và Volume tăng mạnh so với trung bình 20 ngày",
+        "Ensemble dự báo tăng mạnh và xu hướng tuần đang là uptrend"
+      ],
+      "target_price": 38,
+      "catalyst": "Sự tăng trưởng mạnh mẽ của thị trường và các tín hiệu kỹ thuật thuận lợi",
+      "summary": "PVD có tiềm năng tăng giá mạnh mẽ do các tín hiệu kỹ thuật và xu hướng thị trường thuận lợi"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Tình hình thị trường không rõ ràng với Market regime UNKNOWN",
+        "RSI ở mức 66.5, gần khu vực quá mua",
+        "News sentiment trung lập không hỗ trợ xu hướng tăng"
+      ],
+      "downside_target": 28,
+      "main_risk": "Sự không chắc chắn về xu hướng thị trường trong thời gian tới",
+      "summary": "Tiềm năng giảm giá do sự kết hợp của các yếu tố kỹ thuật và sự không chắc chắn về thị trường"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "RSI ở mức 66.5 cho thấy động lực tăng trưởng vẫn còn và MACD đang ở trạng thái bullish",
+      "risk_reward": 1.8,
+      "target": 38,
+      "stoploss": 29
+    },
+    "elapsed_sec": 3.5,
+    "outcome": "correct",
+    "reflection": "Khi đầu tư, nên cân nhắc đồng thời cả bull case và bear case để đánh giá chính xác tiềm năng tăng giảm giá của cổ phiếu.",
+    "pnl_pct": 3.29,
+    "actual_price_3d": 32.95
+  },
+  {
+    "ticker": "GMD",
+    "date": "2026-06-29",
+    "time": "2026-06-29T13:48:42.010276",
+    "market_data": {
+      "price": 72.7,
+      "rsi": 37.2,
+      "macd_bull": false,
+      "vol_ratio": 0.54,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 126306462.14
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "RSI thấp cho thấy cổ phiếu hiện đang ở vùng oversold, có tiềm năng tăng trưởng",
+        "Weekly trend uptrend cho thấy xu hướng tăng trưởng trong dài hạn",
+        "Giá hiện tại thấp so với tiềm năng tăng trưởng trong tương lai"
+      ],
+      "target_price": 85,
+      "catalyst": "Sự thay đổi tích cực trong sentiment thị trường và các chỉ số kỹ thuật",
+      "summary": "Cổ phiếu GMD có tiềm năng tăng trưởng mạnh mẽ do RSI thấp và xu hướng uptrend"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "RSI quá thấp",
+        "MACD bearish",
+        "Lịch sử quyết định mua GMD gần nhất sai"
+      ],
+      "downside_target": 65,
+      "main_risk": "MACD bearish",
+      "summary": "Xu hướng giảm mạnh và thiếu thông tin tích cực về GMD."
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 60,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Lịch sử quyết định mua GMD gần nhất sai và cả bull case và bear case đều có confidence cao nhưng không đáp ứng quy tắc MUA",
+      "risk_reward": 0.87,
+      "target": 73,
+      "stoploss": 73
+    },
+    "elapsed_sec": 3.8,
+    "outcome": "neutral",
+    "reflection": "Cần cân nhắc và phân tích kỹ hơn cả hai trường hợp tăng trưởng và giảm để đưa ra quyết định đầu tư chính xác.",
+    "pnl_pct": -4.42,
+    "actual_price_3d": 73.6
+  },
+  {
+    "ticker": "GAS",
+    "date": "2026-06-30",
+    "time": "2026-06-30T10:41:24.538930",
+    "market_data": {
+      "price": 77.6,
+      "rsi": 33.8,
+      "macd_bull": false,
+      "vol_ratio": 0.11,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 125845630.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 70,
+      "top_3_reasons": [
+        "Giá hiện tại 78 VND có thể được xem là thấp so với xu hướng lịch sử",
+        "RSI ở 33.8 chỉ ra mức oversold và có thể đảo chiều tăng",
+        "Stage1 Score ở 3.5/7 cho thấy tiềm năng tăng trưởng"
+      ],
+      "target_price": 92,
+      "catalyst": "Sự cải thiện trong tình hình cung cấp và nhu cầu trong ngành",
+      "summary": "Giá GAS có thể tăng do tình hình kỹ thuật và cơ bản hỗ trợ"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Khả năng tiếp tục giảm giá do tín hiệu MACD bearish",
+        "Thiếu động lực tăng trưởng với volume thấp",
+        "Rủi ro khó dự đoán do Market regime không rõ ràng"
+      ],
+      "downside_target": 65,
+      "main_risk": "Tín hiệu kỹ thuật bearish mạnh",
+      "summary": "Tín hiệu kỹ thuật và điều kiện thị trường ủng hộ xu hướng giảm"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 80,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Risk/Reward không đủ để vượt quá ngưỡng 1.5 và không có đủ thông tin để vượt qua sự không chắc chắn của market regime",
+      "risk_reward": 0.83,
+      "target": 0,
+      "stoploss": 0
+    },
+    "elapsed_sec": 6.1,
+    "outcome": "neutral",
+    "reflection": "Phân tích kỹ thuật và cơ bản cần được cân nhắc kỹ lưỡng khi đưa ra quyết định đầu tư để giảm thiểu rủi ro và tăng cơ hội thành công.",
+    "pnl_pct": -4.25,
+    "actual_price_3d": 74.3
+  },
+  {
+    "ticker": "POW",
+    "date": "2026-06-30",
+    "time": "2026-06-30T10:41:30.803189",
+    "market_data": {
+      "price": 14.8,
+      "rsi": 70.2,
+      "macd_bull": true,
+      "vol_ratio": 0.42,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 125845630.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "MACD đang ở trạng thái bullish cho thấy xu hướng tăng",
+        "Weekly trend đang ở uptrend tăng mạnh",
+        "Ensemble dự báo tăng mạnh"
+      ],
+      "target_price": 20,
+      "catalyst": "Sự thay đổi trong xu hướng tăng của thị trường",
+      "summary": "Có cơ hội mua với tiềm năng tăng giá cao dựa trên các chỉ số kỹ thuật và xu hướng"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "rsi cao tạo điều kiện điều chỉnh",
+        "volume thấp cho thấy thiếu lực cầu mạnh",
+        "ensemble tăng mạnh nhưng có thể là tín hiệu giả"
+      ],
+      "downside_target": 12,
+      "main_risk": "điều kiện kỹ thuật quá mua (RSI cao)",
+      "summary": "Tình hình kỹ thuật và volume thấp tạo rủi ro giảm giá"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Tiềm năng tăng giá cao dựa trên các chỉ số kỹ thuật và xu hướng",
+      "risk_reward": 1.67,
+      "target": 20,
+      "stoploss": 12
+    },
+    "elapsed_sec": 3.2,
+    "outcome": "incorrect",
+    "reflection": "Cần phân tích kỹ lưỡng cả chỉ số kỹ thuật và volume trước khi quyết định mua để tránh rủi ro giảm giá",
+    "pnl_pct": -0.68,
+    "actual_price_3d": 14.7
+  },
+  {
+    "ticker": "GMD",
+    "date": "2026-06-30",
+    "time": "2026-06-30T10:41:36.095780",
+    "market_data": {
+      "price": 73.4,
+      "rsi": 41.5,
+      "macd_bull": false,
+      "vol_ratio": 0.15,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 125845630.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 78,
+      "top_3_reasons": [
+        "Weekly trend đang trong uptrend cho thấy xu hướng tăng trưởng mạnh",
+        "RSI ở mức 41.5 cho thấy cổ phiếu chưa bị mua quá mức",
+        "Giá hiện tại 73 VND có thể là mức giá tốt để mua vào"
+      ],
+      "target_price": 85,
+      "catalyst": "Sự thay đổi tích cực trong tâm lý thị trường và sự tăng trưởng của các chỉ số kinh tế vĩ mô",
+      "summary": "Xu hướng tăng trưởng mạnh và chỉ số kỹ thuật tích cực cho thấy GMD có khả năng sẽ tăng giá"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 78,
+      "top_3_risks": [
+        "MACD bearish cho thấy xu hướng giảm",
+        "Volume thấp hơn trung bình 20 ngày",
+        "Stage1 Score thấp cho thấy tiềm năng tăng trưởng hạn chế"
+      ],
+      "downside_target": 65,
+      "main_risk": "Xu hướng giảm do chỉ báo kỹ thuật bearish",
+      "summary": "Tiềm năng giảm giá do tín hiệu kỹ thuật và thanh khoản thấp"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 60,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Cả hai trường hợp tăng và giảm giá đều có khả năng xảy ra cao, nên giữ vị thế hiện tại",
+      "risk_reward": 1.2,
+      "target": null,
+      "stoploss": null
+    },
+    "elapsed_sec": 3.4,
+    "outcome": "neutral",
+    "reflection": "Phân tích kỹ thuật và thanh khoản là yếu tố quan trọng khi đưa ra quyết định đầu tư để tránh rủi ro và tối ưu hóa lợi nhuận.",
+    "pnl_pct": 3.54,
+    "actual_price_3d": 76.0
+  },
+  {
+    "ticker": "PC1",
+    "date": "2026-06-30",
+    "time": "2026-06-30T10:41:39.731236",
+    "market_data": {
+      "price": 22.6,
+      "rsi": 71.8,
+      "macd_bull": true,
+      "vol_ratio": 0.54,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 125845630.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "MACD bullish cùng với xu hướng tăng mạnh",
+        "Ensemble dự báo tăng mạnh",
+        "Weekly trend duy trì uptrend"
+      ],
+      "target_price": 28,
+      "catalyst": "Sự thay đổi tích cực trongnews sentiment",
+      "summary": "Xu hướng tăng trưởng mạnh và tín hiệu kỹ thuật tích cực tạo cơ hội mua PC1 với giá mục tiêu 28VND."
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "Rủi ro điều chỉnh do RSI quá cao (71.8)",
+        "Rủi ro giảm giá do Volume thấp (0.5x TB20)",
+        "Rủi ro không chắc chắn do Market regime UNKNOWN"
+      ],
+      "downside_target": 20,
+      "main_risk": "Rủi ro điều chỉnh do RSI quá cao",
+      "summary": "PC1 đối mặt với rủi ro điều chỉnh mạnh do RSI ở mức cao và volume thấp."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "MACD bullish cùng với xu hướng tăng mạnh và Ensemble dự báo tăng mạnh",
+      "risk_reward": 2.33,
+      "target": 28,
+      "stoploss": 20
+    },
+    "elapsed_sec": 3.0,
+    "outcome": "incorrect",
+    "reflection": "Không nên mua cổ phiếu khi RSI ở mức cao và volume thấp, dù có xu hướng tăng trưởng mạnh.",
+    "pnl_pct": -5.09,
+    "actual_price_3d": 21.45
+  },
+  {
+    "ticker": "STB",
+    "date": "2026-07-01",
+    "time": "2026-07-01T09:15:45.226850",
+    "market_data": {
+      "price": 73.8,
+      "rsi": 62.5,
+      "macd_bull": true,
+      "vol_ratio": 0.52,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 7872890.189999998
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "Độ mạnh của xu hướng uptrend tuần",
+        "Tín hiệu tăng mạnh từ Ensemble",
+        "MACD bullish chỉ dẫn tiềm năng tăng trưởng"
+      ],
+      "target_price": 90,
+      "catalyst": "Sự tích cực từ tín hiệu kỹ thuật và xu hướng thị trường",
+      "summary": "Cơ hội mua STB với tiềm năng tăng giá mạnh mẽ nhờ tín hiệu kỹ thuật và xu hướng tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "RSI có thể tiếp tục tăng và gây ra điều chỉnh",
+        "Tín hiệu Ensemble tăng mạnh có thể không bền vững",
+        "Volume thấp hơn TB20"
+      ],
+      "downside_target": 65,
+      "main_risk": "Tín hiệu kỹ thuật tiêu cực tiềm ẩn",
+      "summary": "Rủi ro giảm giá có thể xảy ra do tín hiệu kỹ thuật và điều kiện thị trường không ideal."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 82.5,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Độ mạnh của xu hướng uptrend tuần và tín hiệu tăng mạnh từ Ensemble",
+      "risk_reward": 1.83,
+      "target": 90,
+      "stoploss": 65
+    },
+    "elapsed_sec": 5.6,
+    "outcome": "incorrect",
+    "reflection": "Nên cân nhắc kỹ lưỡng cả yếu tố kỹ thuật và điều kiện thị trường trước khi đưa ra quyết định mua bán chứng khoán.",
+    "pnl_pct": -3.52,
+    "actual_price_3d": 71.2
+  },
+  {
+    "ticker": "PC1",
+    "date": "2026-07-01",
+    "time": "2026-07-01T09:16:04.851987",
+    "market_data": {
+      "price": 22.9,
+      "rsi": 70.9,
+      "macd_bull": true,
+      "vol_ratio": 0.0,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 7872890.189999998
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 88,
+      "top_3_reasons": [
+        "Xu hướng uptrend hàng tuần",
+        "Tín hiệu MACD bullish",
+        "Giá đang ở mức có thể bùng nổ"
+      ],
+      "target_price": 30,
+      "catalyst": "Sự cải thiện trong chỉ số kỹ thuật và tăng trưởng tích cực",
+      "summary": "Cơ hội mua PC1 với tiềm năng tăng trưởng mạnh mẽ trong ngắn hạn"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 92,
+      "top_3_risks": [
+        "Rủi ro điều chỉnh do RSI cao",
+        "Rủi ro thiếu thông tin về Ensemble",
+        "Rủi ro lịch sử quyết định mua không chính xác"
+      ],
+      "downside_target": 18,
+      "main_risk": "Rủi ro điều chỉnh do RSI cao",
+      "summary": "CASE BEAR cho PC1 dựa trên rủi ro điều chỉnh do RSI cao và lịch sử quyết định mua không chính xác."
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 92.0,
+      "position_size_pct": 0,
+      "agreed_with": "bear",
+      "key_reason": "Rủi ro điều chỉnh do RSI cao",
+      "risk_reward": 0.6,
+      "target": null,
+      "stoploss": null
+    },
+    "elapsed_sec": 3.0,
+    "outcome": "neutral",
+    "reflection": "Nên kết hợp phân tích kỹ thuật và đánh giá rủi ro để đưa ra quyết định đầu tư chính xác hơn.",
+    "pnl_pct": -5.09,
+    "actual_price_3d": 21.45
+  },
+  {
+    "ticker": "HDB",
+    "date": "2026-07-07",
+    "time": "2026-07-07T15:09:39.746102",
+    "market_data": {
+      "price": 27.7,
+      "rsi": 87.7,
+      "macd_bull": true,
+      "vol_ratio": 1.77,
+      "score": 3.5,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 39457790.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "MACD đang thể hiện tín hiệu tăng giá mạnh mẽ",
+        "Ensemble dự đoán tăng mạnh và Weekly trend đang trong uptrend",
+        "Volume cao hơn 1.8 lần trung bình 20 ngày qua, cho thấy dòng tiền vào mạnh"
+      ],
+      "target_price": 32,
+      "catalyst": "Tín hiệu mua từ MACD và tăng trưởng mạnh của Ensemble",
+      "summary": "HDB có tiềm năng tăng giá mạnh nhờ vào tín hiệu kỹ thuật và dòng tiền vào thị trường"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "Khả năng điều chỉnh sau giai đoạn tăng nóng",
+        "RSI ở mức quá mua",
+        "Market regime không rõ ràng"
+      ],
+      "downside_target": 22,
+      "main_risk": "Khả năng điều chỉnh sau giai đoạn tăng nóng",
+      "summary": "Tiềm năng giảm giá do tăng nóng và RSI cao"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "MACD đang thể hiện tín hiệu tăng giá mạnh mẽ và Volume cao hơn 1.8 lần trung bình 20 ngày qua",
+      "risk_reward": 1.82,
+      "target": 32,
+      "stoploss": 24
+    },
+    "elapsed_sec": 6.2,
+    "outcome": "incorrect",
+    "reflection": "Nên cân nhắc cả yếu tố tăng nóng và chỉ số RSI trước khi đưa ra quyết định mua bán cổ phiếu.",
+    "pnl_pct": -2.53,
+    "actual_price_3d": 27.0
+  },
+  {
+    "ticker": "VND",
+    "date": "2026-07-07",
+    "time": "2026-07-07T15:09:45.787297",
+    "market_data": {
+      "price": 18.8,
+      "rsi": 59.1,
+      "macd_bull": true,
+      "vol_ratio": 1.31,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 39457790.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "Xu hướng uptrend trong tuần gần đây",
+        "MACD bullish chỉ ra tín hiệu tăng trưởng mạnh",
+        "Volume cao hơn trung bình 20 ngày (1.3x TB20) cho thấy sự quan tâm của nhà đầu tư"
+      ],
+      "target_price": 22,
+      "catalyst": "Sự cải thiện của Stage1 Score và tín hiệu kỹ thuật tích cực",
+      "summary": "Giá VND có khả năng tăng do tín hiệu kỹ thuật tích cực và xu hướng uptrend"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Rủi ro về sự không chắc chắn của xu hướng thị trường",
+        "Rủi ro về giá đã đạt đến mức cao so với đường trung bình",
+        "Rủi ro về tình hình thị trường không rõ ràng do thông tin không đầy đủ"
+      ],
+      "downside_target": 17.5,
+      "main_risk": "Sự điều chỉnhลง của thị trường do mất động lực tăng trưởng",
+      "summary": "Case bear được hỗ trợ bởi sự không chắc chắn của thị trường và rủi ro về giá cao."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 82.5,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng uptrend trong tuần gần đây và tín hiệu tăng trưởng mạnh từ MACD",
+      "risk_reward": 1.83,
+      "target": 22,
+      "stoploss": 17.5
+    },
+    "elapsed_sec": 3.5,
+    "outcome": "incorrect",
+    "reflection": "Cần phân tích kỹ lưỡng cảสอง trường hợp tăng và giảm trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": -4.26,
+    "actual_price_3d": 18.0
+  },
+  {
+    "ticker": "GMD",
+    "date": "2026-07-07",
+    "time": "2026-07-07T15:09:49.952143",
+    "market_data": {
+      "price": 76.0,
+      "rsi": 39.1,
+      "macd_bull": true,
+      "vol_ratio": 1.47,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 39457790.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        " MACD bullish cho thấy tín hiệu mua",
+        "RSI 39.1 chỉ ra giá chưa bị quá mua",
+        "Volume cao 1.5x TB20 cho thấy có dòng tiền vào"
+      ],
+      "target_price": 90,
+      "catalyst": "Sự cải thiện trong Stage1 Score hoặc tin tức tích cực",
+      "summary": "GMD có tiềm năng tăng trưởng mạnh với tín hiệu mua rõ ràng và dòng tiền vào cao"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 72,
+      "top_3_risks": [
+        "Thị trường không rõ ràng",
+        " volume tăng nhưng không rõ xu hướng",
+        "Stage1 Score thấp"
+      ],
+      "downside_target": 68,
+      "main_risk": "Thị trường không rõ ràng và thiếu thông tin",
+      "summary": "Rủi ro thị trường không rõ ràng và thiếu thông tin dẫn đến quyết định không mua GMD"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 80,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "MACD bullish và RSI 39.1 chỉ ra giá chưa bị quá mua",
+      "risk_reward": 1.82,
+      "target": 90,
+      "stoploss": 68
+    },
+    "elapsed_sec": 3.4,
+    "outcome": "correct",
+    "reflection": "Nên cân nhắc phân tích rủi ro và thông tin một cách kỹ lưỡng trước khi đưa ra quyết định đầu tư",
+    "pnl_pct": 3.54,
+    "actual_price_3d": 76.0
+  },
+  {
+    "ticker": "SHS",
+    "date": "2026-07-07",
+    "time": "2026-07-07T15:09:54.769975",
+    "market_data": {
+      "price": 19.3,
+      "rsi": 50.0,
+      "macd_bull": true,
+      "vol_ratio": 0.76,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 39457790.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 92,
+      "top_3_reasons": [
+        "MACD đang thể hiện tín hiệu tăng trưởng mạnh mẽ (bullish)",
+        "Ensemble dự báo tăng mạnh và xu hướng tuần đang là uptrend",
+        "Giá hiện tại có thể được coi là một mức giá hấp dẫn để mua vào với RSI ở mức trung lập (50.0)"
+      ],
+      "target_price": 25,
+      "catalyst": "Sự kết hợp giữa tín hiệu MACD bullish và dự báo tăng mạnh từ Ensemble",
+      "summary": "SHS có tiềm năng tăng trưởng mạnh mẽ trong ngắn hạn nhờ vào các tín hiệu kỹ thuật tích cực và dự báo từ Ensemble."
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 85,
+      "top_3_risks": [
+        "Rủi ro về xu hướng tăng trưởng không bền vững",
+        "Rủi ro về sự không ổn định của chỉ số RSI và MACD",
+        "Rủi ro về ảnh hưởng tiêu cực từ lịch sử quyết định đầu tư không chính xác"
+      ],
+      "downside_target": 15,
+      "main_risk": "Rủi ro về sự không bền vững của xu hướng tăng trưởng",
+      "summary": "Xu hướng tăng trưởng không bền vững và lịch sử quyết định đầu tư không chính xác là các yếu tố rủi ro chính cho việc mua SHS."
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 60,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đáp ứng quy tắc về Risk/Reward và lịch sử quyết định không chính xác",
+      "risk_reward": 0.83,
+      "target": 0,
+      "stoploss": 0
+    },
+    "elapsed_sec": 3.9,
+    "outcome": "neutral",
+    "reflection": "Cần đánh giá cả yếu tố rủi ro và xu hướng tăng trưởng bền vững trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": -4.15,
+    "actual_price_3d": 18.5
+  },
+  {
+    "ticker": "SHS",
+    "date": "2026-07-08",
+    "time": "2026-07-08T15:01:06.723801",
+    "market_data": {
+      "price": 19.4,
+      "rsi": 53.8,
+      "macd_bull": true,
+      "vol_ratio": 1.99,
+      "score": 4.5,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 121643305.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 92,
+      "top_3_reasons": [
+        "MACD bullish cho thấy xu hướng tăng",
+        "Weekly trend uptrend và Ensemble tăng mạnh",
+        "Volume tăng cao (2.0x TB20) cho thấy sự quan tâm của nhà đầu tư"
+      ],
+      "target_price": 25,
+      "catalyst": "Tin tức tích cực và tiếp tục uptrend",
+      "summary": "Cổ phiếu SHS có nhiều tín hiệu tăng trưởng mạnh mẽ và dự kiến sẽ tiếp tục tăng"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Rủi ro về quyết định đầu tư sai lầm liên tiếp trong quá khứ",
+        "Rủi ro về thiếu thông tin chính xác về Market regime",
+        "Rủi ro về phản ứng trái chiều của cổ phiếu so với chỉ số RSI và MACD"
+      ],
+      "downside_target": 15,
+      "main_risk": "Quyết định đầu tư sai lầm trong quá khứ và sự không chắc chắn về xu hướng tương lai",
+      "summary": "Xu hướng tăng trưởng không bền vững và thiếu thông tin chính xác về thị trường có thể dẫn đến rủi ro giảm giá cổ phiếu SHS."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tăng trưởng mạnh mẽ và tín hiệu tăng trưởng tích cực từ chỉ số MACD và Ensemble",
+      "risk_reward": 1.67,
+      "target": 25,
+      "stoploss": 17
+    },
+    "elapsed_sec": 8.1,
+    "outcome": "incorrect",
+    "reflection": "Khi đưa ra quyết định đầu tư, cần xem xét cả hai trường hợp tăng trưởng và giảm giá để có cái nhìn toàn diện về rủi ro và cơ hội.",
+    "pnl_pct": -4.15,
+    "actual_price_3d": 18.5
+  },
+  {
+    "ticker": "VND",
+    "date": "2026-07-08",
+    "time": "2026-07-08T15:01:13.053934",
+    "market_data": {
+      "price": 18.7,
+      "rsi": 63.9,
+      "macd_bull": true,
+      "vol_ratio": 1.29,
+      "score": 3.5,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 121643305.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "Xu hướng tăng mạnh được chỉ ra bởi Ensemble vàWeekly trend",
+        "Chỉ số MACD bullish cho thấy động lượng tăng trưởng tích cực",
+        "Lịch sử quyết định gần nhất cho thấy tín hiệu mua với độ tin cậy cao (82.5%)"
+      ],
+      "target_price": 22,
+      "catalyst": "Sự kết hợp giữa tín hiệu kỹ thuật tích cực và động lượng thị trường",
+      "summary": "Cơ hội mua VND với triển vọng tăng giá mạnh mẽ và động lượng tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 72,
+      "top_3_risks": [
+        "Tín hiệu kỹ thuật chưa đủ mạnh",
+        "Lịch sử quyết định gần đây không ổn định",
+        "Thị trường không có xu hướng rõ ràng"
+      ],
+      "downside_target": 17.5,
+      "main_risk": "Rủi ro chỉnh giá sau giai đoạn tăng mạnh",
+      "summary": "Rủi ro chỉnh giá và thiếu tín hiệu kỹ thuật mạnh mẽ khiến cho khả năng giảm giá là cao"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85.0,
+      "position_size_pct": 20.0,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tăng mạnh được chỉ ra bởi Ensemble và Weekly trend",
+      "risk_reward": 2.12,
+      "target": 22.0,
+      "stoploss": 17.5
+    },
+    "elapsed_sec": 3.6,
+    "outcome": "incorrect",
+    "reflection": "Phân tích kỹ lưỡng cả bull case và bear case trước khi đưa ra quyết định mua để hạn chế rủi ro và tăng cơ hội thành công.",
+    "pnl_pct": -4.26,
+    "actual_price_3d": 18.0
+  },
+  {
+    "ticker": "VCI",
+    "date": "2026-07-08",
+    "time": "2026-07-08T15:01:19.545472",
+    "market_data": {
+      "price": 25.4,
+      "rsi": 60.7,
+      "macd_bull": true,
+      "vol_ratio": 2.39,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 121643305.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "MACD bullish",
+        "Weekly trend uptrend",
+        "Volume cao hơn 2.4x trung bình 20 ngày"
+      ],
+      "target_price": 32,
+      "catalyst": "Tin tức tích cực về công ty",
+      "summary": "Xu hướng tăng và tín hiệu kỹ thuật tích cực cho thấy VCI có khả năng tăng giá"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "RSI đang ở vùng trung lập có thể đảo ngược xu hướng",
+        "_volume tăng không bền vững",
+        "Stage1 Score thấp"
+      ],
+      "downside_target": 20,
+      "main_risk": "Xu hướng uptrend hiện tại có thể bị phá vỡ do tín hiệu không rõ ràng từ Ensemble và Market regime UNKNOWN",
+      "summary": "Giá có thể giảm do yếu tố kỹ thuật và rủi ro tiềm ẩn trong xu hướng uptrend hiện tại"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85.0,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tăng và tín hiệu kỹ thuật tích cực",
+      "risk_reward": 2.4,
+      "target": 32,
+      "stoploss": 20
+    },
+    "elapsed_sec": 3.5,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "MBB",
+    "date": "2026-07-08",
+    "time": "2026-07-08T15:01:23.707236",
+    "market_data": {
+      "price": 26.0,
+      "rsi": 63.6,
+      "macd_bull": true,
+      "vol_ratio": 1.61,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 121643305.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "Xu hướng tăng mạnh theo Ensemble",
+        "MACD cho tín hiệu tăng",
+        "Lưu lượng giao dịch cao hơn trung bình 20 ngày qua"
+      ],
+      "target_price": 32,
+      "catalyst": "Sự duy trì của xu hướng tăng",
+      "summary": "MBB có tín hiệu kỹ thuật và temel tích cực, tạo cơ sở cho một đợt tăng giá mạnh mẽ"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 72,
+      "top_3_risks": [
+        "Tình hình thị trường không rõ ràng (Market regime: UNKNOWN)",
+        "RSI ở mức cao (63.6) có thể dẫn đến sự điều chỉnh",
+        "News sentiment trung tính (0.00) có thể chuyển thành tiêu cực"
+      ],
+      "downside_target": 22,
+      "main_risk": "Sự điều chỉnh thị trường khi Market regime trở nên rõ ràng",
+      "summary": "Rủi ro giảm giá do sự không rõ ràng của thị trường và chỉ số RSI ở mức cao."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tăng mạnh theo Ensemble và tín hiệu kỹ thuật tích cực",
+      "risk_reward": 2.11,
+      "target": 32,
+      "stoploss": 22
+    },
+    "elapsed_sec": 3.5,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "VND",
+    "date": "2026-07-09",
+    "time": "2026-07-09T10:19:51.302685",
+    "market_data": {
+      "price": 18.4,
+      "rsi": 60.0,
+      "macd_bull": true,
+      "vol_ratio": 0.3,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 121643305.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 87.5,
+      "top_3_reasons": [
+        "Xu hướng uptrend trên khung thời gian tuần",
+        "Chỉ số MACD cho tín hiệu bullish",
+        "Lịch sử quyết định gần nhất cho thấy xu hướng mua"
+      ],
+      "target_price": 20.5,
+      "catalyst": "Sự cải thiện trong chỉ số Stage1 Score",
+      "summary": "Xu hướng tăng và tín hiệu kỹ thuật tích cực cho thấy tiềm năng tăng trưởng của VND"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 67.5,
+      "top_3_risks": [
+        "Giá đang ở mức cao so với lịch sử",
+        "RSI không ở trong vùng quá mua",
+        "Volume thấp so với trung bình"
+      ],
+      "downside_target": 15.5,
+      "main_risk": "Market regime không rõ ràng",
+      "summary": "Giá có thể giảm do thiếu thông tin về market regime và volume thấp."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 87.5,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng uptrend và tín hiệu kỹ thuật tích cực",
+      "risk_reward": 2.13,
+      "target": 20.5,
+      "stoploss": 16.2
+    },
+    "elapsed_sec": 5.5,
+    "outcome": "incorrect",
+    "reflection": "Phân tích kỹ thuật và đánh giá tình hình thị trường một cách toàn diện trước khi đưa ra quyết định đầu tư.",
+    "pnl_pct": -4.26,
+    "actual_price_3d": 18.0
+  },
+  {
+    "ticker": "SHS",
+    "date": "2026-07-09",
+    "time": "2026-07-09T10:19:55.614095",
+    "market_data": {
+      "price": 19.1,
+      "rsi": 53.8,
+      "macd_bull": true,
+      "vol_ratio": 0.32,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 121643305.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "MACD bullish chỉ ra xu hướng tăng trưởng gần đây",
+        "Weekly trend uptrend cho thấy động lượng tích cực",
+        "Giá hiện tại 19 VND có thể đang ở mức giá hấp dẫn để mua"
+      ],
+      "target_price": 25,
+      "catalyst": "Sự cải thiện trong tâm lý thị trường và tín hiệu kỹ thuật tích cực",
+      "summary": "Cổ phiếu SHS có cơ hội tăng trưởng nhờ vào tín hiệu kỹ thuật lạc quan và động lượng thị trường"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Rủi ro giảm giá do không có dấu hiệu rõ ràng về xu hướng tăng trưởng",
+        "Rủi ro do chỉ số RSI không quá cao nhưng cũng không quá thấp, tạo sự bất ổn",
+        "Rủi ro do thông tin về thị trường và ngành chưa rõ ràng"
+      ],
+      "downside_target": 15,
+      "main_risk": "Rủi ro giảm giá do không có dấu hiệu rõ ràng về xu hướng tăng trưởng",
+      "summary": "Tiềm năng giảm giá cao do thiếu thông tin rõ ràng về xu hướng tăng trưởng và rủi ro thị trường"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 60,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không chắc chắn về thị trường và rủi ro tiềm ẩn",
+      "risk_reward": 1.25,
+      "target": 0,
+      "stoploss": 0
+    },
+    "elapsed_sec": 3.4,
+    "outcome": "neutral",
+    "reflection": "Cần phải xem xét cả hai trường hợp tăng trưởng và giảm giá một cách khách quan khi đưa ra quyết định đầu tư để hạn chế rủi ro.",
+    "pnl_pct": -4.15,
+    "actual_price_3d": 18.5
+  },
+  {
+    "ticker": "FRT",
+    "date": "2026-07-09",
+    "time": "2026-07-09T10:19:59.817417",
+    "market_data": {
+      "price": 115.7,
+      "rsi": 28.3,
+      "macd_bull": false,
+      "vol_ratio": 0.04,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 121643305.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 70,
+      "top_3_reasons": [
+        "RSI thấp (28.3) cho thấy cổ phiếu có thể đang trong giai đoạn Oversold",
+        "Weekly trend đang là uptrend, cho thấy xu hướng tăng trưởng dài hạn",
+        "Giá hiện tại (116 VND) có thể là điểm mua với tiềm năng tăng trưởng"
+      ],
+      "target_price": 140,
+      "catalyst": "Sự thay đổi tích cực trong Stage1 Score hoặc cải thiện trong News sentiment",
+      "summary": "FRT có thể tăng trưởng mạnh với RSI thấp và xu hướng tăng trưởng dài hạn"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "MACD bearish chỉ ra xu hướng giảm",
+        "Volume thấp cho thấy thiếu sự quan tâm từ nhà đầu tư",
+        "Stage1 Score thấp cho thấy sức mạnh tài sản còn yếu"
+      ],
+      "downside_target": 100,
+      "main_risk": "Xu hướng giảm do tín hiệu MACD bearish",
+      "summary": "CASE bear mạnh do tín hiệu kỹ thuật và sự thiếu quan tâm từ nhà đầu tư"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 55,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Ensemble bearish và risk/reward không đủ lớn",
+      "risk_reward": 1.21,
+      "target": 0,
+      "stoploss": 0
+    },
+    "elapsed_sec": 3.4,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "PVD",
+    "date": "2026-07-09",
+    "time": "2026-07-09T10:20:03.690574",
+    "market_data": {
+      "price": 33.3,
+      "rsi": 62.2,
+      "macd_bull": true,
+      "vol_ratio": 0.69,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 121643305.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 90,
+      "top_3_reasons": [
+        "Xu hướng tăng mạnh theo tuần vớiweekly trend uptrend",
+        "Động lượng tăng trưởng mạnh mẽ với Ensemble tăng mạnh",
+        "Tín hiệuMACD bullish hỗ trợ cho xu hướng tăng giá"
+      ],
+      "target_price": 40,
+      "catalyst": "Sự tăng trưởng mạnh mẽ trong Stage1 Score và cải thiện trong News sentiment",
+      "summary": "PVD dự kiến tăng giá mạnh do động lượng tăng trưởng và tín hiệu thị trường tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "RSI đang ở mức cao (62.2) có thể dẫn đến giảm giá",
+        "Volume thấp (0.7x TB20) có thể không duy trì đà tăng",
+        "Stage1 Score thấp (3.0/7) có thể chỉ ra cơ bản không tốt"
+      ],
+      "downside_target": 28,
+      "main_risk": "RSI cao và Volume thấp",
+      "summary": "PVD có thể giảm do RSI cao và Volume thấp"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 85,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tăng mạnh và tín hiệu thị trường tích cực",
+      "risk_reward": 2.22,
+      "target": 40,
+      "stoploss": 28
+    },
+    "elapsed_sec": 3.1,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "GMD",
+    "date": "2026-07-09",
+    "time": "2026-07-09T10:20:07.582678",
+    "market_data": {
+      "price": 76.4,
+      "rsi": 47.8,
+      "macd_bull": true,
+      "vol_ratio": 0.1,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 121643305.19
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 85,
+      "top_3_reasons": [
+        "MACD đang ở trạng thái tăng trưởng",
+        "Xu hướng tuần đang hướng lên",
+        "Ensemble dự đoán tăng mạnh"
+      ],
+      "target_price": 90,
+      "catalyst": "Sự cải thiện trong Stage1 Score và tăng trưởng trong Weekly trend",
+      "summary": "GMD có cơ hội tăng trưởng mạnh mẽ nhờ vào các tín hiệu tăng trưởng kỹ thuật và xu hướng tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Rủi ro về thanh khoản thấp",
+        "Rủi ro về thông tin Sentiment trung lập",
+        "Rủi ro về thị trường không chắc chắn"
+      ],
+      "downside_target": 68,
+      "main_risk": "Rủi ro về thanh khoản thấp",
+      "summary": "Tiềm năng giảm giá do thanh khoản thấp và thiếu thông tin tích cực."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 82,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "Cơ hội tăng trưởng mạnh mẽ nhờ tín hiệu tăng trưởng kỹ thuật và xu hướng tích cực",
+      "risk_reward": 1.68,
+      "target": 90,
+      "stoploss": 72
+    },
+    "elapsed_sec": 3.1,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "PVD",
+    "date": "2026-07-10",
+    "time": "2026-07-10T10:31:46.666377",
+    "market_data": {
+      "price": 33.2,
+      "rsi": 56.4,
+      "macd_bull": true,
+      "vol_ratio": 0.49,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 38917759973.54
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 88,
+      "top_3_reasons": [
+        "Xu hướng tăng trưởng tuần (Weekly trend: uptrend) cho thấy đà tăng giá vẫn được duy trì",
+        "Chỉ số RSI (56.4) nằm trong vùng tăng trưởng tiềm năng, chưa tới mức quá mua",
+        "MACD bullish chỉ ra tín hiệu mua, dự báo giá có thể tiếp tục tăng cao"
+      ],
+      "target_price": 40,
+      "catalyst": "Sự cải thiện trong Stage1 Score và tích cực từ Weekly trend",
+      "summary": "PVD có cơ hội tăng trưởng mạnh nhờ xu hướng uptrend và tín hiệu mua từ MACD"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Giá đã tăng gần đây nhưng Volume giảm, chỉ 0.5x TB20",
+        "Market regime chưa rõ ràng",
+        "RSI vàMACD có thể đảo chiều bất cứ lúc nào"
+      ],
+      "downside_target": 28,
+      "main_risk": "Sự không chắc chắn của Market regime và giảm Volume",
+      "summary": "Không mua PVD do sự kết hợp của giảm Volume và không chắc chắn của Market regime."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 88,
+      "position_size_pct": 10,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng tăng trưởng tuần và tín hiệu mua từ MACD",
+      "risk_reward": 1.8,
+      "target": 40,
+      "stoploss": 28
+    },
+    "elapsed_sec": 5.7,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "PVD",
+    "date": "2026-07-10",
+    "time": "2026-07-10T10:44:18.171623",
+    "market_data": {
+      "price": 33.2,
+      "rsi": 56.4,
+      "macd_bull": true,
+      "vol_ratio": 0.49,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 87,
+      "top_3_reasons": [
+        "Xu hướng uptrend hàng tuần đang được duy trì",
+        "MACD tiếp tục chỉ ra tín hiệu tăng tích cực",
+        "Lịch sử quyết định mua gần đây có kết quả tốt (80% confidence)"
+      ],
+      "target_price": 38.5,
+      "catalyst": "Sự cải thiện trong chỉ số Stage1 Score",
+      "summary": "PVD có nhiều yếu tố hỗ trợ tăng trưởng trong ngắn hạn do tín hiệu kỹ thuật và xu hướng tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Tình hình kinh tế vĩ mô không ổn định",
+        "Lợi nhuận của công ty có thể không đạt dự báo",
+        "Tình hình tài chính của công ty có thể yếu đi"
+      ],
+      "downside_target": 28,
+      "main_risk": "Tình hình kinh tế vĩ mô không ổn định",
+      "summary": "Rủi ro kinh tế vĩ mô và tài chính nội bộ có thể khiến giá cổ phiếu PVD giảm xuống 28 VND"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 87.0,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng uptrend hàng tuần đang được duy trì và MACD tiếp tục chỉ ra tín hiệu tăng tích cực",
+      "risk_reward": 1.83,
+      "target": 38.5,
+      "stoploss": 30
+    },
+    "elapsed_sec": 5.5,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "VHM",
+    "date": "2026-07-15",
+    "time": "2026-07-15T09:22:42.764141",
+    "market_data": {
+      "price": 138.7,
+      "rsi": 33.5,
+      "macd_bull": false,
+      "vol_ratio": 0.02,
+      "score": 4.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 75000400.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 70,
+      "top_3_reasons": [
+        "RSI thấp cho thấy giá đang ở trong vùng oversold, tạo cơ hội để giá tăng trở lại",
+        "Weekly trend vẫn đang trong uptrend, cho thấy xu hướng tích cực của cổ phiếu",
+        "Bài học từ lịch sử quyết định cho thấy sự kết hợp giữa phân tích kỹ thuật và cơ bản sẽ giúp đưa ra quyết định đầu tư chính xác"
+      ],
+      "target_price": 155,
+      "catalyst": "Sự cải thiện của chỉ số Stage1 Score và việc giá đang ở trong vùng oversold",
+      "summary": "Cổ phiếu VHM có nhiều tiềm năng tăng trưởng do RSI thấp và xu hướng tuần tăng, kèm theo bài học từ lịch sử quyết định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 70,
+      "top_3_risks": [
+        "Tín hiệu Bearish từ chỉ số MACD",
+        "Volume giao dịch thấp",
+        "Không rõ về Ensemble"
+      ],
+      "downside_target": 120,
+      "main_risk": "Tín hiệu Bearish từ chỉ số MACD",
+      "summary": "Cổ phiếu VHM có tín hiệu giảm giá mạnh do tín hiệu Bearish từ chỉ số MACD và volume giao dịch thấp."
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 70,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "RSI thấp cho thấy giá đang ở trong vùng oversold, tạo cơ hội để giá tăng trở lại",
+      "risk_reward": 1.65,
+      "target": 155,
+      "stoploss": 125
+    },
+    "elapsed_sec": 5.2,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "TCB",
+    "date": "2026-07-15",
+    "time": "2026-07-15T09:22:53.227135",
+    "market_data": {
+      "price": 32.0,
+      "rsi": 33.7,
+      "macd_bull": false,
+      "vol_ratio": 0.02,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 75000400.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 80,
+      "top_3_reasons": [
+        "RSI 33.7 chỉ báo cổ phiếu đang ở vùng oversold",
+        "Ensemble dự báo tăng mạnh",
+        "Weekly trend tiếp tục uptrend"
+      ],
+      "target_price": 40,
+      "catalyst": "Sự cải thiện của Stage1 Score trong tương lai",
+      "summary": "Cổ phiếu TCB có cơ hội tăng trưởng mạnh với các tín hiệu kỹ thuật và xu hướng tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 80,
+      "top_3_risks": [
+        "Rủi ro giảm giá do MACD bearish",
+        "Rủi ro thiếu thanh khoản do Volume thấp",
+        "Rủi ro không rõ diễn biến thị trường do Market regime UNKNOWN"
+      ],
+      "downside_target": 25,
+      "main_risk": "Rủi ro giảm giá do MACD bearish",
+      "summary": "Giá có thể giảm do tín hiệu MACD bearish và thiếu thanh khoản"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 60,
+      "position_size_pct": 20,
+      "agreed_with": "bull",
+      "key_reason": "RSI 33.7 chỉ báo cổ phiếu đang ở vùng oversold và Ensemble dự báo tăng mạnh",
+      "risk_reward": 1.8,
+      "target": 40,
+      "stoploss": 28
+    },
+    "elapsed_sec": 3.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "PVD",
+    "date": "2026-07-15",
+    "time": "2026-07-15T09:23:06.203298",
+    "market_data": {
+      "price": 20.3,
+      "rsi": 60.7,
+      "macd_bull": true,
+      "vol_ratio": 0.33,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 75000400.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 90,
+      "top_3_reasons": [
+        "Xu hướng uptrend trên khung thời gian tuần",
+        "Chỉ số MACD đang cho tín hiệu bullish",
+        "Lịch sử quyết định mua gần nhất có độ tin cậy cao"
+      ],
+      "target_price": 25,
+      "catalyst": "Sự cải thiện trong Stage1 Score và tích cực từ volume giao dịch",
+      "summary": "PVD có cơ hội tăng giá nhờ xu hướng uptrend và tín hiệu kỹ thuật tích cực"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 75,
+      "top_3_risks": [
+        "Thị trường có thể đảo chiều do RSI đã ở mức cao",
+        "Khối lượng giao dịch thấp so với trung bình",
+        " Thiếu thông tin về Ensemble và Market regime"
+      ],
+      "downside_target": 17.5,
+      "main_risk": "Đảo chiều thị trường",
+      "summary": "Case bear cho PVD được xây dựng dựa trên tín hiệu đảo chiều tiềm ẩn và thông tin thiếu sót về tình hình thị trường"
+    },
+    "final_decision": {
+      "action": "MUA",
+      "confidence": 90,
+      "position_size_pct": 30,
+      "agreed_with": "bull",
+      "key_reason": "Xu hướng uptrend và tín hiệu kỹ thuật tích cực",
+      "risk_reward": 1.64,
+      "target": 25,
+      "stoploss": 18
+    },
+    "elapsed_sec": 3.5,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "POW",
+    "date": "2026-07-21",
+    "time": "2026-07-21T09:49:57.793245",
+    "market_data": {
+      "price": 13.7,
+      "rsi": 32.7,
+      "macd_bull": false,
+      "vol_ratio": 0.13,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 40668950.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 70,
+      "top_3_reasons": [
+        "RSI đang ở mức thấp 32.7, gợi ý về sự quá bán và tiềm năng phục hồi",
+        "Giá đã sideway trong một thời gian, tạo tiền đề cho một breakout tăng",
+        "Bài học từ lịch sử quyết định cho thấy cần cân nhắc kỹ lưỡng và đa chiều, giúp chúng ta đánh giá lại cơ hội"
+      ],
+      "target_price": 18,
+      "catalyst": "Sự cải thiện của news sentiment và tăng volume giao dịch",
+      "summary": "Cơ hội mua với tiềm năng tăng giá nhờ sự phục hồi của RSI và breakout giá"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 88,
+      "top_3_risks": [
+        "MACD bearish",
+        "Volume thấp so với trung bình",
+        "Stage1 Score thấp"
+      ],
+      "downside_target": 10,
+      "main_risk": "RSI thấp và MACD bearish cho thấy khả năng giảm giá",
+      "summary": "Khả năng giảm giá cao do các chỉ số kỹ thuật tiêu cực và volume thấp"
+    },
+    "final_decision": {
+      "action": "BÁN",
+      "confidence": 88,
+      "position_size_pct": 0,
+      "agreed_with": "bear",
+      "key_reason": "Khả năng giảm giá cao do các chỉ số kỹ thuật tiêu cực và volume thấp",
+      "risk_reward": 0.71,
+      "target": 0,
+      "stoploss": 0
+    },
+    "elapsed_sec": 5.1,
+    "outcome": null,
+    "reflection": null
+  }
+]

@@ -1,0 +1,803 @@
+{
+  "date": "2026-07-15",
+  "method": "two_stage",
+  "prediction_horizon_days": 3,
+  "prediction_horizon_sessions": 6,
+  "prediction_horizon_sessions_min": 5,
+  "prediction_horizon_sessions_max": 6,
+  "tradeable_meaning": "5-6 session horizon candidates",
+  "stage2_results": [
+    {
+      "ticker": "TCB",
+      "score": 3.0,
+      "weighted_score": 3.6,
+      "weight": 1.2,
+      "rsi": 33.7,
+      "macd_bull": false,
+      "sma_bull": true,
+      "vol_ratio": 0.02,
+      "atr_pct": 2.02,
+      "bb_pos": 0.3,
+      "weekly_trend": 1,
+      "weekly_rsi": 51.6,
+      "news_sentiment": 0.0,
+      "signals": {
+        "rsi": "oversold",
+        "sma": "golden_cross",
+        "weekly": "uptrend"
+      },
+      "price": 32.0,
+      "ensemble": {
+        "reliable": true,
+        "direction": 1,
+        "probability": 0.624,
+        "confidence": 24.9,
+        "signal": "tăng mạnh",
+        "high_confidence": true,
+        "votes": {
+          "xgb": 1,
+          "lgbm": 1,
+          "rf": 1
+        },
+        "bullish_votes": 3,
+        "bearish_votes": 0,
+        "total_models": 3,
+        "consensus": true,
+        "sentiment_score": 0.0
+      },
+      "llm": {
+        "action": "MUA",
+        "confidence": 60,
+        "target": 40,
+        "stoploss": 28,
+        "reason": "RSI 33.7 chỉ báo cổ phiếu đang ở vùng oversold và Ensemble dự báo tăng mạnh",
+        "risk_reward": 1.8,
+        "bull_summary": "Cổ phiếu TCB có cơ hội tăng trưởng mạnh với các tín hiệu kỹ thuật và xu hướng tích cực",
+        "bear_summary": "Giá có thể giảm do tín hiệu MACD bearish và thiếu thanh khoản",
+        "agreed_with": "bull"
+      },
+      "debate": true,
+      "bull_case": {
+        "stance": "BULL",
+        "confidence": 80,
+        "top_3_reasons": [
+          "RSI 33.7 chỉ báo cổ phiếu đang ở vùng oversold",
+          "Ensemble dự báo tăng mạnh",
+          "Weekly trend tiếp tục uptrend"
+        ],
+        "target_price": 40,
+        "catalyst": "Sự cải thiện của Stage1 Score trong tương lai",
+        "summary": "Cổ phiếu TCB có cơ hội tăng trưởng mạnh với các tín hiệu kỹ thuật và xu hướng tích cực"
+      },
+      "bear_case": {
+        "stance": "BEAR",
+        "confidence": 80,
+        "top_3_risks": [
+          "Rủi ro giảm giá do MACD bearish",
+          "Rủi ro thiếu thanh khoản do Volume thấp",
+          "Rủi ro không rõ diễn biến thị trường do Market regime UNKNOWN"
+        ],
+        "downside_target": 25,
+        "main_risk": "Rủi ro giảm giá do MACD bearish",
+        "summary": "Giá có thể giảm do tín hiệu MACD bearish và thiếu thanh khoản"
+      },
+      "final_score": 6.3,
+      "tradeable": true
+    },
+    {
+      "ticker": "VHM",
+      "score": 4.0,
+      "weighted_score": 4.0,
+      "weight": 1.0,
+      "rsi": 33.5,
+      "macd_bull": false,
+      "sma_bull": true,
+      "vol_ratio": 0.02,
+      "atr_pct": 3.47,
+      "bb_pos": 0.04,
+      "weekly_trend": 1,
+      "weekly_rsi": 55.6,
+      "news_sentiment": 0.0,
+      "signals": {
+        "rsi": "oversold",
+        "sma": "golden_cross",
+        "bb": "oversold",
+        "weekly": "uptrend"
+      },
+      "price": 138.7,
+      "ensemble": {
+        "reliable": true,
+        "direction": 0,
+        "probability": 0.563,
+        "confidence": 12.5,
+        "signal": "không rõ",
+        "high_confidence": false,
+        "votes": {
+          "xgb": 1,
+          "lgbm": 1,
+          "rf": 1
+        },
+        "bullish_votes": 3,
+        "bearish_votes": 0,
+        "total_models": 3,
+        "consensus": true,
+        "sentiment_score": 0.0
+      },
+      "llm": {
+        "action": "MUA",
+        "confidence": 70,
+        "target": 155,
+        "stoploss": 125,
+        "reason": "RSI thấp cho thấy giá đang ở trong vùng oversold, tạo cơ hội để giá tăng trở lại",
+        "risk_reward": 1.65,
+        "bull_summary": "Cổ phiếu VHM có nhiều tiềm năng tăng trưởng do RSI thấp và xu hướng tuần tăng, kèm theo bài học từ lịch sử quyết định",
+        "bear_summary": "Cổ phiếu VHM có tín hiệu giảm giá mạnh do tín hiệu Bearish từ chỉ số MACD và volume giao dịch thấp.",
+        "agreed_with": "bull"
+      },
+      "debate": true,
+      "bull_case": {
+        "stance": "BULL",
+        "confidence": 70,
+        "top_3_reasons": [
+          "RSI thấp cho thấy giá đang ở trong vùng oversold, tạo cơ hội để giá tăng trở lại",
+          "Weekly trend vẫn đang trong uptrend, cho thấy xu hướng tích cực của cổ phiếu",
+          "Bài học từ lịch sử quyết định cho thấy sự kết hợp giữa phân tích kỹ thuật và cơ bản sẽ giúp đưa ra quyết định đầu tư chính xác"
+        ],
+        "target_price": 155,
+        "catalyst": "Sự cải thiện của chỉ số Stage1 Score và việc giá đang ở trong vùng oversold",
+        "summary": "Cổ phiếu VHM có nhiều tiềm năng tăng trưởng do RSI thấp và xu hướng tuần tăng, kèm theo bài học từ lịch sử quyết định"
+      },
+      "bear_case": {
+        "stance": "BEAR",
+        "confidence": 70,
+        "top_3_risks": [
+          "Tín hiệu Bearish từ chỉ số MACD",
+          "Volume giao dịch thấp",
+          "Không rõ về Ensemble"
+        ],
+        "downside_target": 120,
+        "main_risk": "Tín hiệu Bearish từ chỉ số MACD",
+        "summary": "Cổ phiếu VHM có tín hiệu giảm giá mạnh do tín hiệu Bearish từ chỉ số MACD và volume giao dịch thấp."
+      },
+      "final_score": 5.9,
+      "tradeable": true
+    },
+    {
+      "ticker": "PVD",
+      "score": 3.0,
+      "weighted_score": 3.0,
+      "weight": 1.0,
+      "rsi": 60.7,
+      "macd_bull": true,
+      "sma_bull": true,
+      "vol_ratio": 0.33,
+      "atr_pct": 3.48,
+      "bb_pos": 0.96,
+      "weekly_trend": 1,
+      "weekly_rsi": 62.1,
+      "news_sentiment": 0.0,
+      "signals": {
+        "macd": "bullish",
+        "sma": "golden_cross",
+        "momentum": "positive",
+        "weekly": "uptrend"
+      },
+      "price": 20.3,
+      "ensemble": {
+        "reliable": true,
+        "direction": 0,
+        "probability": 0.539,
+        "confidence": 7.8,
+        "signal": "không rõ",
+        "high_confidence": false,
+        "votes": {
+          "xgb": -1,
+          "lgbm": 1,
+          "rf": 1
+        },
+        "bullish_votes": 2,
+        "bearish_votes": 1,
+        "total_models": 3,
+        "consensus": false,
+        "sentiment_score": 0.0
+      },
+      "llm": {
+        "action": "MUA",
+        "confidence": 90,
+        "target": 25,
+        "stoploss": 18,
+        "reason": "Xu hướng uptrend và tín hiệu kỹ thuật tích cực",
+        "risk_reward": 1.64,
+        "bull_summary": "PVD có cơ hội tăng giá nhờ xu hướng uptrend và tín hiệu kỹ thuật tích cực",
+        "bear_summary": "Case bear cho PVD được xây dựng dựa trên tín hiệu đảo chiều tiềm ẩn và thông tin thiếu sót về tình hình thị trường",
+        "agreed_with": "bull"
+      },
+      "debate": true,
+      "bull_case": {
+        "stance": "BULL",
+        "confidence": 90,
+        "top_3_reasons": [
+          "Xu hướng uptrend trên khung thời gian tuần",
+          "Chỉ số MACD đang cho tín hiệu bullish",
+          "Lịch sử quyết định mua gần nhất có độ tin cậy cao"
+        ],
+        "target_price": 25,
+        "catalyst": "Sự cải thiện trong Stage1 Score và tích cực từ volume giao dịch",
+        "summary": "PVD có cơ hội tăng giá nhờ xu hướng uptrend và tín hiệu kỹ thuật tích cực"
+      },
+      "bear_case": {
+        "stance": "BEAR",
+        "confidence": 75,
+        "top_3_risks": [
+          "Thị trường có thể đảo chiều do RSI đã ở mức cao",
+          "Khối lượng giao dịch thấp so với trung bình",
+          " Thiếu thông tin về Ensemble và Market regime"
+        ],
+        "downside_target": 17.5,
+        "main_risk": "Đảo chiều thị trường",
+        "summary": "Case bear cho PVD được xây dựng dựa trên tín hiệu đảo chiều tiềm ẩn và thông tin thiếu sót về tình hình thị trường"
+      },
+      "final_score": 4.8,
+      "tradeable": true
+    },
+    {
+      "ticker": "MBB",
+      "score": 2.5,
+      "weighted_score": 2.5,
+      "weight": 1.0,
+      "rsi": 59.8,
+      "macd_bull": true,
+      "sma_bull": true,
+      "vol_ratio": 0.02,
+      "atr_pct": 1.69,
+      "bb_pos": 0.52,
+      "weekly_trend": 1,
+      "weekly_rsi": 52.9,
+      "news_sentiment": 0.0,
+      "signals": {
+        "macd": "bullish",
+        "sma": "golden_cross",
+        "weekly": "uptrend"
+      },
+      "price": 24.4,
+      "ensemble": {
+        "reliable": true,
+        "direction": -1,
+        "probability": 0.333,
+        "confidence": 33.3,
+        "signal": "giảm mạnh",
+        "high_confidence": true,
+        "votes": {
+          "xgb": -1,
+          "lgbm": -1,
+          "rf": -1
+        },
+        "bullish_votes": 0,
+        "bearish_votes": 3,
+        "total_models": 3,
+        "consensus": true,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 4.0,
+      "tradeable": false
+    },
+    {
+      "ticker": "VIB",
+      "score": 2.5,
+      "weighted_score": 2.5,
+      "weight": 1.0,
+      "rsi": 44.0,
+      "macd_bull": false,
+      "sma_bull": true,
+      "vol_ratio": 0.01,
+      "atr_pct": 2.14,
+      "bb_pos": 0.13,
+      "weekly_trend": 0,
+      "weekly_rsi": 42.2,
+      "news_sentiment": 0.0,
+      "signals": {
+        "rsi": "low",
+        "sma": "golden_cross",
+        "bb": "oversold"
+      },
+      "price": 15.7,
+      "ensemble": {
+        "reliable": true,
+        "direction": -1,
+        "probability": 0.384,
+        "confidence": 23.2,
+        "signal": "giảm mạnh",
+        "high_confidence": true,
+        "votes": {
+          "xgb": -1,
+          "lgbm": -1,
+          "rf": 1
+        },
+        "bullish_votes": 1,
+        "bearish_votes": 2,
+        "total_models": 3,
+        "consensus": false,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 3.5,
+      "tradeable": false
+    },
+    {
+      "ticker": "VIC",
+      "score": 2.0,
+      "weighted_score": 2.0,
+      "weight": 1.0,
+      "rsi": 36.2,
+      "macd_bull": false,
+      "sma_bull": true,
+      "vol_ratio": 0.01,
+      "atr_pct": 2.63,
+      "bb_pos": 0.34,
+      "weekly_trend": 1,
+      "weekly_rsi": 64.1,
+      "news_sentiment": 0.0,
+      "signals": {
+        "rsi": "low",
+        "sma": "golden_cross",
+        "weekly": "uptrend"
+      },
+      "price": 216.1,
+      "ensemble": {
+        "reliable": true,
+        "direction": -1,
+        "probability": 0.353,
+        "confidence": 29.4,
+        "signal": "giảm mạnh",
+        "high_confidence": true,
+        "votes": {
+          "xgb": -1,
+          "lgbm": -1,
+          "rf": -1
+        },
+        "bullish_votes": 0,
+        "bearish_votes": 3,
+        "total_models": 3,
+        "consensus": true,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 3.5,
+      "tradeable": false
+    },
+    {
+      "ticker": "STB",
+      "score": 1.5,
+      "weighted_score": 1.5,
+      "weight": 1.0,
+      "rsi": 43.6,
+      "macd_bull": false,
+      "sma_bull": true,
+      "vol_ratio": 0.02,
+      "atr_pct": 2.26,
+      "bb_pos": 0.34,
+      "weekly_trend": 0,
+      "weekly_rsi": 48.4,
+      "news_sentiment": 0.0,
+      "signals": {
+        "rsi": "low",
+        "sma": "golden_cross"
+      },
+      "price": 70.7,
+      "ensemble": {
+        "reliable": true,
+        "direction": 1,
+        "probability": 0.611,
+        "confidence": 22.1,
+        "signal": "tăng mạnh",
+        "high_confidence": true,
+        "votes": {
+          "xgb": 1,
+          "lgbm": 1,
+          "rf": 1
+        },
+        "bullish_votes": 3,
+        "bearish_votes": 0,
+        "total_models": 3,
+        "consensus": true,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 3.0,
+      "tradeable": false
+    },
+    {
+      "ticker": "HDB",
+      "score": 2.5,
+      "weighted_score": 2.5,
+      "weight": 1.0,
+      "rsi": 64.9,
+      "macd_bull": true,
+      "sma_bull": true,
+      "vol_ratio": 0.08,
+      "atr_pct": 1.87,
+      "bb_pos": 0.61,
+      "weekly_trend": 1,
+      "weekly_rsi": 66.3,
+      "news_sentiment": 0.0,
+      "signals": {
+        "macd": "bullish",
+        "sma": "golden_cross",
+        "weekly": "uptrend"
+      },
+      "price": 26.7,
+      "ensemble": {
+        "reliable": true,
+        "direction": 0,
+        "probability": 0.537,
+        "confidence": 7.5,
+        "signal": "không rõ",
+        "high_confidence": false,
+        "votes": {
+          "xgb": 1,
+          "lgbm": -1,
+          "rf": 1
+        },
+        "bullish_votes": 2,
+        "bearish_votes": 1,
+        "total_models": 3,
+        "consensus": false,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 2.5,
+      "tradeable": false
+    },
+    {
+      "ticker": "SHS",
+      "score": 2.5,
+      "weighted_score": 2.5,
+      "weight": 1.0,
+      "rsi": 42.2,
+      "macd_bull": false,
+      "sma_bull": true,
+      "vol_ratio": 0.04,
+      "atr_pct": 4.0,
+      "bb_pos": 0.04,
+      "weekly_trend": 0,
+      "weekly_rsi": 36.5,
+      "news_sentiment": 0.0,
+      "signals": {
+        "rsi": "low",
+        "sma": "golden_cross",
+        "bb": "oversold"
+      },
+      "price": 17.5,
+      "ensemble": {
+        "reliable": true,
+        "direction": 0,
+        "probability": 0.514,
+        "confidence": 2.8,
+        "signal": "không rõ",
+        "high_confidence": false,
+        "votes": {
+          "xgb": 1,
+          "lgbm": -1,
+          "rf": 1
+        },
+        "bullish_votes": 2,
+        "bearish_votes": 1,
+        "total_models": 3,
+        "consensus": false,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 2.5,
+      "tradeable": false
+    },
+    {
+      "ticker": "POW",
+      "score": 2.5,
+      "weighted_score": 2.5,
+      "weight": 1.0,
+      "rsi": 38.3,
+      "macd_bull": false,
+      "sma_bull": true,
+      "vol_ratio": 0.01,
+      "atr_pct": 2.76,
+      "bb_pos": 0.17,
+      "weekly_trend": 0,
+      "weekly_rsi": 47.6,
+      "news_sentiment": 0.0,
+      "signals": {
+        "rsi": "low",
+        "sma": "golden_cross",
+        "bb": "oversold"
+      },
+      "price": 13.9,
+      "ensemble": {
+        "reliable": true,
+        "direction": 0,
+        "probability": 0.503,
+        "confidence": 0.7,
+        "signal": "không rõ",
+        "high_confidence": false,
+        "votes": {
+          "xgb": 1,
+          "lgbm": 1,
+          "rf": -1
+        },
+        "bullish_votes": 2,
+        "bearish_votes": 1,
+        "total_models": 3,
+        "consensus": false,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 2.5,
+      "tradeable": false
+    }
+  ],
+  "tradeable": [
+    {
+      "ticker": "TCB",
+      "score": 3.0,
+      "weighted_score": 3.6,
+      "weight": 1.2,
+      "rsi": 33.7,
+      "macd_bull": false,
+      "sma_bull": true,
+      "vol_ratio": 0.02,
+      "atr_pct": 2.02,
+      "bb_pos": 0.3,
+      "weekly_trend": 1,
+      "weekly_rsi": 51.6,
+      "news_sentiment": 0.0,
+      "signals": {
+        "rsi": "oversold",
+        "sma": "golden_cross",
+        "weekly": "uptrend"
+      },
+      "price": 32.0,
+      "ensemble": {
+        "reliable": true,
+        "direction": 1,
+        "probability": 0.624,
+        "confidence": 24.9,
+        "signal": "tăng mạnh",
+        "high_confidence": true,
+        "votes": {
+          "xgb": 1,
+          "lgbm": 1,
+          "rf": 1
+        },
+        "bullish_votes": 3,
+        "bearish_votes": 0,
+        "total_models": 3,
+        "consensus": true,
+        "sentiment_score": 0.0
+      },
+      "llm": {
+        "action": "MUA",
+        "confidence": 60,
+        "target": 40,
+        "stoploss": 28,
+        "reason": "RSI 33.7 chỉ báo cổ phiếu đang ở vùng oversold và Ensemble dự báo tăng mạnh",
+        "risk_reward": 1.8,
+        "bull_summary": "Cổ phiếu TCB có cơ hội tăng trưởng mạnh với các tín hiệu kỹ thuật và xu hướng tích cực",
+        "bear_summary": "Giá có thể giảm do tín hiệu MACD bearish và thiếu thanh khoản",
+        "agreed_with": "bull"
+      },
+      "debate": true,
+      "bull_case": {
+        "stance": "BULL",
+        "confidence": 80,
+        "top_3_reasons": [
+          "RSI 33.7 chỉ báo cổ phiếu đang ở vùng oversold",
+          "Ensemble dự báo tăng mạnh",
+          "Weekly trend tiếp tục uptrend"
+        ],
+        "target_price": 40,
+        "catalyst": "Sự cải thiện của Stage1 Score trong tương lai",
+        "summary": "Cổ phiếu TCB có cơ hội tăng trưởng mạnh với các tín hiệu kỹ thuật và xu hướng tích cực"
+      },
+      "bear_case": {
+        "stance": "BEAR",
+        "confidence": 80,
+        "top_3_risks": [
+          "Rủi ro giảm giá do MACD bearish",
+          "Rủi ro thiếu thanh khoản do Volume thấp",
+          "Rủi ro không rõ diễn biến thị trường do Market regime UNKNOWN"
+        ],
+        "downside_target": 25,
+        "main_risk": "Rủi ro giảm giá do MACD bearish",
+        "summary": "Giá có thể giảm do tín hiệu MACD bearish và thiếu thanh khoản"
+      },
+      "final_score": 6.3,
+      "tradeable": true
+    },
+    {
+      "ticker": "VHM",
+      "score": 4.0,
+      "weighted_score": 4.0,
+      "weight": 1.0,
+      "rsi": 33.5,
+      "macd_bull": false,
+      "sma_bull": true,
+      "vol_ratio": 0.02,
+      "atr_pct": 3.47,
+      "bb_pos": 0.04,
+      "weekly_trend": 1,
+      "weekly_rsi": 55.6,
+      "news_sentiment": 0.0,
+      "signals": {
+        "rsi": "oversold",
+        "sma": "golden_cross",
+        "bb": "oversold",
+        "weekly": "uptrend"
+      },
+      "price": 138.7,
+      "ensemble": {
+        "reliable": true,
+        "direction": 0,
+        "probability": 0.563,
+        "confidence": 12.5,
+        "signal": "không rõ",
+        "high_confidence": false,
+        "votes": {
+          "xgb": 1,
+          "lgbm": 1,
+          "rf": 1
+        },
+        "bullish_votes": 3,
+        "bearish_votes": 0,
+        "total_models": 3,
+        "consensus": true,
+        "sentiment_score": 0.0
+      },
+      "llm": {
+        "action": "MUA",
+        "confidence": 70,
+        "target": 155,
+        "stoploss": 125,
+        "reason": "RSI thấp cho thấy giá đang ở trong vùng oversold, tạo cơ hội để giá tăng trở lại",
+        "risk_reward": 1.65,
+        "bull_summary": "Cổ phiếu VHM có nhiều tiềm năng tăng trưởng do RSI thấp và xu hướng tuần tăng, kèm theo bài học từ lịch sử quyết định",
+        "bear_summary": "Cổ phiếu VHM có tín hiệu giảm giá mạnh do tín hiệu Bearish từ chỉ số MACD và volume giao dịch thấp.",
+        "agreed_with": "bull"
+      },
+      "debate": true,
+      "bull_case": {
+        "stance": "BULL",
+        "confidence": 70,
+        "top_3_reasons": [
+          "RSI thấp cho thấy giá đang ở trong vùng oversold, tạo cơ hội để giá tăng trở lại",
+          "Weekly trend vẫn đang trong uptrend, cho thấy xu hướng tích cực của cổ phiếu",
+          "Bài học từ lịch sử quyết định cho thấy sự kết hợp giữa phân tích kỹ thuật và cơ bản sẽ giúp đưa ra quyết định đầu tư chính xác"
+        ],
+        "target_price": 155,
+        "catalyst": "Sự cải thiện của chỉ số Stage1 Score và việc giá đang ở trong vùng oversold",
+        "summary": "Cổ phiếu VHM có nhiều tiềm năng tăng trưởng do RSI thấp và xu hướng tuần tăng, kèm theo bài học từ lịch sử quyết định"
+      },
+      "bear_case": {
+        "stance": "BEAR",
+        "confidence": 70,
+        "top_3_risks": [
+          "Tín hiệu Bearish từ chỉ số MACD",
+          "Volume giao dịch thấp",
+          "Không rõ về Ensemble"
+        ],
+        "downside_target": 120,
+        "main_risk": "Tín hiệu Bearish từ chỉ số MACD",
+        "summary": "Cổ phiếu VHM có tín hiệu giảm giá mạnh do tín hiệu Bearish từ chỉ số MACD và volume giao dịch thấp."
+      },
+      "final_score": 5.9,
+      "tradeable": true
+    },
+    {
+      "ticker": "PVD",
+      "score": 3.0,
+      "weighted_score": 3.0,
+      "weight": 1.0,
+      "rsi": 60.7,
+      "macd_bull": true,
+      "sma_bull": true,
+      "vol_ratio": 0.33,
+      "atr_pct": 3.48,
+      "bb_pos": 0.96,
+      "weekly_trend": 1,
+      "weekly_rsi": 62.1,
+      "news_sentiment": 0.0,
+      "signals": {
+        "macd": "bullish",
+        "sma": "golden_cross",
+        "momentum": "positive",
+        "weekly": "uptrend"
+      },
+      "price": 20.3,
+      "ensemble": {
+        "reliable": true,
+        "direction": 0,
+        "probability": 0.539,
+        "confidence": 7.8,
+        "signal": "không rõ",
+        "high_confidence": false,
+        "votes": {
+          "xgb": -1,
+          "lgbm": 1,
+          "rf": 1
+        },
+        "bullish_votes": 2,
+        "bearish_votes": 1,
+        "total_models": 3,
+        "consensus": false,
+        "sentiment_score": 0.0
+      },
+      "llm": {
+        "action": "MUA",
+        "confidence": 90,
+        "target": 25,
+        "stoploss": 18,
+        "reason": "Xu hướng uptrend và tín hiệu kỹ thuật tích cực",
+        "risk_reward": 1.64,
+        "bull_summary": "PVD có cơ hội tăng giá nhờ xu hướng uptrend và tín hiệu kỹ thuật tích cực",
+        "bear_summary": "Case bear cho PVD được xây dựng dựa trên tín hiệu đảo chiều tiềm ẩn và thông tin thiếu sót về tình hình thị trường",
+        "agreed_with": "bull"
+      },
+      "debate": true,
+      "bull_case": {
+        "stance": "BULL",
+        "confidence": 90,
+        "top_3_reasons": [
+          "Xu hướng uptrend trên khung thời gian tuần",
+          "Chỉ số MACD đang cho tín hiệu bullish",
+          "Lịch sử quyết định mua gần nhất có độ tin cậy cao"
+        ],
+        "target_price": 25,
+        "catalyst": "Sự cải thiện trong Stage1 Score và tích cực từ volume giao dịch",
+        "summary": "PVD có cơ hội tăng giá nhờ xu hướng uptrend và tín hiệu kỹ thuật tích cực"
+      },
+      "bear_case": {
+        "stance": "BEAR",
+        "confidence": 75,
+        "top_3_risks": [
+          "Thị trường có thể đảo chiều do RSI đã ở mức cao",
+          "Khối lượng giao dịch thấp so với trung bình",
+          " Thiếu thông tin về Ensemble và Market regime"
+        ],
+        "downside_target": 17.5,
+        "main_risk": "Đảo chiều thị trường",
+        "summary": "Case bear cho PVD được xây dựng dựa trên tín hiệu đảo chiều tiềm ẩn và thông tin thiếu sót về tình hình thị trường"
+      },
+      "final_score": 4.8,
+      "tradeable": true
+    }
+  ],
+  "tradeable_tickers": [
+    "TCB",
+    "VHM",
+    "PVD"
+  ],
+  "eligible_tickers": [
+    "TCB",
+    "VHM",
+    "PVD"
+  ]
+}

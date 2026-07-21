@@ -1,0 +1,989 @@
+[
+  {
+    "time": "2026-06-12 16:06:13",
+    "symbol": "VCB",
+    "side": "BUY",
+    "qty": 324675,
+    "price": 61.6,
+    "value": 19999980.0,
+    "reason": "AI FUND BUY: top 5, score 100",
+    "pnl": null,
+    "plan": {
+      "entry_window": "60.98 - 62.22",
+      "target_price": 70.84,
+      "stop_loss": 57.9,
+      "hold_days": "5-10 phien",
+      "sell_rule": "Ban khi cham target 70.84, cat lo duoi 57.90, hoac tin hieu roi khoi top AI fund.",
+      "plan_summary": "Mua quanh 60.98-62.22; target 70.84; stop 57.90; giu 5-10 phien."
+    }
+  },
+  {
+    "time": "2026-06-12 16:06:14",
+    "symbol": "BID",
+    "side": "BUY",
+    "qty": 487210,
+    "price": 41.05,
+    "value": 19999970.5,
+    "reason": "AI FUND BUY: top 5, score 100",
+    "pnl": null,
+    "plan": {
+      "entry_window": "40.64 - 41.46",
+      "target_price": 47.21,
+      "stop_loss": 38.59,
+      "hold_days": "5-10 phien",
+      "sell_rule": "Ban khi cham target 47.21, cat lo duoi 38.59, hoac tin hieu roi khoi top AI fund.",
+      "plan_summary": "Mua quanh 40.64-41.46; target 47.21; stop 38.59; giu 5-10 phien."
+    }
+  },
+  {
+    "time": "2026-06-12 16:06:14",
+    "symbol": "VIC",
+    "side": "BUY",
+    "qty": 102301,
+    "price": 195.5,
+    "value": 19999845.5,
+    "reason": "AI FUND BUY: top 5, score 100",
+    "pnl": null,
+    "plan": {
+      "entry_window": "193.54 - 197.46",
+      "target_price": 224.82,
+      "stop_loss": 183.77,
+      "hold_days": "5-10 phien",
+      "sell_rule": "Ban khi cham target 224.82, cat lo duoi 183.77, hoac tin hieu roi khoi top AI fund.",
+      "plan_summary": "Mua quanh 193.54-197.46; target 224.82; stop 183.77; giu 5-10 phien."
+    }
+  },
+  {
+    "time": "2026-06-12 16:06:14",
+    "symbol": "VHM",
+    "side": "BUY",
+    "qty": 144196,
+    "price": 138.7,
+    "value": 19999985.2,
+    "reason": "AI FUND BUY: top 5, score 100",
+    "pnl": null,
+    "plan": {
+      "entry_window": "137.31 - 140.09",
+      "target_price": 159.5,
+      "stop_loss": 130.38,
+      "hold_days": "5-10 phien",
+      "sell_rule": "Ban khi cham target 159.50, cat lo duoi 130.38, hoac tin hieu roi khoi top AI fund.",
+      "plan_summary": "Mua quanh 137.31-140.09; target 159.50; stop 130.38; giu 5-10 phien."
+    }
+  },
+  {
+    "time": "2026-06-12 16:06:14",
+    "symbol": "VRE",
+    "side": "BUY",
+    "qty": 699300,
+    "price": 28.6,
+    "value": 19999980.0,
+    "reason": "AI FUND BUY: top 5, score 100",
+    "pnl": null,
+    "plan": {
+      "entry_window": "28.31 - 28.89",
+      "target_price": 32.89,
+      "stop_loss": 26.88,
+      "hold_days": "5-10 phien",
+      "sell_rule": "Ban khi cham target 32.89, cat lo duoi 26.88, hoac tin hieu roi khoi top AI fund.",
+      "plan_summary": "Mua quanh 28.31-28.89; target 32.89; stop 26.88; giu 5-10 phien."
+    }
+  },
+  {
+    "time": "2026-06-19 09:14:21",
+    "symbol": "HVN",
+    "side": "BUY",
+    "qty": 1097900,
+    "price": 22.9,
+    "value": 25141910.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 24.1,
+      "stop_loss": 22.3,
+      "atr": 0.6,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 24.10, cat lo duoi 22.30.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-19 09:14:22",
+    "symbol": "POW",
+    "side": "BUY",
+    "qty": 1770700,
+    "price": 14.2,
+    "value": 25143940.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 14.8,
+      "stop_loss": 13.9,
+      "atr": 0.29,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 14.80, cat lo duoi 13.90.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-19 09:14:24",
+    "symbol": "VJC",
+    "side": "BUY",
+    "qty": 62900,
+    "price": 138.4,
+    "value": 8705360.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 147.5,
+      "stop_loss": 133.8,
+      "atr": 4.57,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 147.50, cat lo duoi 133.80.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-19 10:48:37",
+    "symbol": "HVN",
+    "side": "SELL",
+    "qty": 1097900,
+    "price": 22.9,
+    "value": 25141910.0,
+    "reason": "Manual SELL",
+    "pnl": 0.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-19 10:48:47",
+    "symbol": "POW",
+    "side": "SELL",
+    "qty": 1770700,
+    "price": 14.2,
+    "value": 25143940.0,
+    "reason": "Manual SELL",
+    "pnl": 0.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-19 13:42:50",
+    "symbol": "BID",
+    "side": "SELL",
+    "qty": 487210,
+    "price": 42.3,
+    "value": 20608983.0,
+    "reason": "Manual SELL",
+    "pnl": 609012.5,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-20 10:58:32",
+    "symbol": "VCB",
+    "side": "SELL",
+    "qty": 324675,
+    "price": 61.7,
+    "value": 20032447.5,
+    "reason": "AI FUND EXIT: not in top candidates",
+    "pnl": 32467.5,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-20 10:58:32",
+    "symbol": "VJC",
+    "side": "SELL",
+    "qty": 62900,
+    "price": 140.5,
+    "value": 8837450.0,
+    "reason": "AI FUND EXIT: not in top candidates",
+    "pnl": 132090.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-20 10:58:33",
+    "symbol": "ACB",
+    "side": "BUY",
+    "qty": 900,
+    "price": 22200.0,
+    "value": 19980000.0,
+    "reason": "AI FUND BUY: top 5, score 100, ATR risk 0.0055",
+    "pnl": null,
+    "plan": {
+      "entry_window": "21,978.00 - 22,422.00",
+      "target_price": 23433.76,
+      "stop_loss": 21583.12,
+      "initial_stop_loss": 21583.12,
+      "atr": 616.8807,
+      "trailing_stop_active": false,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 23,433.76, cat lo duoi 21,583.12, hoac tin hieu roi khoi top AI fund.",
+      "plan_summary": "Mua quanh 21,978.00-22,422.00; target 23,433.76; stop 21,583.12; giu toi da 15 phien."
+    }
+  },
+  {
+    "time": "2026-06-20 10:58:35",
+    "symbol": "TCB",
+    "side": "BUY",
+    "qty": 600,
+    "price": 30950.0,
+    "value": 18570000.0,
+    "reason": "AI FUND BUY: top 5, score 95.9, ATR risk 0.0029",
+    "pnl": null,
+    "plan": {
+      "entry_window": "30,640.50 - 31,259.50",
+      "target_price": 31914.29,
+      "stop_loss": 30467.86,
+      "initial_stop_loss": 30467.86,
+      "atr": 482.1429,
+      "trailing_stop_active": false,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 31,914.29, cat lo duoi 30,467.86, hoac tin hieu roi khoi top AI fund.",
+      "plan_summary": "Mua quanh 30,640.50-31,259.50; target 31,914.29; stop 30,467.86; giu toi da 15 phien."
+    }
+  },
+  {
+    "time": "2026-06-20 11:00:00",
+    "symbol": "ACB",
+    "side": "SELL",
+    "qty": 900,
+    "price": 22200.0,
+    "value": 19980000.0,
+    "reason": "Manual SELL",
+    "pnl": 0.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-20 11:00:10",
+    "symbol": "TCB",
+    "side": "SELL",
+    "qty": 600,
+    "price": 30950.0,
+    "value": 18570000.0,
+    "reason": "Manual SELL",
+    "pnl": 0.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-20 11:06:58",
+    "symbol": "HVN",
+    "side": "BUY",
+    "qty": 4150296,
+    "price": 4.83,
+    "value": 20045929.68,
+    "reason": "Manual BUY từ Two-Stage Analysis",
+    "pnl": null,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-20 11:07:21",
+    "symbol": "POW",
+    "side": "BUY",
+    "qty": 225184,
+    "price": 89.02,
+    "value": 20045879.68,
+    "reason": "Manual BUY từ Two-Stage Analysis",
+    "pnl": null,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-20 11:07:28",
+    "symbol": "VJC",
+    "side": "BUY",
+    "qty": 142675,
+    "price": 140.5,
+    "value": 20045837.5,
+    "reason": "Manual BUY từ Two-Stage Analysis",
+    "pnl": null,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-21 14:49:41",
+    "symbol": "HVN",
+    "side": "SELL",
+    "qty": 4150296,
+    "price": 23.2,
+    "value": 96286867.2,
+    "reason": "Manual SELL",
+    "pnl": 76240937.52,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-21 14:49:58",
+    "symbol": "POW",
+    "side": "SELL",
+    "qty": 225184,
+    "price": 13.9,
+    "value": 3130057.6,
+    "reason": "Manual SELL",
+    "pnl": -16915822.08,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-21 14:51:39",
+    "symbol": "HVN",
+    "side": "BUY",
+    "qty": 1375472,
+    "price": 23.2,
+    "value": 31910950.4,
+    "reason": "Manual BUY từ Two-Stage Analysis",
+    "pnl": null,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-21 14:51:54",
+    "symbol": "POW",
+    "side": "BUY",
+    "qty": 2295752,
+    "price": 13.9,
+    "value": 31910952.8,
+    "reason": "Manual BUY từ Two-Stage Analysis",
+    "pnl": null,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-22 09:17:00",
+    "symbol": "STB",
+    "side": "BUY",
+    "qty": 551700,
+    "price": 72.3,
+    "value": 39887910.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 76.6,
+      "stop_loss": 70.1,
+      "atr": 2.16,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 76.60, cat lo duoi 70.10.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-22 09:17:00",
+    "symbol": "VHM",
+    "side": "BUY",
+    "qty": 234000,
+    "price": 145.3,
+    "value": 34000200.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 157.3,
+      "stop_loss": 139.3,
+      "atr": 6.01,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 157.30, cat lo duoi 139.30.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-22 09:47:17",
+    "symbol": "POW",
+    "side": "SELL",
+    "qty": 2295752,
+    "price": 13.9,
+    "value": 31910952.8,
+    "reason": "Manual SELL",
+    "pnl": 0.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-22 11:47:39",
+    "symbol": "VHM",
+    "side": "SELL",
+    "qty": 234000,
+    "price": 145.3,
+    "value": 34000200.0,
+    "reason": "Manual SELL",
+    "pnl": 0.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-22 14:09:15",
+    "symbol": "HVN",
+    "side": "SELL",
+    "qty": 1375472,
+    "price": 22.6,
+    "value": 31085667.2,
+    "reason": "Manual SELL",
+    "pnl": -825283.2,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-22 14:09:22",
+    "symbol": "STB",
+    "side": "SELL",
+    "qty": 551700,
+    "price": 71.9,
+    "value": 39667230.0,
+    "reason": "Manual SELL",
+    "pnl": -220680.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-22 14:09:47",
+    "symbol": "VHM",
+    "side": "BUY",
+    "qty": 203817,
+    "price": 155.4,
+    "value": 31673161.8,
+    "reason": "Manual BUY từ Two-Stage Analysis",
+    "pnl": null,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-23 09:11:16",
+    "symbol": "BMP",
+    "side": "BUY",
+    "qty": 261300,
+    "price": 151.5,
+    "value": 39586950.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 157.6,
+      "stop_loss": 148.5,
+      "atr": 3.04,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 157.60, cat lo duoi 148.50.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-23 09:11:17",
+    "symbol": "BMP",
+    "side": "BUY",
+    "qty": 261300,
+    "price": 151.5,
+    "value": 39586950.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 157.6,
+      "stop_loss": 148.5,
+      "atr": 3.04,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 157.60, cat lo duoi 148.50.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-23 09:11:17",
+    "symbol": "PC1",
+    "side": "BUY",
+    "qty": 1759600,
+    "price": 22.5,
+    "value": 39591000.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 24.0,
+      "stop_loss": 21.8,
+      "atr": 0.75,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 24.00, cat lo duoi 21.80.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-23 09:11:18",
+    "symbol": "PC1",
+    "side": "BUY",
+    "qty": 1759600,
+    "price": 22.5,
+    "value": 39591000.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 24.0,
+      "stop_loss": 21.8,
+      "atr": 0.75,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 24.00, cat lo duoi 21.80.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-23 09:11:18",
+    "symbol": "KDH",
+    "side": "BUY",
+    "qty": 1165800,
+    "price": 22.5,
+    "value": 26230500.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 23.6,
+      "stop_loss": 22.0,
+      "atr": 0.54,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 23.60, cat lo duoi 22.00.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-23 09:11:18",
+    "symbol": "KDH",
+    "side": "BUY",
+    "qty": 1165800,
+    "price": 22.5,
+    "value": 26230500.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 23.6,
+      "stop_loss": 22.0,
+      "atr": 0.54,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 23.60, cat lo duoi 22.00.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-23 09:16:50",
+    "symbol": "KDH",
+    "side": "SELL",
+    "qty": 1165800,
+    "price": 22.5,
+    "value": 26230500.0,
+    "reason": "Manual SELL",
+    "pnl": 0.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-23 09:17:04",
+    "symbol": "BMP",
+    "side": "SELL",
+    "qty": 261300,
+    "price": 151.5,
+    "value": 39586950.0,
+    "reason": "Manual SELL",
+    "pnl": 0.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-23 11:14:17",
+    "symbol": "BMP",
+    "side": "BUY",
+    "qty": 209064,
+    "price": 151.5,
+    "value": 31673196.0,
+    "reason": "Manual BUY từ Two-Stage Analysis",
+    "pnl": null,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-23 13:51:55",
+    "symbol": "PC1",
+    "side": "SELL",
+    "qty": 1759600,
+    "price": 22.05,
+    "value": 38799180.0,
+    "reason": "Manual SELL",
+    "pnl": -791820.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-23 13:52:13",
+    "symbol": "BMP",
+    "side": "SELL",
+    "qty": 209064,
+    "price": 147.0,
+    "value": 30732408.0,
+    "reason": "Manual SELL",
+    "pnl": -940788.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-23 15:28:04",
+    "symbol": "VJC",
+    "side": "SELL",
+    "qty": 142675,
+    "price": 138.4,
+    "value": 19746220.0,
+    "reason": "ev_negative_exit",
+    "pnl": -299617.5,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-24 11:03:39",
+    "symbol": "BMP",
+    "side": "BUY",
+    "qty": 214790,
+    "price": 146.1,
+    "value": 31380819.0,
+    "reason": "Manual BUY từ Two-Stage Analysis",
+    "pnl": null,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-25 09:14:04",
+    "symbol": "BMP",
+    "side": "SELL",
+    "qty": 214790,
+    "price": 148.1,
+    "value": 31810399.0,
+    "reason": "ev_negative_exit",
+    "pnl": 429580.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-25 09:16:44",
+    "symbol": "PVD",
+    "side": "BUY",
+    "qty": 1229600,
+    "price": 31.9,
+    "value": 39224240.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 33.6,
+      "stop_loss": 31.1,
+      "atr": 0.85,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 33.60, cat lo duoi 31.10.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-25 09:16:45",
+    "symbol": "VCB",
+    "side": "BUY",
+    "qty": 643000,
+    "price": 61.0,
+    "value": 39223000.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 62.5,
+      "stop_loss": 60.3,
+      "atr": 0.73,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 62.50, cat lo duoi 60.30.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-25 09:16:47",
+    "symbol": "GAS",
+    "side": "BUY",
+    "qty": 494600,
+    "price": 79.3,
+    "value": 39221780.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 84.7,
+      "stop_loss": 76.6,
+      "atr": 2.71,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 84.70, cat lo duoi 76.60.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-25 10:02:19",
+    "symbol": "VCB",
+    "side": "SELL",
+    "qty": 643000,
+    "price": 61.2,
+    "value": 39351600.0,
+    "reason": "Manual SELL",
+    "pnl": 128600.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-29 13:44:02",
+    "symbol": "GAS",
+    "side": "SELL",
+    "qty": 494600,
+    "price": 78.6,
+    "value": 38875560.0,
+    "reason": "Manual SELL",
+    "pnl": -346220.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-29 13:44:08",
+    "symbol": "PVD",
+    "side": "SELL",
+    "qty": 1229600,
+    "price": 32.95,
+    "value": 40515320.0,
+    "reason": "Manual SELL",
+    "pnl": 1291080.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-29 13:48:49",
+    "symbol": "VHM",
+    "side": "SELL",
+    "qty": 203817,
+    "price": 152.1,
+    "value": 31000565.7,
+    "reason": "stop_loss_intraday",
+    "pnl": -672596.1,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-30 10:37:41",
+    "symbol": "PVD",
+    "side": "BUY",
+    "qty": 957729,
+    "price": 32.85,
+    "value": 31461397.65,
+    "reason": "Manual BUY từ Two-Stage Analysis",
+    "pnl": null,
+    "plan": {}
+  },
+  {
+    "time": "2026-06-30 10:41:48",
+    "symbol": "PC1",
+    "side": "BUY",
+    "qty": 1740100,
+    "price": 22.6,
+    "value": 39326260.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 24.4,
+      "stop_loss": 21.7,
+      "atr": 0.88,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 24.40, cat lo duoi 21.70.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-30 10:41:48",
+    "symbol": "POW",
+    "side": "BUY",
+    "qty": 2657200,
+    "price": 14.8,
+    "value": 39326560.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 15.6,
+      "stop_loss": 14.4,
+      "atr": 0.39,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 15.60, cat lo duoi 14.40.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-30 10:41:49",
+    "symbol": "GAS",
+    "side": "BUY",
+    "qty": 506700,
+    "price": 77.6,
+    "value": 39319920.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 82.7,
+      "stop_loss": 75.0,
+      "atr": 2.57,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 82.70, cat lo duoi 75.00.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-07-01 09:17:04",
+    "symbol": "STB",
+    "side": "BUY",
+    "qty": 101300,
+    "price": 73.8,
+    "value": 7475940.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 78.0,
+      "stop_loss": 71.7,
+      "atr": 2.12,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 78.00, cat lo duoi 71.70.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-07-01 10:10:33",
+    "symbol": "POW",
+    "side": "SELL",
+    "qty": 2657200,
+    "price": 14.7,
+    "value": 39060840.0,
+    "reason": "Manual SELL",
+    "pnl": -265720.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-07-07 15:10:07",
+    "symbol": "PC1",
+    "side": "SELL",
+    "qty": 1740100,
+    "price": 21.45,
+    "value": 37325145.0,
+    "reason": "stop_loss",
+    "pnl": -2001115.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-07-07 15:10:07",
+    "symbol": "GAS",
+    "side": "SELL",
+    "qty": 506700,
+    "price": 74.3,
+    "value": 37647810.0,
+    "reason": "stop_loss",
+    "pnl": -1672110.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-07-07 15:10:07",
+    "symbol": "STB",
+    "side": "SELL",
+    "qty": 101300,
+    "price": 71.2,
+    "value": 7212560.0,
+    "reason": "stop_loss",
+    "pnl": -263380.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-07-09 10:20:17",
+    "symbol": "GMD",
+    "side": "BUY",
+    "qty": 500100,
+    "price": 76.4,
+    "value": 38207640.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 79.8,
+      "stop_loss": 74.7,
+      "atr": 1.72,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 79.80, cat lo duoi 74.70.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-07-09 10:20:18",
+    "symbol": "VND",
+    "side": "BUY",
+    "qty": 2076900,
+    "price": 18.4,
+    "value": 38214960.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 19.5,
+      "stop_loss": 17.8,
+      "atr": 0.55,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 19.50, cat lo duoi 17.80.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-07-09 10:50:55",
+    "symbol": "PVD",
+    "side": "SELL",
+    "qty": 957729,
+    "price": 33.15,
+    "value": 31748716.35,
+    "reason": "stop_loss_intraday",
+    "pnl": 287318.7,
+    "plan": {}
+  },
+  {
+    "time": "2026-07-10 10:44:22",
+    "symbol": "PVD",
+    "side": "BUY",
+    "qty": 753000,
+    "price": 33.2,
+    "value": 24999600.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 35.2,
+      "stop_loss": 32.2,
+      "atr": 0.99,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 35.20, cat lo duoi 32.20.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-07-15 09:24:07",
+    "symbol": "TCB",
+    "side": "BUY",
+    "qty": 777100,
+    "price": 32.0,
+    "value": 24867200.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 33.3,
+      "stop_loss": 31.4,
+      "atr": 0.65,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 33.30, cat lo duoi 31.40.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-07-15 09:24:08",
+    "symbol": "VHM",
+    "side": "BUY",
+    "qty": 179000,
+    "price": 138.9,
+    "value": 24863100.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 148.5,
+      "stop_loss": 134.1,
+      "atr": 4.82,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 148.50, cat lo duoi 134.10.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-07-15 09:24:09",
+    "symbol": "PVD",
+    "side": "SELL",
+    "qty": 753000,
+    "price": 20.45,
+    "value": 15398850.0,
+    "reason": "stop_loss_intraday",
+    "pnl": -9600750.0,
+    "plan": {}
+  }
+]
