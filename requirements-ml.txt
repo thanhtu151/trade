@@ -1,0 +1,7 @@
+# Heavy deep-learning deps — kept OUT of the base requirements.txt so the
+# Streamlit Cloud dashboard build stays light (it lazy-loads TF only for the
+# optional LSTM tab and degrades gracefully if TF is absent).
+# The GitHub Actions scheduler installs this on top of requirements.txt to
+# train/serve LSTM models.
+tensorflow==2.21.0
+keras==3.12.2

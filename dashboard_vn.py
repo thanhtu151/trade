@@ -10,6 +10,17 @@ os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 st.set_page_config(page_title="VN Stock Dashboard", layout="wide", page_icon="VN")
 
+# --- Cloud bootstrap: bring Streamlit secrets into env (for llm_router) and pull
+# runtime state from the `state` branch. No-op locally. Must run before the
+# llm_router import below so LLM keys are visible. ---
+try:
+    import cloud_bootstrap
+
+    cloud_bootstrap.bridge_secrets()
+    cloud_bootstrap.sync_state()
+except Exception:
+    pass
+
 import plotly.graph_objects as go
 import requests
 import time
