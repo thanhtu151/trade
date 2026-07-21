@@ -82206,7 +82206,7 @@
     "timeframe": "3 phiên",
     "confidence": 40,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 35,
@@ -82218,7 +82218,7 @@
     },
     "ai_result": "Khuyến nghị: GIỮ\nMục tiêu chốt lời: 0\nCắt lỗ tại: 0\nThời gian nắm giữ: 3 phiên\nĐộ tin cậy: 40%\nBacktest EV: EV +1.02%/trade (WR 50%)\nConfluence: 47% (neutral)\nTechnical: neutral 47/100\nSentiment: neutral (0.0) - LLM sentiment nhanh từ tin tức; không gọi sentiment agent đầy đủ do confluence thấp\nNews sentiment score: +0.00\nMarket regime: LOW_VOL_RANGING - Mean reversion: mua oversold, bán overbought\nSource: rule_based\nEnsemble Direction: TĂNG (prob=84.7%, confidence=69.4%)\nVotes: XGB=UP, LGBM=UP, RF=UP\nLý do: Confluence 47% - tín hiệu chưa đủ mạnh",
     "actual_price": 33.95,
-    "correct": true,
+    "correct": false,
     "confluence": {
       "confluence_score": 47,
       "net_direction": "neutral",
@@ -82276,7 +82276,9 @@
     "lstm_probability": 0.847,
     "lstm_signal": "tăng mạnh",
     "atr": 0.46785714285714264,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -10.435,
+    "resolved": true
   },
   {
     "date": "2026-07-08 09:33",
@@ -82376,7 +82378,7 @@
     "timeframe": "3 phiên",
     "confidence": 40,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 75,
@@ -82446,7 +82448,9 @@
     "lstm_probability": 0.763,
     "lstm_signal": "tăng mạnh",
     "atr": 0.3464285714285718,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -12.692,
+    "resolved": true
   },
   {
     "date": "2026-07-08 09:34",
@@ -82544,7 +82548,7 @@
     "timeframe": "3 phiên",
     "confidence": 25,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "correct",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 55,
@@ -82614,7 +82618,9 @@
     "lstm_probability": 0.387,
     "lstm_signal": "giảm mạnh",
     "atr": 0.5285714285714282,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -8.649,
+    "resolved": true
   },
   {
     "date": "2026-07-08 09:34",
@@ -82963,7 +82969,7 @@
     "timeframe": "5 phiên",
     "confidence": 30,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 80,
       "momentum_score": 75,
@@ -83036,7 +83042,9 @@
     "lstm_probability": 0.763,
     "lstm_signal": "tăng mạnh",
     "atr": 0.5535714285714288,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -8.289,
+    "resolved": true
   },
   {
     "date": "2026-07-08 09:36",
@@ -83216,7 +83224,7 @@
     "timeframe": "5 phiên",
     "confidence": 39,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 80,
       "momentum_score": 75,
@@ -83291,7 +83299,9 @@
     "lstm_probability": 0.744,
     "lstm_signal": "tăng mạnh",
     "atr": 0.685714285714286,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -22.68,
+    "resolved": true
   },
   {
     "date": "2026-07-08 09:37",
@@ -84892,7 +84902,7 @@
     "timeframe": "7 phiên",
     "confidence": 62,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 80,
       "momentum_score": 75,
@@ -84966,7 +84976,9 @@
     "lstm_probability": 0.68,
     "lstm_signal": "tăng mạnh",
     "atr": 0.4107142857142857,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -7.823,
+    "resolved": true
   },
   {
     "date": "2026-07-08 09:41",
@@ -84980,7 +84992,7 @@
     "timeframe": "5 phiên",
     "confidence": 38,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 80,
       "momentum_score": 75,
@@ -84992,7 +85004,7 @@
     },
     "ai_result": "Khuyến nghị: GIỮ\nMục tiêu chốt lời: 0\nCắt lỗ tại: 0\nThời gian nắm giữ: 5 phiên\nĐộ tin cậy: 38%\nBacktest EV: EV +0.75%/trade (WR 38%)\nConfluence: 77% (bullish)\nTechnical: neutral 39/100\nSentiment: neutral (0.05) - Không có thông tin cụ thể về PVD\nNews sentiment score: +0.00\nMarket regime: LOW_VOL_RANGING - Mean reversion: mua oversold, bán overbought\nSource: rule_based\nEnsemble Direction: TĂNG (prob=65.0%, confidence=30.0%)\nVotes: XGB=UP, LGBM=UP, RF=UP\nLý do: Dữ liệu không đủ mạnh để đưa ra quyết định",
     "actual_price": 32.8,
-    "correct": true,
+    "correct": false,
     "confluence": {
       "confluence_score": 77,
       "net_direction": "bullish",
@@ -85053,7 +85065,9 @@
     "lstm_probability": 0.65,
     "lstm_signal": "tăng mạnh",
     "atr": 1.0321428571428566,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -43.164,
+    "resolved": true
   },
   {
     "date": "2026-07-08 09:41",
@@ -85566,7 +85580,7 @@
     "timeframe": "5 phiên",
     "confidence": 30,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 55,
@@ -85578,7 +85592,7 @@
     },
     "ai_result": "Khuyến nghị: GIỮ\nMục tiêu chốt lời: 0\nCắt lỗ tại: 0\nThời gian nắm giữ: 5 phiên\nĐộ tin cậy: 30%\nBacktest EV: EV +0.90%/trade (WR 43%)\nConfluence: 77% (bullish)\nTechnical: neutral 30/100\nSentiment: neutral (0.1) - Không có tin tức liên quan trực tiếp đến GMD\nNews sentiment score: +0.00\nMarket regime: LOW_VOL_RANGING - Mean reversion: mua oversold, bán overbought\nSource: rule_based\nEnsemble Direction: TĂNG (prob=74.2%, confidence=48.3%)\nVotes: XGB=UP, LGBM=UP, RF=UP\nLý do: Dự đoán gần nhất thiếu dữ liệu và tín hiệu mâu thuẫn",
     "actual_price": 75.8,
-    "correct": true,
+    "correct": false,
     "confluence": {
       "confluence_score": 77,
       "net_direction": "bullish",
@@ -85640,7 +85654,9 @@
     "lstm_probability": 0.742,
     "lstm_signal": "tăng mạnh",
     "atr": 1.7714285714285722,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -1.809,
+    "resolved": true
   },
   {
     "date": "2026-07-08 09:42",
@@ -86413,7 +86429,7 @@
     "timeframe": "3 phiên",
     "confidence": 40,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 75,
@@ -86425,7 +86441,7 @@
     },
     "ai_result": "Khuyến nghị: GIỮ\nMục tiêu chốt lời: 0\nCắt lỗ tại: 0\nThời gian nắm giữ: 3 phiên\nĐộ tin cậy: 40%\nBacktest EV: EV +1.02%/trade (WR 50%)\nConfluence: 55% (bullish)\nTechnical: bullish 55/100\nSentiment: positive (0.8) - LLM sentiment nhanh từ tin tức; không gọi sentiment agent đầy đủ do confluence thấp\nNews sentiment score: +0.80\nMarket regime: LOW_VOL_RANGING - Mean reversion: mua oversold, bán overbought\nSource: rule_based\nEnsemble Direction: TĂNG (prob=67.9%, confidence=35.8%)\nVotes: XGB=UP, LGBM=UP, RF=UP\nLý do: Confluence 55% - tín hiệu chưa đủ mạnh",
     "actual_price": 33.95,
-    "correct": true,
+    "correct": false,
     "confluence": {
       "confluence_score": 55,
       "net_direction": "bullish",
@@ -86484,7 +86500,9 @@
     "lstm_probability": 0.679,
     "lstm_signal": "tăng mạnh",
     "atr": 0.47142857142857153,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -9.781,
+    "resolved": true
   },
   {
     "date": "2026-07-09 10:00",
@@ -86498,7 +86516,7 @@
     "timeframe": "5 phiên",
     "confidence": 30,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "correct",
     "signal_scores": {
       "trend_score": 80,
       "momentum_score": 55,
@@ -86574,7 +86592,9 @@
     "lstm_probability": 0.267,
     "lstm_signal": "giảm mạnh",
     "atr": 0.7678571428571433,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -10.511,
+    "resolved": true
   },
   {
     "date": "2026-07-09 10:01",
@@ -86930,7 +86950,7 @@
     "timeframe": "3 phiên",
     "confidence": 40,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 35,
@@ -86942,7 +86962,7 @@
     },
     "ai_result": "Khuyến nghị: GIỮ\nMục tiêu chốt lời: 0\nCắt lỗ tại: 0\nThời gian nắm giữ: 3 phiên\nĐộ tin cậy: 40%\nBacktest EV: EV +0.71%/trade (WR 44%)\nConfluence: 40% (bearish)\nTechnical: bearish 40/100\nSentiment: neutral (0.0) - LLM sentiment nhanh từ tin tức; không gọi sentiment agent đầy đủ do confluence thấp\nNews sentiment score: +0.00\nMarket regime: LOW_VOL_RANGING - Mean reversion: mua oversold, bán overbought\nSource: rule_based\nEnsemble Direction: TĂNG (prob=65.8%, confidence=31.6%)\nVotes: XGB=UP, LGBM=UP, RF=UP\nLý do: Confluence 40% - tín hiệu chưa đủ mạnh",
     "actual_price": 27.35,
-    "correct": true,
+    "correct": false,
     "confluence": {
       "confluence_score": 40,
       "net_direction": "bearish",
@@ -87000,7 +87020,9 @@
     "lstm_probability": 0.658,
     "lstm_signal": "tăng mạnh",
     "atr": 0.47142857142857153,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -1.282,
+    "resolved": true
   },
   {
     "date": "2026-07-09 10:02",
@@ -87353,7 +87375,7 @@
     "timeframe": "3 phiên",
     "confidence": 25,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "correct",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 75,
@@ -87423,7 +87445,9 @@
     "lstm_probability": 0.249,
     "lstm_signal": "giảm mạnh",
     "atr": 0.6535714285714279,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -19.721,
+    "resolved": true
   },
   {
     "date": "2026-07-09 10:03",
@@ -89202,7 +89226,7 @@
     "timeframe": "7 phiên",
     "confidence": 68,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 80,
       "momentum_score": 75,
@@ -89276,7 +89300,9 @@
     "lstm_probability": 0.617,
     "lstm_signal": "tăng mạnh",
     "atr": 1.0785714285714285,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -43.769,
+    "resolved": true
   },
   {
     "date": "2026-07-09 10:08",
@@ -89793,7 +89819,7 @@
     "timeframe": "5 phiên",
     "confidence": 30,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 80,
       "momentum_score": 75,
@@ -89805,7 +89831,7 @@
     },
     "ai_result": "Khuyến nghị: GIỮ\nMục tiêu chốt lời: 0\nCắt lỗ tại: 0\nThời gian nắm giữ: 5 phiên\nĐộ tin cậy: 30%\nBacktest EV: EV +0.90%/trade (WR 43%)\nConfluence: 77% (bullish)\nTechnical: bearish 38/100\nSentiment: neutral (0.05) - không có tin tức liên quan trực tiếp đến GMD\nNews sentiment score: +0.00\nMarket regime: LOW_VOL_RANGING - Mean reversion: mua oversold, bán overbought\nSource: rule_based\nEnsemble Direction: TĂNG (prob=63.5%, confidence=27.1%)\nVotes: XGB=UP, LGBM=UP, RF=UP\nLý do:  tín hiệu mâu thuẫn giữa technical_signal và lstm_direction",
     "actual_price": 75.8,
-    "correct": true,
+    "correct": false,
     "confluence": {
       "confluence_score": 77,
       "net_direction": "bullish",
@@ -89865,7 +89891,9 @@
     "lstm_probability": 0.635,
     "lstm_signal": "tăng mạnh",
     "atr": 1.721428571428573,
-    "evaluated_at": "2026-07-10 16:25"
+    "evaluated_at": "2026-07-10 16:25",
+    "pnl_pct": -0.524,
+    "resolved": true
   },
   {
     "date": "2026-07-09 10:09",
@@ -90803,7 +90831,7 @@
     "timeframe": "3 phiên",
     "confidence": 25,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "correct",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 75,
@@ -90873,7 +90901,9 @@
     "lstm_probability": 0.351,
     "lstm_signal": "giảm mạnh",
     "atr": 0.34857142857142825,
-    "evaluated_at": "2026-07-12 17:05"
+    "evaluated_at": "2026-07-12 17:05",
+    "pnl_pct": -7.911,
+    "resolved": true
   },
   {
     "date": "2026-07-10 09:34",
@@ -91138,7 +91168,7 @@
     "timeframe": "3 phiên",
     "confidence": 40,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 35,
@@ -91150,7 +91180,7 @@
     },
     "ai_result": "Khuyến nghị: GIỮ\nMục tiêu chốt lời: 0\nCắt lỗ tại: 0\nThời gian nắm giữ: 3 phiên\nĐộ tin cậy: 40%\nBacktest EV: EV +0.71%/trade (WR 44%)\nConfluence: 40% (bearish)\nTechnical: bearish 40/100\nSentiment: neutral (0.0) - LLM sentiment nhanh từ tin tức; không gọi sentiment agent đầy đủ do confluence thấp\nNews sentiment score: +0.00\nMarket regime: LOW_VOL_RANGING - Mean reversion: mua oversold, bán overbought\nSource: rule_based\nEnsemble Direction: TĂNG (prob=79.3%, confidence=58.6%)\nVotes: XGB=UP, LGBM=UP, RF=UP\nLý do: Confluence 40% - tín hiệu chưa đủ mạnh",
     "actual_price": 27.0,
-    "correct": true,
+    "correct": false,
     "confluence": {
       "confluence_score": 40,
       "net_direction": "bearish",
@@ -91208,7 +91238,9 @@
     "lstm_probability": 0.793,
     "lstm_signal": "tăng mạnh",
     "atr": 0.47142857142857153,
-    "evaluated_at": "2026-07-12 17:05"
+    "evaluated_at": "2026-07-12 17:05",
+    "pnl_pct": -1.642,
+    "resolved": true
   },
   {
     "date": "2026-07-10 09:34",
@@ -91643,7 +91675,7 @@
     "timeframe": "5 phiên",
     "confidence": 30,
     "source": "rule_based",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 80,
       "momentum_score": 75,
@@ -91655,7 +91687,7 @@
     },
     "ai_result": "Khuyến nghị: GIỮ\nMục tiêu chốt lời: 0\nCắt lỗ tại: 0\nThời gian nắm giữ: 5 phiên\nĐộ tin cậy: 30%\nBacktest EV: EV +0.32%/trade (WR 36%)\nConfluence: 77% (bullish)\nTechnical: neutral 38/100\nSentiment: neutral (0.1) - Không có thông tin trực tiếp ảnh hưởng đến SHS\nNews sentiment score: +0.00\nMarket regime: LOW_VOL_RANGING - Mean reversion: mua oversold, bán overbought\nSource: rule_based\nEnsemble Direction: TĂNG (prob=70.2%, confidence=40.3%)\nVotes: XGB=UP, LGBM=UP, RF=UP\nLý do: Lịch sử dự đoán gần nhất không đủ mạnh, tín hiệu trung lập và mức độ tín nhiệm không đủ cao",
     "actual_price": 18.5,
-    "correct": true,
+    "correct": false,
     "confluence": {
       "confluence_score": 77,
       "net_direction": "bullish",
@@ -91716,7 +91748,9 @@
     "lstm_probability": 0.702,
     "lstm_signal": "tăng mạnh",
     "atr": 0.6642857142857148,
-    "evaluated_at": "2026-07-12 17:05"
+    "evaluated_at": "2026-07-12 17:05",
+    "pnl_pct": -20.635,
+    "resolved": true
   },
   {
     "date": "2026-07-10 09:36",
@@ -107219,10 +107253,11 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.0 llm=MUA",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": -6.875
   },
   {
     "date": "2026-07-15 13:35",
@@ -107236,7 +107271,7 @@
     "timeframe": "3 phiên",
     "confidence": 33,
     "source": "two_stage",
-    "outcome": null,
+    "outcome": "correct",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 75,
@@ -107248,7 +107283,7 @@
     },
     "ai_result": "Khuyến nghị: BÁN\nMục tiêu chốt lời: 23.2\nCắt lỗ tại: 24.5\nThời gian nắm giữ: 3 phiên\nĐộ tin cậy: 33%\nBacktest EV: EV +0.90%/trade (WR 50%)\nConfluence: 47% (neutral)\nTechnical: neutral 47/100\nSentiment: neutral (0.0) - Không gọi sentiment agent đầy đủ vì đã có tín hiệu two-stage/learning engine\nNews sentiment score: +0.00\nMarket regime: LOW_VOL_RANGING - Mean reversion: mua oversold, bán overbought\nSource: two_stage\nEnsemble Direction: GIẢM (prob=33.6%, confidence=32.8%)\nVotes: XGB=DOWN, LGBM=DOWN, RF=DOWN\nLý do: Two-stage ensemble signal=giảm mạnh",
     "actual_price": null,
-    "correct": null,
+    "correct": true,
     "confluence": {
       "confluence_score": 47,
       "net_direction": "neutral",
@@ -107305,7 +107340,9 @@
     "lstm_direction": -1,
     "lstm_probability": 0.336,
     "lstm_signal": "giảm mạnh",
-    "atr": 0.4264285714285713
+    "atr": 0.4264285714285713,
+    "pnl_pct": -6.584,
+    "resolved": true
   },
   {
     "date": "2026-07-15 13:37",
@@ -107319,7 +107356,7 @@
     "timeframe": "3 phiên",
     "confidence": 23,
     "source": "two_stage",
-    "outcome": null,
+    "outcome": "correct",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 35,
@@ -107331,7 +107368,7 @@
     },
     "ai_result": "Khuyến nghị: BÁN\nMục tiêu chốt lời: 14.8\nCắt lỗ tại: 15.8\nThời gian nắm giữ: 3 phiên\nĐộ tin cậy: 23%\nBacktest EV: EV +0.80%/trade (WR 53%)\nConfluence: 52% (neutral)\nTechnical: neutral 52/100\nSentiment: neutral (0.0) - Không gọi sentiment agent đầy đủ vì đã có tín hiệu two-stage/learning engine\nNews sentiment score: +0.00\nMarket regime: LOW_VOL_RANGING - Mean reversion: mua oversold, bán overbought\nSource: two_stage\nEnsemble Direction: GIẢM (prob=38.4%, confidence=23.2%)\nVotes: XGB=DOWN, LGBM=DOWN, RF=UP\nLý do: Two-stage ensemble signal=giảm mạnh",
     "actual_price": null,
-    "correct": null,
+    "correct": true,
     "confluence": {
       "confluence_score": 52,
       "net_direction": "neutral",
@@ -107388,7 +107425,9 @@
     "lstm_direction": -1,
     "lstm_probability": 0.384,
     "lstm_signal": "giảm mạnh",
-    "atr": 0.34642857142857125
+    "atr": 0.34642857142857125,
+    "pnl_pct": -4.153,
+    "resolved": true
   },
   {
     "date": "2026-07-15 13:38",
@@ -107402,7 +107441,7 @@
     "timeframe": "3 phiên",
     "confidence": 29,
     "source": "two_stage",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 55,
@@ -107414,7 +107453,7 @@
     },
     "ai_result": "Khuyến nghị: BÁN\nMục tiêu chốt lời: 205.0\nCắt lỗ tại: 222.6\nThời gian nắm giữ: 3 phiên\nĐộ tin cậy: 29%\nBacktest EV: EV +3.31%/trade (WR 71%)\nConfluence: 47% (neutral)\nTechnical: neutral 47/100\nSentiment: neutral (0.2) - Không gọi sentiment agent đầy đủ vì đã có tín hiệu two-stage/learning engine\nNews sentiment score: +0.20\nMarket regime: LOW_VOL_RANGING - Mean reversion: mua oversold, bán overbought\nSource: two_stage\nEnsemble Direction: GIẢM (prob=34.1%, confidence=31.7%)\nVotes: XGB=DOWN, LGBM=DOWN, RF=DOWN\nLý do: Two-stage ensemble signal=giảm mạnh",
     "actual_price": null,
-    "correct": null,
+    "correct": false,
     "confluence": {
       "confluence_score": 47,
       "net_direction": "neutral",
@@ -107471,7 +107510,9 @@
     "lstm_direction": -1,
     "lstm_probability": 0.341,
     "lstm_signal": "giảm mạnh",
-    "atr": 5.871428571428571
+    "atr": 5.871428571428571,
+    "pnl_pct": 0.976,
+    "resolved": true
   },
   {
     "date": "2026-07-15 13:36",
@@ -107485,7 +107526,7 @@
     "timeframe": "3 phiên",
     "confidence": 22,
     "source": "two_stage",
-    "outcome": null,
+    "outcome": "correct",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 35,
@@ -107497,7 +107538,7 @@
     },
     "ai_result": "Khuyến nghị: MUA\nMục tiêu chốt lời: 74.2\nCắt lỗ tại: 69.2\nThời gian nắm giữ: 3 phiên\nĐộ tin cậy: 22%\nBacktest EV: EV +0.69%/trade (WR 47%)\nConfluence: 52% (neutral)\nTechnical: neutral 52/100\nSentiment: neutral (0.0) - Không gọi sentiment agent đầy đủ vì đã có tín hiệu two-stage/learning engine\nNews sentiment score: +0.00\nMarket regime: LOW_VOL_RANGING - Mean reversion: mua oversold, bán overbought\nSource: two_stage\nEnsemble Direction: không dùng vào confluence - confidence thấp\nVotes: XGB=UP, LGBM=UP, RF=UP\nLý do: Two-stage ensemble signal=tăng mạnh",
     "actual_price": null,
-    "correct": null,
+    "correct": true,
     "confluence": {
       "confluence_score": 52,
       "net_direction": "neutral",
@@ -107553,7 +107594,9 @@
     "lstm_direction": 0,
     "lstm_probability": 0.583,
     "lstm_signal": "không rõ",
-    "atr": 1.664285714285713
+    "atr": 1.664285714285713,
+    "pnl_pct": 2.684,
+    "resolved": true
   },
   {
     "date": "2026-07-15 13:35",
@@ -107815,7 +107858,7 @@
     "timeframe": "3 phiên",
     "confidence": 60,
     "source": "two_stage",
-    "outcome": null,
+    "outcome": "incorrect",
     "signal_scores": {
       "trend_score": 50,
       "momentum_score": 55,
@@ -107827,7 +107870,7 @@
     },
     "ai_result": "Khuyến nghị: MUA\nMục tiêu chốt lời: 33.2\nCắt lỗ tại: 31.2\nThời gian nắm giữ: 3 phiên\nĐộ tin cậy: 60%\nBacktest EV: EV +0.33%/trade (WR 50%)\nConfluence: 65% (bullish)\nTechnical: bullish 65/100\nSentiment: neutral (0.0) - Không gọi sentiment agent đầy đủ vì đã có tín hiệu two-stage/learning engine\nNews sentiment score: +0.00\nMarket regime: LOW_VOL_RANGING - Mean reversion: mua oversold, bán overbought\nSource: two_stage\nEnsemble Direction: TĂNG (prob=62.2%, confidence=24.4%)\nVotes: XGB=UP, LGBM=UP, RF=UP\nLý do: RSI 33.7 chỉ báo cổ phiếu đang ở vùng oversold và Ensemble dự báo tăng mạnh",
     "actual_price": null,
-    "correct": null,
+    "correct": false,
     "confluence": {
       "confluence_score": 65,
       "net_direction": "bullish",
@@ -107884,7 +107927,9 @@
     "lstm_direction": 1,
     "lstm_probability": 0.622,
     "lstm_signal": "tăng mạnh",
-    "atr": 0.6571428571428584
+    "atr": 0.6571428571428584,
+    "pnl_pct": -6.875,
+    "resolved": true
   },
   {
     "date": "2026-07-15 13:36",

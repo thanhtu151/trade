@@ -3836,8 +3836,10 @@
       "stoploss": 20
     },
     "elapsed_sec": 3.5,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "",
+    "pnl_pct": -20.67,
+    "actual_price_3d": 20.15
   },
   {
     "ticker": "MBB",
@@ -3890,8 +3892,10 @@
       "stoploss": 22
     },
     "elapsed_sec": 3.5,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "",
+    "pnl_pct": -12.69,
+    "actual_price_3d": 22.7
   },
   {
     "ticker": "VND",
@@ -4056,8 +4060,10 @@
       "stoploss": 0
     },
     "elapsed_sec": 3.4,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 94887.04,
+    "actual_price_3d": 109900.0
   },
   {
     "ticker": "PVD",
@@ -4110,8 +4116,10 @@
       "stoploss": 28
     },
     "elapsed_sec": 3.1,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "",
+    "pnl_pct": -44.44,
+    "actual_price_3d": 18.5
   },
   {
     "ticker": "GMD",
@@ -4164,8 +4172,10 @@
       "stoploss": 72
     },
     "elapsed_sec": 3.1,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "",
+    "pnl_pct": -0.52,
+    "actual_price_3d": 76.0
   },
   {
     "ticker": "PVD",
@@ -4218,8 +4228,10 @@
       "stoploss": 28
     },
     "elapsed_sec": 5.7,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "",
+    "pnl_pct": -44.44,
+    "actual_price_3d": 18.5
   },
   {
     "ticker": "PVD",
@@ -4272,8 +4284,10 @@
       "stoploss": 30
     },
     "elapsed_sec": 5.5,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "",
+    "pnl_pct": -44.44,
+    "actual_price_3d": 18.5
   },
   {
     "ticker": "VHM",
@@ -4326,8 +4340,10 @@
       "stoploss": 125
     },
     "elapsed_sec": 5.2,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "",
+    "pnl_pct": -99.83,
+    "actual_price_3d": 0.24
   },
   {
     "ticker": "TCB",
@@ -4380,8 +4396,10 @@
       "stoploss": 28
     },
     "elapsed_sec": 3.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "",
+    "pnl_pct": -6.87,
+    "actual_price_3d": 29.8
   },
   {
     "ticker": "PVD",
@@ -4434,8 +4452,10 @@
       "stoploss": 18
     },
     "elapsed_sec": 3.5,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "",
+    "pnl_pct": -44.44,
+    "actual_price_3d": 18.5
   },
   {
     "ticker": "POW",
@@ -4531,8 +4551,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -6.87,
+    "actual_price_3d": 29.8
   },
   {
     "ticker": "MBB",
@@ -4574,8 +4596,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -12.69,
+    "actual_price_3d": 22.7
   },
   {
     "ticker": "VHM",
@@ -4617,8 +4641,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -99.83,
+    "actual_price_3d": 0.24
   },
   {
     "ticker": "POW",
@@ -4789,7 +4815,9 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -44.44,
+    "actual_price_3d": 18.5
   }
 ]
