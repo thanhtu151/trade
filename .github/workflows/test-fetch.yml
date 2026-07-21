@@ -1,5 +1,11 @@
 name: Datacenter Fetch Probe
 
+# Manually triggered from the GitHub "Actions" tab.
+# Answers the single most important deploy question:
+#   "Are vnstock / Yahoo reachable from a GitHub datacenter IP, or blocked?"
+# If this passes, the serverless (GitHub Actions cron) architecture is viable.
+# If vnstock fails, we pivot to a VM (GCP e2-micro) near Vietnam.
+
 on:
   workflow_dispatch:
 
@@ -8,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
+      # The whole reason this project misbehaves on cloud: it uses naive
+      # datetime.now() for market-hours logic. Force Vietnam time here so the
+      # probe's printed "local time" matches what the scheduler would see.
       TZ: Asia/Ho_Chi_Minh
     steps:
       - name: Checkout

@@ -1,0 +1,148 @@
+name: VN Trading Scheduler
+
+# Runs each scheduler.py task on its own cron (times are UTC = ICT-7).
+# Each task is a one-shot `python scheduler.py <task>` that exits when done —
+# a perfect fit for GitHub Actions' ephemeral runners. Runtime state (portfolio,
+# trades, prediction history...) is persisted on a dedicated `state` branch so
+# it survives between runs. Trained LSTM models are kept in the actions cache.
+#
+# ICT schedule (mirrors scheduler.py setup_schedule):
+#   08:00 prep | 08:30 analysis | 09:00 trade | 15:00 eod | 16:00 learning
+#   Mon 07:00 rebacktest
+
+on:
+  schedule:
+    - cron: "0 1 * * 1-5"    # 08:00 ICT  -> prep
+    - cron: "30 1 * * 1-5"   # 08:30 ICT  -> analysis
+    - cron: "0 2 * * 1-5"    # 09:00 ICT  -> trade
+    - cron: "0 8 * * 1-5"    # 15:00 ICT  -> eod
+    - cron: "0 9 * * 1-5"    # 16:00 ICT  -> learning
+    - cron: "0 0 * * 1"      # Mon 07:00 ICT -> rebacktest
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "Task to run now"
+        type: choice
+        default: analysis
+        options: [prep, analysis, trade, eod, learning, rebacktest]
+
+# Serialize runs so two tasks never write the state branch at the same time.
+concurrency:
+  group: vn-trading-scheduler
+  cancel-in-progress: false
+
+permissions:
+  contents: write   # GITHUB_TOKEN needs write to push the `state` branch
+
+jobs:
+  run-task:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      TZ: Asia/Ho_Chi_Minh
+      PYTHONUTF8: "1"
+      TF_CPP_MIN_LOG_LEVEL: "3"
+      CUDA_VISIBLE_DEVICES: ""
+      # Files that change at runtime and must persist across runs. All are
+      # gitignored on `main`, so overlaying them from `state` never conflicts.
+      STATE_FILES: >-
+        paper_portfolio.json paper_trades.json scheduler_state.json
+        analysis_results.json prediction_history.json prediction_log.json
+        learning_memory.json debate_log.json portfolio_snapshots.json
+        performance_report.json system_status.json tracked_positions.json
+        advisor_audit_log.json intraday_alerts.json auto_analysis_state.json
+        vn_live_data_cache.json llm_router_usage.json
+    steps:
+      - name: Checkout code (main)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # need history to fetch the state branch too
+
+      - name: Decide which task to run
+        id: pick
+        run: |
+          if [ -n "${{ github.event.inputs.task }}" ]; then
+            TASK="${{ github.event.inputs.task }}"
+          else
+            case "${{ github.event.schedule }}" in
+              "0 1 * * 1-5")  TASK=prep ;;
+              "30 1 * * 1-5") TASK=analysis ;;
+              "0 2 * * 1-5")  TASK=trade ;;
+              "0 8 * * 1-5")  TASK=eod ;;
+              "0 9 * * 1-5")  TASK=learning ;;
+              "0 0 * * 1")    TASK=rebacktest ;;
+              *)              TASK=analysis ;;
+            esac
+          fi
+          echo "task=$TASK" >> "$GITHUB_OUTPUT"
+          echo "Running task: $TASK (ICT $(date '+%Y-%m-%d %H:%M %Z'))"
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Reconstruct .env from secret
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+        run: |
+          if [ -z "$ENV_FILE" ]; then
+            echo "::warning::ENV_FILE secret is empty — relying on llm_router auto-fetch"
+          else
+            printf '%s\n' "$ENV_FILE" > .env
+            echo ".env written ($(wc -l < .env) lines)"
+          fi
+
+      - name: Restore LSTM models cache
+        uses: actions/cache@v4
+        with:
+          path: lstm_models
+          key: lstm-models-${{ github.run_id }}
+          restore-keys: |
+            lstm-models-
+
+      - name: Load state from `state` branch
+        run: |
+          git config user.name "trade-bot"
+          git config user.email "trade-bot@users.noreply.github.com"
+          if git fetch origin state --depth=1 2>/dev/null && \
+             git show-ref --verify --quiet refs/remotes/origin/state; then
+            git worktree add /tmp/state origin/state
+            for f in $STATE_FILES; do
+              [ -f "/tmp/state/$f" ] && cp "/tmp/state/$f" "$f" && echo "  loaded $f"
+            done
+          else
+            echo "No state branch yet — first run will create it."
+            mkdir -p /tmp/state
+            git -C /tmp/state init -q
+          fi
+
+      - name: Run scheduler task
+        run: python scheduler.py ${{ steps.pick.outputs.task }}
+
+      - name: Persist state to `state` branch
+        if: always()   # save even if the task errored, so we keep progress
+        run: |
+          git config --global user.name "trade-bot"
+          git config --global user.email "trade-bot@users.noreply.github.com"
+          cd /tmp/state
+          git checkout -q -B state 2>/dev/null || git checkout -q --orphan state
+          cd "$GITHUB_WORKSPACE"
+          for f in $STATE_FILES; do
+            [ -f "$f" ] && cp "$f" "/tmp/state/$f"
+          done
+          cd /tmp/state
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No state changes to commit."
+          else
+            git commit -q -m "state: after ${{ steps.pick.outputs.task }} ($(date -u '+%Y-%m-%dT%H:%M:%SZ'))"
+            git push -q "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:state
+            echo "State pushed."
+          fi
