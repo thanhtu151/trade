@@ -1,0 +1,38 @@
+# VN Stock trading platform — pinned to the versions currently running on the
+# dev machine (Python 3.10). If a pin fails to resolve a Linux wheel on the
+# CI runner, loosen just that line (e.g. drop the patch version).
+
+# --- core data ---
+pandas==2.3.3
+numpy==2.2.6
+scipy==1.15.3
+pyarrow==24.0.0
+requests==2.34.2
+python-dotenv==1.0.1
+
+# --- market data sources ---
+vnstock==4.0.4
+vnai==2.4.8
+yfinance==1.4.1
+finnhub-python==2.4.28
+feedparser==6.0.12
+beautifulsoup4==4.15.0
+soupsieve==2.8.4
+lxml==6.1.1
+
+# --- ML / models ---
+scikit-learn==1.7.2
+xgboost==3.2.0
+lightgbm==4.6.0
+joblib==1.5.3
+tensorflow==2.21.0
+keras==3.12.2
+
+# --- UI / dashboard ---
+streamlit==1.58.0
+plotly==6.8.0
+altair==6.2.1
+
+# --- scheduling / process ---
+schedule==1.2.2
+psutil==7.2.2

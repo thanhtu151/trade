@@ -1,0 +1,38 @@
+[
+  {
+    "time": "2026-06-12 15:59:11",
+    "label": "reset",
+    "cash": 100000000.0,
+    "equity": 100000000.0,
+    "pnl": 0.0,
+    "pnl_pct": 0.0,
+    "positions": []
+  },
+  {
+    "time": "2026-06-12 16:06:14",
+    "label": "rebalance",
+    "cash": 238.8,
+    "equity": 100000000.0,
+    "pnl": 0.0,
+    "pnl_pct": 0.0,
+    "positions": [
+      "BID",
+      "VCB",
+      "VHM",
+      "VIC",
+      "VRE"
+    ]
+  },
+  {
+    "time": "2026-06-20 10:58:35",
+    "label": "rebalance",
+    "cash": 61679657.2,
+    "equity": 100229657.2,
+    "pnl": 229657.2,
+    "pnl_pct": 0.23,
+    "positions": [
+      "ACB",
+      "TCB"
+    ]
+  }
+]

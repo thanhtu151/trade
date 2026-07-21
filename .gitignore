@@ -1,0 +1,66 @@
+.env
+llm_key_cache.json
+llm_router_usage.json
+data_cache/
+backtest_results/
+logs/
+scheduler_state.json
+analysis_results.json
+prediction_log.json
+intraday_alerts.json
+learning_memory.json
+portfolio_snapshots.json
+tests/screenshots/
+debate_log.json
+
+# --- Python hygiene (added for cloud deploy) ---
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+.pytest_cache/
+*.log
+paper_portfolio.json.lock
+scheduler.pid.lock
+scheduler.pid
+
+# NOTE: several runtime state files above are gitignored. For the GitHub
+# Actions deploy, state is persisted on a SEPARATE `state` branch (not main),
+# so these ignores on main are intentional and correct — see deploy plan.
+
+# --- Large / vendored / irrelevant to the cloud deploy (added 2026-07-21) ---
+# Core trading modules do NOT import any of these; keep them out of the repo.
+# (inline comments are NOT allowed after a pattern in .gitignore — keep them
+#  on their own lines like this)
+# Models/            = 13 GB of local model files — never commit
+# TradingAgents/     = 290 MB vendored project with its OWN .git
+# financial-services/= separate project with its OWN .git
+# ui_test_agent/     = 22 MB local UI-test tooling, not needed on cloud
+# lstm_models/       = 197 MB trained models — CI retrains missing ones
+Models/
+TradingAgents/
+financial-services/
+ui_test_agent/
+lstm_models/
+.codex/
+.playwright-mcp/
+.yfinance_cache/
+
+# Debug/test screenshots at repo root (not needed for deploy)
+*.png
+
+# --- Runtime state / history not needed in the code repo ---
+prediction_history.json
+prediction_log.json
+paper_portfolio.json
+paper_trades.json
+auto_analysis_state.json
+vn_live_data_cache.json
+performance_report.json
+system_status.json
+tracked_positions.json
+advisor_audit_log.json
+intraday_alerts.json
+llm_router_usage.json
