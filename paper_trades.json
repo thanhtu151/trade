@@ -985,5 +985,27 @@
     "reason": "stop_loss_intraday",
     "pnl": -9600750.0,
     "plan": {}
+  },
+  {
+    "time": "2026-07-22 17:20:10",
+    "symbol": "TCB",
+    "side": "SELL",
+    "qty": 777100,
+    "price": 29.0,
+    "value": 22535900.0,
+    "reason": "stop_loss",
+    "pnl": -2331300.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-07-22 17:20:12",
+    "symbol": "VHM",
+    "side": "SELL",
+    "qty": 179000,
+    "price": 126.9,
+    "value": 22715100.0,
+    "reason": "stop_loss",
+    "pnl": -2148000.0,
+    "plan": {}
   }
 ]
