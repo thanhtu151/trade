@@ -1107,12 +1107,13 @@
     "source": "two_stage",
     "notes": "stage1_score=3.5 llm=skip",
     "entry_price": 30.1,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 28.6,
+    "actual_direction": -1,
+    "correct": true,
+    "pnl_pct": -4.983,
     "logged_at": "2026-07-21T09:49:35.353368",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-07-24T17:55:25.319162"
   },
   "MBB_2026-07-21": {
     "id": "MBB_2026-07-21",
@@ -1124,12 +1125,13 @@
     "source": "two_stage",
     "notes": "stage1_score=3.5 llm=skip",
     "entry_price": 22.95,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 21.9,
+    "actual_direction": -1,
+    "correct": true,
+    "pnl_pct": -4.575,
     "logged_at": "2026-07-21T09:49:44.007624",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-07-24T17:55:28.097098"
   },
   "TCB_2026-07-23": {
     "id": "TCB_2026-07-23",

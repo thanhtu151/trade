@@ -111418,10 +111418,11 @@
     "source": "two_stage",
     "notes": "stage1_score=3.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": -4.983
   },
   {
     "date": "2026-07-21",
@@ -111437,10 +111438,11 @@
     "source": "two_stage",
     "notes": "stage1_score=3.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": -4.575
   },
   {
     "date": "2026-07-23",

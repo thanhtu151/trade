@@ -4508,8 +4508,10 @@
       "stoploss": 0
     },
     "elapsed_sec": 5.1,
-    "outcome": null,
-    "reflection": null
+    "outcome": "correct",
+    "reflection": "",
+    "pnl_pct": -2.55,
+    "actual_price_3d": 13.35
   },
   {
     "ticker": "TCB",
@@ -4686,8 +4688,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -2.55,
+    "actual_price_3d": 13.35
   },
   {
     "ticker": "STB",
@@ -4729,8 +4733,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 1.1,
+    "actual_price_3d": 73.5
   },
   {
     "ticker": "HCM",
@@ -4772,8 +4778,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.78,
+    "actual_price_3d": 25.6
   },
   {
     "ticker": "PVD",
@@ -4946,7 +4954,9 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -2.55,
+    "actual_price_3d": 13.35
   }
 ]
