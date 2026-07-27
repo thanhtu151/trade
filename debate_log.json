@@ -4868,8 +4868,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.4,
+    "actual_price_3d": 25.3
   },
   {
     "ticker": "VND",
@@ -4911,8 +4913,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -4.66,
+    "actual_price_3d": 15.35
   },
   {
     "ticker": "POW",

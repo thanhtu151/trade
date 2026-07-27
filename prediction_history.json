@@ -111458,10 +111458,11 @@
     "source": "two_stage",
     "notes": "stage1_score=3.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": -0.353
   },
   {
     "date": "2026-07-23",
@@ -111477,10 +111478,11 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 1.541
   },
   {
     "date": "2026-07-23",
@@ -111496,10 +111498,11 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.5 llm=GIỮ",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 0.198
   },
   {
     "date": "2026-07-23",
@@ -111515,10 +111518,11 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.5 llm=GIỮ",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": -4.361
   },
   {
     "date": "2026-07-23",
@@ -111534,10 +111538,11 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 1.281
   },
   {
     "date": "2026-07-23",
@@ -111553,10 +111558,11 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 0.924
   },
   {
     "date": "2026-07-23",
@@ -111572,10 +111578,11 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 3.39
   },
   {
     "date": "2026-07-23",
@@ -111591,10 +111598,11 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.5 llm=GIỮ",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 1.149
   },
   {
     "date": "2026-07-27",
