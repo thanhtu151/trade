@@ -1083,5 +1083,16 @@
       "trailing_stop_active": false,
       "kelly_fraction": 0.25
     }
+  },
+  {
+    "time": "2026-07-27 18:14:32",
+    "symbol": "VND",
+    "side": "SELL",
+    "qty": 1338300,
+    "price": 15.35,
+    "value": 20542905.0,
+    "reason": "stop_loss",
+    "pnl": -936810.0,
+    "plan": {}
   }
 ]
