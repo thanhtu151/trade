@@ -1132,5 +1132,16 @@
       "trailing_stop_active": false,
       "kelly_fraction": 0.25
     }
+  },
+  {
+    "time": "2026-07-29 17:34:12",
+    "symbol": "STB",
+    "side": "SELL",
+    "qty": 275800,
+    "price": 71.5,
+    "value": 19719700.0,
+    "reason": "stop_loss",
+    "pnl": -689500.0,
+    "plan": {}
   }
 ]
