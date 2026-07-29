@@ -1,6 +1,6 @@
 {
   "initial_cash": 100000000.0,
-  "cash": 21617295.0,
+  "cash": 55635.0,
   "positions": {
     "HDB": {
       "qty": 850600,
@@ -73,7 +73,55 @@
         "trailing_stop_active": false,
         "kelly_fraction": 0.25
       }
+    },
+    "VNM": {
+      "qty": 340500,
+      "avg_price": 60.3,
+      "current_price": 60.3,
+      "market_value": 20532150.0,
+      "unrealized_pnl": 0.0,
+      "pnl_pct": 0.0,
+      "target_price": 63.3,
+      "stop_loss": 58.8,
+      "atr": 1.51,
+      "kelly_fraction": 0.25,
+      "entry_date": "2026-07-29 12:18:10",
+      "hold_days": 0,
+      "source": "two_stage_scheduler",
+      "plan": {
+        "target_price": 63.3,
+        "stop_loss": 58.8,
+        "atr": 1.51,
+        "hold_days": "toi da 15 phien",
+        "sell_rule": "Ban khi cham target 63.30, cat lo duoi 58.80.",
+        "trailing_stop_active": false,
+        "kelly_fraction": 0.25
+      }
+    },
+    "PVD": {
+      "qty": 55800,
+      "avg_price": 18.45,
+      "current_price": 18.45,
+      "market_value": 1029510.0,
+      "unrealized_pnl": 0.0,
+      "pnl_pct": 0.0,
+      "target_price": 20.4,
+      "stop_loss": 17.5,
+      "atr": 0.98,
+      "kelly_fraction": 0.25,
+      "entry_date": "2026-07-29 12:18:13",
+      "hold_days": 0,
+      "source": "two_stage_scheduler",
+      "plan": {
+        "target_price": 20.4,
+        "stop_loss": 17.5,
+        "atr": 0.98,
+        "hold_days": "toi da 15 phien",
+        "sell_rule": "Ban khi cham target 20.40, cat lo duoi 17.50.",
+        "trailing_stop_active": false,
+        "kelly_fraction": 0.25
+      }
     }
   },
-  "updated_at": "2026-07-27T18:14:37.075412"
+  "updated_at": "2026-07-29 12:18:13"
 }

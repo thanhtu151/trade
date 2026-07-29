@@ -1094,5 +1094,43 @@
     "reason": "stop_loss",
     "pnl": -936810.0,
     "plan": {}
+  },
+  {
+    "time": "2026-07-29 12:18:10",
+    "symbol": "VNM",
+    "side": "BUY",
+    "qty": 340500,
+    "price": 60.3,
+    "value": 20532150.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 63.3,
+      "stop_loss": 58.8,
+      "atr": 1.51,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 63.30, cat lo duoi 58.80.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-07-29 12:18:13",
+    "symbol": "PVD",
+    "side": "BUY",
+    "qty": 55800,
+    "price": 18.45,
+    "value": 1029510.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 20.4,
+      "stop_loss": 17.5,
+      "atr": 0.98,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 20.40, cat lo duoi 17.50.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
   }
 ]
