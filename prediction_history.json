@@ -111618,10 +111618,11 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.0 llm=GIỮ",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": -3.243
   },
   {
     "date": "2026-07-27",
@@ -111637,10 +111638,11 @@
     "source": "two_stage",
     "notes": "stage1_score=4.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 0.195
   },
   {
     "date": "2026-07-27",
@@ -111656,10 +111658,11 @@
     "source": "two_stage",
     "notes": "stage1_score=3.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 4.601
   },
   {
     "date": "2026-07-27",
@@ -111675,10 +111678,11 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 1.736
   },
   {
     "date": "2026-07-27",
@@ -111694,10 +111698,11 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 2.39
   },
   {
     "date": "2026-07-27",
@@ -111713,10 +111718,11 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 4.019
   },
   {
     "date": "2026-07-27",
@@ -111732,10 +111738,11 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 14.562
   },
   {
     "date": "2026-07-27",
@@ -111751,10 +111758,11 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 2.717
   },
   {
     "date": "2026-07-27",
@@ -111770,10 +111778,11 @@
     "source": "two_stage",
     "notes": "stage1_score=2.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": -0.383
   },
   {
     "date": "2026-07-29",

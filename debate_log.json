@@ -5003,8 +5003,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -3.24,
+    "actual_price_3d": 71.6
   },
   {
     "ticker": "POW",
@@ -5046,8 +5048,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 3.01,
+    "actual_price_3d": 13.7
   },
   {
     "ticker": "HDB",
