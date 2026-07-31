@@ -5224,5 +5224,48 @@
     "elapsed_sec": 1.0,
     "outcome": null,
     "reflection": null
+  },
+  {
+    "ticker": "VNM",
+    "date": "2026-07-31",
+    "time": "2026-07-31T12:07:07.973923",
+    "market_data": {
+      "price": 60.5,
+      "rsi": 70.7,
+      "macd_bull": true,
+      "vol_ratio": 0.41,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 19775335.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
   }
 ]
