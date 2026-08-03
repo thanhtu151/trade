@@ -1361,6 +1361,22 @@ def collect_system_health():
     else:
         items.append(health_item("File he thong", "ok", "File trang thai OK", ""))
 
+    healing_path = BASE_DIR / "self_healing_state.json"
+    try:
+        healing = json.loads(healing_path.read_text(encoding="utf-8"))
+        healing_status = healing.get("status", "unknown")
+        healing_detail = "; ".join((healing.get("critical") or healing.get("warnings") or [])[:3])
+        if not healing.get("trading_allowed", False):
+            items.append(health_item("Self-healing", "critical", "Giao dich dang bi khoa an toan", healing_detail))
+        elif healing_status == "healed":
+            items.append(health_item("Self-healing", "warning", "Da tu sua trang thai", "; ".join(healing.get("actions", [])[:3])))
+        else:
+            items.append(health_item("Self-healing", "ok", "Trang thai giao dich an toan", healing_detail))
+    except FileNotFoundError:
+        items.append(health_item("Self-healing", "warning", "Chua co bao cao self-healing", "Bao cao se duoc tao o lan scheduler tiep theo."))
+    except Exception as exc:
+        items.append(health_item("Self-healing", "critical", "Khong doc duoc bao cao self-healing", str(exc)[:180]))
+
     level_rank = {"ok": 0, "warning": 1, "critical": 2}
     worst = max(items, key=lambda item: level_rank.get(item["level"], 0))["level"] if items else "ok"
     return {

@@ -2,6 +2,7 @@
 import logging
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -107,8 +108,12 @@ def load_json(path, default):
 
 
 def save_json(path, data):
-    with open(path, "w", encoding="utf-8") as f:
+    tmp_path = path + ".tmp"
+    with open(tmp_path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp_path, path)
 
 
 def _safe_read_portfolio():
@@ -142,6 +147,8 @@ def _safe_write_portfolio(portfolio):
     try:
         content = json.dumps(portfolio, ensure_ascii=False, indent=2)
         with _portfolio_file_lock():
+            if os.path.exists(PORTFOLIO_FILE) and os.path.getsize(PORTFOLIO_FILE) > 0:
+                shutil.copy2(PORTFOLIO_FILE, PORTFOLIO_FILE + ".bak")
             with open(tmp_path, "w", encoding="utf-8") as f:
                 f.write(content)
                 f.flush()
@@ -639,6 +646,8 @@ def load_trades():
 
 
 def save_trades(trades):
+    if os.path.exists(TRADES_FILE) and os.path.getsize(TRADES_FILE) > 0:
+        shutil.copy2(TRADES_FILE, TRADES_FILE + ".bak")
     save_json(TRADES_FILE, trades)
 
 
@@ -1216,6 +1225,10 @@ def log_trade(trades, symbol, side, qty, price, reason, pnl=None, plan=None):
 
 
 def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pct=MAX_POSITION_PCT, plan=None):
+    from self_healing import trading_is_allowed
+
+    if not trading_is_allowed(BASE_DIR):
+        return False, "Self-healing da khoa giao dich: trang thai danh muc khong an toan"
     portfolio = load_portfolio()
     trades = load_trades()
     price = current_price(symbol)
@@ -1260,6 +1273,10 @@ def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pc
 
 
 def sell_position(symbol, reason="Manual SELL", qty=None):
+    from self_healing import trading_is_allowed
+
+    if not trading_is_allowed(BASE_DIR):
+        return False, "Self-healing da khoa giao dich: trang thai danh muc khong an toan"
     portfolio = load_portfolio()
     trades = load_trades()
     position = portfolio.get("positions", {}).get(symbol)
@@ -1299,6 +1316,12 @@ def execute_paper_trade(ticker, action, price=None, confidence=50, source="sched
     BUY uses Kelly-based sizing; SELL uses existing portfolio helper.
     """
     import math
+
+    from self_healing import trading_is_allowed
+
+    if not trading_is_allowed(BASE_DIR):
+        log.error("Self-healing preflight blocked %s %s", action, ticker)
+        return False, "Self-healing blocked trading because state is unsafe"
 
     ticker = str(ticker).upper()
     action = str(action).upper()

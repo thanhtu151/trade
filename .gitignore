@@ -1,6 +1,7 @@
 .env
 llm_key_cache.json
 llm_router_usage.json
+*.json.bak
 data_cache/
 backtest_results/
 logs/
