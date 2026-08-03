@@ -24,7 +24,7 @@ on:
         description: "Task to run now"
         type: choice
         default: analysis
-        options: [prep, analysis, trade, eod, learning, rebacktest]
+        options: [prep, analysis, trade, eod, learning, rebacktest, heal]
 
 # Serialize runs so two tasks never write the state branch at the same time.
 concurrency:
@@ -51,7 +51,8 @@ jobs:
         learning_memory.json debate_log.json portfolio_snapshots.json
         performance_report.json system_status.json tracked_positions.json
         advisor_audit_log.json intraday_alerts.json auto_analysis_state.json
-        vn_live_data_cache.json llm_router_usage.json
+        vn_live_data_cache.json llm_router_usage.json self_healing_state.json
+        paper_portfolio.json.bak paper_trades.json.bak
     steps:
       - name: Checkout code (main)
         uses: actions/checkout@v4
@@ -125,6 +126,10 @@ jobs:
 
       - name: Run scheduler task
         run: python scheduler.py ${{ steps.pick.outputs.task }}
+
+      - name: Self-healing state audit
+        if: always()
+        run: python self_healing.py
 
       - name: Persist state to `state` branch
         if: always()   # save even if the task errored, so we keep progress

@@ -1,7 +1,15 @@
 ﻿import json, os
 from datetime import date
 
+from self_healing import run_self_healing
+
 checks = []
+healing = run_self_healing(repair=True)
+checks.append((
+    'Self healing',
+    healing.get('trading_allowed', False),
+    healing.get('status', 'unknown') + '; ' + '; '.join(healing.get('critical', [])),
+))
 
 with open('paper_portfolio.json', encoding='utf-8') as f:
     p = json.load(f)

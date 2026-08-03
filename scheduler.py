@@ -344,6 +344,15 @@ def task_auto_trade():
     log.info("TASK: Auto Trade")
     log.info("=" * 50)
 
+    from self_healing import run_self_healing
+
+    healing = run_self_healing(BASE_DIR, repair=True)
+    if not healing["trading_allowed"]:
+        log.error("Auto trade BLOCKED by self-healing: %s", healing.get("critical"))
+        return
+    if healing["status"] == "healed":
+        log.warning("Self-healing repaired state before trading: %s", healing.get("actions"))
+
     try:
         if not os.path.exists(ANALYSIS_RESULTS_FILE):
             log.warning("No analysis_results.json found, skipping trade")
@@ -821,6 +830,7 @@ def run_now(task_name=None):
         "eod": task_eod_update,
         "learning": task_daily_learning,
         "rebacktest": task_weekly_rebacktest,
+        "heal": lambda: __import__("self_healing").run_self_healing(BASE_DIR, repair=True),
     }
     if task_name in tasks:
         log.info("Running %s NOW...", task_name)
