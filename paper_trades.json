@@ -1143,5 +1143,24 @@
     "reason": "stop_loss",
     "pnl": -689500.0,
     "plan": {}
+  },
+  {
+    "time": "2026-08-03 12:38:01",
+    "symbol": "GMD",
+    "side": "BUY",
+    "qty": 244600,
+    "price": 76.8,
+    "value": 18785280.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 81.6,
+      "stop_loss": 74.4,
+      "atr": 2.41,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 81.60, cat lo duoi 74.40.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
   }
 ]
