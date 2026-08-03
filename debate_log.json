@@ -5093,8 +5093,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 5.69,
+    "actual_price_3d": 26.0
   },
   {
     "ticker": "VNM",
@@ -5136,8 +5138,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.0,
+    "actual_price_3d": 60.3
   },
   {
     "ticker": "PVD",
@@ -5179,8 +5183,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -1.63,
+    "actual_price_3d": 18.1
   },
   {
     "ticker": "VNM",
@@ -5222,8 +5228,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.0,
+    "actual_price_3d": 60.3
   },
   {
     "ticker": "VNM",
@@ -5265,8 +5273,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.0,
+    "actual_price_3d": 60.3
   },
   {
     "ticker": "FRT",
@@ -5351,8 +5361,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.0,
+    "actual_price_3d": 60.3
   },
   {
     "ticker": "GMD",
