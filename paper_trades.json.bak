@@ -456,6 +456,25 @@
   },
   {
     "time": "2026-06-23 09:11:17",
+    "symbol": "BMP",
+    "side": "BUY",
+    "qty": 261300,
+    "price": 151.5,
+    "value": 39586950.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 157.6,
+      "stop_loss": 148.5,
+      "atr": 3.04,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 157.60, cat lo duoi 148.50.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-23 09:11:17",
     "symbol": "PC1",
     "side": "BUY",
     "qty": 1759600,
@@ -469,6 +488,44 @@
       "atr": 0.75,
       "hold_days": "toi da 15 phien",
       "sell_rule": "Ban khi cham target 24.00, cat lo duoi 21.80.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-23 09:11:18",
+    "symbol": "PC1",
+    "side": "BUY",
+    "qty": 1759600,
+    "price": 22.5,
+    "value": 39591000.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 24.0,
+      "stop_loss": 21.8,
+      "atr": 0.75,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 24.00, cat lo duoi 21.80.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-06-23 09:11:18",
+    "symbol": "KDH",
+    "side": "BUY",
+    "qty": 1165800,
+    "price": 22.5,
+    "value": 26230500.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 23.6,
+      "stop_loss": 22.0,
+      "atr": 0.54,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 23.60, cat lo duoi 22.00.",
       "trailing_stop_active": false,
       "kelly_fraction": 0.25
     }

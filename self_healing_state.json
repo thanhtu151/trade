@@ -1,0 +1,24 @@
+{
+  "status": "healed",
+  "trading_allowed": true,
+  "updated_at": "2026-08-03 18:16:30",
+  "actions": [
+    "removed 3 duplicate automated trade event(s)"
+  ],
+  "warnings": [
+    "historical ledger drift: expected cash -81,496,421, actual 990,055; not auto-repaired"
+  ],
+  "critical": [],
+  "metrics": {
+    "cash": 990055.0,
+    "positions": 5,
+    "trade_events": 76,
+    "duplicate_events_removed": 3,
+    "malformed_events": 0
+  },
+  "checkpoint": {
+    "cash": 990055.0,
+    "trade_events": 76,
+    "last_event_signature": "71dfa24a906fef16"
+  }
+}
