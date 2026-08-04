@@ -1,5 +1,5 @@
 {
-  "date": "2026-08-03",
+  "date": "2026-08-04",
   "method": "two_stage",
   "prediction_horizon_days": 3,
   "prediction_horizon_sessions": 6,
@@ -9,250 +9,39 @@
   "stage2_results": [
     {
       "ticker": "VNM",
-      "score": 3.0,
-      "weighted_score": 3.0,
-      "weight": 1.0,
-      "rsi": 68.1,
-      "macd_bull": true,
-      "sma_bull": true,
-      "vol_ratio": 0.51,
-      "atr_pct": 2.59,
-      "bb_pos": 0.8,
-      "weekly_trend": 1,
-      "weekly_rsi": 67.1,
-      "news_sentiment": 0.0,
-      "signals": {
-        "macd": "bullish",
-        "sma": "golden_cross",
-        "momentum": "positive",
-        "weekly": "uptrend"
-      },
-      "price": 60.3,
-      "ensemble": {
-        "reliable": true,
-        "direction": 1,
-        "probability": 0.679,
-        "confidence": 35.8,
-        "signal": "tăng mạnh",
-        "high_confidence": true,
-        "votes": {
-          "xgb": 1,
-          "lgbm": 1,
-          "rf": 1
-        },
-        "bullish_votes": 3,
-        "bearish_votes": 0,
-        "total_models": 3,
-        "consensus": true,
-        "sentiment_score": 0.0
-      },
-      "llm": {
-        "action": "GIỮ",
-        "confidence": 30,
-        "target": null,
-        "stoploss": null,
-        "reason": "Không đủ thông tin để quyết định",
-        "risk_reward": null,
-        "bull_summary": "Bull case không xác định",
-        "bear_summary": "Bear case không xác định",
-        "agreed_with": "neither"
-      },
-      "debate": true,
-      "bull_case": {
-        "stance": "BULL",
-        "confidence": 50,
-        "top_3_reasons": [
-          "Không đủ data"
-        ],
-        "summary": "Bull case không xác định"
-      },
-      "bear_case": {
-        "stance": "BEAR",
-        "confidence": 50,
-        "top_3_risks": [
-          "Không đủ data"
-        ],
-        "summary": "Bear case không xác định"
-      },
-      "final_score": 4.5,
-      "tradeable": true
-    },
-    {
-      "ticker": "GMD",
-      "score": 3.0,
-      "weighted_score": 3.0,
-      "weight": 1.0,
-      "rsi": 47.9,
-      "macd_bull": true,
-      "sma_bull": true,
-      "vol_ratio": 0.25,
-      "atr_pct": 3.14,
-      "bb_pos": 0.66,
-      "weekly_trend": 1,
-      "weekly_rsi": 50.8,
-      "news_sentiment": 0.0,
-      "signals": {
-        "macd": "bullish",
-        "sma": "golden_cross",
-        "momentum": "positive",
-        "weekly": "uptrend"
-      },
-      "price": 76.8,
-      "ensemble": {
-        "reliable": true,
-        "direction": 1,
-        "probability": 0.695,
-        "confidence": 39.0,
-        "signal": "tăng mạnh",
-        "high_confidence": true,
-        "votes": {
-          "xgb": 1,
-          "lgbm": 1,
-          "rf": 1
-        },
-        "bullish_votes": 3,
-        "bearish_votes": 0,
-        "total_models": 3,
-        "consensus": true,
-        "sentiment_score": 0.0
-      },
-      "llm": {
-        "action": "GIỮ",
-        "confidence": 30,
-        "target": null,
-        "stoploss": null,
-        "reason": "Không đủ thông tin để quyết định",
-        "risk_reward": null,
-        "bull_summary": "Bull case không xác định",
-        "bear_summary": "Bear case không xác định",
-        "agreed_with": "neither"
-      },
-      "debate": true,
-      "bull_case": {
-        "stance": "BULL",
-        "confidence": 50,
-        "top_3_reasons": [
-          "Không đủ data"
-        ],
-        "summary": "Bull case không xác định"
-      },
-      "bear_case": {
-        "stance": "BEAR",
-        "confidence": 50,
-        "top_3_risks": [
-          "Không đủ data"
-        ],
-        "summary": "Bear case không xác định"
-      },
-      "final_score": 4.5,
-      "tradeable": true
-    },
-    {
-      "ticker": "FRT",
-      "score": 3.5,
-      "weighted_score": 3.5,
-      "weight": 1.0,
-      "rsi": 73.2,
-      "macd_bull": true,
-      "sma_bull": false,
-      "vol_ratio": 2.74,
-      "atr_pct": 4.07,
-      "bb_pos": 1.27,
-      "weekly_trend": 1,
-      "weekly_rsi": 62.4,
-      "news_sentiment": 0.0,
-      "signals": {
-        "macd": "bullish",
-        "volume": "surge",
-        "momentum": "positive",
-        "weekly": "uptrend"
-      },
-      "price": 133.1,
-      "ensemble": {
-        "reliable": true,
-        "direction": 0,
-        "probability": 0.467,
-        "confidence": 6.6,
-        "signal": "không rõ",
-        "high_confidence": false,
-        "votes": {
-          "xgb": -1,
-          "lgbm": 1,
-          "rf": -1
-        },
-        "bullish_votes": 1,
-        "bearish_votes": 2,
-        "total_models": 3,
-        "consensus": false,
-        "sentiment_score": 0.0
-      },
-      "llm": {
-        "action": "GIỮ",
-        "confidence": 30,
-        "target": null,
-        "stoploss": null,
-        "reason": "Không đủ thông tin để quyết định",
-        "risk_reward": null,
-        "bull_summary": "Bull case không xác định",
-        "bear_summary": "Bear case không xác định",
-        "agreed_with": "neither"
-      },
-      "debate": true,
-      "bull_case": {
-        "stance": "BULL",
-        "confidence": 50,
-        "top_3_reasons": [
-          "Không đủ data"
-        ],
-        "summary": "Bull case không xác định"
-      },
-      "bear_case": {
-        "stance": "BEAR",
-        "confidence": 50,
-        "top_3_risks": [
-          "Không đủ data"
-        ],
-        "summary": "Bear case không xác định"
-      },
-      "final_score": 3.5,
-      "tradeable": true
-    },
-    {
-      "ticker": "PVD",
       "score": 2.5,
-      "weighted_score": 1.75,
-      "weight": 0.7,
-      "rsi": 35.6,
-      "macd_bull": false,
+      "weighted_score": 2.5,
+      "weight": 1.0,
+      "rsi": 61.2,
+      "macd_bull": true,
       "sma_bull": true,
-      "vol_ratio": 0.44,
-      "atr_pct": 5.04,
-      "bb_pos": 0.17,
-      "weekly_trend": 0,
-      "weekly_rsi": 43.1,
+      "vol_ratio": 0.67,
+      "atr_pct": 2.7,
+      "bb_pos": 0.63,
+      "weekly_trend": 1,
+      "weekly_rsi": 61.4,
       "news_sentiment": 0.0,
       "signals": {
-        "rsi": "low",
+        "macd": "bullish",
         "sma": "golden_cross",
-        "bb": "oversold"
+        "weekly": "uptrend"
       },
-      "price": 18.0,
+      "price": 59.1,
       "ensemble": {
         "reliable": true,
         "direction": 1,
-        "probability": 0.678,
-        "confidence": 35.5,
+        "probability": 0.622,
+        "confidence": 24.4,
         "signal": "tăng mạnh",
         "high_confidence": true,
         "votes": {
           "xgb": 1,
           "lgbm": 1,
-          "rf": 1,
-          "lstm": 1
+          "rf": 1
         },
-        "bullish_votes": 4,
+        "bullish_votes": 3,
         "bearish_votes": 0,
-        "total_models": 4,
+        "total_models": 3,
         "consensus": true,
         "sentiment_score": 0.0
       },
@@ -260,7 +49,97 @@
       "debate": false,
       "bull_case": null,
       "bear_case": null,
-      "final_score": 3.25,
+      "final_score": 4.0,
+      "tradeable": false
+    },
+    {
+      "ticker": "GMD",
+      "score": 2.5,
+      "weighted_score": 2.5,
+      "weight": 1.0,
+      "rsi": 48.2,
+      "macd_bull": true,
+      "sma_bull": true,
+      "vol_ratio": 0.13,
+      "atr_pct": 3.28,
+      "bb_pos": 0.61,
+      "weekly_trend": 0,
+      "weekly_rsi": 48.3,
+      "news_sentiment": 0.0,
+      "signals": {
+        "macd": "bullish",
+        "sma": "golden_cross",
+        "momentum": "positive"
+      },
+      "price": 76.4,
+      "ensemble": {
+        "reliable": true,
+        "direction": 1,
+        "probability": 0.83,
+        "confidence": 66.1,
+        "signal": "tăng mạnh",
+        "high_confidence": true,
+        "votes": {
+          "xgb": 1,
+          "lgbm": 1,
+          "rf": 1
+        },
+        "bullish_votes": 3,
+        "bearish_votes": 0,
+        "total_models": 3,
+        "consensus": true,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 4.0,
+      "tradeable": false
+    },
+    {
+      "ticker": "FRT",
+      "score": 2.0,
+      "weighted_score": 2.0,
+      "weight": 1.0,
+      "rsi": 75.2,
+      "macd_bull": true,
+      "sma_bull": false,
+      "vol_ratio": 1.13,
+      "atr_pct": 4.18,
+      "bb_pos": 1.14,
+      "weekly_trend": 1,
+      "weekly_rsi": 69.1,
+      "news_sentiment": 0.0,
+      "signals": {
+        "macd": "bullish",
+        "momentum": "positive",
+        "weekly": "uptrend"
+      },
+      "price": 134.7,
+      "ensemble": {
+        "reliable": true,
+        "direction": 1,
+        "probability": 0.626,
+        "confidence": 25.2,
+        "signal": "tăng mạnh",
+        "high_confidence": true,
+        "votes": {
+          "xgb": 1,
+          "lgbm": 1,
+          "rf": 1
+        },
+        "bullish_votes": 3,
+        "bearish_votes": 0,
+        "total_models": 3,
+        "consensus": true,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 3.5,
       "tradeable": false
     },
     {
@@ -268,14 +147,14 @@
       "score": 1.5,
       "weighted_score": 1.5,
       "weight": 1.0,
-      "rsi": 64.2,
+      "rsi": 64.1,
       "macd_bull": false,
       "sma_bull": true,
-      "vol_ratio": 0.23,
-      "atr_pct": 4.17,
-      "bb_pos": 0.58,
+      "vol_ratio": 0.16,
+      "atr_pct": 4.2,
+      "bb_pos": 0.55,
       "weekly_trend": 1,
-      "weekly_rsi": 53.0,
+      "weekly_rsi": 56.5,
       "news_sentiment": 0.0,
       "signals": {
         "sma": "golden_cross",
@@ -285,8 +164,99 @@
       "ensemble": {
         "reliable": true,
         "direction": 1,
-        "probability": 0.62,
-        "confidence": 24.0,
+        "probability": 0.639,
+        "confidence": 27.9,
+        "signal": "tăng mạnh",
+        "high_confidence": true,
+        "votes": {
+          "xgb": 1,
+          "lgbm": 1,
+          "rf": 1
+        },
+        "bullish_votes": 3,
+        "bearish_votes": 0,
+        "total_models": 3,
+        "consensus": true,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 3.0,
+      "tradeable": false
+    },
+    {
+      "ticker": "VIC",
+      "score": 1.5,
+      "weighted_score": 1.5,
+      "weight": 1.0,
+      "rsi": 51.3,
+      "macd_bull": false,
+      "sma_bull": true,
+      "vol_ratio": 0.64,
+      "atr_pct": 3.42,
+      "bb_pos": 0.57,
+      "weekly_trend": 0,
+      "weekly_rsi": 48.7,
+      "news_sentiment": 0.0,
+      "signals": {
+        "sma": "golden_cross",
+        "momentum": "positive"
+      },
+      "price": 218.5,
+      "ensemble": {
+        "reliable": true,
+        "direction": -1,
+        "probability": 0.347,
+        "confidence": 30.5,
+        "signal": "giảm mạnh",
+        "high_confidence": true,
+        "votes": {
+          "xgb": -1,
+          "lgbm": -1,
+          "rf": -1,
+          "lstm": -1
+        },
+        "bullish_votes": 0,
+        "bearish_votes": 4,
+        "total_models": 4,
+        "consensus": true,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 3.0,
+      "tradeable": false
+    },
+    {
+      "ticker": "DXG",
+      "score": 1.5,
+      "weighted_score": 1.5,
+      "weight": 1.0,
+      "rsi": 31.9,
+      "macd_bull": true,
+      "sma_bull": false,
+      "vol_ratio": 0.2,
+      "atr_pct": 4.93,
+      "bb_pos": 0.36,
+      "weekly_trend": -1,
+      "weekly_rsi": 37.8,
+      "news_sentiment": 0.0,
+      "signals": {
+        "rsi": "oversold",
+        "macd": "bullish",
+        "momentum": "positive",
+        "weekly": "downtrend"
+      },
+      "price": 10.8,
+      "ensemble": {
+        "reliable": true,
+        "direction": 1,
+        "probability": 0.693,
+        "confidence": 38.5,
         "signal": "tăng mạnh",
         "high_confidence": true,
         "votes": {
@@ -312,14 +282,14 @@
       "score": 1.5,
       "weighted_score": 1.5,
       "weight": 1.0,
-      "rsi": 29.3,
+      "rsi": 32.1,
       "macd_bull": true,
       "sma_bull": false,
-      "vol_ratio": 0.36,
-      "atr_pct": 3.78,
-      "bb_pos": 0.41,
+      "vol_ratio": 0.37,
+      "atr_pct": 3.86,
+      "bb_pos": 0.39,
       "weekly_trend": -1,
-      "weekly_rsi": 41.3,
+      "weekly_rsi": 43.1,
       "news_sentiment": 0.0,
       "signals": {
         "rsi": "oversold",
@@ -327,12 +297,12 @@
         "momentum": "positive",
         "weekly": "downtrend"
       },
-      "price": 70.0,
+      "price": 69.6,
       "ensemble": {
         "reliable": true,
         "direction": 1,
-        "probability": 0.67,
-        "confidence": 34.0,
+        "probability": 0.664,
+        "confidence": 32.8,
         "signal": "tăng mạnh",
         "high_confidence": true,
         "votes": {
@@ -354,76 +324,30 @@
       "tradeable": false
     },
     {
-      "ticker": "DPM",
-      "score": 2.5,
-      "weighted_score": 2.5,
-      "weight": 1.0,
-      "rsi": 43.3,
-      "macd_bull": true,
-      "sma_bull": false,
-      "vol_ratio": 0.46,
-      "atr_pct": 3.08,
-      "bb_pos": 0.69,
-      "weekly_trend": 1,
-      "weekly_rsi": 54.7,
-      "news_sentiment": 0.0,
-      "signals": {
-        "rsi": "low",
-        "macd": "bullish",
-        "momentum": "positive",
-        "weekly": "uptrend"
-      },
-      "price": 22.2,
-      "ensemble": {
-        "reliable": true,
-        "direction": 0,
-        "probability": 0.448,
-        "confidence": 10.5,
-        "signal": "không rõ",
-        "high_confidence": false,
-        "votes": {
-          "xgb": -1,
-          "lgbm": -1,
-          "rf": 1
-        },
-        "bullish_votes": 1,
-        "bearish_votes": 2,
-        "total_models": 3,
-        "consensus": false,
-        "sentiment_score": 0.0
-      },
-      "llm": null,
-      "debate": false,
-      "bull_case": null,
-      "bear_case": null,
-      "final_score": 2.5,
-      "tradeable": false
-    },
-    {
       "ticker": "NVL",
       "score": 2.0,
       "weighted_score": 2.0,
       "weight": 1.0,
-      "rsi": 63.0,
+      "rsi": 77.1,
       "macd_bull": true,
       "sma_bull": false,
-      "vol_ratio": 0.51,
-      "atr_pct": 4.62,
-      "bb_pos": 0.74,
+      "vol_ratio": 0.24,
+      "atr_pct": 4.51,
+      "bb_pos": 0.86,
       "weekly_trend": 1,
-      "weekly_rsi": 58.3,
+      "weekly_rsi": 61.1,
       "news_sentiment": 0.0,
       "signals": {
         "macd": "bullish",
         "momentum": "positive",
         "weekly": "uptrend"
       },
-      "price": 12.9,
+      "price": 13.2,
       "ensemble": {
         "reliable": true,
         "direction": 0,
-        "probability": 0.541,
-        "confidence": 8.1,
+        "probability": 0.582,
+        "confidence": 16.5,
         "signal": "không rõ",
         "high_confidence": false,
         "votes": {
@@ -445,42 +369,41 @@
       "tradeable": false
     },
     {
-      "ticker": "KDH",
-      "score": 1.5,
-      "weighted_score": 1.5,
+      "ticker": "DPM",
+      "score": 2.0,
+      "weighted_score": 2.0,
       "weight": 1.0,
-      "rsi": 31.8,
+      "rsi": 51.2,
       "macd_bull": true,
       "sma_bull": false,
-      "vol_ratio": 0.64,
-      "atr_pct": 4.21,
-      "bb_pos": 0.38,
-      "weekly_trend": -1,
-      "weekly_rsi": 29.0,
+      "vol_ratio": 0.19,
+      "atr_pct": 2.91,
+      "bb_pos": 0.68,
+      "weekly_trend": 1,
+      "weekly_rsi": 57.5,
       "news_sentiment": 0.0,
       "signals": {
-        "rsi": "oversold",
         "macd": "bullish",
         "momentum": "positive",
-        "weekly": "downtrend"
+        "weekly": "uptrend"
       },
-      "price": 17.9,
+      "price": 22.2,
       "ensemble": {
         "reliable": true,
         "direction": 0,
-        "probability": 0.434,
-        "confidence": 13.1,
+        "probability": 0.498,
+        "confidence": 0.5,
         "signal": "không rõ",
         "high_confidence": false,
         "votes": {
-          "xgb": -1,
+          "xgb": 1,
           "lgbm": -1,
           "rf": -1
         },
-        "bullish_votes": 0,
-        "bearish_votes": 3,
+        "bullish_votes": 1,
+        "bearish_votes": 2,
         "total_models": 3,
-        "consensus": true,
+        "consensus": false,
         "sentiment_score": 0.0
       },
       "llm": null,
@@ -495,14 +418,14 @@
       "score": 1.5,
       "weighted_score": 1.5,
       "weight": 1.0,
-      "rsi": 50.6,
+      "rsi": 47.2,
       "macd_bull": false,
       "sma_bull": true,
-      "vol_ratio": 0.23,
-      "atr_pct": 4.17,
-      "bb_pos": 0.5,
+      "vol_ratio": 0.26,
+      "atr_pct": 4.08,
+      "bb_pos": 0.48,
       "weekly_trend": 1,
-      "weekly_rsi": 46.5,
+      "weekly_rsi": 55.5,
       "news_sentiment": 0.0,
       "signals": {
         "sma": "golden_cross",
@@ -512,8 +435,8 @@
       "ensemble": {
         "reliable": true,
         "direction": 0,
-        "probability": 0.481,
-        "confidence": 3.8,
+        "probability": 0.433,
+        "confidence": 13.4,
         "signal": "không rõ",
         "high_confidence": false,
         "votes": {
@@ -536,226 +459,7 @@
       "tradeable": false
     }
   ],
-  "tradeable": [
-    {
-      "ticker": "VNM",
-      "score": 3.0,
-      "weighted_score": 3.0,
-      "weight": 1.0,
-      "rsi": 68.1,
-      "macd_bull": true,
-      "sma_bull": true,
-      "vol_ratio": 0.51,
-      "atr_pct": 2.59,
-      "bb_pos": 0.8,
-      "weekly_trend": 1,
-      "weekly_rsi": 67.1,
-      "news_sentiment": 0.0,
-      "signals": {
-        "macd": "bullish",
-        "sma": "golden_cross",
-        "momentum": "positive",
-        "weekly": "uptrend"
-      },
-      "price": 60.3,
-      "ensemble": {
-        "reliable": true,
-        "direction": 1,
-        "probability": 0.679,
-        "confidence": 35.8,
-        "signal": "tăng mạnh",
-        "high_confidence": true,
-        "votes": {
-          "xgb": 1,
-          "lgbm": 1,
-          "rf": 1
-        },
-        "bullish_votes": 3,
-        "bearish_votes": 0,
-        "total_models": 3,
-        "consensus": true,
-        "sentiment_score": 0.0
-      },
-      "llm": {
-        "action": "GIỮ",
-        "confidence": 30,
-        "target": null,
-        "stoploss": null,
-        "reason": "Không đủ thông tin để quyết định",
-        "risk_reward": null,
-        "bull_summary": "Bull case không xác định",
-        "bear_summary": "Bear case không xác định",
-        "agreed_with": "neither"
-      },
-      "debate": true,
-      "bull_case": {
-        "stance": "BULL",
-        "confidence": 50,
-        "top_3_reasons": [
-          "Không đủ data"
-        ],
-        "summary": "Bull case không xác định"
-      },
-      "bear_case": {
-        "stance": "BEAR",
-        "confidence": 50,
-        "top_3_risks": [
-          "Không đủ data"
-        ],
-        "summary": "Bear case không xác định"
-      },
-      "final_score": 4.5,
-      "tradeable": true
-    },
-    {
-      "ticker": "GMD",
-      "score": 3.0,
-      "weighted_score": 3.0,
-      "weight": 1.0,
-      "rsi": 47.9,
-      "macd_bull": true,
-      "sma_bull": true,
-      "vol_ratio": 0.25,
-      "atr_pct": 3.14,
-      "bb_pos": 0.66,
-      "weekly_trend": 1,
-      "weekly_rsi": 50.8,
-      "news_sentiment": 0.0,
-      "signals": {
-        "macd": "bullish",
-        "sma": "golden_cross",
-        "momentum": "positive",
-        "weekly": "uptrend"
-      },
-      "price": 76.8,
-      "ensemble": {
-        "reliable": true,
-        "direction": 1,
-        "probability": 0.695,
-        "confidence": 39.0,
-        "signal": "tăng mạnh",
-        "high_confidence": true,
-        "votes": {
-          "xgb": 1,
-          "lgbm": 1,
-          "rf": 1
-        },
-        "bullish_votes": 3,
-        "bearish_votes": 0,
-        "total_models": 3,
-        "consensus": true,
-        "sentiment_score": 0.0
-      },
-      "llm": {
-        "action": "GIỮ",
-        "confidence": 30,
-        "target": null,
-        "stoploss": null,
-        "reason": "Không đủ thông tin để quyết định",
-        "risk_reward": null,
-        "bull_summary": "Bull case không xác định",
-        "bear_summary": "Bear case không xác định",
-        "agreed_with": "neither"
-      },
-      "debate": true,
-      "bull_case": {
-        "stance": "BULL",
-        "confidence": 50,
-        "top_3_reasons": [
-          "Không đủ data"
-        ],
-        "summary": "Bull case không xác định"
-      },
-      "bear_case": {
-        "stance": "BEAR",
-        "confidence": 50,
-        "top_3_risks": [
-          "Không đủ data"
-        ],
-        "summary": "Bear case không xác định"
-      },
-      "final_score": 4.5,
-      "tradeable": true
-    },
-    {
-      "ticker": "FRT",
-      "score": 3.5,
-      "weighted_score": 3.5,
-      "weight": 1.0,
-      "rsi": 73.2,
-      "macd_bull": true,
-      "sma_bull": false,
-      "vol_ratio": 2.74,
-      "atr_pct": 4.07,
-      "bb_pos": 1.27,
-      "weekly_trend": 1,
-      "weekly_rsi": 62.4,
-      "news_sentiment": 0.0,
-      "signals": {
-        "macd": "bullish",
-        "volume": "surge",
-        "momentum": "positive",
-        "weekly": "uptrend"
-      },
-      "price": 133.1,
-      "ensemble": {
-        "reliable": true,
-        "direction": 0,
-        "probability": 0.467,
-        "confidence": 6.6,
-        "signal": "không rõ",
-        "high_confidence": false,
-        "votes": {
-          "xgb": -1,
-          "lgbm": 1,
-          "rf": -1
-        },
-        "bullish_votes": 1,
-        "bearish_votes": 2,
-        "total_models": 3,
-        "consensus": false,
-        "sentiment_score": 0.0
-      },
-      "llm": {
-        "action": "GIỮ",
-        "confidence": 30,
-        "target": null,
-        "stoploss": null,
-        "reason": "Không đủ thông tin để quyết định",
-        "risk_reward": null,
-        "bull_summary": "Bull case không xác định",
-        "bear_summary": "Bear case không xác định",
-        "agreed_with": "neither"
-      },
-      "debate": true,
-      "bull_case": {
-        "stance": "BULL",
-        "confidence": 50,
-        "top_3_reasons": [
-          "Không đủ data"
-        ],
-        "summary": "Bull case không xác định"
-      },
-      "bear_case": {
-        "stance": "BEAR",
-        "confidence": 50,
-        "top_3_risks": [
-          "Không đủ data"
-        ],
-        "summary": "Bear case không xác định"
-      },
-      "final_score": 3.5,
-      "tradeable": true
-    }
-  ],
-  "tradeable_tickers": [
-    "VNM",
-    "GMD",
-    "FRT"
-  ],
-  "eligible_tickers": [
-    "VNM",
-    "GMD",
-    "FRT"
-  ]
+  "tradeable": [],
+  "tradeable_tickers": [],
+  "eligible_tickers": []
 }
