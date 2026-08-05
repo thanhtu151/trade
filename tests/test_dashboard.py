@@ -14,6 +14,13 @@ import pandas as pd
 import pytest
 
 
+def test_vn_price_normalization_accepts_both_provider_units():
+    from auto_trader import normalize_vn_price
+
+    assert normalize_vn_price(59.7) == pytest.approx(59.7)
+    assert normalize_vn_price(59_700) == pytest.approx(59.7)
+
+
 BASE_DIR = Path(__file__).parent.parent
 
 try:
