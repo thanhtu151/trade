@@ -1,22 +1,22 @@
 {
   "status": "healthy",
   "trading_allowed": true,
-  "updated_at": "2026-08-05 11:51:18",
+  "updated_at": "2026-08-05 12:11:25",
   "actions": [],
   "warnings": [
-    "historical ledger drift: expected cash -58,785,401, actual 23,701,075; not auto-repaired"
+    "historical ledger drift: expected cash -80,424,146, actual 2,062,330; not auto-repaired"
   ],
   "critical": [],
   "metrics": {
-    "cash": 23701075.0,
-    "positions": 4,
-    "trade_events": 77,
+    "cash": 2062330.0,
+    "positions": 5,
+    "trade_events": 78,
     "duplicate_events_removed": 0,
     "malformed_events": 0
   },
   "checkpoint": {
-    "cash": 23701075.0,
-    "trade_events": 77,
-    "last_event_signature": "e22cb2c41e6ea805"
+    "cash": 2062330.0,
+    "trade_events": 78,
+    "last_event_signature": "5a610c54edbae59f"
   }
 }

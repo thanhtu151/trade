@@ -1116,5 +1116,24 @@
     "reason": "target",
     "pnl": 1233370.0,
     "plan": {}
+  },
+  {
+    "time": "2026-08-05 12:11:24",
+    "symbol": "HDB",
+    "side": "BUY",
+    "qty": 818100,
+    "price": 26.45,
+    "value": 21638745.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 28.0,
+      "stop_loss": 25.7,
+      "atr": 0.77,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 28.00, cat lo duoi 25.70.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
   }
 ]

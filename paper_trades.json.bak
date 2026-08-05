@@ -1105,5 +1105,16 @@
       "trailing_stop_active": false,
       "kelly_fraction": 0.25
     }
+  },
+  {
+    "time": "2026-08-04 17:31:29",
+    "symbol": "HDB",
+    "side": "SELL",
+    "qty": 850600,
+    "price": 26.7,
+    "value": 22711020.0,
+    "reason": "target",
+    "pnl": 1233370.0,
+    "plan": {}
   }
 ]
