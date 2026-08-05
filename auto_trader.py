@@ -862,11 +862,22 @@ def fetch_history_for_scan(symbol, days=180):
             pass
 
 
+def normalize_vn_price(price):
+    """Return a VN stock price in the portfolio's thousand-VND convention.
+
+    VNStock providers may return either 59.7 or 59,700 for the same quote.
+    The paper portfolio and its cash calculations historically use 59.7, so
+    normalize provider values at this boundary before any valuation or sizing.
+    """
+    value = float(price)
+    return value / 1000.0 if value >= 1000 else value
+
+
 def current_price(symbol):
     df = fetch_history(symbol, days=20)
     if df.empty:
         return None
-    return float(df.iloc[-1]["close"])
+    return normalize_vn_price(df.iloc[-1]["close"])
 
 
 def close_negative_ev_positions():
