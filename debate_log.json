@@ -4948,8 +4948,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.75,
+    "actual_price_3d": 132.1
   },
   {
     "ticker": "VNM",
@@ -5036,8 +5038,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.39,
+    "actual_price_3d": 77.1
   },
   {
     "ticker": "PVD",
