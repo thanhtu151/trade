@@ -1135,5 +1135,16 @@
       "trailing_stop_active": false,
       "kelly_fraction": 0.25
     }
+  },
+  {
+    "time": "2026-08-05 17:29:48",
+    "symbol": "VNM",
+    "side": "SELL",
+    "qty": 340500,
+    "price": 58.6,
+    "value": 19953300.0,
+    "reason": "stop_loss",
+    "pnl": -578850.0,
+    "plan": {}
   }
 ]
