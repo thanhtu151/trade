@@ -1,6 +1,6 @@
 {
   "initial_cash": 100000000.0,
-  "cash": 22015630.0,
+  "cash": 1103830.0,
   "positions": {
     "POW": {
       "qty": 1645900,
@@ -97,7 +97,31 @@
         "trailing_stop_active": false,
         "kelly_fraction": 0.25
       }
+    },
+    "VHM": {
+      "qty": 268100,
+      "avg_price": 78.0,
+      "current_price": 78.0,
+      "market_value": 20911800.0,
+      "unrealized_pnl": 0.0,
+      "pnl_pct": 0.0,
+      "target_price": 84.5,
+      "stop_loss": 74.8,
+      "atr": 3.24,
+      "kelly_fraction": 0.25,
+      "entry_date": "2026-08-06 12:13:16",
+      "hold_days": 0,
+      "source": "two_stage_scheduler",
+      "plan": {
+        "target_price": 84.5,
+        "stop_loss": 74.8,
+        "atr": 3.24,
+        "hold_days": "toi da 15 phien",
+        "sell_rule": "Ban khi cham target 84.50, cat lo duoi 74.80.",
+        "trailing_stop_active": false,
+        "kelly_fraction": 0.25
+      }
     }
   },
-  "updated_at": "2026-08-05T17:29:55.379309"
+  "updated_at": "2026-08-06 12:13:16"
 }
