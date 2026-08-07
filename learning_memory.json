@@ -1,7 +1,7 @@
 {
   "last_trained": {
     "MBB": "2026-08-04",
-    "ACB": "2026-08-06",
+    "ACB": "2026-08-07",
     "VCB": "2026-08-04",
     "TCB": "2026-08-04",
     "VIC": "2026-08-04",
@@ -9,7 +9,7 @@
     "VRE": "2026-08-04",
     "VND": "2026-08-04",
     "NVL": "2026-08-04",
-    "POW": "2026-07-31",
+    "POW": "2026-08-07",
     "BID": "2026-08-04",
     "GAS": "2026-08-04",
     "VSC": "2026-08-04",
@@ -20,10 +20,10 @@
     "GMD": "2026-08-04",
     "PVS": "2026-08-04",
     "VIB": "2026-08-04",
-    "PVD": "2026-08-06",
+    "PVD": "2026-08-07",
     "VPB": "2026-08-04",
-    "HDB": "2026-08-06",
-    "STB": "2026-08-06",
+    "HDB": "2026-08-07",
+    "STB": "2026-08-07",
     "VNM": "2026-08-04",
     "FRT": "2026-08-04",
     "HCM": "2026-08-06",
@@ -91,11 +91,59 @@
         }
       ]
     },
+    "FRT": {
+      "total_predictions": 3,
+      "accuracy": 0.0,
+      "recent_5_accuracy": 0.0,
+      "avg_pnl_pct": 10.185,
+      "trend": "declining",
+      "last_5": [
+        {
+          "date": "2026-07-29",
+          "correct": false,
+          "pnl": 25.566
+        },
+        {
+          "date": "2026-07-31",
+          "correct": false,
+          "pnl": 6.994
+        },
+        {
+          "date": "2026-08-04",
+          "correct": false,
+          "pnl": -2.004
+        }
+      ]
+    },
+    "GAS": {
+      "total_predictions": 3,
+      "accuracy": 0.667,
+      "recent_5_accuracy": 0.667,
+      "avg_pnl_pct": 124298.57,
+      "trend": "declining",
+      "last_5": [
+        {
+          "date": "2026-07-01",
+          "correct": true,
+          "pnl": -4.005
+        },
+        {
+          "date": "2026-08-03",
+          "correct": false,
+          "pnl": -0.286
+        },
+        {
+          "date": "2026-08-04",
+          "correct": true,
+          "pnl": 372900.0
+        }
+      ]
+    },
     "GMD": {
-      "total_predictions": 4,
-      "accuracy": 0.5,
-      "recent_5_accuracy": 0.5,
-      "avg_pnl_pct": -0.19,
+      "total_predictions": 5,
+      "accuracy": 0.6,
+      "recent_5_accuracy": 0.6,
+      "avg_pnl_pct": 0.057,
       "trend": "declining",
       "last_5": [
         {
@@ -117,21 +165,21 @@
           "date": "2026-08-03",
           "correct": true,
           "pnl": 0.391
+        },
+        {
+          "date": "2026-08-04",
+          "correct": true,
+          "pnl": 1.047
         }
       ]
     },
     "HCM": {
-      "total_predictions": 5,
-      "accuracy": 0.4,
-      "recent_5_accuracy": 0.4,
-      "avg_pnl_pct": 0.526,
-      "trend": "declining",
+      "total_predictions": 6,
+      "accuracy": 0.5,
+      "recent_5_accuracy": 0.6,
+      "avg_pnl_pct": 0.638,
+      "trend": "improving",
       "last_5": [
-        {
-          "date": "2026-07-27",
-          "correct": false,
-          "pnl": 2.39
-        },
         {
           "date": "2026-07-29",
           "correct": true,
@@ -151,6 +199,11 @@
           "date": "2026-08-03",
           "correct": true,
           "pnl": 1.193
+        },
+        {
+          "date": "2026-08-04",
+          "correct": true,
+          "pnl": 1.198
         }
       ]
     },
@@ -470,10 +523,10 @@
       ]
     },
     "VIC": {
-      "total_predictions": 3,
-      "accuracy": 0.0,
-      "recent_5_accuracy": 0.0,
-      "avg_pnl_pct": 2.092,
+      "total_predictions": 4,
+      "accuracy": 0.25,
+      "recent_5_accuracy": 0.25,
+      "avg_pnl_pct": 1.168,
       "trend": "declining",
       "last_5": [
         {
@@ -490,6 +543,11 @@
           "date": "2026-07-27",
           "correct": false,
           "pnl": 4.019
+        },
+        {
+          "date": "2026-08-04",
+          "correct": true,
+          "pnl": -1.602
         }
       ]
     },
@@ -514,6 +572,30 @@
           "date": "2026-07-27",
           "correct": false,
           "pnl": 4.601
+        }
+      ]
+    },
+    "VNM": {
+      "total_predictions": 3,
+      "accuracy": 0.333,
+      "recent_5_accuracy": 0.333,
+      "avg_pnl_pct": 0.807,
+      "trend": "declining",
+      "last_5": [
+        {
+          "date": "2026-07-31",
+          "correct": false,
+          "pnl": -0.331
+        },
+        {
+          "date": "2026-08-03",
+          "correct": false,
+          "pnl": -2.156
+        },
+        {
+          "date": "2026-08-04",
+          "correct": true,
+          "pnl": 4.907
         }
       ]
     },
@@ -542,14 +624,14 @@
       ]
     },
     "_overall": {
-      "total": 101,
-      "accuracy": 0.446,
-      "avg_pnl": -2.428
+      "total": 108,
+      "accuracy": 0.463,
+      "avg_pnl": 3449.614
     }
   },
-  "updated_at": "2026-08-06T18:15:37.992191",
+  "updated_at": "2026-08-07T16:54:38.364605",
   "last_trained_lstm": {
-    "HDB": "2026-08-06",
+    "HDB": "2026-08-07",
     "SHS": "2026-08-04",
     "ACB": "2026-08-05",
     "PVD": "2026-07-29",
@@ -558,6 +640,7 @@
     "PC1": "2026-07-24",
     "VHM": "2026-08-03",
     "VND": "2026-08-06",
-    "STB": "2026-08-05"
+    "STB": "2026-08-07",
+    "FRT": "2026-08-07"
   }
 }
