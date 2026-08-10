@@ -1,7 +1,7 @@
 {
   "status": "healthy",
   "trading_allowed": true,
-  "updated_at": "2026-08-10 16:13:01",
+  "updated_at": "2026-08-10 17:12:36",
   "actions": [],
   "warnings": [
     "historical ledger drift: expected cash -61,811,346, actual 20,675,130; not auto-repaired"

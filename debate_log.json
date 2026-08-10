@@ -4915,8 +4915,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 1.96,
+    "actual_price_3d": 18.25
   },
   {
     "ticker": "STB",
@@ -4958,8 +4960,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.13,
+    "actual_price_3d": 74.6
   },
   {
     "ticker": "HDB",
@@ -5001,8 +5005,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 2.08,
+    "actual_price_3d": 26.95
   },
   {
     "ticker": "VHM",
@@ -5044,8 +5050,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -8.21,
+    "actual_price_3d": 71.6
   },
   {
     "ticker": "STB",
@@ -5087,8 +5095,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.13,
+    "actual_price_3d": 74.6
   },
   {
     "ticker": "HDB",
@@ -5130,8 +5140,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 2.08,
+    "actual_price_3d": 26.95
   },
   {
     "ticker": "VNM",
@@ -5173,8 +5185,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.96,
+    "actual_price_3d": 62.1
   },
   {
     "ticker": "NVL",
@@ -5216,8 +5230,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.72,
+    "actual_price_3d": 13.9
   },
   {
     "ticker": "STB",
@@ -5259,7 +5275,9 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.13,
+    "actual_price_3d": 74.6
   }
 ]
