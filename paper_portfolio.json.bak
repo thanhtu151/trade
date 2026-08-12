@@ -1,20 +1,20 @@
 {
   "initial_cash": 100000000.0,
-  "cash": 1103830.0,
+  "cash": 20675130.0,
   "positions": {
     "POW": {
       "qty": 1645900,
       "avg_price": 13.05,
-      "current_price": 13.8,
-      "market_value": 22713420.0,
-      "unrealized_pnl": 1234425.0,
-      "pnl_pct": 5.7471,
+      "current_price": 13.6,
+      "market_value": 22384240.0,
+      "unrealized_pnl": 905245.0,
+      "pnl_pct": 4.2146,
       "target_price": 14.0,
       "stop_loss": 13.1,
       "atr": 0.47,
       "kelly_fraction": 0.25,
       "entry_date": "2026-07-23 12:21:23",
-      "hold_days": 5,
+      "hold_days": 6,
       "source": "two_stage_scheduler",
       "plan": {
         "target_price": 14.0,
@@ -29,16 +29,16 @@
     "PVD": {
       "qty": 55800,
       "avg_price": 18.45,
-      "current_price": 17.9,
-      "market_value": 998820.0,
-      "unrealized_pnl": -30690.0,
-      "pnl_pct": -2.981,
+      "current_price": 18.05,
+      "market_value": 1007190.0,
+      "unrealized_pnl": -22320.0,
+      "pnl_pct": -2.168,
       "target_price": 20.4,
       "stop_loss": 17.5,
       "atr": 0.98,
       "kelly_fraction": 0.25,
       "entry_date": "2026-07-29 12:18:13",
-      "hold_days": 3,
+      "hold_days": 4,
       "source": "two_stage_scheduler",
       "plan": {
         "target_price": 20.4,
@@ -53,16 +53,16 @@
     "GMD": {
       "qty": 244600,
       "avg_price": 76.8,
-      "current_price": 76.2,
-      "market_value": 18638520.0,
-      "unrealized_pnl": -146760.0,
-      "pnl_pct": -0.7812,
+      "current_price": 77.2,
+      "market_value": 18883120.0,
+      "unrealized_pnl": 97840.0,
+      "pnl_pct": 0.5208,
       "target_price": 81.6,
       "stop_loss": 74.4,
       "atr": 2.41,
       "kelly_fraction": 0.25,
       "entry_date": "2026-08-03 12:38:01",
-      "hold_days": 2,
+      "hold_days": 3,
       "source": "two_stage_scheduler",
       "plan": {
         "target_price": 81.6,
@@ -86,7 +86,7 @@
       "atr": 0.77,
       "kelly_fraction": 0.25,
       "entry_date": "2026-08-05 12:11:24",
-      "hold_days": 1,
+      "hold_days": 2,
       "source": "two_stage_scheduler",
       "plan": {
         "target_price": 28.0,
@@ -97,31 +97,7 @@
         "trailing_stop_active": false,
         "kelly_fraction": 0.25
       }
-    },
-    "VHM": {
-      "qty": 268100,
-      "avg_price": 78.0,
-      "current_price": 78.0,
-      "market_value": 20911800.0,
-      "unrealized_pnl": 0.0,
-      "pnl_pct": 0.0,
-      "target_price": 84.5,
-      "stop_loss": 74.8,
-      "atr": 3.24,
-      "kelly_fraction": 0.25,
-      "entry_date": "2026-08-06 12:13:16",
-      "hold_days": 0,
-      "source": "two_stage_scheduler",
-      "plan": {
-        "target_price": 84.5,
-        "stop_loss": 74.8,
-        "atr": 3.24,
-        "hold_days": "toi da 15 phien",
-        "sell_rule": "Ban khi cham target 84.50, cat lo duoi 74.80.",
-        "trailing_stop_active": false,
-        "kelly_fraction": 0.25
-      }
     }
   },
-  "updated_at": "2026-08-06 12:13:16"
+  "updated_at": "2026-08-07T15:51:30.908944"
 }
