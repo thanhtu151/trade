@@ -5040,8 +5040,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.56,
+    "actual_price_3d": 26.85
   },
   {
     "ticker": "VNM",
@@ -5083,8 +5085,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.16,
+    "actual_price_3d": 62.2
   },
   {
     "ticker": "STB",
@@ -5126,8 +5130,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.93,
+    "actual_price_3d": 74.2
   },
   {
     "ticker": "HCM",
@@ -5169,8 +5175,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -4.53,
+    "actual_price_3d": 25.3
   },
   {
     "ticker": "FRT",
@@ -5212,7 +5220,9 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.68,
+    "actual_price_3d": 147.0
   }
 ]

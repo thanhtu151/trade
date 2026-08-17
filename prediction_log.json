@@ -2205,12 +2205,13 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.0 llm=GIỮ",
     "entry_price": 27.0,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 26.85,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -0.556,
     "logged_at": "2026-08-12T10:44:10.264853",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-08-17T16:32:12.111143"
   },
   "VCB_2026-08-12": {
     "id": "VCB_2026-08-12",
@@ -2222,12 +2223,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.0 llm=skip",
     "entry_price": 60.2,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 58.2,
+    "actual_direction": -1,
+    "correct": true,
+    "pnl_pct": -3.322,
     "logged_at": "2026-08-12T10:44:22.701210",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-08-17T16:32:14.577554"
   },
   "FRT_2026-08-12": {
     "id": "FRT_2026-08-12",
@@ -2239,12 +2241,13 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.0 llm=GIỮ",
     "entry_price": 146.0,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 147.0,
+    "actual_direction": 1,
+    "correct": true,
+    "pnl_pct": 0.685,
     "logged_at": "2026-08-12T10:45:17.157421",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-08-17T16:32:16.338481"
   },
   "MBB_2026-08-12": {
     "id": "MBB_2026-08-12",
@@ -2256,12 +2259,13 @@
     "source": "two_stage",
     "notes": "stage1_score=1.5 llm=skip",
     "entry_price": 20.45,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 19.9,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -2.689,
     "logged_at": "2026-08-12T10:45:30.232841",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-08-17T16:32:18.096868"
   },
   "CTG_2026-08-12": {
     "id": "CTG_2026-08-12",
@@ -2273,11 +2277,12 @@
     "source": "two_stage",
     "notes": "stage1_score=1.5 llm=skip",
     "entry_price": 32.25,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 31.5,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -2.326,
     "logged_at": "2026-08-12T10:45:41.786874",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-08-17T16:32:20.141843"
   }
 }
