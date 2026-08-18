@@ -1,61 +1,5 @@
 [
   {
-    "ticker": "POW",
-    "date": "2026-06-18",
-    "time": "2026-06-18T21:37:10.149846",
-    "market_data": {
-      "price": 14.2,
-      "rsi": 63.9,
-      "macd_bull": true,
-      "vol_ratio": 1.15,
-      "score": 3.0,
-      "ensemble_signal": "N/A",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 59456136.7
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 85,
-      "top_3_reasons": [
-        "Xu hướng uptrend trong tuần",
-        "MACD bullish chỉ ra động lượng tăng",
-        "Volume cao hơn trung bình 20 ngày"
-      ],
-      "target_price": 18,
-      "catalyst": "Sự cải thiện trong Stage1 Score",
-      "summary": "Cơ hội mua với động lượng tăng và xu hướng uptrend"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 70,
-      "top_3_risks": [
-        "Tín hiệu phân kỳ tiềm năng giữa RSI và giá",
-        "Volume giao dịch thấp so với trung bình",
-        "Thiếu thông tin về chế độ thị trường"
-      ],
-      "downside_target": 12,
-      "main_risk": "Rủi ro điều chỉnh do tăng trưởng quá nhanh",
-      "summary": "CASE BEAR do lo ngại về tín hiệu kỹ thuật và điều kiện thị trường không rõ ràng"
-    },
-    "final_decision": {
-      "action": "MUA",
-      "confidence": 85,
-      "position_size_pct": 20,
-      "agreed_with": "bull",
-      "key_reason": "Xu hướng uptrend trong tuần và MACD bullish",
-      "risk_reward": 2.0,
-      "target": 18,
-      "stoploss": 12
-    },
-    "elapsed_sec": 3.3,
-    "outcome": "incorrect",
-    "reflection": "Nên cân nhắc kỹ lưỡng các yếu tố kỹ thuật và điều kiện thị trường trước khi đưa ra quyết định mua bán.",
-    "pnl_pct": -2.11,
-    "actual_price_3d": 13.9
-  },
-  {
     "ticker": "PVS",
     "date": "2026-06-18",
     "time": "2026-06-18T21:37:20.052692",
@@ -5224,5 +5168,48 @@
     "reflection": "",
     "pnl_pct": 0.68,
     "actual_price_3d": 147.0
+  },
+  {
+    "ticker": "FRT",
+    "date": "2026-08-18",
+    "time": "2026-08-18T09:42:57.113748",
+    "market_data": {
+      "price": 148.0,
+      "rsi": 85.4,
+      "macd_bull": true,
+      "vol_ratio": 0.1,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 1045100.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
   }
 ]
