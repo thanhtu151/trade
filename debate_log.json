@@ -1,117 +1,5 @@
 [
   {
-    "ticker": "PVS",
-    "date": "2026-06-18",
-    "time": "2026-06-18T21:37:20.052692",
-    "market_data": {
-      "price": 39.0,
-      "rsi": 50.0,
-      "macd_bull": true,
-      "vol_ratio": 1.83,
-      "score": 3.0,
-      "ensemble_signal": "N/A",
-      "weekly_trend": "sideways",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 59456136.7
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 70,
-      "top_3_reasons": [
-        "MACD có tín hiệu bullish",
-        "Volume cao hơn trung bình 20 ngày",
-        "Giá đang ở mức hấp dẫn để mua"
-      ],
-      "target_price": 45,
-      "catalyst": "Tín hiệu breakout khỏi xu hướng sideways",
-      "summary": "PVS có tiềm năng tăng giá nhờ tín hiệu kỹ thuật và khối lượng giao dịch cao"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 60,
-      "top_3_risks": [
-        "Thị trường không rõ ràng về xu hướng (UNKNOWN)",
-        "RSI không quá nóng nhưng cũng không quá lạnh (50.0)",
-        "Volume tăng nhưng không đủ mạnh để xác định xu hướng rõ ràng (1.8x TB20)"
-      ],
-      "downside_target": 35,
-      "main_risk": "Thị trường không rõ ràng về xu hướng",
-      "summary": "Khả năng cao giá sẽ giảm do thiếu thông tin rõ ràng về xu hướng thị trường"
-    },
-    "final_decision": {
-      "action": "MUA",
-      "confidence": 70,
-      "position_size_pct": 20,
-      "agreed_with": "bull",
-      "key_reason": "MACD có tín hiệu bullish và Volume cao hơn trung bình 20 ngày",
-      "risk_reward": 1.67,
-      "target": 45,
-      "stoploss": 35
-    },
-    "elapsed_sec": 3.3,
-    "outcome": "incorrect",
-    "reflection": "Cần phân tích kỹ lưỡng cả tín hiệu kỹ thuật và thông tin thị trường trước khi đưa ra quyết định đầu tư.",
-    "pnl_pct": 0.0,
-    "actual_price_3d": 39.0
-  },
-  {
-    "ticker": "GMD",
-    "date": "2026-06-18",
-    "time": "2026-06-18T21:37:31.222585",
-    "market_data": {
-      "price": 77.6,
-      "rsi": 75.2,
-      "macd_bull": true,
-      "vol_ratio": 0.98,
-      "score": 3.0,
-      "ensemble_signal": "N/A",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 59456136.7
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 85,
-      "top_3_reasons": [
-        "Xu hướng uptrend hàng tuần",
-        "Chỉ số MACD bullish",
-        "Lịch sử quyết định MUA gần nhất với confidence cao"
-      ],
-      "target_price": 92,
-      "catalyst": "Tiếp tục duy trì xu hướng uptrend hàng tuần",
-      "summary": "Cơ hội MUA GMD với upside mạnh nhờ xu hướng uptrend và chỉ số kỹ thuật tích cực"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 70,
-      "top_3_risks": [
-        "RSI quá cao có thể dẫn đến điều chỉnh",
-        " Thiếu thông tin về thị trường Ensemble",
-        "Xu hướng tuần tăng nhưng không biết chắc chắn về Market regime"
-      ],
-      "downside_target": 65,
-      "main_risk": "RSI quá cao",
-      "summary": "Case bear vì RSI quá cao và thiếu thông tin về thị trường"
-    },
-    "final_decision": {
-      "action": "MUA",
-      "confidence": 85,
-      "position_size_pct": 20,
-      "agreed_with": "bull",
-      "key_reason": "Xu hướng uptrend hàng tuần và chỉ số MACD bullish",
-      "risk_reward": 2.13,
-      "target": 92,
-      "stoploss": 70
-    },
-    "elapsed_sec": 4.6,
-    "outcome": "incorrect",
-    "reflection": "Cần cân nhắc cả các yếu tố kỹ thuật và thông tin thị trường trước khi đưa ra quyết định mua hoặc bán.",
-    "pnl_pct": -2.65,
-    "actual_price_3d": 77.0
-  },
-  {
     "ticker": "VJC",
     "date": "2026-06-18",
     "time": "2026-06-18T21:37:41.449088",
@@ -5178,6 +5066,92 @@
       "rsi": 85.4,
       "macd_bull": true,
       "vol_ratio": 0.1,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 1045100.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "GAS",
+    "date": "2026-08-20",
+    "time": "2026-08-20T09:44:28.136077",
+    "market_data": {
+      "price": 83.7,
+      "rsi": 73.8,
+      "macd_bull": true,
+      "vol_ratio": 0.08,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 1.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 1045100.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "STB",
+    "date": "2026-08-20",
+    "time": "2026-08-20T09:44:37.995906",
+    "market_data": {
+      "price": 75.8,
+      "rsi": 66.4,
+      "macd_bull": true,
+      "vol_ratio": 0.05,
       "score": 3.0,
       "ensemble_signal": "tăng mạnh",
       "weekly_trend": "uptrend",
