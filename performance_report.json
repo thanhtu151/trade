@@ -1,9 +1,9 @@
 {
-  "date": "2026-08-20",
+  "date": "2026-08-21",
   "overall": {
-    "total": 127,
-    "accuracy": 0.504,
-    "avg_pnl": 2933.605
+    "total": 134,
+    "accuracy": 0.5,
+    "avg_pnl": 2780.389
   },
   "by_ticker": {
     "ACB": {
@@ -89,17 +89,12 @@
       ]
     },
     "FRT": {
-      "total_predictions": 6,
-      "accuracy": 0.5,
+      "total_predictions": 7,
+      "accuracy": 0.429,
       "recent_5_accuracy": 0.6,
-      "avg_pnl_pct": 6.007,
+      "avg_pnl_pct": 4.603,
       "trend": "improving",
       "last_5": [
-        {
-          "date": "2026-07-31",
-          "correct": false,
-          "pnl": 6.994
-        },
         {
           "date": "2026-08-04",
           "correct": false,
@@ -119,14 +114,19 @@
           "date": "2026-08-12",
           "correct": true,
           "pnl": 0.685
+        },
+        {
+          "date": "2026-08-18",
+          "correct": false,
+          "pnl": -3.82
         }
       ]
     },
     "GAS": {
-      "total_predictions": 3,
-      "accuracy": 0.667,
-      "recent_5_accuracy": 0.667,
-      "avg_pnl_pct": 124298.57,
+      "total_predictions": 4,
+      "accuracy": 0.75,
+      "recent_5_accuracy": 0.75,
+      "avg_pnl_pct": 93224.017,
       "trend": "declining",
       "last_5": [
         {
@@ -143,21 +143,21 @@
           "date": "2026-08-04",
           "correct": true,
           "pnl": 372900.0
+        },
+        {
+          "date": "2026-08-18",
+          "correct": true,
+          "pnl": 0.361
         }
       ]
     },
     "GMD": {
-      "total_predictions": 8,
-      "accuracy": 0.75,
-      "recent_5_accuracy": 1.0,
-      "avg_pnl_pct": 0.557,
+      "total_predictions": 9,
+      "accuracy": 0.667,
+      "recent_5_accuracy": 0.8,
+      "avg_pnl_pct": 0.298,
       "trend": "improving",
       "last_5": [
-        {
-          "date": "2026-08-03",
-          "correct": true,
-          "pnl": 0.391
-        },
         {
           "date": "2026-08-04",
           "correct": true,
@@ -177,6 +177,11 @@
           "date": "2026-08-07",
           "correct": true,
           "pnl": 1.034
+        },
+        {
+          "date": "2026-08-18",
+          "correct": false,
+          "pnl": -1.777
         }
       ]
     },
@@ -249,17 +254,12 @@
       ]
     },
     "MBB": {
-      "total_predictions": 7,
-      "accuracy": 0.571,
-      "recent_5_accuracy": 0.6,
-      "avg_pnl_pct": -5.504,
+      "total_predictions": 8,
+      "accuracy": 0.625,
+      "recent_5_accuracy": 0.8,
+      "avg_pnl_pct": -4.219,
       "trend": "improving",
       "last_5": [
-        {
-          "date": "2026-07-08",
-          "correct": false,
-          "pnl": -12.692
-        },
         {
           "date": "2026-07-10",
           "correct": true,
@@ -279,6 +279,11 @@
           "date": "2026-08-12",
           "correct": false,
           "pnl": -2.689
+        },
+        {
+          "date": "2026-08-18",
+          "correct": true,
+          "pnl": 4.774
         }
       ]
     },
@@ -443,17 +448,12 @@
       ]
     },
     "VCB": {
-      "total_predictions": 6,
-      "accuracy": 0.833,
-      "recent_5_accuracy": 0.8,
-      "avg_pnl_pct": -0.861,
+      "total_predictions": 7,
+      "accuracy": 0.714,
+      "recent_5_accuracy": 0.6,
+      "avg_pnl_pct": -0.567,
       "trend": "declining",
       "last_5": [
-        {
-          "date": "2026-06-29",
-          "correct": true,
-          "pnl": -1.288
-        },
         {
           "date": "2026-06-30",
           "correct": true,
@@ -473,6 +473,11 @@
           "date": "2026-08-12",
           "correct": true,
           "pnl": -3.322
+        },
+        {
+          "date": "2026-08-18",
+          "correct": false,
+          "pnl": 1.199
         }
       ]
     },
@@ -593,10 +598,10 @@
       ]
     },
     "VNM": {
-      "total_predictions": 4,
-      "accuracy": 0.5,
-      "recent_5_accuracy": 0.5,
-      "avg_pnl_pct": 1.918,
+      "total_predictions": 5,
+      "accuracy": 0.4,
+      "recent_5_accuracy": 0.4,
+      "avg_pnl_pct": 1.984,
       "trend": "declining",
       "last_5": [
         {
@@ -618,6 +623,11 @@
           "date": "2026-08-05",
           "correct": true,
           "pnl": 5.254
+        },
+        {
+          "date": "2026-08-18",
+          "correct": false,
+          "pnl": 2.244
         }
       ]
     },
@@ -646,5 +656,5 @@
       ]
     }
   },
-  "generated_at": "2026-08-20T16:27:31.641588"
+  "generated_at": "2026-08-21T16:30:10.882792"
 }

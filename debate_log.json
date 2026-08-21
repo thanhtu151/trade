@@ -5097,8 +5097,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -3.04,
+    "actual_price_3d": 143.5
   },
   {
     "ticker": "GAS",
