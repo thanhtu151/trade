@@ -5142,8 +5142,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 1.55,
+    "actual_price_3d": 85.0
   },
   {
     "ticker": "STB",
@@ -5185,7 +5187,9 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -1.19,
+    "actual_price_3d": 74.9
   }
 ]
