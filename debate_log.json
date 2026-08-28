@@ -4448,8 +4448,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.5,
+    "actual_price_3d": 60.1
   },
   {
     "ticker": "MBB",
@@ -4491,8 +4493,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 1.69,
+    "actual_price_3d": 21.05
   },
   {
     "ticker": "HDB",
@@ -4534,8 +4538,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 2.21,
+    "actual_price_3d": 27.8
   },
   {
     "ticker": "GAS",
@@ -4577,8 +4583,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -1.29,
+    "actual_price_3d": 84.2
   },
   {
     "ticker": "DPM",
@@ -4620,8 +4628,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.9,
+    "actual_price_3d": 22.0
   },
   {
     "ticker": "HCM",
@@ -4663,8 +4673,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.19,
+    "actual_price_3d": 26.05
   },
   {
     "ticker": "GMD",
@@ -4749,8 +4761,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.5,
+    "actual_price_3d": 60.1
   },
   {
     "ticker": "MBB",
@@ -4792,8 +4806,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 1.69,
+    "actual_price_3d": 21.05
   },
   {
     "ticker": "HDB",
@@ -4835,8 +4851,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 2.21,
+    "actual_price_3d": 27.8
   },
   {
     "ticker": "VPB",
@@ -5007,7 +5025,9 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.9,
+    "actual_price_3d": 22.0
   }
 ]
