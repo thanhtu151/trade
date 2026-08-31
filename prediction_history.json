@@ -112998,10 +112998,11 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.0 llm=GIỮ",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 2.018
   },
   {
     "date": "2026-08-26",
@@ -113017,10 +113018,11 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.0 llm=GIỮ",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": -1.29
   },
   {
     "date": "2026-08-26",
@@ -113036,10 +113038,11 @@
     "source": "two_stage",
     "notes": "stage1_score=2.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": -0.777
   },
   {
     "date": "2026-08-26",
@@ -113055,10 +113058,11 @@
     "source": "two_stage",
     "notes": "stage1_score=1.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 1.179
   },
   {
     "date": "2026-08-27",
@@ -113074,10 +113078,11 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.0 llm=GIỮ",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 0.0
   },
   {
     "date": "2026-08-27",
@@ -113093,10 +113098,11 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.5 llm=GIỮ",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 1.46
   },
   {
     "date": "2026-08-27",
@@ -113112,9 +113118,10 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
-    "synced_from": "prediction_log"
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
+    "synced_from": "prediction_log",
+    "pnl_pct": 0.157
   }
 ]

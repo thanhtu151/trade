@@ -4718,8 +4718,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.38,
+    "actual_price_3d": 79.5
   },
   {
     "ticker": "VCB",
@@ -4896,8 +4898,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 1.46,
+    "actual_price_3d": 27.8
   },
   {
     "ticker": "NVL",
@@ -4939,8 +4943,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -1.14,
+    "actual_price_3d": 13.05
   },
   {
     "ticker": "VIB",
@@ -4982,8 +4988,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.34,
+    "actual_price_3d": 14.95
   },
   {
     "ticker": "DPM",
