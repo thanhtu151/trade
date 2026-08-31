@@ -1176,5 +1176,24 @@
     "reason": "stop_loss",
     "pnl": -1340500.0,
     "plan": {}
+  },
+  {
+    "time": "2026-08-12 11:01:48",
+    "symbol": "FRT",
+    "side": "BUY",
+    "qty": 135100,
+    "price": 145.3,
+    "value": 19630030.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 156.7,
+      "stop_loss": 139.6,
+      "atr": 5.7,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 156.70, cat lo duoi 139.60.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
   }
 ]

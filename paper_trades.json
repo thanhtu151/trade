@@ -1195,5 +1195,16 @@
       "trailing_stop_active": false,
       "kelly_fraction": 0.25
     }
+  },
+  {
+    "time": "2026-08-31 22:45:09",
+    "symbol": "POW",
+    "side": "SELL",
+    "qty": 1645900,
+    "price": 13.1,
+    "value": 21561290.0,
+    "reason": "stop_loss",
+    "pnl": 82295.0,
+    "plan": {}
   }
 ]
