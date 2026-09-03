@@ -14,7 +14,7 @@
       "atr": 0.98,
       "kelly_fraction": 0.25,
       "entry_date": "2026-07-29 12:18:13",
-      "hold_days": 10,
+      "hold_days": 11,
       "source": "two_stage_scheduler",
       "plan": {
         "target_price": 20.4,
@@ -38,7 +38,7 @@
       "atr": 2.41,
       "kelly_fraction": 0.25,
       "entry_date": "2026-08-03 12:38:01",
-      "hold_days": 9,
+      "hold_days": 10,
       "source": "two_stage_scheduler",
       "plan": {
         "target_price": 81.6,
@@ -62,7 +62,7 @@
       "atr": 0.77,
       "kelly_fraction": 0.25,
       "entry_date": "2026-08-05 12:11:24",
-      "hold_days": 8,
+      "hold_days": 9,
       "source": "two_stage_scheduler",
       "plan": {
         "target_price": 28.0,
@@ -86,7 +86,7 @@
       "atr": 5.7,
       "kelly_fraction": 0.25,
       "entry_date": "2026-08-12 11:01:48",
-      "hold_days": 6,
+      "hold_days": 7,
       "source": "two_stage_scheduler",
       "plan": {
         "target_price": 156.7,
@@ -99,5 +99,5 @@
       }
     }
   },
-  "updated_at": "2026-08-31T22:45:18.316860"
+  "updated_at": "2026-09-01T19:57:41.136240"
 }

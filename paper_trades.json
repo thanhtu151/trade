@@ -1206,5 +1206,24 @@
     "reason": "stop_loss",
     "pnl": 82295.0,
     "plan": {}
+  },
+  {
+    "time": "2026-09-03 13:46:27",
+    "symbol": "DPM",
+    "side": "BUY",
+    "qty": 924100,
+    "price": 23.15,
+    "value": 21392915.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 24.1,
+      "stop_loss": 22.7,
+      "atr": 0.49,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 24.10, cat lo duoi 22.70.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
   }
 ]
