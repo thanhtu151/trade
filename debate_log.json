@@ -1,173 +1,5 @@
 [
   {
-    "ticker": "VND",
-    "date": "2026-06-22",
-    "time": "2026-06-22T09:16:04.203646",
-    "market_data": {
-      "price": 17.7,
-      "rsi": 51.6,
-      "macd_bull": true,
-      "vol_ratio": 0.73,
-      "score": 3.0,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 75687031.94000001
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 78,
-      "top_3_reasons": [
-        "MACD bullish chỉ ra xu hướng tăng ngắn hạn",
-        "Weekly trend uptrend cho thấy động lượng tăng trưởng",
-        "RSI 51.6 cho thấy vẫn còn dư địa để tiếp tục tăng"
-      ],
-      "target_price": 20.5,
-      "catalyst": "Sự cải thiện trong các tín hiệu kỹ thuật và tăng trưởng volume",
-      "summary": "Tiềm năng tăng trưởng ngắn hạn với các tín hiệu kỹ thuật tích cực và xu hướng uptrend"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 70,
-      "top_3_risks": [
-        "RSI ở mức trung bình có thể đảo chiều",
-        "Lịch sử quyết định đầu tư gần đây không chính xác",
-        "Thị trường chưa có tín hiệu rõ ràng"
-      ],
-      "downside_target": 16.5,
-      "main_risk": "Sự không chắc chắn về xu hướng thị trường",
-      "summary": "Rủi ro giảm giá cao do thiếu tín hiệu tăng trưởng mạnh mẽ và lịch sử đầu tư không chính xác"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 60,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Lịch sử quyết định đầu tư gần đây không chính xác và rủi ro giảm giá cao",
-      "risk_reward": 0.83,
-      "target": null,
-      "stoploss": null
-    },
-    "elapsed_sec": 3.0,
-    "outcome": "neutral",
-    "reflection": "Phân tích kỹ thuật và tín hiệu tăng trưởng cần được cân nhắc kỹ lưỡng để đưa ra quyết định đầu tư chính xác.",
-    "pnl_pct": -0.56,
-    "actual_price_3d": 17.6
-  },
-  {
-    "ticker": "GMD",
-    "date": "2026-06-22",
-    "time": "2026-06-22T09:16:16.032425",
-    "market_data": {
-      "price": 77.0,
-      "rsi": 68.3,
-      "macd_bull": true,
-      "vol_ratio": 1.18,
-      "score": 3.0,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 75687031.94000001
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 85,
-      "top_3_reasons": [
-        "RSI 68.3 cho thấy chưa đạt mức quá mua",
-        "MACD bullish và Volume lớn hơn trung bình 20 ngày",
-        "Weekly trend đang ở uptrend"
-      ],
-      "target_price": 90,
-      "catalyst": "Sự kết hợp giữa chỉ báo kỹ thuật tích cực và xu hướng tăng",
-      "summary": "GMD có tiềm năng tăng giá nhờ sự kết hợp giữa chỉ báo kỹ thuật tích cực và xu hướng tăng"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 90,
-      "top_3_risks": [
-        "Tình trạng RSI ở mức cao (68.3) có thể dẫn đến sự điều chỉnh giảm",
-        "Lịch sử quyết định mua GMD gần đây có kết quả không chính xác",
-        "Thiếu thông tin về Ensemble và Market regime tạo ra sự không chắc chắn"
-      ],
-      "downside_target": 65,
-      "main_risk": "RSI cao và lịch sử quyết định mua không chính xác",
-      "summary": "Giá GMD có thể giảm do RSI cao và lịch sử quyết định mua không tốt"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 65,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Lịch sử quyết định mua GMD gần đây không tốt và RSI cao",
-      "risk_reward": 0.93,
-      "target": null,
-      "stoploss": null
-    },
-    "elapsed_sec": 4.3,
-    "outcome": "neutral",
-    "reflection": "Cần xem xét nhiều yếu tố hơn, bao gồm cả lịch sử quyết định mua trước khi đưa ra quyết định đầu tư.",
-    "pnl_pct": -4.42,
-    "actual_price_3d": 73.6
-  },
-  {
-    "ticker": "VJC",
-    "date": "2026-06-22",
-    "time": "2026-06-22T09:16:26.962316",
-    "market_data": {
-      "price": 140.5,
-      "rsi": 59.6,
-      "macd_bull": true,
-      "vol_ratio": 1.13,
-      "score": 3.0,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 75687031.94000001
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 70,
-      "top_3_reasons": [
-        "Xu hướng uptrend trên khung thời gian tuần",
-        "Tín hiệu technical MACD bullish hỗ trợ tăng trưởng",
-        "Lịch sử quyết định cho thấy cần cân nhắc kỹ cả hai trường hợp tăng giảm nhưng tín hiệu kỹ thuật đang ủng hộ"
-      ],
-      "target_price": 155,
-      "catalyst": "Sự cải thiện trong Stage1 Score và tích cực trong tình hình kinh tế vĩ mô",
-      "summary": "Cổ phiếu VJC có cơ hội tăng giá với tín hiệu technical tích cực và uptrend trên khung thời gian tuần"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 80,
-      "top_3_risks": [
-        "RSI cao có thể dẫn đến điều chỉnh giảm",
-        "Không có tín hiệu rõ ràng từ Ensemble",
-        "Lịch sử quyết định gần đây không chính xác"
-      ],
-      "downside_target": 120,
-      "main_risk": "RSI cao có thể dẫn đến điều chỉnh giảm",
-      "summary": "Cổ phiếu VJC có khả năng giảm do RSI cao và lịch sử quyết định không chính xác gần đây"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 60,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Lịch sử quyết định không chính xác gần đây và RSI cao",
-      "risk_reward": 1.2,
-      "target": 0,
-      "stoploss": 0
-    },
-    "elapsed_sec": 3.3,
-    "outcome": "neutral",
-    "reflection": "Nên cân nhắc kỹ lưỡng giữa các yếu tố技术 và cơ bản khi đưa ra quyết định đầu tư để tránh những sai lầm không cần thiết.",
-    "pnl_pct": -1.21,
-    "actual_price_3d": 138.8
-  },
-  {
     "ticker": "POW",
     "date": "2026-06-23",
     "time": "2026-06-23T09:09:35.144496",
@@ -5037,5 +4869,134 @@
     "reflection": "",
     "pnl_pct": -0.9,
     "actual_price_3d": 22.0
+  },
+  {
+    "ticker": "DPM",
+    "date": "2026-09-03",
+    "time": "2026-09-03T13:25:39.055854",
+    "market_data": {
+      "price": 23.1,
+      "rsi": 58.9,
+      "macd_bull": true,
+      "vol_ratio": 2.87,
+      "score": 4.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 22606390.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "DCM",
+    "date": "2026-09-03",
+    "time": "2026-09-03T13:26:02.195197",
+    "market_data": {
+      "price": 32.3,
+      "rsi": 57.7,
+      "macd_bull": true,
+      "vol_ratio": 2.28,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 22606390.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "NVL",
+    "date": "2026-09-03",
+    "time": "2026-09-03T13:26:24.671427",
+    "market_data": {
+      "price": 13.1,
+      "rsi": 34.4,
+      "macd_bull": false,
+      "vol_ratio": 0.7,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 22606390.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
   }
 ]
