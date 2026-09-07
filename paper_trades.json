@@ -1225,5 +1225,38 @@
       "trailing_stop_active": false,
       "kelly_fraction": 0.25
     }
+  },
+  {
+    "time": "2026-09-07 20:52:42",
+    "symbol": "GMD",
+    "side": "SELL",
+    "qty": 244600,
+    "price": 76.8,
+    "value": 18785280.0,
+    "reason": "stop_loss",
+    "pnl": 0.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-09-07 20:52:46",
+    "symbol": "FRT",
+    "side": "SELL",
+    "qty": 135100,
+    "price": 136.4,
+    "value": 18427640.0,
+    "reason": "stop_loss",
+    "pnl": -1202390.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-09-07 20:52:48",
+    "symbol": "DPM",
+    "side": "SELL",
+    "qty": 924100,
+    "price": 22.3,
+    "value": 20607430.0,
+    "reason": "stop_loss",
+    "pnl": -785485.0,
+    "plan": {}
   }
 ]
