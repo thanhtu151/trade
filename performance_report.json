@@ -1,9 +1,9 @@
 {
-  "date": "2026-09-04",
+  "date": "2026-09-07",
   "overall": {
-    "total": 147,
-    "accuracy": 0.49,
-    "avg_pnl": 2534.592
+    "total": 151,
+    "accuracy": 0.477,
+    "avg_pnl": 2467.354
   },
   "by_ticker": {
     "ACB": {
@@ -94,17 +94,12 @@
       ]
     },
     "FRT": {
-      "total_predictions": 9,
-      "accuracy": 0.556,
-      "recent_5_accuracy": 0.8,
-      "avg_pnl_pct": 3.887,
+      "total_predictions": 10,
+      "accuracy": 0.5,
+      "recent_5_accuracy": 0.6,
+      "avg_pnl_pct": 2.991,
       "trend": "improving",
       "last_5": [
-        {
-          "date": "2026-08-07",
-          "correct": true,
-          "pnl": 3.396
-        },
         {
           "date": "2026-08-12",
           "correct": true,
@@ -124,21 +119,21 @@
           "date": "2026-08-26",
           "correct": true,
           "pnl": 1.179
+        },
+        {
+          "date": "2026-09-03",
+          "correct": false,
+          "pnl": -5.08
         }
       ]
     },
     "GAS": {
-      "total_predictions": 5,
-      "accuracy": 0.6,
-      "recent_5_accuracy": 0.6,
-      "avg_pnl_pct": 74578.956,
+      "total_predictions": 6,
+      "accuracy": 0.5,
+      "recent_5_accuracy": 0.4,
+      "avg_pnl_pct": 62148.951,
       "trend": "declining",
       "last_5": [
-        {
-          "date": "2026-07-01",
-          "correct": true,
-          "pnl": -4.005
-        },
         {
           "date": "2026-08-03",
           "correct": false,
@@ -158,6 +153,11 @@
           "date": "2026-08-26",
           "correct": false,
           "pnl": -1.29
+        },
+        {
+          "date": "2026-09-03",
+          "correct": false,
+          "pnl": -1.075
         }
       ]
     },
@@ -332,17 +332,12 @@
       ]
     },
     "PVD": {
-      "total_predictions": 9,
-      "accuracy": 0.444,
-      "recent_5_accuracy": 0.6,
-      "avg_pnl_pct": -8.792,
-      "trend": "improving",
+      "total_predictions": 10,
+      "accuracy": 0.4,
+      "recent_5_accuracy": 0.4,
+      "avg_pnl_pct": -8.426,
+      "trend": "declining",
       "last_5": [
-        {
-          "date": "2026-07-23",
-          "correct": true,
-          "pnl": 3.39
-        },
         {
           "date": "2026-07-27",
           "correct": true,
@@ -362,6 +357,11 @@
           "date": "2026-08-26",
           "correct": false,
           "pnl": -0.777
+        },
+        {
+          "date": "2026-09-03",
+          "correct": false,
+          "pnl": -5.128
         }
       ]
     },
@@ -671,5 +671,5 @@
       ]
     }
   },
-  "generated_at": "2026-09-04T20:05:07.100539"
+  "generated_at": "2026-09-07T21:40:05.240855"
 }

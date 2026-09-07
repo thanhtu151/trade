@@ -4910,8 +4910,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -3.46,
+    "actual_price_3d": 22.3
   },
   {
     "ticker": "DCM",
@@ -4953,8 +4955,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -1.55,
+    "actual_price_3d": 31.8
   },
   {
     "ticker": "NVL",
@@ -4996,7 +5000,9 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.76,
+    "actual_price_3d": 13.0
   }
 ]

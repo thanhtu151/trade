@@ -2655,12 +2655,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "entry_price": 83.7,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 82.8,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -1.075,
     "logged_at": "2026-09-03T13:26:34.860017",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-07T21:37:24.698317"
   },
   "PVD_2026-09-03": {
     "id": "PVD_2026-09-03",
@@ -2672,12 +2673,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.0 llm=skip",
     "entry_price": 19.5,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 18.5,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -5.128,
     "logged_at": "2026-09-03T13:26:49.242518",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-07T21:37:26.697375"
   },
   "FRT_2026-09-03": {
     "id": "FRT_2026-09-03",
@@ -2689,12 +2691,13 @@
     "source": "two_stage",
     "notes": "stage1_score=1.5 llm=skip",
     "entry_price": 143.7,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 136.4,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -5.08,
     "logged_at": "2026-09-03T13:27:03.087562",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-07T21:37:28.739798"
   },
   "VCI_2026-09-03": {
     "id": "VCI_2026-09-03",
@@ -2706,11 +2709,12 @@
     "source": "two_stage",
     "notes": "stage1_score=2.0 llm=skip",
     "entry_price": 22.45,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 21.7,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -3.341,
     "logged_at": "2026-09-03T13:27:27.409246",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-07T21:37:31.288817"
   }
 }
