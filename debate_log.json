@@ -1,173 +1,5 @@
 [
   {
-    "ticker": "POW",
-    "date": "2026-06-23",
-    "time": "2026-06-23T09:09:35.144496",
-    "market_data": {
-      "price": 14.5,
-      "rsi": 70.2,
-      "macd_bull": true,
-      "vol_ratio": 2.05,
-      "score": 4.5,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 106789810.14
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 80,
-      "top_3_reasons": [
-        "Xu hướng tăng trên khung thời gian tuần",
-        "MACD bullish cho thấy động lượng tăng trưởng",
-        "Lưu lượng giao dịch tăng cao (2.0x TB20) cho thấy sự quan tâm của nhà đầu tư"
-      ],
-      "target_price": 18,
-      "catalyst": "Sự cải thiện trong chỉ số RSI và duy trì xu hướng tăng",
-      "summary": "Giá có thể tăng do duy trì xu hướng tăng và sự cải thiện trong các chỉ số kỹ thuật"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 90,
-      "top_3_risks": [
-        "RSI cao cho thấy cổ phiếu đang trong vùng quá mua",
-        "Lịch sử quyết định mua gần đây đã chứng minh sai lầm",
-        "Thị trường có thể đảo chiều khi có tín hiệu ngược chiều"
-      ],
-      "downside_target": 10,
-      "main_risk": "Rủi ro điều chỉnh mạnh do RSI cao và thiếu tín hiệu vững chắc cho xu hướng tăng",
-      "summary": "Cổ phiếu đang đối mặt với rủi ro điều chỉnh mạnh do chỉ số RSI cao và thiếu tín hiệu vững chắc cho xu hướng tăng"
-    },
-    "final_decision": {
-      "action": "BÁN",
-      "confidence": 90,
-      "position_size_pct": 0,
-      "agreed_with": "bear",
-      "key_reason": "RSI cao và lịch sử quyết định mua gần đây đã chứng minh sai lầm",
-      "risk_reward": 0.67,
-      "target": 10,
-      "stoploss": 12
-    },
-    "elapsed_sec": 5.5,
-    "outcome": "incorrect",
-    "reflection": "Nên cân nhắc kỹ lưỡng cả bull case và bear case trước khi đưa ra quyết định đầu tư.",
-    "pnl_pct": 7.19,
-    "actual_price_3d": 14.9
-  },
-  {
-    "ticker": "POW",
-    "date": "2026-06-23",
-    "time": "2026-06-23T09:09:35.812705",
-    "market_data": {
-      "price": 14.5,
-      "rsi": 70.2,
-      "macd_bull": true,
-      "vol_ratio": 2.05,
-      "score": 4.5,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 106789810.14
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 80,
-      "top_3_reasons": [
-        "Weekly trend đang trong uptrend, chỉ ra xu hướng tăng trưởng dài hạn",
-        "MACD bullish, tín hiệu kỹ thuật cho thấy khả năng tăng giá",
-        "Volume gấp 2 lần TB20, chỉ ra sự quan tâm và giao dịch mạnh mẽ"
-      ],
-      "target_price": 17,
-      "catalyst": "Tín hiệu kỹ thuật và xu hướng tăng trưởng",
-      "summary": "Xu hướng tăng trưởng và tín hiệu kỹ thuật tích cực cho thấy POW có thể tiếp tục tăng giá"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 92,
-      "top_3_risks": [
-        "RSI đã ở vùng quá mua (70.2)",
-        "Lịch sử quyết định mua gần đây không chính xác",
-        "Thiếu thông tin về Ensemble và Market regime"
-      ],
-      "downside_target": 10.5,
-      "main_risk": "RSI đã ở vùng quá mua (70.2)",
-      "summary": "Nhiều yếu tố kỹ thuật và thiếu thông tin quan trọng dẫn đến khả năng giảm giá"
-    },
-    "final_decision": {
-      "action": "BÁN",
-      "confidence": 92,
-      "position_size_pct": 0,
-      "agreed_with": "bear",
-      "key_reason": "RSI đã ở vùng quá mua và thiếu thông tin về Ensemble và Market regime",
-      "risk_reward": 0.67,
-      "target": 10.5,
-      "stoploss": 15.5
-    },
-    "elapsed_sec": 5.1,
-    "outcome": "incorrect",
-    "reflection": "Cần cân nhắc kỹ lưỡng cả bull case và bear case trước khi đưa ra quyết định đầu tư.",
-    "pnl_pct": 7.19,
-    "actual_price_3d": 14.9
-  },
-  {
-    "ticker": "BMP",
-    "date": "2026-06-23",
-    "time": "2026-06-23T09:09:46.836940",
-    "market_data": {
-      "price": 151.5,
-      "rsi": 78.6,
-      "macd_bull": true,
-      "vol_ratio": 3.53,
-      "score": 3.5,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 106789810.14
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 85,
-      "top_3_reasons": [
-        "MACD bullish chỉ ra xu hướng tăng mạnh",
-        "Volume cao hơn 3.5 lần trung bình 20 ngày, cho thấy sự quan tâm mạnh mẽ của nhà đầu tư",
-        "Xu hướng uptrend qua tuần cho thấy động lượng tích cực"
-      ],
-      "target_price": 180,
-      "catalyst": "Tin tức tích cực về công ty hoặc ngành có thể làm tăng niềm tin của nhà đầu tư",
-      "summary": "Xu hướng uptrend và các tín hiệu kỹ thuật tích cực cho thấy tiềm năng tăng trưởng mạnh mẽ của BMP"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 80,
-      "top_3_risks": [
-        "Giá đang ở vùng quá mua với RSI 78.6",
-        "Trend uptrend có thể đảo chiều",
-        "Thiếu thông tin về Market regime"
-      ],
-      "downside_target": 120,
-      "main_risk": "Giá đang ở vùng quá mua với RSI 78.6",
-      "summary": "Tiềm năng giảm giá do chỉ số RSI vượt ngưỡng quá mua"
-    },
-    "final_decision": {
-      "action": "MUA",
-      "confidence": 85,
-      "position_size_pct": 30,
-      "agreed_with": "bull",
-      "key_reason": "MACD bullish và volume cao hơn 3.5 lần trung bình 20 ngày",
-      "risk_reward": 2.17,
-      "target": 180,
-      "stoploss": 130
-    },
-    "elapsed_sec": 3.3,
-    "outcome": "correct",
-    "reflection": "Cải thiện phân tích kỹ thuật bằng cách kết hợp nhiều chỉ số như RSI và xu hướng chung để tăng độ chính xác cho quyết định đầu tư",
-    "pnl_pct": 1.65,
-    "actual_price_3d": 154.0
-  },
-  {
     "ticker": "BMP",
     "date": "2026-06-23",
     "time": "2026-06-23T09:09:47.646784",
@@ -5004,5 +4836,134 @@
     "reflection": "",
     "pnl_pct": -0.76,
     "actual_price_3d": 13.0
+  },
+  {
+    "ticker": "GMD",
+    "date": "2026-09-08",
+    "time": "2026-09-08T13:28:05.859501",
+    "market_data": {
+      "price": 76.9,
+      "rsi": 40.2,
+      "macd_bull": false,
+      "vol_ratio": 0.13,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59033825.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "DPM",
+    "date": "2026-09-08",
+    "time": "2026-09-08T13:28:17.567326",
+    "market_data": {
+      "price": 22.6,
+      "rsi": 62.8,
+      "macd_bull": true,
+      "vol_ratio": 0.64,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59033825.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "STB",
+    "date": "2026-09-08",
+    "time": "2026-09-08T13:29:03.710417",
+    "market_data": {
+      "price": 76.7,
+      "rsi": 67.2,
+      "macd_bull": true,
+      "vol_ratio": 0.28,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 59033825.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
   }
 ]
