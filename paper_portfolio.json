@@ -14,7 +14,7 @@
       "atr": 0.98,
       "kelly_fraction": 0.25,
       "entry_date": "2026-07-29 12:18:13",
-      "hold_days": 13,
+      "hold_days": 14,
       "source": "two_stage_scheduler",
       "plan": {
         "target_price": 20.4,
@@ -29,16 +29,16 @@
     "HDB": {
       "qty": 818100,
       "avg_price": 26.45,
-      "current_price": 27.35,
-      "market_value": 22375035.0,
-      "unrealized_pnl": 736290.0,
-      "pnl_pct": 3.4026,
+      "current_price": 27.5,
+      "market_value": 22497750.0,
+      "unrealized_pnl": 859005.0,
+      "pnl_pct": 3.9698,
       "target_price": 28.0,
       "stop_loss": 26.4,
       "atr": 0.77,
       "kelly_fraction": 0.25,
       "entry_date": "2026-08-05 12:11:24",
-      "hold_days": 11,
+      "hold_days": 12,
       "source": "two_stage_scheduler",
       "plan": {
         "target_price": 28.0,
@@ -53,16 +53,16 @@
     "GMD": {
       "qty": 270400,
       "avg_price": 76.2,
-      "current_price": 75.0,
-      "market_value": 20280000.0,
-      "unrealized_pnl": -324480.0,
-      "pnl_pct": -1.5748,
+      "current_price": 75.6,
+      "market_value": 20442240.0,
+      "unrealized_pnl": -162240.0,
+      "pnl_pct": -0.7874,
       "target_price": 79.0,
       "stop_loss": 74.8,
       "atr": 1.41,
       "kelly_fraction": 0.25,
       "entry_date": "2026-09-08 13:50:53",
-      "hold_days": 1,
+      "hold_days": 2,
       "source": "two_stage_scheduler",
       "plan": {
         "target_price": 79.0,
@@ -77,16 +77,16 @@
     "STB": {
       "qty": 268300,
       "avg_price": 76.8,
-      "current_price": 76.1,
-      "market_value": 20417630.0,
-      "unrealized_pnl": -187810.0,
-      "pnl_pct": -0.9115,
+      "current_price": 76.7,
+      "market_value": 20578610.0,
+      "unrealized_pnl": -26830.0,
+      "pnl_pct": -0.1302,
       "target_price": 80.5,
       "stop_loss": 75.0,
       "atr": 1.84,
       "kelly_fraction": 0.25,
       "entry_date": "2026-09-08 13:50:56",
-      "hold_days": 1,
+      "hold_days": 2,
       "source": "two_stage_scheduler",
       "plan": {
         "target_price": 80.5,
@@ -101,16 +101,16 @@
     "DPM": {
       "qty": 749200,
       "avg_price": 22.6,
-      "current_price": 22.85,
-      "market_value": 17119220.0,
-      "unrealized_pnl": 187300.0,
-      "pnl_pct": 1.1062,
+      "current_price": 22.8,
+      "market_value": 17081760.0,
+      "unrealized_pnl": 149840.0,
+      "pnl_pct": 0.885,
       "target_price": 23.7,
       "stop_loss": 22.1,
       "atr": 0.53,
       "kelly_fraction": 0.25,
       "entry_date": "2026-09-08 13:50:58",
-      "hold_days": 1,
+      "hold_days": 2,
       "source": "two_stage_scheduler",
       "plan": {
         "target_price": 23.7,
@@ -123,5 +123,5 @@
       }
     }
   },
-  "updated_at": "2026-09-08T19:30:20.979586"
+  "updated_at": "2026-09-09T19:38:35.813898"
 }
