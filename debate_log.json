@@ -1,117 +1,5 @@
 [
   {
-    "ticker": "VND",
-    "date": "2026-06-23",
-    "time": "2026-06-23T09:10:24.721846",
-    "market_data": {
-      "price": 18.1,
-      "rsi": 59.6,
-      "macd_bull": true,
-      "vol_ratio": 1.01,
-      "score": 3.0,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 106789810.14
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 80,
-      "top_3_reasons": [
-        "RSI ở mức 59.6 cho thấy tiềm năng tăng trưởng",
-        "MACD bullish chỉ ra xu hướng tăng",
-        "Weekly trend đang ở uptrend"
-      ],
-      "target_price": 20,
-      "catalyst": "Sự cải thiện của tín hiệu kỹ thuật và yếu tố thị trường",
-      "summary": "CASE TỐT NHẤT để MUA VND với tiềm năng tăng trưởng mạnh"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 70,
-      "top_3_risks": [
-        "Tín hiệu kỹ thuật không đồng nhất với xu hướng",
-        "Lịch sử quyết định mua gần đây không chính xác",
-        "Thị trường thiếu thông tin về xu hướng rõ ràng"
-      ],
-      "downside_target": 16.5,
-      "main_risk": "Sự không chắc chắn về xu hướng thị trường",
-      "summary": "Xu hướng tăng không được hỗ trợ đầy đủ bởi tín hiệu kỹ thuật và lịch sử quyết định mua gần đây không thành công."
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 60,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đáp ứng quy tắc risk/reward và lịch sử quyết định mua gần đây không chính xác",
-      "risk_reward": 0.83,
-      "target": 0,
-      "stoploss": 0
-    },
-    "elapsed_sec": 3.6,
-    "outcome": "neutral",
-    "reflection": "Cần cân nhắc kỹ lưỡng tín hiệu kỹ thuật và lịch sử quyết định trước khi mua để tránh rủi ro thua lỗ.",
-    "pnl_pct": -0.56,
-    "actual_price_3d": 17.6
-  },
-  {
-    "ticker": "VND",
-    "date": "2026-06-23",
-    "time": "2026-06-23T09:10:24.828310",
-    "market_data": {
-      "price": 18.1,
-      "rsi": 59.6,
-      "macd_bull": true,
-      "vol_ratio": 1.01,
-      "score": 3.0,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 106789810.14
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 78,
-      "top_3_reasons": [
-        "Xu hướng uptrend trên khung tuần",
-        "Tín hiệu MACD bullish",
-        "Giá đang ở mức hấp dẫn so với lịch sử"
-      ],
-      "target_price": 20.5,
-      "catalyst": "Sự cải thiện trong yếu tố thị trường và tín hiệu kỹ thuật",
-      "summary": "Xu hướng uptrend và tín hiệu kỹ thuật thuận lợi cho thấy tiềm năng tăng giá của VND"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 80,
-      "top_3_risks": [
-        "RSI cao tiềm năng đảo chiều",
-        "Lịch sử quyết định mua gần đây không chính xác",
-        "Thị trường không rõ ràng và thiếu thông tin"
-      ],
-      "downside_target": 15,
-      "main_risk": "Tiềm năng điều chỉnh mạnh do tín hiệu kỹ thuật hỗn hợp",
-      "summary": "VND có thể đối mặt với rủi ro giảm giá do tín hiệu kỹ thuật không đồng nhất và lịch sử quyết định mua bán không chính xác gần đây"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 55,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Lịch sử quyết định gần đây không chính xác và tín hiệu kỹ thuật không đồng nhất",
-      "risk_reward": 0.83,
-      "target": 0,
-      "stoploss": 0
-    },
-    "elapsed_sec": 3.7,
-    "outcome": "neutral",
-    "reflection": "Phân tích kỹ thuật và lịch sử quyết định cần được xem xét kỹ lưỡng để tối ưu hóa chiến lược đầu tư",
-    "pnl_pct": -0.56,
-    "actual_price_3d": 17.6
-  },
-  {
     "ticker": "KDH",
     "date": "2026-06-23",
     "time": "2026-06-23T09:10:37.451522",
@@ -4869,6 +4757,92 @@
       "vol_ratio": 0.18,
       "score": 3.0,
       "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 891985.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "VPB",
+    "date": "2026-09-10",
+    "time": "2026-09-10T13:33:29.507311",
+    "market_data": {
+      "price": 27.4,
+      "rsi": 72.9,
+      "macd_bull": true,
+      "vol_ratio": 0.47,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 891985.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "STB",
+    "date": "2026-09-10",
+    "time": "2026-09-10T13:34:31.224877",
+    "market_data": {
+      "price": 78.8,
+      "rsi": 63.8,
+      "macd_bull": true,
+      "vol_ratio": 0.67,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
       "weekly_trend": "uptrend",
       "news_sentiment": 0.0,
       "market_regime": "UNKNOWN",
