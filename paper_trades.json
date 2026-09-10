@@ -1315,5 +1315,16 @@
       "trailing_stop_active": false,
       "kelly_fraction": 0.25
     }
+  },
+  {
+    "time": "2026-09-10 19:36:37",
+    "symbol": "PVD",
+    "side": "SELL",
+    "qty": 55800,
+    "price": 18.5,
+    "value": 1032300.0,
+    "reason": "timeout",
+    "pnl": 2790.0,
+    "plan": {}
   }
 ]
