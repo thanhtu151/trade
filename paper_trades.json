@@ -1345,5 +1345,16 @@
       "trailing_stop_active": false,
       "kelly_fraction": 0.25
     }
+  },
+  {
+    "time": "2026-09-11 19:30:48",
+    "symbol": "GMD",
+    "side": "SELL",
+    "qty": 270400,
+    "price": 74.6,
+    "value": 20171840.0,
+    "reason": "stop_loss",
+    "pnl": -432640.0,
+    "plan": {}
   }
 ]

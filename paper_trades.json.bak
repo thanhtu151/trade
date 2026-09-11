@@ -1326,5 +1326,24 @@
     "reason": "timeout",
     "pnl": 2790.0,
     "plan": {}
+  },
+  {
+    "time": "2026-09-11 13:55:39",
+    "symbol": "VNM",
+    "side": "BUY",
+    "qty": 30200,
+    "price": 60.5,
+    "value": 1827100.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 62.7,
+      "stop_loss": 59.4,
+      "atr": 1.09,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 62.70, cat lo duoi 59.40.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
   }
 ]
