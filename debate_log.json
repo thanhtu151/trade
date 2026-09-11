@@ -4373,8 +4373,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -2.99,
+    "actual_price_3d": 74.6
   },
   {
     "ticker": "DPM",
@@ -4416,8 +4418,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.88,
+    "actual_price_3d": 22.4
   },
   {
     "ticker": "STB",
@@ -4459,8 +4463,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.78,
+    "actual_price_3d": 77.3
   },
   {
     "ticker": "VRE",
@@ -4545,8 +4551,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.88,
+    "actual_price_3d": 22.4
   },
   {
     "ticker": "STB",
@@ -4588,8 +4596,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.78,
+    "actual_price_3d": 77.3
   },
   {
     "ticker": "HCM",
@@ -4760,8 +4770,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.78,
+    "actual_price_3d": 77.3
   },
   {
     "ticker": "STB",
@@ -4803,8 +4815,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.78,
+    "actual_price_3d": 77.3
   },
   {
     "ticker": "VNM",
