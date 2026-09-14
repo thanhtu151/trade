@@ -1375,5 +1375,38 @@
       "trailing_stop_active": false,
       "kelly_fraction": 0.25
     }
+  },
+  {
+    "time": "2026-09-14 21:38:40",
+    "symbol": "HDB",
+    "side": "SELL",
+    "qty": 818100,
+    "price": 26.8,
+    "value": 21925080.0,
+    "reason": "timeout",
+    "pnl": 286335.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-09-14 21:38:44",
+    "symbol": "DPM",
+    "side": "SELL",
+    "qty": 749200,
+    "price": 22.05,
+    "value": 16519860.0,
+    "reason": "stop_loss",
+    "pnl": -412060.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-09-14 21:38:46",
+    "symbol": "VNM",
+    "side": "SELL",
+    "qty": 30200,
+    "price": 59.3,
+    "value": 1790860.0,
+    "reason": "stop_loss",
+    "pnl": -36240.0,
+    "plan": {}
   }
 ]

@@ -1,6 +1,6 @@
 {
   "initial_cash": 100000000.0,
-  "cash": 20269025.0,
+  "cash": 1014605.0,
   "positions": {
     "HDB": {
       "qty": 818100,
@@ -97,7 +97,31 @@
         "trailing_stop_active": false,
         "kelly_fraction": 0.25
       }
+    },
+    "GMD": {
+      "qty": 260900,
+      "avg_price": 73.8,
+      "current_price": 73.8,
+      "market_value": 19254420.0,
+      "unrealized_pnl": 0.0,
+      "pnl_pct": 0.0,
+      "target_price": 76.7,
+      "stop_loss": 72.3,
+      "atr": 1.46,
+      "kelly_fraction": 0.25,
+      "entry_date": "2026-09-14 14:28:29",
+      "hold_days": 0,
+      "source": "two_stage_scheduler",
+      "plan": {
+        "target_price": 76.7,
+        "stop_loss": 72.3,
+        "atr": 1.46,
+        "hold_days": "toi da 15 phien",
+        "sell_rule": "Ban khi cham target 76.70, cat lo duoi 72.30.",
+        "trailing_stop_active": false,
+        "kelly_fraction": 0.25
+      }
     }
   },
-  "updated_at": "2026-09-11T19:30:55.853096"
+  "updated_at": "2026-09-14 14:28:29"
 }
