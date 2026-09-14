@@ -2835,12 +2835,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "entry_price": 76.2,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 74.6,
+    "actual_direction": -1,
+    "correct": true,
+    "pnl_pct": -2.1,
     "logged_at": "2026-09-09T13:33:36.884681",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:03.579780"
   },
   "DPM_2026-09-09": {
     "id": "DPM_2026-09-09",
@@ -2852,12 +2853,13 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.0 llm=GIỮ",
     "entry_price": 23.0,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 22.05,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -4.13,
     "logged_at": "2026-09-09T13:33:59.014969",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:05.949058"
   },
   "VPB_2026-09-09": {
     "id": "VPB_2026-09-09",
@@ -2869,12 +2871,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "entry_price": 27.4,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 27.2,
+    "actual_direction": -1,
+    "correct": true,
+    "pnl_pct": -0.73,
     "logged_at": "2026-09-09T13:34:10.330754",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:08.073798"
   },
   "HCM_2026-09-09": {
     "id": "HCM_2026-09-09",
@@ -2886,12 +2889,13 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.0 llm=GIỮ",
     "entry_price": 26.35,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 24.75,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -6.072,
     "logged_at": "2026-09-09T13:35:00.624325",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:10.411116"
   },
   "GMD_2026-09-10": {
     "id": "GMD_2026-09-10",
@@ -2903,12 +2907,13 @@
     "source": "two_stage",
     "notes": "stage1_score=3.5 llm=skip",
     "entry_price": 75.5,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 74.6,
+    "actual_direction": -1,
+    "correct": true,
+    "pnl_pct": -1.192,
     "logged_at": "2026-09-10T13:33:17.093116",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:10.664819"
   },
   "DPM_2026-09-10": {
     "id": "DPM_2026-09-10",
@@ -2920,12 +2925,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "entry_price": 22.6,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 22.05,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -2.434,
     "logged_at": "2026-09-10T13:34:08.368492",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:10.846478"
   },
   "STB_2026-09-10": {
     "id": "STB_2026-09-10",
@@ -2937,12 +2943,13 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.0 llm=GIỮ",
     "entry_price": 78.7,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 76.4,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -2.922,
     "logged_at": "2026-09-10T13:34:31.232799",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:12.924231"
   },
   "VIC_2026-09-10": {
     "id": "VIC_2026-09-10",
@@ -2954,12 +2961,13 @@
     "source": "two_stage",
     "notes": "stage1_score=3.0 llm=skip",
     "entry_price": 247.7,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 241.4,
+    "actual_direction": -1,
+    "correct": true,
+    "pnl_pct": -2.543,
     "logged_at": "2026-09-10T13:34:44.037458",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:14.704774"
   },
   "GMD_2026-09-11": {
     "id": "GMD_2026-09-11",
@@ -2971,12 +2979,13 @@
     "source": "two_stage",
     "notes": "stage1_score=3.5 llm=skip",
     "entry_price": 74.8,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 74.6,
+    "actual_direction": -1,
+    "correct": true,
+    "pnl_pct": -0.267,
     "logged_at": "2026-09-11T13:35:17.675669",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:14.880072"
   },
   "FRT_2026-09-11": {
     "id": "FRT_2026-09-11",
@@ -2988,12 +2997,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "entry_price": 136.7,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 133.0,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -2.707,
     "logged_at": "2026-09-11T13:35:31.371246",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:17.042361"
   },
   "VPB_2026-09-11": {
     "id": "VPB_2026-09-11",
@@ -3005,12 +3015,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "entry_price": 26.95,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 27.2,
+    "actual_direction": 1,
+    "correct": false,
+    "pnl_pct": 0.928,
     "logged_at": "2026-09-11T13:35:42.242075",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:17.220343"
   },
   "VRE_2026-09-11": {
     "id": "VRE_2026-09-11",
@@ -3022,12 +3033,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "entry_price": 25.85,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 25.75,
+    "actual_direction": -1,
+    "correct": true,
+    "pnl_pct": -0.387,
     "logged_at": "2026-09-11T13:36:07.355721",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:19.233590"
   },
   "PVS_2026-09-11": {
     "id": "PVS_2026-09-11",
@@ -3039,12 +3051,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "entry_price": 38.9,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 32.6,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -16.195,
     "logged_at": "2026-09-11T13:36:30.647660",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:21.016257"
   },
   "DPM_2026-09-11": {
     "id": "DPM_2026-09-11",
@@ -3056,12 +3069,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "entry_price": 22.65,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 22.05,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -2.649,
     "logged_at": "2026-09-11T13:36:42.107165",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:21.275794"
   },
   "STB_2026-09-11": {
     "id": "STB_2026-09-11",
@@ -3073,12 +3087,13 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.5 llm=GIỮ",
     "entry_price": 78.0,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 76.4,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -2.051,
     "logged_at": "2026-09-11T13:36:59.959459",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:21.457695"
   },
   "VNM_2026-09-11": {
     "id": "VNM_2026-09-11",
@@ -3090,12 +3105,13 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.5 llm=GIỮ",
     "entry_price": 60.0,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 59.3,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -1.167,
     "logged_at": "2026-09-11T13:37:18.353584",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-14T22:28:23.414794"
   },
   "VNM_2026-09-14": {
     "id": "VNM_2026-09-14",

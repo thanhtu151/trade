@@ -4228,8 +4228,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -3.2,
+    "actual_price_3d": 25.75
   },
   {
     "ticker": "DPM",
@@ -4361,8 +4363,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -6.25,
+    "actual_price_3d": 24.75
   },
   {
     "ticker": "VIC",
@@ -4404,8 +4408,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -3.29,
+    "actual_price_3d": 241.4
   },
   {
     "ticker": "VPB",
@@ -4447,8 +4453,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -0.73,
+    "actual_price_3d": 27.2
   },
   {
     "ticker": "STB",
@@ -4580,8 +4588,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -1.0,
+    "actual_price_3d": 59.3
   },
   {
     "ticker": "GMD",
@@ -4709,8 +4719,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -1.0,
+    "actual_price_3d": 59.3
   },
   {
     "ticker": "NVL",
