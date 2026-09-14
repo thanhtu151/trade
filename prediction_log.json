@@ -3096,5 +3096,39 @@
     "pnl_pct": null,
     "logged_at": "2026-09-11T13:37:18.353584",
     "resolved": false
+  },
+  "VNM_2026-09-14": {
+    "id": "VNM_2026-09-14",
+    "ticker": "VNM",
+    "date": "2026-09-14",
+    "predicted_direction": 1,
+    "predicted_price": 58.9,
+    "confidence": 22.1,
+    "source": "two_stage_debate",
+    "notes": "stage1_score=3.5 llm=GIỮ",
+    "entry_price": 58.8,
+    "actual_price_3d": null,
+    "actual_direction": null,
+    "correct": null,
+    "pnl_pct": null,
+    "logged_at": "2026-09-14T13:55:36.361316",
+    "resolved": false
+  },
+  "VIC_2026-09-14": {
+    "id": "VIC_2026-09-14",
+    "ticker": "VIC",
+    "date": "2026-09-14",
+    "predicted_direction": 1,
+    "predicted_price": 241.0,
+    "confidence": 34.5,
+    "source": "two_stage",
+    "notes": "stage1_score=2.5 llm=skip",
+    "entry_price": 241.0,
+    "actual_price_3d": null,
+    "actual_direction": null,
+    "correct": null,
+    "pnl_pct": null,
+    "logged_at": "2026-09-14T13:56:21.272820",
+    "resolved": false
   }
 }
