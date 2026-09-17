@@ -3123,12 +3123,13 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.5 llm=GIỮ",
     "entry_price": 58.8,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 60.2,
+    "actual_direction": 1,
+    "correct": true,
+    "pnl_pct": 2.381,
     "logged_at": "2026-09-14T13:55:36.361316",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-17T20:58:24.965572"
   },
   "VIC_2026-09-14": {
     "id": "VIC_2026-09-14",
@@ -3140,12 +3141,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "entry_price": 241.0,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 241.2,
+    "actual_direction": 1,
+    "correct": true,
+    "pnl_pct": 0.083,
     "logged_at": "2026-09-14T13:56:21.272820",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-17T20:58:28.120637"
   },
   "VPB_2026-09-16": {
     "id": "VPB_2026-09-16",

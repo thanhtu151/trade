@@ -4129,8 +4129,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 4.08,
+    "actual_price_3d": 76.6
   },
   {
     "ticker": "FRT",
@@ -4172,8 +4174,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 0.0,
+    "actual_price_3d": 130.0
   },
   {
     "ticker": "VNM",
@@ -4260,8 +4264,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 5.93,
+    "actual_price_3d": 12.5
   },
   {
     "ticker": "PVS",
@@ -4303,8 +4309,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 4.06,
+    "actual_price_3d": 33.3
   },
   {
     "ticker": "VCB",
@@ -4647,8 +4655,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 4.06,
+    "actual_price_3d": 33.3
   },
   {
     "ticker": "DCM",

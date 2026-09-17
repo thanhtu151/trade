@@ -1,9 +1,9 @@
 {
-  "date": "2026-09-16",
+  "date": "2026-09-17",
   "overall": {
-    "total": 173,
-    "accuracy": 0.486,
-    "avg_pnl": 2153.288
+    "total": 175,
+    "accuracy": 0.491,
+    "avg_pnl": 2128.693
   },
   "by_ticker": {
     "ACB": {
@@ -560,17 +560,12 @@
       ]
     },
     "VIC": {
-      "total_predictions": 7,
-      "accuracy": 0.571,
-      "recent_5_accuracy": 0.8,
-      "avg_pnl_pct": -0.157,
+      "total_predictions": 8,
+      "accuracy": 0.625,
+      "recent_5_accuracy": 1.0,
+      "avg_pnl_pct": -0.127,
       "trend": "improving",
       "last_5": [
-        {
-          "date": "2026-07-27",
-          "correct": false,
-          "pnl": 4.019
-        },
         {
           "date": "2026-08-04",
           "correct": true,
@@ -590,6 +585,11 @@
           "date": "2026-09-10",
           "correct": true,
           "pnl": -2.543
+        },
+        {
+          "date": "2026-09-14",
+          "correct": true,
+          "pnl": 0.083
         }
       ]
     },
@@ -618,17 +618,12 @@
       ]
     },
     "VNM": {
-      "total_predictions": 8,
-      "accuracy": 0.375,
+      "total_predictions": 9,
+      "accuracy": 0.444,
       "recent_5_accuracy": 0.4,
-      "avg_pnl_pct": 0.949,
-      "trend": "improving",
+      "avg_pnl_pct": 1.108,
+      "trend": "declining",
       "last_5": [
-        {
-          "date": "2026-08-05",
-          "correct": true,
-          "pnl": 5.254
-        },
         {
           "date": "2026-08-18",
           "correct": false,
@@ -648,6 +643,11 @@
           "date": "2026-09-11",
           "correct": false,
           "pnl": -1.167
+        },
+        {
+          "date": "2026-09-14",
+          "correct": true,
+          "pnl": 2.381
         }
       ]
     },
@@ -710,5 +710,5 @@
       ]
     }
   },
-  "generated_at": "2026-09-16T20:57:14.727850"
+  "generated_at": "2026-09-17T21:01:33.128360"
 }
