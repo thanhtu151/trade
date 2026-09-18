@@ -1465,5 +1465,27 @@
       "trailing_stop_active": false,
       "kelly_fraction": 0.25
     }
+  },
+  {
+    "time": "2026-09-18 19:35:33",
+    "symbol": "GMD",
+    "side": "SELL",
+    "qty": 260900,
+    "price": 77.3,
+    "value": 20167570.0,
+    "reason": "target",
+    "pnl": 913150.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-09-18 19:35:35",
+    "symbol": "PVD",
+    "side": "SELL",
+    "qty": 1030300,
+    "price": 19.2,
+    "value": 19781760.0,
+    "reason": "stop_loss",
+    "pnl": -618180.0,
+    "plan": {}
   }
 ]
