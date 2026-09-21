@@ -1476,5 +1476,35 @@
     "reason": "target",
     "pnl": 913150.0,
     "plan": {}
+  },
+  {
+    "time": "2026-09-18 19:35:35",
+    "symbol": "PVD",
+    "side": "SELL",
+    "qty": 1030300,
+    "price": 19.2,
+    "value": 19781760.0,
+    "reason": "stop_loss",
+    "pnl": -618180.0,
+    "plan": {}
+  },
+  {
+    "time": "2026-09-21 14:32:45",
+    "symbol": "GMD",
+    "side": "BUY",
+    "qty": 268500,
+    "price": 76.5,
+    "value": 20540250.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 79.3,
+      "stop_loss": 75.1,
+      "atr": 1.39,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 79.30, cat lo duoi 75.10.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
   }
 ]
