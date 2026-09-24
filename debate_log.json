@@ -1,95 +1,5 @@
 [
   {
-    "ticker": "TCB",
-    "date": "2026-07-21",
-    "time": "2026-07-21T15:32:51.902339",
-    "market_data": {
-      "price": 29.8,
-      "rsi": 11.2,
-      "macd_bull": false,
-      "vol_ratio": 0.78,
-      "score": 3.5,
-      "ensemble_signal": "N/A",
-      "weekly_trend": "sideways",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 40668950.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": -6.87,
-    "actual_price_3d": 29.8
-  },
-  {
-    "ticker": "MBB",
-    "date": "2026-07-21",
-    "time": "2026-07-21T15:33:02.368803",
-    "market_data": {
-      "price": 22.7,
-      "rsi": 24.9,
-      "macd_bull": false,
-      "vol_ratio": 0.84,
-      "score": 3.5,
-      "ensemble_signal": "N/A",
-      "weekly_trend": "sideways",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 40668950.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": -12.69,
-    "actual_price_3d": 22.7
-  },
-  {
     "ticker": "VHM",
     "date": "2026-07-21",
     "time": "2026-07-21T15:33:12.503539",
@@ -4445,6 +4355,92 @@
     "market_data": {
       "price": 27.9,
       "rsi": 58.3,
+      "macd_bull": true,
+      "vol_ratio": 0.61,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 973785.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "VIC",
+    "date": "2026-09-24",
+    "time": "2026-09-24T13:39:14.203837",
+    "market_data": {
+      "price": 230.7,
+      "rsi": 25.7,
+      "macd_bull": false,
+      "vol_ratio": 0.32,
+      "score": 4.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 973785.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "DCM",
+    "date": "2026-09-24",
+    "time": "2026-09-24T13:39:56.422317",
+    "market_data": {
+      "price": 34.6,
+      "rsi": 66.9,
       "macd_bull": true,
       "vol_ratio": 0.61,
       "score": 3.0,
