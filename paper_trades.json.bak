@@ -1506,5 +1506,35 @@
       "trailing_stop_active": false,
       "kelly_fraction": 0.25
     }
+  },
+  {
+    "time": "2026-09-21 14:32:48",
+    "symbol": "VPB",
+    "side": "BUY",
+    "qty": 660300,
+    "price": 28.0,
+    "value": 18488400.0,
+    "reason": "two_stage_scheduler: BUY",
+    "pnl": null,
+    "plan": {
+      "target_price": 29.5,
+      "stop_loss": 27.3,
+      "atr": 0.73,
+      "hold_days": "toi da 15 phien",
+      "sell_rule": "Ban khi cham target 29.50, cat lo duoi 27.30.",
+      "trailing_stop_active": false,
+      "kelly_fraction": 0.25
+    }
+  },
+  {
+    "time": "2026-09-24 20:05:48",
+    "symbol": "DXG",
+    "side": "SELL",
+    "qty": 1904600,
+    "price": 10.15,
+    "value": 19331690.0,
+    "reason": "stop_loss",
+    "pnl": -476150.0,
+    "plan": {}
   }
 ]

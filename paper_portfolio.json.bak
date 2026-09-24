@@ -1,6 +1,6 @@
 {
   "initial_cash": 100000000.0,
-  "cash": 19462185.0,
+  "cash": 973785.0,
   "positions": {
     "STB": {
       "qty": 268300,
@@ -97,7 +97,31 @@
         "trailing_stop_active": false,
         "kelly_fraction": 0.25
       }
+    },
+    "VPB": {
+      "qty": 660300,
+      "avg_price": 28.0,
+      "current_price": 28.0,
+      "market_value": 18488400.0,
+      "unrealized_pnl": 0.0,
+      "pnl_pct": 0.0,
+      "target_price": 29.5,
+      "stop_loss": 27.3,
+      "atr": 0.73,
+      "kelly_fraction": 0.25,
+      "entry_date": "2026-09-21 14:32:48",
+      "hold_days": 0,
+      "source": "two_stage_scheduler",
+      "plan": {
+        "target_price": 29.5,
+        "stop_loss": 27.3,
+        "atr": 0.73,
+        "hold_days": "toi da 15 phien",
+        "sell_rule": "Ban khi cham target 29.50, cat lo duoi 27.30.",
+        "trailing_stop_active": false,
+        "kelly_fraction": 0.25
+      }
     }
   },
-  "updated_at": "2026-09-21 14:32:45"
+  "updated_at": "2026-09-21 14:32:48"
 }
