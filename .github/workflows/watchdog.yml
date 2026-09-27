@@ -1,0 +1,71 @@
+name: Trading Scheduler Watchdog
+
+on:
+  schedule:
+    - cron: "*/15 * * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+  issues: write
+
+concurrency:
+  group: vn-trading-watchdog
+  cancel-in-progress: false
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      TZ: Asia/Ho_Chi_Minh
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Read watchdog decision from state branch
+        id: decision
+        shell: bash
+        run: |
+          git fetch origin state --depth=1
+          DECISION=$(python watchdog.py)
+          echo "json=$DECISION" >> "$GITHUB_OUTPUT"
+          echo "$DECISION" | python -m json.tool
+
+      - name: Dispatch bounded catch-up
+        shell: bash
+        env:
+          DECISION: ${{ steps.decision.outputs.json }}
+        run: |
+          ACTIVE=$(gh run list --workflow scheduler.yml --limit 20 --json status --jq '[.[] | select(.status == "queued" or .status == "in_progress")] | length')
+          if [ "$ACTIVE" -gt 0 ]; then
+            echo "Scheduler already queued/running; catch-up deferred."
+            exit 0
+          fi
+          echo "$DECISION" | python -c 'import json,sys; print("\n".join(json.load(sys.stdin)["missed"][:2]))' | while read -r TASK; do
+            [ -n "$TASK" ] && gh workflow run scheduler.yml -f task="$TASK"
+          done
+
+      - name: Alert and close kill switch
+        if: contains(fromJSON(steps.decision.outputs.json).failing, 'trade') || fromJSON(steps.decision.outputs.json).disable_trade
+        shell: bash
+        env:
+          DECISION: ${{ steps.decision.outputs.json }}
+        run: |
+          gh variable set TRADING_ENABLED --body false
+          TITLE="[watchdog] unattended trading system unhealthy"
+          BODY="Watchdog decision: $DECISION\n\nTrading was disabled via repository variable. Inspect scheduler logs and state before reopening the kill switch."
+          ISSUE=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$ISSUE" ]; then
+            gh issue comment "$ISSUE" --body "$BODY"
+          else
+            gh issue create --title "$TITLE" --body "$BODY"
+          fi
+
