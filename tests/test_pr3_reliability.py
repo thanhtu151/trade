@@ -93,3 +93,15 @@ def test_watchdog_workflow_is_read_only_for_state_branch():
     assert "gh workflow run scheduler.yml" in workflow
     assert "gh variable set TRADING_ENABLED --body false" in workflow
 
+
+def test_dashboard_status_does_not_erase_scheduler_task_history(monkeypatch, tmp_path):
+    import dashboard_vn
+
+    status_path = tmp_path / "system_status.json"
+    status_path.write_text(json.dumps({"tasks": {"trade": {"last_success": "2026-09-28T02:20:00+00:00"}}}), encoding="utf-8")
+    monkeypatch.setattr(dashboard_vn, "SYSTEM_STATUS_FILE", str(status_path))
+    dashboard_vn.set_system_status("idle", "done")
+    saved = json.loads(status_path.read_text(encoding="utf-8"))
+    assert saved["tasks"]["trade"]["last_success"] == "2026-09-28T02:20:00+00:00"
+    assert saved["status"] == "idle"
+
