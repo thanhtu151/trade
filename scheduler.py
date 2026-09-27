@@ -829,10 +829,10 @@ def task_daily_learning():
     log.info("Daily learning DONE")
 
 
-def task_weekly_rebacktest():
+def task_weekly_rebacktest(force=False):
     """Monday 07:00 - rebacktest training watchlist and update backtest_config.json."""
     today = ict_today()
-    if today.weekday() != 0:
+    if today.weekday() != 0 and not force:
         return
     state = load_state()
     if state.get("weekly_rebacktest") == today.isoformat():
@@ -860,7 +860,9 @@ def task_weekly_rebacktest():
         if isinstance(watchlist, dict):
             watchlist = list(watchlist.keys())
         log.info("Re-backtesting %s tickers...", len(watchlist))
-        runner(watchlist, **runner_kwargs)
+        results = runner(watchlist, **runner_kwargs)
+        if not isinstance(results, dict) or not results:
+            raise RuntimeError("rebacktest produced no result set; preserving previous configuration")
         log.info("Weekly rebacktest DONE")
     except Exception as exc:
         log.error("Weekly rebacktest failed: %s", exc)
@@ -876,7 +878,7 @@ def setup_schedule():
     schedule.every().day.at("09:20").do(task_auto_trade)
     schedule.every().day.at("15:00").do(task_eod_update)
     schedule.every().day.at("16:00").do(task_daily_learning)
-    schedule.every().monday.at("07:00").do(task_weekly_rebacktest)
+    schedule.every().monday.at("07:00").do(task_weekly_rebacktest, force=False)
 
     log.info("Schedule registered:")
     log.info("  08:00 Morning prep")
@@ -900,7 +902,7 @@ def run_now(task_name=None):
         "trade": task_auto_trade,
         "eod": task_eod_update,
         "learning": task_daily_learning,
-        "rebacktest": task_weekly_rebacktest,
+        "rebacktest": lambda: task_weekly_rebacktest(force=True),
         "heal": run_heal,
     }
     if task_name in tasks:

@@ -112,7 +112,7 @@ def test_investigated_migration_inserts_audited_reset_and_zeroes_drift(tmp_path)
     after = trade("2026-07-10 10:44:22", "BUY", 25_000_000, epoch=0, symbol="PVD")
     write_json(tmp_path / "paper_portfolio.json", portfolio(75_000_000))
     write_json(tmp_path / "paper_trades.json", [before, after])
-    result = migrate_reconstructed_reset(tmp_path, MIGRATION_CONFIRMATION, operator="github-user")
+    result = migrate_reconstructed_reset(tmp_path, MIGRATION_CONFIRMATION, operator="github-user", dry_run=False)
     migrated = json.loads((tmp_path / "paper_trades.json").read_text())
     assert [row["epoch_id"] for row in migrated] == [0, 1, 1]
     assert migrated[1]["type"] == "RESET"
@@ -137,11 +137,66 @@ def test_migration_can_run_with_kill_switch_closed_then_allows_when_open(monkeyp
     write_json(tmp_path / "paper_portfolio.json", portfolio(75_000_000))
     write_json(tmp_path / "paper_trades.json", [before, after])
     monkeypatch.setenv("TRADING_ENABLED", "false")
-    result = migrate_reconstructed_reset(tmp_path, MIGRATION_CONFIRMATION, operator="github-user")
+    result = migrate_reconstructed_reset(tmp_path, MIGRATION_CONFIRMATION, operator="github-user", dry_run=False)
     assert result["report"]["metrics"]["cash_drift"] == 0
     assert result["report"]["trading_allowed"] is False
     monkeypatch.setenv("TRADING_ENABLED", "true")
     assert run_self_healing(tmp_path)["trading_allowed"] is True
+
+
+def test_migration_dry_run_is_default_and_does_not_write(tmp_path):
+    from self_healing import MIGRATION_CONFIRMATION, migrate_reconstructed_reset
+
+    before = trade("2026-07-09 10:50:55", "SELL", 10_000_000, epoch=0, symbol="PVD")
+    after = trade("2026-07-10 10:44:22", "BUY", 25_000_000, epoch=0, symbol="PVD")
+    write_json(tmp_path / "paper_portfolio.json", portfolio(75_000_000))
+    write_json(tmp_path / "paper_trades.json", [before, after])
+    original = (tmp_path / "paper_trades.json").read_bytes()
+    result = migrate_reconstructed_reset(tmp_path, MIGRATION_CONFIRMATION, operator="reviewer")
+    assert result["mode"] == "dry-run"
+    assert result["post_migration_drift"] == 0
+    assert (tmp_path / "paper_trades.json").read_bytes() == original
+    assert not (tmp_path / "self_healing_audit.json").exists()
+
+
+def test_legacy_open_position_blocks_then_migrates_and_sells_without_inflation(monkeypatch, tmp_path):
+    import auto_trader
+    import self_healing
+    from self_healing import MIGRATION_CONFIRMATION, migrate_reconstructed_reset, run_self_healing
+
+    before = trade("2026-07-09 10:50:55", "SELL", 10_000_000, epoch=0, symbol="PVD")
+    after = trade("2026-07-10 10:44:22", "BUY", 25_000_000, epoch=0, symbol="PVD")
+    state = portfolio(75_000_000)
+    state["positions"] = {"STB": {"qty": 268300, "avg_price": 76.8, "current_price": 76.9,
+        "market_value": 20_632_270, "plan": {"stop_loss": 75.0, "initial_stop_loss": 74.0,
+        "target_price": 80.5, "atr": 1.84}}}
+    write_json(tmp_path / "paper_portfolio.json", state)
+    write_json(tmp_path / "paper_trades.json", [before, after])
+    monkeypatch.setenv("TRADING_ENABLED", "true")
+    monkeypatch.setattr(auto_trader, "BASE_DIR", str(tmp_path))
+    monkeypatch.setattr(auto_trader, "PORTFOLIO_FILE", str(tmp_path / "paper_portfolio.json"))
+    monkeypatch.setattr(auto_trader, "TRADES_FILE", str(tmp_path / "paper_trades.json"))
+    monkeypatch.setattr(auto_trader, "current_price", lambda _symbol: 76_900.0)
+    monkeypatch.setattr(self_healing, "trading_permission", lambda base: (
+        run_self_healing(base)["trading_allowed"],
+        "unsafe trading state",
+    ))
+    blocked = run_self_healing(tmp_path)
+    assert blocked["trading_allowed"] is False
+    assert any("open position STB" in item for item in blocked["critical"])
+    ok, message = auto_trader.sell_position("STB")
+    assert ok is False and "unsafe trading state" in message
+
+    result = migrate_reconstructed_reset(tmp_path, MIGRATION_CONFIRMATION, operator="reviewer", dry_run=False)
+    change = result["position_changes"][0]
+    assert change["before"]["qty"] == 268300
+    assert change["after"]["qty"] == pytest.approx(268.3)
+    assert change["after"]["avg_price"] == 76_800
+    ok, message = auto_trader.sell_position("STB")
+    assert ok is True
+    assert "PnL 26,830" in message
+    saved = json.loads((tmp_path / "paper_portfolio.json").read_text())
+    assert saved["cash"] == pytest.approx(95_632_270)
 
 
 def test_workflow_exposes_rebaseline_and_confirmed_migration():
@@ -308,6 +363,19 @@ def test_circuit_breaker_opens_and_half_opens_after_cooldown():
     assert circuit.allow("VCI") is True
 
 
+def test_circuit_breaker_state_survives_process_restart(tmp_path):
+    from runtime_reliability import CircuitBreaker
+
+    state_path = tmp_path / "circuits.json"
+    first = CircuitBreaker(failure_threshold=2, recovery_seconds=30, clock=lambda: 10.0,
+                           state_path=state_path, namespace="market")
+    first.failure("VCI")
+    first.failure("VCI")
+    restarted = CircuitBreaker(failure_threshold=2, recovery_seconds=30, clock=lambda: 11.0,
+                               state_path=state_path, namespace="market")
+    assert restarted.allow("VCI") is False
+
+
 def test_exchange_calendar_has_verified_closures_and_unknown_year_fails_closed():
     from datetime import date
     from scheduler import is_trading_day
@@ -318,3 +386,36 @@ def test_exchange_calendar_has_verified_closures_and_unknown_year_fails_closed()
     assert is_trading_day(date(2026, 8, 31)) is False
     assert is_trading_day(date(2026, 9, 28)) is True
     assert is_trading_day(date(2027, 9, 1)) is False
+
+
+def test_manual_rebacktest_runs_off_monday_and_marks_only_success(monkeypatch, tmp_path):
+    import scheduler
+    import backtester_pro
+    from datetime import date
+
+    write_json(tmp_path / "training_watchlist.json", ["FPT"])
+    monkeypatch.setattr(scheduler, "BASE_DIR", str(tmp_path))
+    monkeypatch.setattr(scheduler, "STATE_FILE", str(tmp_path / "scheduler_state.json"))
+    monkeypatch.setattr(scheduler, "ict_today", lambda: date(2026, 9, 27))  # Sunday
+    calls = []
+    monkeypatch.setattr(backtester_pro, "run_portfolio_backtest_pro",
+                        lambda tickers, **kwargs: calls.append((tickers, kwargs)) or {"FPT": {"trades": 2}})
+    scheduler.task_weekly_rebacktest(force=True)
+    assert calls and calls[0][0] == ["FPT"]
+    state = json.loads((tmp_path / "scheduler_state.json").read_text())
+    assert state["weekly_rebacktest"] == "2026-09-27"
+
+
+def test_rebacktest_empty_result_fails_without_success_marker(monkeypatch, tmp_path):
+    import scheduler
+    import backtester_pro
+    from datetime import date
+
+    write_json(tmp_path / "training_watchlist.json", ["FPT"])
+    monkeypatch.setattr(scheduler, "BASE_DIR", str(tmp_path))
+    monkeypatch.setattr(scheduler, "STATE_FILE", str(tmp_path / "scheduler_state.json"))
+    monkeypatch.setattr(scheduler, "ict_today", lambda: date(2026, 9, 28))
+    monkeypatch.setattr(backtester_pro, "run_portfolio_backtest_pro", lambda *_args, **_kwargs: {})
+    with pytest.raises(RuntimeError, match="no result"):
+        scheduler.task_weekly_rebacktest(force=True)
+    assert not (tmp_path / "scheduler_state.json").exists()

@@ -1232,20 +1232,22 @@ def get_unified_portfolio_summary():
         return {"cash": 0.0, "market_value": 0.0, "equity": 0.0, "unrealized_pnl": 0.0, "n_positions": 0, "positions": {}}
 
 
-def log_trade(trades, symbol, side, qty, price, reason, pnl=None, plan=None):
-    trades.append({
+def log_trade(trades, symbol, side, qty, price, reason, pnl=None, plan=None, **metadata):
+    event = {
         "type": "TRADE",
         "epoch_id": current_epoch_id(trades),
         "time": now_text(),
         "symbol": symbol,
         "side": side,
-        "qty": int(qty),
+        "qty": float(qty),
         "price": round(float(price), 2),
         "value": round(float(qty) * float(price), 2),
         "reason": reason,
         "pnl": None if pnl is None else round(float(pnl), 2),
         "plan": plan or {},
-    })
+    }
+    event.update(metadata)
+    trades.append(event)
 
 
 def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pct=MAX_POSITION_PCT, plan=None):
@@ -1277,7 +1279,7 @@ def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pc
     cost = qty * price
     portfolio["cash"] = float(portfolio["cash"]) - cost
     if existing:
-        old_qty = int(existing.get("qty", 0))
+        old_qty = float(existing.get("qty", 0))
         old_avg = float(existing.get("avg_price", 0))
         new_qty = old_qty + qty
         existing["avg_price"] = ((old_qty * old_avg) + cost) / new_qty
@@ -1311,13 +1313,20 @@ def sell_position(symbol, reason="Manual SELL", qty=None):
     if price is None or price < 1000:
         return False, f"KhÃ´ng láº¥y Ä‘Æ°á»£c giÃ¡ hiá»‡n táº¡i cho {symbol}"
 
-    owned_qty = int(position.get("qty", 0))
-    sell_qty = owned_qty if qty is None else min(int(qty), owned_qty)
+    owned_qty = float(position.get("qty", 0))
+    sell_qty = owned_qty if qty is None else min(float(qty), owned_qty)
     if sell_qty <= 0:
         return False, "Sá»‘ lÆ°á»£ng bÃ¡n khÃ´ng há»£p lá»‡"
 
     avg_price = float(position.get("avg_price", 0))
     proceeds = sell_qty * price
+    cost_basis = sell_qty * avg_price
+    if avg_price < 1000:
+        return False, f"CRITICAL: {symbol} avg_price {avg_price:g} is not in VND; migration required"
+    if cost_basis <= 0 or proceeds > cost_basis * 3:
+        return False, (
+            f"CRITICAL: {symbol} SELL proceeds {proceeds:,.0f} exceed 3x cost basis {cost_basis:,.0f}"
+        )
     pnl = (price - avg_price) * sell_qty
     portfolio["cash"] = float(portfolio["cash"]) + proceeds
 
@@ -1327,11 +1336,11 @@ def sell_position(symbol, reason="Manual SELL", qty=None):
     else:
         portfolio["positions"].pop(symbol, None)
 
-    log_trade(trades, symbol, "SELL", sell_qty, price, reason, pnl=pnl)
+    log_trade(trades, symbol, "SELL", sell_qty, price, reason, pnl=pnl, cost_basis=cost_basis)
     save_portfolio_and_trades(portfolio, trades)
     if remaining <= 0:
         prune_intraday_alerts(symbol)
-    return True, f"SELL {sell_qty:,} {symbol} @ {price:,.2f} | PnL {pnl:,.0f}"
+    return True, f"SELL {sell_qty:,.3f}".rstrip("0").rstrip(".") + f" {symbol} @ {price:,.2f} | PnL {pnl:,.0f}"
 
 
 def execute_paper_trade(

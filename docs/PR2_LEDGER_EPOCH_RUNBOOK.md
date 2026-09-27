@@ -10,11 +10,42 @@ Run the `VN Trading Scheduler` workflow manually with:
 
 - `task`: `migrate-ledger-epoch`
 - `confirmation`: `MIGRATE_LEDGER_EPOCH_2026_07_09`
+- `apply_migration`: leave `false` for the mandatory preview; set `true` only after reviewing it
 - `reason`: empty (the reconstructed reason is fixed in code)
 
 The workflow loads the `state` branch first, records `GITHUB_ACTOR`, performs
 the journaled portfolio/ledger transaction, verifies zero drift, appends the
 audit record, and only then persists state. Re-running the migration is rejected.
+The CLI is also fail-safe: `--migrate-ledger-epoch` is a dry-run unless the
+operator additionally passes `--apply`.
+
+## Dry-run evidence against `origin/state` (`d9bb752`)
+
+The read-only preview found the RESET insertion after ledger index 60 and
+reported `post_migration_drift: 0.0`. It proposed exactly these open-position
+unit conversions, leaving market value and cost basis unchanged:
+
+| Symbol | Qty before → after | Avg before → after | Current before → after | Market value |
+|---|---:|---:|---:|---:|
+| STB | 268,300 → 268.3 | 76.8 → 76,800 | 76.9 → 76,900 | 20,632,270 |
+| HCM | 39,900 → 39.9 | 24.8 → 24,800 | 25.1 → 25,100 | 1,001,490 |
+| GMD | 268,500 → 268.5 | 76.5 → 76,500 | 76.3 → 76,300 | 20,486,550 |
+
+For each converted position, top-level price/ATR fields and the corresponding
+`plan.stop_loss`, `plan.initial_stop_loss`, `plan.target_price`, and `plan.atr`
+are multiplied by 1,000. Quantity is divided by 1,000 as a float. Every complete
+before/after object is recorded in `self_healing_audit.json`; historical trades
+are never rewritten.
+
+## Other state files containing prices
+
+| File | Treatment |
+|---|---|
+| `paper_portfolio.json` | Normalize open positions in the same journaled transaction as RESET. |
+| `tracked_positions.json` | Independent manually entered tracker; report only because intent/unit is ambiguous. |
+| `intraday_alerts.json` | Immutable human-readable messages; do not parse or mutate; normal expiry removes them. |
+| `portfolio_snapshots.json` | Historical aggregate cash/equity/market value, no per-position unit price; preserve. |
+| `analysis_results.json` | Ephemeral historical analysis; preserve, while new provider data is normalized at the adapter boundary. |
 
 `rebaseline` remains available only for unexplained drift. It requires a
 non-empty `reason`; it must not be used for the reconstructed July reset.

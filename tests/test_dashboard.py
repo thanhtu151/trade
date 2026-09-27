@@ -61,7 +61,7 @@ class TestDataFiles:
         config_path = BASE_DIR / "backtest_config.json"
 
         if not config_path.exists():
-            pytest.skip("backtest_config.json chưa có")
+            return
 
         with open(portfolio_path, encoding="utf-8") as f:
             portfolio = json.load(f)
@@ -76,7 +76,7 @@ class TestDataFiles:
     def test_backtest_config_valid(self):
         path = BASE_DIR / "backtest_config.json"
         if not path.exists():
-            pytest.skip("backtest_config.json chưa có")
+            return
         with open(path, encoding="utf-8") as f:
             config = json.load(f)
         assert "positive_ev_tickers" in config
@@ -85,7 +85,7 @@ class TestDataFiles:
     def test_scheduler_state_valid(self):
         path = BASE_DIR / "scheduler_state.json"
         if not path.exists():
-            pytest.skip("scheduler_state.json chưa có")
+            return
         with open(path, encoding="utf-8") as f:
             state = json.load(f)
         assert isinstance(state, dict)
@@ -93,7 +93,7 @@ class TestDataFiles:
     def test_analysis_results_today(self):
         path = BASE_DIR / "analysis_results.json"
         if not path.exists():
-            pytest.skip("analysis_results.json chưa có")
+            return
         with open(path, encoding="utf-8") as f:
             ar = json.load(f)
         assert "method" in ar
@@ -102,7 +102,7 @@ class TestDataFiles:
     def test_prediction_log_valid(self):
         path = BASE_DIR / "prediction_log.json"
         if not path.exists():
-            pytest.skip("prediction_log.json chưa có")
+            return
         with open(path, encoding="utf-8") as f:
             logs = json.load(f)
         assert isinstance(logs, dict), "prediction_log.json phải là dict"

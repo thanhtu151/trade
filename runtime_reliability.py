@@ -3,8 +3,15 @@
 from __future__ import annotations
 
 import random
+import json
+import os
+import tempfile
 import threading
 import time
+from pathlib import Path
+
+
+_PERSIST_LOCK = threading.Lock()
 
 
 class CircuitOpenError(RuntimeError):
@@ -12,12 +19,50 @@ class CircuitOpenError(RuntimeError):
 
 
 class CircuitBreaker:
-    def __init__(self, failure_threshold=3, recovery_seconds=300, clock=None):
+    def __init__(self, failure_threshold=3, recovery_seconds=300, clock=None, state_path=None, namespace="default"):
         self.failure_threshold = int(failure_threshold)
         self.recovery_seconds = float(recovery_seconds)
-        self.clock = clock or time.monotonic
+        # Wall-clock timestamps remain meaningful across separate Actions runs.
+        self.clock = clock or time.time
         self._states = {}
         self._lock = threading.Lock()
+        self.state_path = Path(state_path) if state_path else None
+        self.namespace = str(namespace)
+        self._load()
+
+    def _load(self):
+        if not self.state_path:
+            return
+        try:
+            payload = json.loads(self.state_path.read_text(encoding="utf-8"))
+            states = payload.get(self.namespace, {})
+            if isinstance(states, dict):
+                self._states = states
+        except (FileNotFoundError, json.JSONDecodeError, OSError):
+            self._states = {}
+
+    def _persist(self):
+        if not self.state_path:
+            return
+        self.state_path.parent.mkdir(parents=True, exist_ok=True)
+        with _PERSIST_LOCK:
+            try:
+                payload = json.loads(self.state_path.read_text(encoding="utf-8"))
+                if not isinstance(payload, dict):
+                    payload = {}
+            except (FileNotFoundError, json.JSONDecodeError, OSError):
+                payload = {}
+            payload[self.namespace] = self._states
+            fd, temp_name = tempfile.mkstemp(prefix=self.state_path.name + ".", dir=str(self.state_path.parent))
+            try:
+                with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                    json.dump(payload, handle, ensure_ascii=False, indent=2)
+                    handle.flush()
+                    os.fsync(handle.fileno())
+                os.replace(temp_name, self.state_path)
+            finally:
+                if os.path.exists(temp_name):
+                    os.remove(temp_name)
 
     def allow(self, key):
         with self._lock:
@@ -29,12 +74,14 @@ class CircuitBreaker:
                 state["failures"] = 0
                 state["opened_at"] = None
                 self._states[str(key)] = state
+                self._persist()
                 return True
             return False
 
     def success(self, key):
         with self._lock:
             self._states[str(key)] = {"failures": 0, "opened_at": None}
+            self._persist()
 
     def failure(self, key):
         with self._lock:
@@ -42,6 +89,7 @@ class CircuitBreaker:
             state["failures"] += 1
             if state["failures"] >= self.failure_threshold:
                 state["opened_at"] = self.clock()
+            self._persist()
 
 
 def exponential_backoff(attempt, base_delay=1.0, max_delay=30.0, jitter_ratio=0.25, random_fn=None):
@@ -76,8 +124,9 @@ def retry_transient(
             sleeper(delay)
 
 
-market_data_circuit = CircuitBreaker(failure_threshold=3, recovery_seconds=300)
-llm_circuit = CircuitBreaker(failure_threshold=3, recovery_seconds=300)
+_STATE_PATH = Path(__file__).resolve().parent / "circuit_breaker_state.json"
+market_data_circuit = CircuitBreaker(failure_threshold=3, recovery_seconds=300, state_path=_STATE_PATH, namespace="market_data")
+llm_circuit = CircuitBreaker(failure_threshold=3, recovery_seconds=300, state_path=_STATE_PATH, namespace="llm")
 
 
 def is_transient_network_error(exc):

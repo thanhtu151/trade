@@ -15,6 +15,7 @@ import shutil
 import tempfile
 import hashlib
 import argparse
+import copy
 from datetime import datetime
 from pathlib import Path
 
@@ -166,7 +167,7 @@ def _repair_portfolio(portfolio, actions, warnings, critical):
         qty = _finite_number(position.get("qty"))
         avg = _finite_number(position.get("avg_price"))
         current = _finite_number(position.get("current_price"))
-        if qty is None or qty <= 0 or int(qty) != qty:
+        if qty is None or qty <= 0:
             critical.append(f"{symbol}: invalid quantity")
             continue
         if avg is None or avg <= 0:
@@ -236,6 +237,26 @@ def run_self_healing(base_dir=None, repair=True):
     trades = _load_json_with_recovery(trades_path, list, [], actions, critical)
 
     portfolio_changed = _repair_portfolio(portfolio, actions, warnings, critical)
+    positions = portfolio.get("positions", {}) if isinstance(portfolio.get("positions"), dict) else {}
+    for symbol, position in positions.items():
+        if not isinstance(position, dict):
+            continue
+        unit_prices = []
+        for field in ("avg_price", "entry_price", "current_price"):
+            value = _finite_number(position.get(field))
+            if value is not None and value > 0:
+                unit_prices.append((field, value))
+        plan = position.get("plan") if isinstance(position.get("plan"), dict) else {}
+        for field in ("stop_loss", "initial_stop_loss", "target_price", "atr"):
+            value = _finite_number(plan.get(field))
+            if value is not None and value > 0:
+                unit_prices.append((f"plan.{field}", value))
+        bad = [(field, value) for field, value in unit_prices if value < 1000]
+        if bad:
+            critical.append(
+                f"open position {symbol} has non-VND unit price(s): "
+                + ", ".join(f"{field}={value:g}" for field, value in bad)
+            )
     clean_trades, duplicates, malformed = _deduplicate_trades(trades)
     if malformed:
         critical.append(f"trade ledger contains {malformed} malformed event(s)")
@@ -289,12 +310,30 @@ def run_self_healing(base_dir=None, repair=True):
             critical.append(f"current epoch trade has wrong epoch_id at index {clean_trades.index(event)}")
         if abs(value - qty * price) > max(1.0, abs(value) * 0.000001):
             critical.append(f"trade value mismatch at index {clean_trades.index(event)}")
+        cost_basis = _finite_number(event.get("cost_basis"))
+        if side == "SELL" and cost_basis is not None and (cost_basis <= 0 or value > cost_basis * 3):
+            critical.append(
+                f"SELL proceeds exceed 3x cost basis at index {clean_trades.index(event)}: "
+                f"{value:,.0f} vs {cost_basis:,.0f}"
+            )
         if price < 1000:
             low_price_events.append({"symbol": event.get("symbol"), "time": event.get("time"), "price": price})
         expected_cash += value if side == "SELL" else -value
     if low_price_events:
         warnings.append(f"current epoch contains {len(low_price_events)} legacy price(s) below 1,000 VND; history was not modified")
     actual_cash = _finite_number(portfolio.get("cash"))
+    current_equity = float(actual_cash or 0)
+    for position in positions.values():
+        if isinstance(position, dict):
+            market_value = _finite_number(position.get("market_value"))
+            if market_value is None:
+                market_value = float(position.get("qty", 0) or 0) * float(position.get("current_price") or position.get("avg_price") or 0)
+            current_equity += market_value
+    previous_equity = _finite_number(previous_checkpoint.get("equity"))
+    if previous_equity and current_equity > previous_equity * 1.5:
+        critical.append(
+            f"equity increased more than 50% since checkpoint: {previous_equity:,.0f} -> {current_equity:,.0f}"
+        )
     historical_drift = actual_cash is not None and abs(expected_cash - actual_cash) > max(1000, INITIAL_CASH * 0.005)
 
     raw_previous_count = previous_checkpoint.get("trade_events", -1)
@@ -353,6 +392,7 @@ def run_self_healing(base_dir=None, repair=True):
     status = "blocked" if critical else "healed" if actions else "healthy"
     next_checkpoint = {
         "cash": actual_cash,
+        "equity": current_equity,
         "trade_events": len(clean_trades),
         "last_event_signature": _event_signature(clean_trades[-1]) if clean_trades else None,
     }
@@ -459,7 +499,38 @@ def rebaseline(base_dir=None, reason="", operator=""):
     return event
 
 
-def migrate_reconstructed_reset(base_dir=None, confirmation="", operator=""):
+def _normalize_open_positions(portfolio):
+    changes = []
+    for symbol, position in (portfolio.get("positions") or {}).items():
+        avg_price = _finite_number(position.get("avg_price")) if isinstance(position, dict) else None
+        if avg_price is None or avg_price >= 1000:
+            continue
+        before = copy.deepcopy(position)
+        for field in ("avg_price", "entry_price", "current_price", "target_price", "stop_loss", "atr"):
+            value = _finite_number(position.get(field))
+            if value is not None:
+                position[field] = value * 1000.0
+        plan = position.get("plan") if isinstance(position.get("plan"), dict) else {}
+        for field in ("stop_loss", "initial_stop_loss", "target_price", "atr"):
+            value = _finite_number(plan.get(field))
+            if value is not None:
+                plan[field] = value * 1000.0
+        position["qty"] = float(position.get("qty", 0)) / 1000.0
+        changes.append({"symbol": symbol, "before": before, "after": copy.deepcopy(position)})
+    return changes
+
+
+def _state_price_file_report(base):
+    return [
+        {"file": "paper_portfolio.json", "handling": "normalize open-position unit prices and quantity atomically"},
+        {"file": "tracked_positions.json", "handling": "independent manual tracker; report only, no automatic mutation"},
+        {"file": "intraday_alerts.json", "handling": "immutable display messages; expire/prune normally, no parsing or mutation"},
+        {"file": "portfolio_snapshots.json", "handling": "historical aggregate values, no per-position unit price; preserve"},
+        {"file": "analysis_results.json", "handling": "ephemeral analysis cache; provider boundary normalizes future values; preserve history"},
+    ]
+
+
+def migrate_reconstructed_reset(base_dir=None, confirmation="", operator="", dry_run=True):
     """Insert the single audited RESET reconstructed during the PR2 investigation."""
     if confirmation != MIGRATION_CONFIRMATION:
         raise ValueError(f"confirmation must equal {MIGRATION_CONFIRMATION}")
@@ -492,6 +563,20 @@ def migrate_reconstructed_reset(base_dir=None, confirmation="", operator=""):
     }
     migrated = label_epochs(trades[:boundary + 1] + [reset] + trades[boundary + 1:])
     portfolio["ledger_epoch"] = 1
+    position_changes = _normalize_open_positions(portfolio)
+    expected_cash = reset["cash_after"]
+    for event in migrated[boundary + 2:]:
+        value = float(event.get("value", 0) or 0)
+        expected_cash += value if str(event.get("side", "")).upper() == "SELL" else -value
+    preview = {
+        "mode": "dry-run" if dry_run else "applied",
+        "reset_insertion": {"after_index": boundary, "after": trades[boundary], "before": following, "reset": reset},
+        "position_changes": position_changes,
+        "state_price_files": _state_price_file_report(base),
+        "post_migration_drift": expected_cash - float(portfolio.get("cash", 0)),
+    }
+    if dry_run:
+        return preview
     commit_portfolio_and_ledger(base, portfolio, migrated, operation="ledger_epoch_migration")
     audit_path = base / AUDIT_FILE
     try:
@@ -504,6 +589,8 @@ def migrate_reconstructed_reset(base_dir=None, confirmation="", operator=""):
         "operator": actor,
         "confirmation": confirmation,
         "reset": reset,
+        "position_changes": position_changes,
+        "state_price_files": preview["state_price_files"],
     })
     _atomic_json_write(audit_path, audit, backup=False)
     report_path = base / REPORT_FILE
@@ -512,7 +599,7 @@ def migrate_reconstructed_reset(base_dir=None, confirmation="", operator=""):
     migration_critical = [item for item in report["critical"] if not item.startswith("trading kill switch:")]
     if migration_critical or abs(float(report["metrics"]["cash_drift"])) > 1.0:
         raise RuntimeError("migration verification failed: " + "; ".join(migration_critical))
-    return {"reset": reset, "report": report}
+    return {**preview, "report": report}
 
 
 if __name__ == "__main__":
@@ -523,9 +610,10 @@ if __name__ == "__main__":
     parser.add_argument("--migrate-ledger-epoch", action="store_true")
     parser.add_argument("--confirm", default="")
     parser.add_argument("--maintenance-audit", action="store_true")
+    parser.add_argument("--apply", action="store_true", help="apply migration; default is read-only dry-run")
     args = parser.parse_args()
     if args.migrate_ledger_epoch:
-        result = migrate_reconstructed_reset(confirmation=args.confirm, operator=args.operator)
+        result = migrate_reconstructed_reset(confirmation=args.confirm, operator=args.operator, dry_run=not args.apply)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         raise SystemExit(0)
     if args.rebaseline:
