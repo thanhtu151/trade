@@ -150,14 +150,17 @@ jobs:
           fi
 
       - name: Persist automatic trading kill switch
+        id: disable_switch
         if: steps.pick.outputs.task == 'disable-trading'
         run: python trading_safety.py --disable --reason "$DISPATCH_REASON" --actor "$GITHUB_ACTOR" --run-id "$GITHUB_RUN_ID"
 
       - name: Remove trading kill switch after explicit confirmation
+        id: enable_switch
         if: steps.pick.outputs.task == 'enable-trading'
         run: python trading_safety.py --enable --confirmation "$DISPATCH_CONFIRMATION" --reason "$DISPATCH_REASON" --actor "$GITHUB_ACTOR" --run-id "$GITHUB_RUN_ID"
 
       - name: Install dependencies
+        id: dependencies
         if: steps.pick.outputs.task != 'disable-trading' && steps.pick.outputs.task != 'enable-trading'
         run: |
           python -m pip install --upgrade pip
@@ -165,6 +168,7 @@ jobs:
           pip install -r requirements.txt -r requirements-ml.txt
 
       - name: Reconstruct .env from secret
+        id: environment
         if: steps.pick.outputs.task != 'disable-trading' && steps.pick.outputs.task != 'enable-trading'
         env:
           ENV_FILE: ${{ secrets.ENV_FILE }}
@@ -177,6 +181,7 @@ jobs:
           fi
 
       - name: Restore LSTM models cache
+        id: model_cache
         if: steps.pick.outputs.task != 'disable-trading' && steps.pick.outputs.task != 'enable-trading'
         uses: actions/cache@v4
         with:
@@ -186,14 +191,17 @@ jobs:
             lstm-models-
 
       - name: Run scheduler task
+        id: scheduler_task
         if: steps.pick.outputs.task != 'rebaseline' && steps.pick.outputs.task != 'migrate-ledger-epoch' && steps.pick.outputs.task != 'disable-trading' && steps.pick.outputs.task != 'enable-trading'
         run: python scheduler.py ${{ steps.pick.outputs.task }}
 
       - name: Rebaseline unexplained ledger drift
+        id: rebaseline
         if: steps.pick.outputs.task == 'rebaseline'
         run: python self_healing.py --rebaseline --reason "$DISPATCH_REASON" --operator "$GITHUB_ACTOR"
 
       - name: Apply confirmed ledger epoch migration
+        id: migration
         if: steps.pick.outputs.task == 'migrate-ledger-epoch'
         run: |
           APPLY_ARG=""
@@ -201,6 +209,7 @@ jobs:
           python self_healing.py --migrate-ledger-epoch --confirm "$DISPATCH_CONFIRMATION" --operator "$GITHUB_ACTOR" $APPLY_ARG
 
       - name: Self-healing state audit
+        id: healing_audit
         if: always()
         run: |
           if [ "${{ steps.pick.outputs.task }}" = "rebaseline" ] || [ "${{ steps.pick.outputs.task }}" = "migrate-ledger-epoch" ] || [ "${{ steps.pick.outputs.task }}" = "disable-trading" ] || [ "${{ steps.pick.outputs.task }}" = "enable-trading" ]; then
@@ -210,6 +219,7 @@ jobs:
           fi
 
       - name: Persist state to `state` branch
+        id: persist_state
         if: always()   # save even if the task errored, so we keep progress
         run: |
           git config --global user.name "trade-bot"
@@ -231,12 +241,23 @@ jobs:
         if: failure()
         env:
           GH_TOKEN: ${{ github.token }}
+          STEPS_JSON: ${{ toJSON(steps) }}
         run: |
           TITLE="[scheduler] unattended task failure"
-          BODY="Task ${{ steps.pick.outputs.task }} failed in run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID. Self-healing was invoked; inspect the failed step and state-push result."
+          ICT_DATE=$(date '+%Y-%m-%d')
+          FAILED_STEPS=$(python -c 'import json,os; from workflow_alerts import failed_step_names; print(",".join(failed_step_names(json.loads(os.environ["STEPS_JSON"]))))')
+          FP=$(TASK="${{ steps.pick.outputs.task }}" FAILED_STEPS="$FAILED_STEPS" ICT_DATE="$ICT_DATE" python -c 'import os; from workflow_alerts import scheduler_failure_fingerprint; print(scheduler_failure_fingerprint(os.environ["TASK"], os.environ["FAILED_STEPS"].split(","), os.environ["ICT_DATE"]))')
+          MARKER="<!-- fp:$FP -->"
+          BODY="Task ${{ steps.pick.outputs.task }} failed at [$FAILED_STEPS] in run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID. Self-healing was invoked; inspect the failed step and state-push result.\n\n$MARKER"
           ISSUE=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
           if [ -n "$ISSUE" ]; then
-            gh issue comment "$ISSUE" --body "$BODY"
+            ISSUE_JSON=$(gh issue view "$ISSUE" --json body,comments)
+            LAST_FP=$(ISSUE_JSON="$ISSUE_JSON" python -c 'import json,os; from workflow_alerts import latest_fingerprint; print(latest_fingerprint(json.loads(os.environ["ISSUE_JSON"])) or "")')
+            if [ "$LAST_FP" = "$FP" ]; then
+              echo "Scheduler failure fingerprint unchanged; no comment added."
+            else
+              gh issue comment "$ISSUE" --body "$BODY"
+            fi
           else
             gh issue create --title "$TITLE" --body "$BODY"
           fi
