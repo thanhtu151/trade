@@ -1,22 +1,34 @@
 {
-  "status": "healthy",
-  "trading_allowed": true,
-  "updated_at": "2026-09-24 20:59:38",
+  "status": "blocked",
+  "trading_allowed": false,
+  "updated_at": "2026-09-27 18:47:08",
   "actions": [],
   "warnings": [
-    "historical ledger drift: expected cash -47,588,371, actual 34,898,105; not auto-repaired"
+    "current epoch contains 102 legacy price(s) below 1,000 VND; history was not modified"
   ],
-  "critical": [],
+  "critical": [
+    "trading kill switch: TRADING_ENABLED disables trading",
+    "open position STB has non-VND unit price(s): avg_price=76.8, current_price=76.9, stop_loss=75, target_price=80.5, plan.stop_loss=75, plan.target_price=80.5",
+    "open position HCM has non-VND unit price(s): avg_price=24.8, current_price=25.1, stop_loss=24.8, target_price=26.1, plan.stop_loss=24.2, plan.target_price=26.1",
+    "open position GMD has non-VND unit price(s): avg_price=76.5, current_price=76.3, stop_loss=75.1, target_price=79.3, plan.stop_loss=75.1, plan.target_price=79.3",
+    "historical ledger drift: expected cash -47,588,371, actual 34,898,105; not auto-repaired; run self_healing.py --rebaseline with an audit reason"
+  ],
   "metrics": {
     "cash": 34898105.0,
     "positions": 3,
     "trade_events": 106,
     "duplicate_events_removed": 0,
-    "malformed_events": 0
+    "malformed_events": 0,
+    "current_epoch": 0,
+    "current_epoch_events": 1,
+    "expected_cash": -47588371.36,
+    "cash_drift": -82486476.36,
+    "low_price_events": 102
   },
   "checkpoint": {
     "cash": 34898105.0,
     "trade_events": 106,
     "last_event_signature": "ecf31cbcf632c659"
-  }
+  },
+  "ledger_baseline": {}
 }
