@@ -14,12 +14,14 @@ import os
 import shutil
 import tempfile
 import hashlib
+import argparse
 from datetime import datetime
 from pathlib import Path
 
 
 INITIAL_CASH = 100_000_000.0
 REPORT_FILE = "self_healing_state.json"
+AUDIT_FILE = "self_healing_audit.json"
 
 
 def _now():
@@ -188,11 +190,18 @@ def run_self_healing(base_dir=None, repair=True):
     portfolio_path = base / "paper_portfolio.json"
     trades_path = base / "paper_trades.json"
     report_path = base / REPORT_FILE
+    from trading_safety import kill_switch_reason
+
+    switch_reason = kill_switch_reason(base)
+    if switch_reason:
+        critical.append(f"trading kill switch: {switch_reason}")
     try:
         previous_report = json.loads(report_path.read_text(encoding="utf-8"))
         previous_checkpoint = previous_report.get("checkpoint") or {}
+        previous_baseline = previous_report.get("ledger_baseline") or {}
     except Exception:
         previous_checkpoint = {}
+        previous_baseline = {}
 
     portfolio = _load_json_with_recovery(
         portfolio_path, dict, {"initial_cash": INITIAL_CASH, "cash": 0, "positions": {}}, actions, critical
@@ -212,10 +221,7 @@ def run_self_healing(base_dir=None, repair=True):
     sell_value = sum(float(t.get("value", 0) or 0) for t in clean_trades if str(t.get("side", "")).upper() == "SELL")
     expected_cash = float(portfolio.get("initial_cash", INITIAL_CASH)) - buy_value + sell_value
     actual_cash = _finite_number(portfolio.get("cash"))
-    if actual_cash is not None and abs(expected_cash - actual_cash) > max(1000, INITIAL_CASH * 0.005):
-        warnings.append(
-            f"historical ledger drift: expected cash {expected_cash:,.0f}, actual {actual_cash:,.0f}; not auto-repaired"
-        )
+    historical_drift = actual_cash is not None and abs(expected_cash - actual_cash) > max(1000, INITIAL_CASH * 0.005)
 
     raw_previous_count = previous_checkpoint.get("trade_events", -1)
     previous_count = int(raw_previous_count) if raw_previous_count is not None else -1
@@ -229,6 +235,21 @@ def run_self_healing(base_dir=None, repair=True):
             and _event_signature(clean_trades[previous_count - 1]) == previous_signature
         ))
     )
+    current_cash_offset = expected_cash - actual_cash if actual_cash is not None else None
+    baseline_offset = _finite_number(previous_baseline.get("cash_offset")) if isinstance(previous_baseline, dict) else None
+    offset_tolerance = 1.0
+    baseline_acknowledged = (
+        baseline_offset is not None
+        and current_cash_offset is not None
+        and checkpoint_continuous
+        and abs(current_cash_offset - baseline_offset) <= offset_tolerance
+    )
+    if historical_drift:
+        detail = f"historical ledger drift: expected cash {expected_cash:,.0f}, actual {actual_cash:,.0f}; not auto-repaired"
+        if baseline_acknowledged and checkpoint_continuous:
+            warnings.append(detail + "; acknowledged baseline remains continuous")
+        else:
+            critical.append(detail + "; run self_healing.py --rebaseline with an audit reason")
     if checkpoint_continuous and previous_cash is not None and not malformed:
         new_events = clean_trades[previous_count:]
         cash_delta = 0.0
@@ -277,18 +298,90 @@ def run_self_healing(base_dir=None, repair=True):
             "malformed_events": malformed,
         },
         "checkpoint": next_checkpoint,
+        "ledger_baseline": previous_baseline,
     }
     if repair:
         _atomic_json_write(report_path, report, backup=False)
     return report
 
 
+def trading_permission(base_dir=None):
+    """Return a fail-closed decision and an operator-readable reason."""
+    from trading_safety import operational_gate
+
+    operational, reason = operational_gate(base_dir=base_dir)
+    if not operational:
+        return False, reason
+    report = run_self_healing(base_dir=base_dir, repair=True)
+    if not report["trading_allowed"]:
+        return False, "unsafe trading state: " + "; ".join(report["critical"])
+    return True, "trading gates passed"
+
+
 def trading_is_allowed(base_dir=None):
-    """Run a fresh preflight; callers must fail closed on critical state."""
-    return bool(run_self_healing(base_dir=base_dir, repair=True)["trading_allowed"])
+    """Backward-compatible boolean gate; new callers should retain the reason."""
+    return trading_permission(base_dir)[0]
+
+
+def rebaseline(base_dir=None, reason="", operator=""):
+    """Acknowledge current accounting state without inventing or changing it."""
+    if not str(reason).strip():
+        raise ValueError("--reason is required for rebaseline")
+    base = Path(base_dir or Path(__file__).resolve().parent)
+    report = run_self_healing(base, repair=False)
+    non_drift = [item for item in report["critical"] if not item.startswith("historical ledger drift:")]
+    if non_drift:
+        raise RuntimeError("cannot rebaseline unsafe state: " + "; ".join(non_drift))
+
+    checkpoint = report["checkpoint"]
+    portfolio = json.loads((base / "paper_portfolio.json").read_text(encoding="utf-8"))
+    trades = json.loads((base / "paper_trades.json").read_text(encoding="utf-8"))
+    buy_value = sum(float(t.get("value", 0) or 0) for t in trades if str(t.get("side", "")).upper() == "BUY")
+    sell_value = sum(float(t.get("value", 0) or 0) for t in trades if str(t.get("side", "")).upper() == "SELL")
+    expected_cash = float(portfolio.get("initial_cash", INITIAL_CASH)) - buy_value + sell_value
+    actual_cash = float(portfolio["cash"])
+    baseline = {
+        "cash_offset": expected_cash - actual_cash,
+        "established_checkpoint": checkpoint,
+        "established_at": _now(),
+    }
+    report["ledger_baseline"] = baseline
+    report["critical"] = []
+    report["trading_allowed"] = True
+    report["status"] = "healthy"
+    report["updated_at"] = _now()
+    _atomic_json_write(base / REPORT_FILE, report, backup=False)
+
+    audit_path = base / AUDIT_FILE
+    try:
+        audit = json.loads(audit_path.read_text(encoding="utf-8"))
+        if not isinstance(audit, list):
+            raise ValueError("audit must be a list")
+    except FileNotFoundError:
+        audit = []
+    event = {
+        "action": "rebaseline",
+        "at": _now(),
+        "operator": str(operator or os.getenv("GITHUB_ACTOR") or os.getenv("USERNAME") or "unknown"),
+        "reason": str(reason).strip(),
+        "checkpoint": checkpoint,
+        "cash_offset": baseline["cash_offset"],
+    }
+    audit.append(event)
+    _atomic_json_write(audit_path, audit, backup=False)
+    return event
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Audit or explicitly rebaseline trading state")
+    parser.add_argument("--rebaseline", action="store_true")
+    parser.add_argument("--reason", default="")
+    parser.add_argument("--operator", default="")
+    args = parser.parse_args()
+    if args.rebaseline:
+        result = rebaseline(reason=args.reason, operator=args.operator)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        raise SystemExit(0)
     result = run_self_healing()
     print(json.dumps(result, ensure_ascii=False, indent=2))
     raise SystemExit(0 if result["trading_allowed"] else 2)

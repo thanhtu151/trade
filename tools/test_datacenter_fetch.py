@@ -65,11 +65,11 @@ def show_egress_ip() -> None:
 def _fetch_vnstock(source: str) -> None:
     """Fetch OHLCV via the exact API the codebase uses (vnstock_fetch_worker.py)."""
     try:
-        from vnstock.api.quote import Quote
+        from market_data_adapter import quote
 
         end = datetime.now().strftime("%Y-%m-%d")
         start = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
-        df = Quote(symbol=TEST_TICKER, source=source).history(start=start, end=end, interval="1D")
+        df = quote(symbol=TEST_TICKER, source=source).history(start=start, end=end, interval="1D")
         rows = 0 if df is None else len(df)
         _record(f"vnstock/{source}", rows > 0, "OHLCV history" if rows > 0 else "empty frame", rows)
     except Exception as e:  # noqa: BLE001

@@ -61,23 +61,23 @@ paper_trader = _LazyModuleProxy("auto_trader")
 
 @st.cache_resource(show_spinner=False)
 def get_vnstock_client(symbol, source="VCI"):
-    from vnstock.api.quote import Quote
+    from market_data_adapter import quote
 
-    return Quote(symbol=symbol, source=source)
+    return quote(symbol=symbol, source=source)
 
 
 @st.cache_data(ttl=300, show_spinner=False)
 def get_vnstock_status_cached():
-    from vnstock import check_status
+    from market_data_adapter import vendor_status
 
-    return check_status()
+    return vendor_status()
 
 
 @st.cache_resource(show_spinner=False)
 def get_finance_client(symbol, source="VCI"):
-    from vnstock.api.financial import Finance
+    from market_data_adapter import finance
 
-    return Finance(symbol=symbol, source=source)
+    return finance(symbol=symbol, source=source)
 
 
 @st.cache_data(ttl=300, show_spinner=False)

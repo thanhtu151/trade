@@ -1,0 +1,10 @@
+# Install only with:
+#   pip install --index-url https://vnstocks.com/api/simple \
+#     --no-deps --only-binary=:all: --require-hashes -r requirements-vnstock.txt
+#
+# Never use --extra-index-url for these names. The hashes are published by the
+# vendor's PEP 503 Simple API and pin the exact wheel selected by CI.
+vnstock==4.0.9 \
+    --hash=sha256:b51358c58c1fd9a299379f2d49b5c29e692fbae49e75f2ebc7cbfcc1cb996e64
+vnai==2.6.2 \
+    --hash=sha256:5b2852157031322f817ac9a306d67fbf138ec824292eaeb0b75e4e884f093081

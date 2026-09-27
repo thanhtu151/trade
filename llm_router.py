@@ -21,20 +21,9 @@ import logging
 import os
 import re
 import time
-from datetime import datetime, timedelta
-import re, requests
+from datetime import datetime
 
-def _auto_fetch_keys():
-    """Tự fetch key public từ GitHub, cache 30 phút"""
-    try:
-        r = requests.get(
-            "https://raw.githubusercontent.com/alistaitsacle/free-llm-api-keys/main/README.md",
-            timeout=10
-        )
-        keys = re.findall(r'(sk-[A-Za-z0-9\-_]{20,})', r.text)
-        return list(dict.fromkeys(keys))  # deduplicate
-    except:
-        return []
+import requests
 
 try:
     from dotenv import load_dotenv
@@ -49,9 +38,7 @@ except ImportError:
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CACHE_FILE = os.path.join(BASE_DIR, "llm_key_cache.json")
 USAGE_FILE = os.path.join(BASE_DIR, "llm_router_usage.json")
-CACHE_TTL_MINUTES = 30
 
 GATEWAY_URL = os.getenv("GATEWAY_URL", "https://aiapiv2.pekpik.com/v1")
 GATEWAY_MODELS = [
@@ -92,34 +79,7 @@ def _split_keys(value):
     return [item.strip() for item in re.split(r"[\s,;]+", str(value or "")) if _valid_key(item)]
 
 
-def _load_cache():
-    try:
-        with open(CACHE_FILE, encoding="utf-8") as f:
-            data = json.load(f)
-        expire = datetime.fromisoformat(data.get("expire", ""))
-        if datetime.now() < expire:
-            keys = data.get("keys", [])
-            if isinstance(keys, list):
-                return [k for k in keys if _valid_key(k)]
-    except Exception:
-        pass
-    return None
-
-
-def _save_cache(keys):
-    try:
-        expire = (datetime.now() + timedelta(minutes=CACHE_TTL_MINUTES)).isoformat()
-        with open(CACHE_FILE, "w", encoding="utf-8") as f:
-            json.dump({"expire": expire, "keys": keys}, f, ensure_ascii=False, indent=2)
-    except Exception:
-        pass
-
-
 def fetch_keys():
-    cached = _load_cache()
-    if cached:
-        return cached
-
     keys = []
     keys.extend(_split_keys(os.getenv("GATEWAY_KEYS", "")))
     for idx in range(1, 11):
@@ -127,12 +87,7 @@ def fetch_keys():
         if _valid_key(key):
             keys.append(key.strip())
 
-    # Nếu không có key trong .env → tự fetch từ GitHub
-    if not keys:
-        keys = _auto_fetch_keys()
-
     keys = list(dict.fromkeys(keys))
-    _save_cache(keys)
     return keys
 
 
@@ -418,7 +373,6 @@ def call_llm_json(
 
 def get_router_status() -> dict:
     usage = _load_usage()
-    cached = _load_cache()
     keys = fetch_keys()
     providers = _provider_templates()
     errors = usage.get("errors", {})
@@ -449,7 +403,7 @@ def get_router_status() -> dict:
         "ollama_calls": int(usage.get("ollama_calls", 0)),
         "fail_calls": int(usage.get("fail_calls", 0)),
         "keys_available": len(keys),
-        "cache_active": cached is not None,
+        "cache_active": False,
         "last_provider": usage.get("last_provider"),
         "last_model": usage.get("last_model"),
         "providers": provider_rows,

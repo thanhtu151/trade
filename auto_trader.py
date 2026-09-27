@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 import pandas as pd
 import requests
 import streamlit as st
-from vnstock.api.quote import Quote
+from market_data_adapter import quote
 from llm_router import call_llm, call_llm_json
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -812,8 +812,8 @@ def _fetch_history_uncached(symbol, days=180):
 
     end = datetime.now().strftime("%Y-%m-%d")
     start = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
-    quote = Quote(symbol=symbol, source="VCI")
-    df = _call_with_timeout(quote.history, start=start, end=end, interval="1D")
+    quote_client = quote(symbol=symbol, source="VCI")
+    df = _call_with_timeout(quote_client.history, start=start, end=end, interval="1D")
     if df is None or len(df) == 0:
         return pd.DataFrame()
     df = df.copy()
@@ -1236,10 +1236,11 @@ def log_trade(trades, symbol, side, qty, price, reason, pnl=None, plan=None):
 
 
 def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pct=MAX_POSITION_PCT, plan=None):
-    from self_healing import trading_is_allowed
+    from self_healing import trading_permission
 
-    if not trading_is_allowed(BASE_DIR):
-        return False, "Self-healing da khoa giao dich: trang thai danh muc khong an toan"
+    allowed, gate_reason = trading_permission(BASE_DIR)
+    if not allowed:
+        return False, gate_reason
     portfolio = load_portfolio()
     trades = load_trades()
     price = current_price(symbol)
@@ -1284,10 +1285,11 @@ def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pc
 
 
 def sell_position(symbol, reason="Manual SELL", qty=None):
-    from self_healing import trading_is_allowed
+    from self_healing import trading_permission
 
-    if not trading_is_allowed(BASE_DIR):
-        return False, "Self-healing da khoa giao dich: trang thai danh muc khong an toan"
+    allowed, gate_reason = trading_permission(BASE_DIR)
+    if not allowed:
+        return False, gate_reason
     portfolio = load_portfolio()
     trades = load_trades()
     position = portfolio.get("positions", {}).get(symbol)
@@ -1321,25 +1323,66 @@ def sell_position(symbol, reason="Manual SELL", qty=None):
     return True, f"SELL {sell_qty:,} {symbol} @ {price:,.2f} | PnL {pnl:,.0f}"
 
 
-def execute_paper_trade(ticker, action, price=None, confidence=50, source="scheduler", reason=None):
+def execute_paper_trade(
+    ticker,
+    action,
+    price=None,
+    confidence=50,
+    source="scheduler",
+    reason=None,
+    signal_id=None,
+    run_id=None,
+    trade_date=None,
+):
     """
     Scheduler-facing paper trade entry point.
     BUY uses Kelly-based sizing; SELL uses existing portfolio helper.
     """
-    import math
+    from self_healing import trading_permission
 
-    from self_healing import trading_is_allowed
-
-    if not trading_is_allowed(BASE_DIR):
-        log.error("Self-healing preflight blocked %s %s", action, ticker)
-        return False, "Self-healing blocked trading because state is unsafe"
+    allowed, gate_reason = trading_permission(BASE_DIR)
+    if not allowed:
+        log.warning("Trading gate blocked %s %s: %s", action, ticker, gate_reason)
+        return {"status": "blocked", "detail": gate_reason, "idempotency_key": None}
 
     ticker = str(ticker).upper()
     action = str(action).upper()
     reason = reason or f"{source}: {action}"
     price = float(price or 0)
 
-    portfolio = load_portfolio()
+    from trade_idempotency import build_key, release, reserve, transition
+
+    from trading_safety import vietnam_now
+
+    trade_date = str(trade_date or vietnam_now().date().isoformat())
+    if not signal_id:
+        import hashlib
+        seed = f"{source}|{ticker}|{action}|{reason}|{confidence}|{price}"
+        signal_id = hashlib.sha256(seed.encode("utf-8")).hexdigest()[:20]
+    idempotency_key = build_key(trade_date, ticker, action, str(signal_id))
+    metadata = {
+        "trade_date": trade_date,
+        "ticker": ticker,
+        "side": action,
+        "signal_id": str(signal_id),
+        "run_id": str(run_id or os.getenv("GITHUB_RUN_ID") or "local"),
+    }
+    state_file = os.path.join(BASE_DIR, "scheduler_state.json")
+    if not reserve(state_file, idempotency_key, metadata):
+        return {
+            "status": "duplicate",
+            "detail": f"duplicate idempotency key: {idempotency_key}",
+            "idempotency_key": idempotency_key,
+        }
+
+    def result(status, detail):
+        return {"status": status, "detail": str(detail), "idempotency_key": idempotency_key}
+
+    try:
+        portfolio = load_portfolio()
+    except Exception as exc:
+        release(state_file, idempotency_key)
+        return result("transient", f"portfolio read failed before mutation: {exc}")
     cash = float(portfolio.get("cash", 0))
     positions = portfolio.get("positions", {}) or {}
     equity = cash
@@ -1357,10 +1400,7 @@ def execute_paper_trade(ticker, action, price=None, confidence=50, source="sched
 
     def _resolve_live_price():
         """Always prefer the live market price for BUY sizing and entry planning."""
-        try:
-            live_price = float(current_price(ticker) or 0)
-        except Exception:
-            live_price = 0.0
+        live_price = float(current_price(ticker) or 0)
         provided_price = float(price or 0)
         if live_price > 0:
             if provided_price > 0:
@@ -1413,10 +1453,14 @@ def execute_paper_trade(ticker, action, price=None, confidence=50, source="sched
     if action == "BUY":
         if ticker in positions:
             log.warning("%s: already in portfolio, skip", ticker)
-            return False, f"{ticker} already in portfolio"
+            detail = f"{ticker} already in portfolio"
+            transition(state_file, idempotency_key, "skipped", detail)
+            return result("skipped", detail)
         if cash < 1_000_000:
-            log.warning("Insufficient cash: %,.0f", cash)
-            return False, f"Insufficient cash: {cash:,.0f}"
+            log.warning("Insufficient cash: %.0f", cash)
+            detail = f"Insufficient cash: {cash:,.0f}"
+            transition(state_file, idempotency_key, "skipped", detail)
+            return result("skipped", detail)
         # Circuit breaker: portfolio state (cash/equity) should never realistically
         # drift far from INITIAL_CASH for this paper fund. A bad price tick or a
         # data-corruption bug elsewhere must not get to size a real trade off of it.
@@ -1425,38 +1469,60 @@ def execute_paper_trade(ticker, action, price=None, confidence=50, source="sched
                 "%s: refusing BUY, equity %,.0f looks corrupted (>50x initial cash %,.0f)",
                 ticker, equity, INITIAL_CASH,
             )
-            return False, f"Equity {equity:,.0f} looks corrupted, refusing to size trade"
+            detail = f"Equity {equity:,.0f} looks corrupted, refusing to size trade"
+            transition(state_file, idempotency_key, "skipped", detail)
+            return result("skipped", detail)
         if len(positions) >= 5:
             log.warning("Max positions reached (%s)", len(positions))
-            return False, f"Max positions reached ({len(positions)})"
-        price = _resolve_live_price()
+            detail = f"Max positions reached ({len(positions)})"
+            transition(state_file, idempotency_key, "skipped", detail)
+            return result("skipped", detail)
+        try:
+            price = _resolve_live_price()
+        except Exception as exc:
+            release(state_file, idempotency_key)
+            return result("transient", f"live price fetch failed before mutation: {exc}")
         if price <= 0:
-            return False, f"Khong lay duoc gia hien tai cho {ticker}"
+            detail = f"Khong lay duoc gia hien tai cho {ticker}"
+            release(state_file, idempotency_key)
+            return result("transient", detail)
 
-        sizing = get_kelly_position_size(ticker, equity, price)
-        max_spend = cash * 0.95
-        value = min(float(sizing.get("value", 0)), max_spend)
-        shares = int(value / price / 100) * 100 if price > 0 else 0
-        value = shares * price
-        kelly_fraction = float(sizing.get("kelly_fraction", 0.25))
+        try:
+            sizing = get_kelly_position_size(ticker, equity, price)
+            max_spend = cash * 0.95
+            value = min(float(sizing.get("value", 0)), max_spend)
+            shares = int(value / price / 100) * 100 if price > 0 else 0
+            value = shares * price
+            kelly_fraction = float(sizing.get("kelly_fraction", 0.25))
+            position_plan = _build_buy_plan(price, price, shares, value, kelly_fraction)
+        except Exception as exc:
+            release(state_file, idempotency_key)
+            return result("transient", f"position preparation failed before mutation: {exc}")
 
         if value < price * 100:
             log.warning("%s: position too small (%s), skip", ticker, f"{value:,.0f}")
-            return False, f"{ticker}: position too small ({value:,.0f})"
+            detail = f"{ticker}: position too small ({value:,.0f})"
+            transition(state_file, idempotency_key, "skipped", detail)
+            return result("skipped", detail)
         if value > cash:
             log.error("%s: cost %,.0f > cash %,.0f, abort", ticker, value, cash)
-            return False, f"{ticker}: cost {value:,.0f} > cash {cash:,.0f}"
+            detail = f"{ticker}: cost {value:,.0f} > cash {cash:,.0f}"
+            transition(state_file, idempotency_key, "skipped", detail)
+            return result("skipped", detail)
 
-        positions[ticker] = _build_buy_plan(price, price, shares, value, kelly_fraction)
+        positions[ticker] = position_plan
 
         portfolio["cash"] = cash - value
         portfolio["positions"] = positions
         portfolio["updated_at"] = now_text()
-        save_portfolio(portfolio)
-
-        trades = load_trades()
-        log_trade(trades, ticker, "BUY", shares, price, reason, plan=positions[ticker].get("plan"))
-        save_trades(trades)
+        try:
+            save_portfolio(portfolio)
+            trades = load_trades()
+            log_trade(trades, ticker, "BUY", shares, price, reason, plan=positions[ticker].get("plan"))
+            save_trades(trades)
+        except Exception as exc:
+            return result("failed", f"trade persistence failed; reservation retained: {exc}")
+        transition(state_file, idempotency_key, "completed", f"BUY {shares} @ {price}")
         log.info(
             "BUY %s: %s cp @ %,.0f Kelly=%.1f%% (%.1f%% portfolio)",
             ticker,
@@ -1465,10 +1531,17 @@ def execute_paper_trade(ticker, action, price=None, confidence=50, source="sched
             kelly_fraction * 100,
             float(sizing.get("pct_portfolio", 0)),
         )
-        return True, f"BUY {shares:,} {ticker} @ {price:,.2f}"
+        return result("executed", f"BUY {shares:,} {ticker} @ {price:,.2f}")
     if action == "SELL":
-        return sell_position(ticker, reason=reason)
-    return False, f"Skip {ticker}: action={action}"
+        try:
+            ok, detail = sell_position(ticker, reason=reason)
+        except Exception as exc:
+            return result("failed", f"sell failed; reservation retained: {exc}")
+        transition(state_file, idempotency_key, "completed" if ok else "skipped", detail)
+        return result("executed" if ok else "skipped", detail)
+
+    transition(state_file, idempotency_key, "skipped", f"unsupported action: {action}")
+    return result("skipped", f"unsupported action: {action}")
 
 
 def get_kelly_position_size(ticker, portfolio_value, price):

@@ -15,8 +15,20 @@ requests==2.34.2
 python-dotenv==1.0.1
 
 # --- market data sources ---
-vnstock==4.0.4
-vnai==2.4.8
+# vnstock and vnai are installed separately from the vendor's official index.
+# See requirements-vnstock.txt and .github/workflows/scheduler.yml. Keeping
+# them out of this PyPI requirements file prevents dependency confusion.
+# Their third-party runtime dependencies remain on PyPI because the vendor
+# wheels are deliberately installed with --no-deps.
+seaborn==0.13.2
+openpyxl==3.1.5
+pydantic==2.13.5
+packaging==26.3
+importlib-metadata==9.0.1
+tenacity==9.1.4
+vnstock_ezchart==1.0.2
+pytz==2026.3.post1
+cffi==2.1.1
 yfinance==1.4.1
 finnhub-python==2.4.28
 feedparser==6.0.12
