@@ -1,7 +1,7 @@
 {
   "status": "blocked",
   "trading_allowed": false,
-  "updated_at": "2026-09-27 19:34:39",
+  "updated_at": "2026-09-27 19:37:10",
   "actions": [],
   "warnings": [
     "current epoch contains 45 legacy price(s) below 1,000 VND; history was not modified"
