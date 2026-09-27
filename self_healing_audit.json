@@ -1,0 +1,210 @@
+[
+  {
+    "action": "migrate_ledger_epoch",
+    "at": "2026-09-27 19:34:38",
+    "operator": "thanhtu151",
+    "confirmation": "MIGRATE_LEDGER_EPOCH_2026_07_09",
+    "reset": {
+      "type": "RESET",
+      "time": "2026-07-09 10:50:56",
+      "cash_after": 100000000.0,
+      "positions_after": {},
+      "reason": "reconstructed: untracked reset found in PR2 investigation",
+      "actor": "thanhtu151",
+      "epoch_id": 1
+    },
+    "position_changes": [
+      {
+        "symbol": "STB",
+        "before": {
+          "qty": 268300,
+          "avg_price": 76.8,
+          "current_price": 76.9,
+          "market_value": 20632270.0,
+          "unrealized_pnl": 26830.0,
+          "pnl_pct": 0.1302,
+          "target_price": 80.5,
+          "stop_loss": 75.0,
+          "atr": 1.84,
+          "kelly_fraction": 0.25,
+          "entry_date": "2026-09-08 13:50:56",
+          "hold_days": 9,
+          "source": "two_stage_scheduler",
+          "plan": {
+            "target_price": 80.5,
+            "stop_loss": 75.0,
+            "atr": 1.84,
+            "hold_days": "toi da 15 phien",
+            "sell_rule": "Ban khi cham target 80.50, cat lo duoi 75.00.",
+            "trailing_stop_active": false,
+            "kelly_fraction": 0.25
+          }
+        },
+        "after": {
+          "qty": 268.3,
+          "avg_price": 76800.0,
+          "current_price": 76900.0,
+          "market_value": 20632270.0,
+          "unrealized_pnl": 26830.0,
+          "pnl_pct": 0.1302,
+          "target_price": 80500.0,
+          "stop_loss": 75000.0,
+          "atr": 1840.0,
+          "kelly_fraction": 0.25,
+          "entry_date": "2026-09-08 13:50:56",
+          "hold_days": 9,
+          "source": "two_stage_scheduler",
+          "plan": {
+            "target_price": 80500.0,
+            "stop_loss": 75000.0,
+            "atr": 1840.0,
+            "hold_days": "toi da 15 phien",
+            "sell_rule": "Ban khi cham target 80.50, cat lo duoi 75.00.",
+            "trailing_stop_active": false,
+            "kelly_fraction": 0.25
+          }
+        }
+      },
+      {
+        "symbol": "HCM",
+        "before": {
+          "qty": 39900,
+          "avg_price": 24.8,
+          "current_price": 25.1,
+          "market_value": 1001490.0,
+          "unrealized_pnl": 11970.0,
+          "pnl_pct": 1.2097,
+          "target_price": 26.1,
+          "stop_loss": 24.8,
+          "atr": 0.62,
+          "kelly_fraction": 0.25,
+          "entry_date": "2026-09-16 14:06:20",
+          "hold_days": 3,
+          "source": "two_stage_scheduler",
+          "plan": {
+            "target_price": 26.1,
+            "stop_loss": 24.2,
+            "atr": 0.62,
+            "hold_days": "toi da 15 phien",
+            "sell_rule": "Ban khi cham target 26.10, cat lo duoi 24.20.",
+            "trailing_stop_active": false,
+            "kelly_fraction": 0.25
+          }
+        },
+        "after": {
+          "qty": 39.9,
+          "avg_price": 24800.0,
+          "current_price": 25100.0,
+          "market_value": 1001490.0,
+          "unrealized_pnl": 11970.0,
+          "pnl_pct": 1.2097,
+          "target_price": 26100.0,
+          "stop_loss": 24800.0,
+          "atr": 620.0,
+          "kelly_fraction": 0.25,
+          "entry_date": "2026-09-16 14:06:20",
+          "hold_days": 3,
+          "source": "two_stage_scheduler",
+          "plan": {
+            "target_price": 26100.0,
+            "stop_loss": 24200.0,
+            "atr": 620.0,
+            "hold_days": "toi da 15 phien",
+            "sell_rule": "Ban khi cham target 26.10, cat lo duoi 24.20.",
+            "trailing_stop_active": false,
+            "kelly_fraction": 0.25
+          }
+        }
+      },
+      {
+        "symbol": "GMD",
+        "before": {
+          "qty": 268500,
+          "avg_price": 76.5,
+          "current_price": 76.3,
+          "market_value": 20486550.0,
+          "unrealized_pnl": -53700.0,
+          "pnl_pct": -0.2614,
+          "target_price": 79.3,
+          "stop_loss": 75.1,
+          "atr": 1.39,
+          "kelly_fraction": 0.25,
+          "entry_date": "2026-09-21 14:32:45",
+          "hold_days": 1,
+          "source": "two_stage_scheduler",
+          "plan": {
+            "target_price": 79.3,
+            "stop_loss": 75.1,
+            "atr": 1.39,
+            "hold_days": "toi da 15 phien",
+            "sell_rule": "Ban khi cham target 79.30, cat lo duoi 75.10.",
+            "trailing_stop_active": false,
+            "kelly_fraction": 0.25
+          }
+        },
+        "after": {
+          "qty": 268.5,
+          "avg_price": 76500.0,
+          "current_price": 76300.0,
+          "market_value": 20486550.0,
+          "unrealized_pnl": -53700.0,
+          "pnl_pct": -0.2614,
+          "target_price": 79300.0,
+          "stop_loss": 75100.0,
+          "atr": 1390.0,
+          "kelly_fraction": 0.25,
+          "entry_date": "2026-09-21 14:32:45",
+          "hold_days": 1,
+          "source": "two_stage_scheduler",
+          "plan": {
+            "target_price": 79300.0,
+            "stop_loss": 75100.0,
+            "atr": 1390.0,
+            "hold_days": "toi da 15 phien",
+            "sell_rule": "Ban khi cham target 79.30, cat lo duoi 75.10.",
+            "trailing_stop_active": false,
+            "kelly_fraction": 0.25
+          }
+        }
+      }
+    ],
+    "state_price_files": [
+      {
+        "file": "paper_portfolio.json",
+        "handling": "normalize open-position unit prices and quantity atomically"
+      },
+      {
+        "file": "paper_trades.json",
+        "handling": "append-only evidence; label epochs but never rewrite historical prices"
+      },
+      {
+        "file": "tracked_positions.json",
+        "handling": "independent manual tracker; report only, no automatic mutation"
+      },
+      {
+        "file": "intraday_alerts.json",
+        "handling": "immutable display messages; expire/prune normally, no parsing or mutation"
+      },
+      {
+        "file": "portfolio_snapshots.json",
+        "handling": "historical aggregate values, no per-position unit price; preserve"
+      },
+      {
+        "file": "analysis_results.json",
+        "handling": "ephemeral analysis cache; provider boundary normalizes future values; preserve history"
+      },
+      {
+        "file": "debate_log.json",
+        "handling": "historical model evidence; preserve, with future inputs normalized at provider boundary"
+      },
+      {
+        "file": "prediction_history.json",
+        "handling": "historical outcomes; preserve and default learning/reflection to current epoch"
+      },
+      {
+        "file": "prediction_log.json",
+        "handling": "historical predictions; preserve and default learning statistics to current epoch"
+      }
+    ]
+  }
+]

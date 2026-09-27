@@ -1536,5 +1536,16 @@
     "reason": "stop_loss",
     "pnl": -476150.0,
     "plan": {}
+  },
+  {
+    "time": "2026-09-24 20:05:54",
+    "symbol": "VPB",
+    "side": "SELL",
+    "qty": 660300,
+    "price": 22.1,
+    "value": 14592630.0,
+    "reason": "stop_loss",
+    "pnl": -3895770.0,
+    "plan": {}
   }
 ]
