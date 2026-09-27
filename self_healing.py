@@ -523,10 +523,14 @@ def _normalize_open_positions(portfolio):
 def _state_price_file_report(base):
     return [
         {"file": "paper_portfolio.json", "handling": "normalize open-position unit prices and quantity atomically"},
+        {"file": "paper_trades.json", "handling": "append-only evidence; label epochs but never rewrite historical prices"},
         {"file": "tracked_positions.json", "handling": "independent manual tracker; report only, no automatic mutation"},
         {"file": "intraday_alerts.json", "handling": "immutable display messages; expire/prune normally, no parsing or mutation"},
         {"file": "portfolio_snapshots.json", "handling": "historical aggregate values, no per-position unit price; preserve"},
         {"file": "analysis_results.json", "handling": "ephemeral analysis cache; provider boundary normalizes future values; preserve history"},
+        {"file": "debate_log.json", "handling": "historical model evidence; preserve, with future inputs normalized at provider boundary"},
+        {"file": "prediction_history.json", "handling": "historical outcomes; preserve and default learning/reflection to current epoch"},
+        {"file": "prediction_log.json", "handling": "historical predictions; preserve and default learning statistics to current epoch"},
     ]
 
 

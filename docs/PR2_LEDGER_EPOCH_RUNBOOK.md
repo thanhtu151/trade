@@ -42,10 +42,19 @@ are never rewritten.
 | File | Treatment |
 |---|---|
 | `paper_portfolio.json` | Normalize open positions in the same journaled transaction as RESET. |
+| `paper_trades.json` | Append-only evidence: add epoch labels/RESET but never rewrite historical prices. |
 | `tracked_positions.json` | Independent manually entered tracker; report only because intent/unit is ambiguous. |
 | `intraday_alerts.json` | Immutable human-readable messages; do not parse or mutate; normal expiry removes them. |
 | `portfolio_snapshots.json` | Historical aggregate cash/equity/market value, no per-position unit price; preserve. |
 | `analysis_results.json` | Ephemeral historical analysis; preserve, while new provider data is normalized at the adapter boundary. |
+| `debate_log.json` | Historical model evidence containing `price`/`actual_price_3d`; preserve, normalize future provider inputs. |
+| `prediction_history.json` | Historical prediction prices/ATR/targets; preserve and filter learning/reflection to the current epoch. |
+| `prediction_log.json` | Historical entry/predicted/actual prices; preserve and filter default statistics to the current epoch. |
+
+The recursive key audit of every JSON file on `origin/state` found price-like
+fields only in the files above (plus price text embedded in `intraday_alerts`).
+No other state JSON contained keys matching price, ATR, stop, target, market
+value, or cost basis.
 
 `rebaseline` remains available only for unexplained drift. It requires a
 non-empty `reason`; it must not be used for the reconstructed July reset.
