@@ -12,6 +12,7 @@ import logging
 import os
 import threading
 import time
+import hashlib
 from datetime import date, datetime, timedelta
 
 import schedule
@@ -130,16 +131,9 @@ def task_morning_prep():
         return
 
     log.info("=" * 50)
+    failures = []
     log.info("TASK: Morning Prep")
     log.info("=" * 50)
-
-    try:
-        cache_file = os.path.join(BASE_DIR, "llm_key_cache.json")
-        if os.path.exists(cache_file):
-            os.remove(cache_file)
-            log.info("LLM key cache cleared")
-    except Exception as exc:
-        log.warning("Clear LLM cache failed: %s", exc)
 
     try:
         from data_fetcher import fetch_usdvnd, fetch_vix, fetch_vnindex
@@ -155,6 +149,7 @@ def task_morning_prep():
         prefetch_stock_data(config.get("positive_ev_tickers", []), years=2)
     except Exception as exc:
         log.warning("External data refresh failed: %s", exc)
+        failures.append(f"external data refresh: {exc}")
 
     try:
         from backtester import load_backtest_config_file
@@ -182,8 +177,10 @@ def task_morning_prep():
                 time.sleep(30)
             except Exception as exc:
                 log.warning("%s train failed: %s", ticker, exc)
+                failures.append(f"train {ticker}: {exc}")
     except Exception as exc:
         log.warning("Missing ensemble training failed: %s", exc)
+        failures.append(f"ensemble setup: {exc}")
 
     try:
         from auto_trader import close_negative_ev_positions
@@ -196,7 +193,10 @@ def task_morning_prep():
             log.info("No negative-EV positions to exit")
     except Exception as exc:
         log.warning("close_negative_ev_positions failed: %s", exc)
+        failures.append(f"negative-EV close: {exc}")
 
+    if failures:
+        raise RuntimeError("Morning prep incomplete: " + "; ".join(failures))
     mark_ran_today("morning_prep")
     log.info("Morning prep DONE")
 
@@ -296,8 +296,7 @@ def task_market_analysis():
         )
     except Exception as exc:
         log.error("Market analysis failed: %s", exc)
-        stage2_results = []
-        tradeable = []
+        raise
 
     tradeable_tickers = [row.get("ticker") for row in tradeable if row.get("ticker")]
 
@@ -349,19 +348,17 @@ def task_auto_trade():
     healing = run_self_healing(BASE_DIR, repair=True)
     if not healing["trading_allowed"]:
         log.error("Auto trade BLOCKED by self-healing: %s", healing.get("critical"))
-        return
+        raise RuntimeError("Auto trade blocked by unsafe state")
     if healing["status"] == "healed":
         log.warning("Self-healing repaired state before trading: %s", healing.get("actions"))
 
     try:
         if not os.path.exists(ANALYSIS_RESULTS_FILE):
-            log.warning("No analysis_results.json found, skipping trade")
-            return
+            raise FileNotFoundError("No analysis_results.json found")
         with open(ANALYSIS_RESULTS_FILE, encoding="utf-8") as f:
             data = json.load(f)
         if data.get("date") != date.today().isoformat():
-            log.warning("Analysis results are not from today, skipping")
-            return
+            raise RuntimeError("Analysis results are not from today")
 
         tradeable = data.get("tradeable") or []
         if not tradeable:
@@ -371,21 +368,39 @@ def task_auto_trade():
 
         from auto_trader import execute_paper_trade
 
+        failures = []
         for trade in tradeable:
             try:
                 log.info("  Executing paper BUY: %s @ %s", trade["ticker"], trade.get("price"))
                 confidence = int(float((trade.get("llm") or {}).get("confidence", 50) if trade.get("llm") else 50))
-                execute_paper_trade(
+                canonical_signal = json.dumps(
+                    {"date": data["date"], "trade": trade},
+                    ensure_ascii=False,
+                    sort_keys=True,
+                    default=str,
+                    separators=(",", ":"),
+                )
+                signal_id = hashlib.sha256(canonical_signal.encode("utf-8")).hexdigest()[:20]
+                ok, detail = execute_paper_trade(
                     ticker=trade["ticker"],
                     action="BUY",
                     price=trade.get("price"),
                     confidence=confidence,
                     source="two_stage_scheduler",
+                    signal_id=signal_id,
+                    run_id=os.getenv("GITHUB_RUN_ID", "local"),
+                    trade_date=data["date"],
                 )
+                if not ok and "duplicate idempotency key" not in detail:
+                    failures.append(f"{trade['ticker']}: {detail}")
             except Exception as exc:
                 log.warning("  %s paper trade failed: %s", trade["ticker"], exc)
+                failures.append(f"{trade['ticker']}: {exc}")
+        if failures:
+            raise RuntimeError("paper trade failures: " + "; ".join(failures))
     except Exception as exc:
         log.error("Auto trade failed: %s", exc)
+        raise
 
     mark_ran_today("auto_trade")
     log.info("Auto trade DONE")
@@ -408,6 +423,11 @@ def _save_portfolio_direct(portfolio):
 
 
 def _close_position_direct(portfolio, ticker, price, reason):
+    from self_healing import trading_is_allowed
+
+    if not trading_is_allowed(BASE_DIR):
+        log.error("Direct close blocked by trading safety gate for %s", ticker)
+        return False
     from auto_trader import log_trade, save_trades
 
     positions = portfolio.get("positions", {}) or {}
@@ -604,6 +624,7 @@ def task_eod_update():
     log.info("=" * 50)
     log.info("TASK: EOD Update")
     log.info("=" * 50)
+    failures = []
     try:
         from data_fetcher import get_stock_data_cached
 
@@ -673,6 +694,7 @@ def task_eod_update():
                         continue
             except Exception as exc:
                 log.warning("  EOD %s: %s", ticker, exc)
+                failures.append(f"{ticker}: {exc}")
 
         if updated:
             portfolio["updated_at"] = datetime.now().isoformat()
@@ -680,7 +702,10 @@ def task_eod_update():
         log.info("Closed %s positions", closed)
     except Exception as exc:
         log.warning("EOD update failed: %s", exc)
+        raise
 
+    if failures:
+        raise RuntimeError("EOD update incomplete: " + "; ".join(failures))
     mark_ran_today("eod_update")
     log.info("EOD update DONE")
 
@@ -758,8 +783,10 @@ def task_daily_learning():
                         log.info("Resolved %s debate(s) for %s", updated, ticker)
         except Exception as exc:
             log.warning("Debate resolve failed: %s", exc)
+            raise
     except Exception as exc:
         log.error("Daily learning failed: %s", exc)
+        raise
 
     mark_ran_today("daily_learning")
     log.info("Daily learning DONE")
@@ -800,6 +827,7 @@ def task_weekly_rebacktest():
         log.info("Weekly rebacktest DONE")
     except Exception as exc:
         log.error("Weekly rebacktest failed: %s", exc)
+        raise
 
     state["weekly_rebacktest"] = today.isoformat()
     save_state(state)
@@ -823,6 +851,12 @@ def setup_schedule():
 
 
 def run_now(task_name=None):
+    def run_heal():
+        report = __import__("self_healing").run_self_healing(BASE_DIR, repair=True)
+        if not report["trading_allowed"]:
+            raise RuntimeError("self-healing found critical state: " + "; ".join(report["critical"]))
+        return report
+
     tasks = {
         "prep": task_morning_prep,
         "analysis": task_market_analysis,
@@ -830,24 +864,13 @@ def run_now(task_name=None):
         "eod": task_eod_update,
         "learning": task_daily_learning,
         "rebacktest": task_weekly_rebacktest,
-        "heal": lambda: __import__("self_healing").run_self_healing(BASE_DIR, repair=True),
+        "heal": run_heal,
     }
     if task_name in tasks:
         log.info("Running %s NOW...", task_name)
-        state = load_state()
-        state_key = {
-            "prep": "morning_prep",
-            "analysis": "market_analysis",
-            "trade": "auto_trade",
-            "eod": "eod_update",
-            "learning": "daily_learning",
-        }.get(task_name)
-        if state_key:
-            state.pop(state_key, None)
-            save_state(state)
         tasks[task_name]()
     else:
-        log.info("Available tasks: %s", list(tasks.keys()))
+        raise ValueError(f"Unknown task {task_name!r}; available tasks: {list(tasks.keys())}")
 
 
 def catch_up_missed_tasks():

@@ -3,7 +3,7 @@ import sys
 from datetime import datetime, timedelta
 
 import pandas as pd
-from vnstock.api.quote import Quote
+from market_data_adapter import quote_history
 
 
 def main():
@@ -14,7 +14,7 @@ def main():
     try:
         end = datetime.now().strftime("%Y-%m-%d")
         start = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
-        df = Quote(symbol=symbol, source="VCI").history(start=start, end=end, interval="1D")
+        df = quote_history(symbol, "VCI", start=start, end=end, interval="1D")
         if df is None or len(df) == 0:
             rows = []
         else:

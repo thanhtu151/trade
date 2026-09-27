@@ -12,7 +12,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.layers import LSTM, Dense, Dropout, Input
 from tensorflow.keras.models import Model, load_model
-from vnstock.api.quote import Quote
+from market_data_adapter import quote
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -72,7 +72,7 @@ def get_data(symbol, years=6):
     print(f"Lấy data {symbol}...")
     end = datetime.now().strftime("%Y-%m-%d")
     start = (datetime.now() - timedelta(days=365 * years)).strftime("%Y-%m-%d")
-    stock = Quote(symbol=symbol, source="VCI")
+    stock = quote(symbol=symbol, source="VCI")
     df = stock.history(start=start, end=end, interval="1D")
     if df is None or len(df) == 0:
         raise ValueError(f"No data returned for {symbol}")

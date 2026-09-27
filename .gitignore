@@ -65,3 +65,6 @@ tracked_positions.json
 advisor_audit_log.json
 intraday_alerts.json
 llm_router_usage.json
+self_healing_state.json
+self_healing_audit.json
+trading_disabled.json

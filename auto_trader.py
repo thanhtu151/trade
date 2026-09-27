@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 import pandas as pd
 import requests
 import streamlit as st
-from vnstock.api.quote import Quote
+from market_data_adapter import quote
 from llm_router import call_llm, call_llm_json
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -812,8 +812,8 @@ def _fetch_history_uncached(symbol, days=180):
 
     end = datetime.now().strftime("%Y-%m-%d")
     start = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
-    quote = Quote(symbol=symbol, source="VCI")
-    df = _call_with_timeout(quote.history, start=start, end=end, interval="1D")
+    quote_client = quote(symbol=symbol, source="VCI")
+    df = _call_with_timeout(quote_client.history, start=start, end=end, interval="1D")
     if df is None or len(df) == 0:
         return pd.DataFrame()
     df = df.copy()
@@ -1321,7 +1321,17 @@ def sell_position(symbol, reason="Manual SELL", qty=None):
     return True, f"SELL {sell_qty:,} {symbol} @ {price:,.2f} | PnL {pnl:,.0f}"
 
 
-def execute_paper_trade(ticker, action, price=None, confidence=50, source="scheduler", reason=None):
+def execute_paper_trade(
+    ticker,
+    action,
+    price=None,
+    confidence=50,
+    source="scheduler",
+    reason=None,
+    signal_id=None,
+    run_id=None,
+    trade_date=None,
+):
     """
     Scheduler-facing paper trade entry point.
     BUY uses Kelly-based sizing; SELL uses existing portfolio helper.
@@ -1338,6 +1348,27 @@ def execute_paper_trade(ticker, action, price=None, confidence=50, source="sched
     action = str(action).upper()
     reason = reason or f"{source}: {action}"
     price = float(price or 0)
+
+    from trade_idempotency import build_key, complete, reserve
+
+    from trading_safety import vietnam_now
+
+    trade_date = str(trade_date or vietnam_now().date().isoformat())
+    if not signal_id:
+        import hashlib
+        seed = f"{source}|{ticker}|{action}|{reason}|{confidence}|{price}"
+        signal_id = hashlib.sha256(seed.encode("utf-8")).hexdigest()[:20]
+    idempotency_key = build_key(trade_date, ticker, action, str(signal_id))
+    metadata = {
+        "trade_date": trade_date,
+        "ticker": ticker,
+        "side": action,
+        "signal_id": str(signal_id),
+        "run_id": str(run_id or os.getenv("GITHUB_RUN_ID") or "local"),
+    }
+    state_file = os.path.join(BASE_DIR, "scheduler_state.json")
+    if not reserve(state_file, idempotency_key, metadata):
+        return False, f"duplicate idempotency key: {idempotency_key}"
 
     portfolio = load_portfolio()
     cash = float(portfolio.get("cash", 0))
@@ -1413,7 +1444,9 @@ def execute_paper_trade(ticker, action, price=None, confidence=50, source="sched
     if action == "BUY":
         if ticker in positions:
             log.warning("%s: already in portfolio, skip", ticker)
-            return False, f"{ticker} already in portfolio"
+            detail = f"{ticker} already in portfolio"
+            complete(state_file, idempotency_key, False, detail)
+            return False, detail
         if cash < 1_000_000:
             log.warning("Insufficient cash: %,.0f", cash)
             return False, f"Insufficient cash: {cash:,.0f}"
@@ -1457,6 +1490,7 @@ def execute_paper_trade(ticker, action, price=None, confidence=50, source="sched
         trades = load_trades()
         log_trade(trades, ticker, "BUY", shares, price, reason, plan=positions[ticker].get("plan"))
         save_trades(trades)
+        complete(state_file, idempotency_key, True, f"BUY {shares} @ {price}")
         log.info(
             "BUY %s: %s cp @ %,.0f Kelly=%.1f%% (%.1f%% portfolio)",
             ticker,
@@ -1467,7 +1501,9 @@ def execute_paper_trade(ticker, action, price=None, confidence=50, source="sched
         )
         return True, f"BUY {shares:,} {ticker} @ {price:,.2f}"
     if action == "SELL":
-        return sell_position(ticker, reason=reason)
+        ok, detail = sell_position(ticker, reason=reason)
+        complete(state_file, idempotency_key, ok, detail)
+        return ok, detail
     return False, f"Skip {ticker}: action={action}"
 
 

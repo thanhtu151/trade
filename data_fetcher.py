@@ -96,7 +96,7 @@ def _ttl_hours_for_vnstock():
 def fetch_with_fallback(ticker: str, start: str, end: str, interval: str = "1D"):
     """Fetch OHLCV trying VCI → TCBS → MSN. Returns (DataFrame, source_used)."""
     import source_manager
-    from vnstock.api.quote import Quote
+    from market_data_adapter import quote
 
     current = source_manager.get_source()
     ordered = [current] + [s for s in source_manager.SOURCES if s != current]
@@ -105,7 +105,7 @@ def fetch_with_fallback(ticker: str, start: str, end: str, interval: str = "1D")
     for source in ordered:
         try:
             df = _call_with_timeout(
-                Quote(symbol=ticker, source=source).history, start=start, end=end, interval=interval
+                quote(symbol=ticker, source=source).history, start=start, end=end, interval=interval
             )
             if df is None or df.empty:
                 raise ValueError(f"empty response from {source}")
@@ -310,15 +310,15 @@ def fetch_foreign_trading(ticker, years=6):
         df = pd.DataFrame()
 
         try:
-            from vnstock.api.trading import Trading
+            from market_data_adapter import trading
 
-            trading = Trading(source="vci", symbol=ticker, show_log=False)
-            df = _call_with_timeout(trading.foreign_trade, start=start, end=end)
+            trading_client = trading(source="vci", symbol=ticker, show_log=False)
+            df = _call_with_timeout(trading_client.foreign_trade, start=start, end=end)
         except Exception:
             try:
-                from vnstock import Vnstock
+                from market_data_adapter import vnstock_client
 
-                stock = Vnstock().stock(symbol=ticker, source="VCI")
+                stock = vnstock_client().stock(symbol=ticker, source="VCI")
                 df = _call_with_timeout(stock.trading.foreign_trading, start=start, end=end)
             except Exception:
                 df = pd.DataFrame()
@@ -378,11 +378,11 @@ def fetch_vnindex(years=6):
         return _records_to_frame(cached)
 
     try:
-        from vnstock.api.quote import Quote
+        from market_data_adapter import quote
 
         end = datetime.now().strftime("%Y-%m-%d")
         start = (datetime.now() - timedelta(days=years * 365)).strftime("%Y-%m-%d")
-        stock = Quote(symbol="VNINDEX", source="VCI")
+        stock = quote(symbol="VNINDEX", source="VCI")
         try:
             df = _call_with_timeout(stock.history, start=start, end=end, interval="1D")
         finally:
