@@ -451,3 +451,16 @@ def test_sell_proceeds_over_three_times_cost_basis_is_blocked(monkeypatch, tmp_p
     assert ok is False
     assert "exceed 3x cost basis" in message
     assert json.loads((tmp_path / "paper_portfolio.json").read_text())["cash"] == 10_000_000
+
+
+def test_valid_sub_thousand_vnd_atr_does_not_trigger_price_unit_block(tmp_path):
+    from self_healing import run_self_healing
+
+    state = portfolio(100_000_000)
+    state["positions"] = {"HCM": {"qty": 39.9, "avg_price": 24_800.0, "current_price": 25_100.0,
+        "market_value": 1_001_490.0, "unrealized_pnl": 11_970.0, "pnl_pct": 1.2097,
+        "atr": 620.0, "plan": {"atr": 620.0, "stop_loss": 24_200.0, "target_price": 26_100.0}}}
+    write_json(tmp_path / "paper_portfolio.json", state)
+    write_json(tmp_path / "paper_trades.json", [])
+    report = run_self_healing(tmp_path)
+    assert report["trading_allowed"] is True

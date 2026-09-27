@@ -242,12 +242,12 @@ def run_self_healing(base_dir=None, repair=True):
         if not isinstance(position, dict):
             continue
         unit_prices = []
-        for field in ("avg_price", "entry_price", "current_price"):
+        for field in ("avg_price", "entry_price", "current_price", "stop_loss", "initial_stop_loss", "target_price"):
             value = _finite_number(position.get(field))
             if value is not None and value > 0:
                 unit_prices.append((field, value))
         plan = position.get("plan") if isinstance(position.get("plan"), dict) else {}
-        for field in ("stop_loss", "initial_stop_loss", "target_price", "atr"):
+        for field in ("stop_loss", "initial_stop_loss", "target_price"):
             value = _finite_number(plan.get(field))
             if value is not None and value > 0:
                 unit_prices.append((f"plan.{field}", value))
