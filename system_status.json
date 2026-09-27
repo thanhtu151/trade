@@ -2,18 +2,16 @@
   "status": "idle",
   "message": "AI tự động đã phân tích xong",
   "detail": "Hoàn tất 50 mã trong training watchlist",
-  "updated_at": "2026-09-27T12:38:54.318873+00:00",
+  "updated_at": "2026-09-27T12:50:51.106057+00:00",
   "version": 1,
   "tasks": {
     "heal": {
-      "consecutive_failures": 1,
-      "state": "failed",
-      "last_update": "2026-09-27T12:38:54.318873+00:00",
-      "run_id": "36319617299",
-      "last_error": {
-        "at": "2026-09-27T12:38:54.318873+00:00",
-        "message": "self-healing found critical state: trading kill switch: TRADING_ENABLED disables trading"
-      }
+      "consecutive_failures": 0,
+      "state": "blocked",
+      "last_update": "2026-09-27T12:50:51.106057+00:00",
+      "run_id": "36320271990",
+      "last_error": null,
+      "blocked_reason": "trading kill switch: TRADING_ENABLED disables trading"
     }
   }
 }
