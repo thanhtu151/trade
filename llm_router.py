@@ -300,12 +300,22 @@ def call_llm(
         }
 
     providers = [p for p in _provider_templates(preferred_model) if p["provider"] not in skip and p["name"] not in skip]
+    from runtime_reliability import is_transient_network_error, llm_circuit, retry_transient
     last_error = None
 
     for provider in providers:
+        if not llm_circuit.allow(provider["name"]):
+            log.warning("[LLMRouter] circuit open for %s", provider["name"])
+            continue
         start = time.time()
         try:
-            response = _call_provider(provider, prompt, system, max_tokens, require_json)
+            response = retry_transient(
+                lambda: _call_provider(provider, prompt, system, max_tokens, require_json),
+                attempts=2,
+                base_delay=1.0,
+                max_delay=4.0,
+                is_transient=is_transient_network_error,
+            )
             content = response.choices[0].message.content
             latency = int((time.time() - start) * 1000)
 
@@ -316,6 +326,7 @@ def call_llm(
             usage["last_provider"] = provider["provider"]
             usage["last_model"] = provider["model"]
             _save_usage(usage)
+            llm_circuit.success(provider["name"])
 
             return {
                 "content": content,
@@ -333,6 +344,7 @@ def call_llm(
             errors = usage.setdefault("errors", {})
             errors[provider["name"]] = int(errors.get(provider["name"], 0)) + 1
             _save_usage(usage)
+            llm_circuit.failure(provider["name"])
             log.warning("[LLMRouter] %s failed (%sms): %s", provider["name"], latency, last_error)
             continue
 

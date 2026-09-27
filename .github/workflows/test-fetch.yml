@@ -30,7 +30,8 @@ jobs:
       - name: Install minimal deps (probe only — no tensorflow)
         run: |
           python -m pip install --upgrade pip
-          pip install "vnstock==4.0.4" "yfinance==1.4.1" "pandas==2.3.3" requests
+          pip install "yfinance==1.4.1" "pandas==2.3.3" requests
+          pip install --index-url https://vnstocks.com/api/simple --no-deps --only-binary=:all: --require-hashes -r requirements-vnstock.txt
 
       - name: Run connectivity probe
         run: python tools/test_datacenter_fetch.py

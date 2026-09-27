@@ -7,6 +7,15 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 HISTORY_FILE = os.path.join(BASE_DIR, "prediction_history.json")
 
 
+def _active_ledger_epoch():
+    try:
+        from ledger_store import current_epoch_id
+        with open(os.path.join(BASE_DIR, "paper_trades.json"), encoding="utf-8") as handle:
+            return current_epoch_id(json.load(handle))
+    except Exception:
+        return 0
+
+
 class ReflectionManager:
     """
     Tracks prior decisions and builds compact context for AI prompts.
@@ -53,6 +62,7 @@ class ReflectionManager:
         rows = [
             row for row in self._load_history()
             if str(row.get("symbol", "")).upper() == ticker
+            and int(row.get("ledger_epoch", 0)) == _active_ledger_epoch()
         ]
         rows = sorted(rows, key=lambda row: self._parse_dt(row.get("date")))[-n:]
         evaluated = [row for row in rows if row.get("correct") is not None]
@@ -125,6 +135,7 @@ class ReflectionManager:
             "confidence": confidence,
             "actual_price": None,
             "correct": None,
+            "ledger_epoch": _active_ledger_epoch(),
         }
         row.update(extra)
         rows.append(row)

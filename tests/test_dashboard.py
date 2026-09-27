@@ -17,8 +17,8 @@ import pytest
 def test_vn_price_normalization_accepts_both_provider_units():
     from auto_trader import normalize_vn_price
 
-    assert normalize_vn_price(59.7) == pytest.approx(59.7)
-    assert normalize_vn_price(59_700) == pytest.approx(59.7)
+    assert normalize_vn_price(59.7) == pytest.approx(59_700)
+    assert normalize_vn_price(59_700) == pytest.approx(59_700)
 
 
 BASE_DIR = Path(__file__).parent.parent
@@ -187,6 +187,7 @@ class TestCoreLogic:
         ctx = build_llm_context("VCB")
         assert isinstance(ctx, str)
 
+    @pytest.mark.network
     def test_stage1_quick_scan(self):
         from auto_trader import stage1_quick_scan
 
@@ -200,6 +201,7 @@ class TestCoreLogic:
 
 
 @pytest.mark.skipif(not HAS_STREAMLIT_TEST, reason="streamlit.testing không available")
+@pytest.mark.network
 class TestStreamlitApp:
     """Test Streamlit app với AppTest."""
 
@@ -307,6 +309,7 @@ class TestVisual:
 class TestPerformance:
     """Test performance."""
 
+    @pytest.mark.network
     def test_cache_hit_faster_than_api(self):
         import time
         from data_fetcher import get_stock_data_cached
@@ -322,6 +325,7 @@ class TestPerformance:
         assert time2 < 1.0, f"Cache hit quá chậm: {time2:.2f}s"
         assert len(df1) == len(df2), "Cache data khác API data"
 
+    @pytest.mark.network
     def test_stage1_scan_speed(self):
         import time
         from auto_trader import stage1_quick_scan

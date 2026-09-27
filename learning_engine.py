@@ -16,6 +16,15 @@ PREDICTION_HISTORY = os.path.join(BASE_DIR, "prediction_history.json")
 PERFORMANCE_REPORT = os.path.join(BASE_DIR, "performance_report.json")
 
 
+def _active_ledger_epoch():
+    try:
+        from ledger_store import current_epoch_id
+        with open(os.path.join(BASE_DIR, "paper_trades.json"), encoding="utf-8") as handle:
+            return current_epoch_id(json.load(handle))
+    except Exception:
+        return 0
+
+
 def _load_predictions():
     try:
         with open(PREDICTION_LOG, encoding="utf-8") as f:
@@ -94,6 +103,7 @@ def log_prediction(ticker, predicted_direction, predicted_price, confidence, sou
         "pnl_pct": None,
         "logged_at": datetime.now().isoformat(),
         "resolved": False,
+        "ledger_epoch": _active_ledger_epoch(),
     }
 
     entry["entry_price"] = _latest_close(ticker)
@@ -158,6 +168,7 @@ def _sync_to_prediction_history(ticker, direction, price, confidence, log_entry)
         "outcome": None,
         "resolved": False,
         "synced_from": "prediction_log",
+        "ledger_epoch": _active_ledger_epoch(),
     })
     _save_prediction_history(history)
 
@@ -233,7 +244,11 @@ def calculate_accuracy_stats():
     Calculate stats per ticker and store them in memory.
     """
     predictions = _load_predictions()
-    resolved = [p for p in predictions.values() if p.get("resolved")]
+    active_epoch = _active_ledger_epoch()
+    resolved = [
+        p for p in predictions.values()
+        if p.get("resolved") and int(p.get("ledger_epoch", 0)) == active_epoch
+    ]
     if not resolved:
         return {}
 

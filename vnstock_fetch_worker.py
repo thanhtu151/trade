@@ -8,13 +8,17 @@ from market_data_adapter import quote_history
 
 def main():
     symbol = sys.argv[1].upper()
-    days = int(sys.argv[2])
-    output_path = sys.argv[3]
-
-    try:
+    if len(sys.argv) >= 7:
+        start, end, output_path, source, interval = sys.argv[2:7]
+    else:
+        days = int(sys.argv[2])
+        output_path = sys.argv[3]
+        source, interval = "VCI", "1D"
         end = datetime.now().strftime("%Y-%m-%d")
         start = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
-        df = quote_history(symbol, "VCI", start=start, end=end, interval="1D")
+
+    try:
+        df = quote_history(symbol, source, start=start, end=end, interval=interval)
         if df is None or len(df) == 0:
             rows = []
         else:

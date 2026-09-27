@@ -8,10 +8,24 @@ contained change and gives tests one stable seam to mock.
 from __future__ import annotations
 
 from typing import Any
+import importlib.util
 
 
 class VendorPackageUnavailable(RuntimeError):
     """Raised when the configured vendor client cannot be imported."""
+
+
+def provider_availability():
+    """Return a non-throwing status suitable for unattended dashboards."""
+    try:
+        available = importlib.util.find_spec("vnstock") is not None
+    except (ImportError, ValueError):
+        available = False
+    return {
+        "available": available,
+        "status": "ok" if available else "degraded",
+        "detail": "vnstock available" if available else "vnstock unavailable; cached/non-vendor data only",
+    }
 
 
 def _vendor_class(module: str, name: str):

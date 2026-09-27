@@ -24,7 +24,15 @@ on:
         description: "Task to run now"
         type: choice
         default: analysis
-        options: [prep, analysis, trade, eod, learning, rebacktest, heal]
+        options: [prep, analysis, trade, eod, learning, rebacktest, heal, rebaseline, migrate-ledger-epoch]
+      reason:
+        description: "Required audit reason for rebaseline"
+        type: string
+        required: false
+      confirmation:
+        description: "Required exact confirmation for ledger migration"
+        type: string
+        required: false
 
 # Serialize runs so two tasks never write the state branch at the same time.
 concurrency:
@@ -44,6 +52,8 @@ jobs:
       TF_CPP_MIN_LOG_LEVEL: "3"
       CUDA_VISIBLE_DEVICES: ""
       TRADING_ENABLED: ${{ vars.TRADING_ENABLED }}
+      DISPATCH_REASON: ${{ github.event.inputs.reason }}
+      DISPATCH_CONFIRMATION: ${{ github.event.inputs.confirmation }}
       # Files that change at runtime and must persist across runs. All are
       # gitignored on `main`, so overlaying them from `state` never conflicts.
       STATE_FILES: >-
@@ -55,6 +65,9 @@ jobs:
         vn_live_data_cache.json llm_router_usage.json self_healing_state.json
         paper_portfolio.json.bak paper_trades.json.bak
         trading_disabled.json self_healing_audit.json
+        paper_ledger_transaction.json
+        paper_portfolio.json.pre_task.bak paper_trades.json.pre_task.bak
+        pre_task_snapshot.json
     steps:
       - name: Checkout code (main)
         uses: actions/checkout@v4
@@ -76,6 +89,14 @@ jobs:
               "0 0 * * 1")    TASK=rebacktest ;;
               *)              TASK=analysis ;;
             esac
+          fi
+          if [ "$TASK" = "rebaseline" ] && [ -z "$DISPATCH_REASON" ]; then
+            echo "::error::reason is required for rebaseline"
+            exit 2
+          fi
+          if [ "$TASK" = "migrate-ledger-epoch" ] && [ "$DISPATCH_CONFIRMATION" != "MIGRATE_LEDGER_EPOCH_2026_07_09" ]; then
+            echo "::error::confirmation must equal MIGRATE_LEDGER_EPOCH_2026_07_09"
+            exit 2
           fi
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
           echo "Running task: $TASK (ICT $(date '+%Y-%m-%d %H:%M %Z'))"
@@ -131,11 +152,25 @@ jobs:
             lstm-models-
 
       - name: Run scheduler task
+        if: steps.pick.outputs.task != 'rebaseline' && steps.pick.outputs.task != 'migrate-ledger-epoch'
         run: python scheduler.py ${{ steps.pick.outputs.task }}
+
+      - name: Rebaseline unexplained ledger drift
+        if: steps.pick.outputs.task == 'rebaseline'
+        run: python self_healing.py --rebaseline --reason "$DISPATCH_REASON" --operator "$GITHUB_ACTOR"
+
+      - name: Apply confirmed ledger epoch migration
+        if: steps.pick.outputs.task == 'migrate-ledger-epoch'
+        run: python self_healing.py --migrate-ledger-epoch --confirm "$DISPATCH_CONFIRMATION" --operator "$GITHUB_ACTOR"
 
       - name: Self-healing state audit
         if: always()
-        run: python self_healing.py
+        run: |
+          if [ "${{ steps.pick.outputs.task }}" = "rebaseline" ] || [ "${{ steps.pick.outputs.task }}" = "migrate-ledger-epoch" ]; then
+            python self_healing.py --maintenance-audit
+          else
+            python self_healing.py
+          fi
 
       - name: Persist state to `state` branch
         if: always()   # save even if the task errored, so we keep progress
