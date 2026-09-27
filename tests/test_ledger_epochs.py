@@ -419,3 +419,35 @@ def test_rebacktest_empty_result_fails_without_success_marker(monkeypatch, tmp_p
     with pytest.raises(RuntimeError, match="no result"):
         scheduler.task_weekly_rebacktest(force=True)
     assert not (tmp_path / "scheduler_state.json").exists()
+
+
+def test_equity_jump_over_fifty_percent_blocks(tmp_path):
+    from self_healing import run_self_healing
+
+    write_json(tmp_path / "paper_portfolio.json", portfolio(100_000_000))
+    write_json(tmp_path / "paper_trades.json", [])
+    assert run_self_healing(tmp_path)["trading_allowed"] is True
+    inflated = portfolio(160_000_000)
+    write_json(tmp_path / "paper_portfolio.json", inflated)
+    report = run_self_healing(tmp_path)
+    assert report["trading_allowed"] is False
+    assert any("equity increased more than 50%" in item for item in report["critical"])
+
+
+def test_sell_proceeds_over_three_times_cost_basis_is_blocked(monkeypatch, tmp_path):
+    import auto_trader
+    import self_healing
+
+    state = portfolio(10_000_000)
+    state["positions"] = {"FPT": {"qty": 100.0, "avg_price": 10_000.0, "current_price": 10_000.0}}
+    write_json(tmp_path / "paper_portfolio.json", state)
+    write_json(tmp_path / "paper_trades.json", [])
+    monkeypatch.setattr(auto_trader, "BASE_DIR", str(tmp_path))
+    monkeypatch.setattr(auto_trader, "PORTFOLIO_FILE", str(tmp_path / "paper_portfolio.json"))
+    monkeypatch.setattr(auto_trader, "TRADES_FILE", str(tmp_path / "paper_trades.json"))
+    monkeypatch.setattr(auto_trader, "current_price", lambda _symbol: 40_000.0)
+    monkeypatch.setattr(self_healing, "trading_permission", lambda _base: (True, "ok"))
+    ok, message = auto_trader.sell_position("FPT")
+    assert ok is False
+    assert "exceed 3x cost basis" in message
+    assert json.loads((tmp_path / "paper_portfolio.json").read_text())["cash"] == 10_000_000
