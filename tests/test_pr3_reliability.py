@@ -60,17 +60,29 @@ def test_watchdog_escalates_repeated_failure_and_hung_task():
 def test_watchdog_empty_status_fails_closed_without_dispatch():
     from watchdog import evaluate
 
-    decision = evaluate({}, datetime(2026, 9, 28, 10, 0, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")), True)
+    now = datetime(2026, 9, 28, 10, 0, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh"))
+    decision = evaluate({}, now, True, status_kind="legacy", deployed_at="2026-09-28T09:00:00+07:00")
     assert decision["status_readable"] is False
     assert decision["missed"] == []
     assert decision["disable_trade"] is False
+    assert decision["legacy_grace"] is True
+    assert decision["issue_required"] is False
+
+
+def test_corrupt_status_still_requires_issue_without_grace():
+    from watchdog import evaluate
+
+    now = datetime(2026, 9, 28, 10, 0, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh"))
+    decision = evaluate({}, now, True, status_kind="corrupt", deployed_at="2026-09-28T09:59:00+07:00")
+    assert decision["legacy_grace"] is False
+    assert decision["issue_required"] is True
 
 
 def test_blocked_task_is_not_caught_up_and_noncritical_failure_does_not_disable():
     from watchdog import evaluate
 
     status = {"tasks": {
-        "trade": {"state": "blocked", "consecutive_failures": 0},
+        "trade": {"state": "blocked", "last_update": "2026-09-28T09:45:00+07:00", "consecutive_failures": 0},
         "prep": {"state": "failed", "consecutive_failures": 3},
         "learning": {"state": "running", "started_at": "2026-09-28T07:00:00+07:00", "consecutive_failures": 0},
     }}
@@ -79,6 +91,16 @@ def test_blocked_task_is_not_caught_up_and_noncritical_failure_does_not_disable(
     assert "prep" in decision["failing"]
     assert "learning" in decision["hung"]
     assert decision["disable_trade"] is False
+
+
+def test_blocked_from_previous_day_is_missed_again():
+    from watchdog import evaluate
+
+    status = {"tasks": {
+        "trade": {"state": "blocked", "last_update": "2026-09-27T10:00:00+07:00", "consecutive_failures": 0},
+    }}
+    decision = evaluate(status, datetime(2026, 9, 28, 10, 0, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")), True)
+    assert "trade" in decision["missed"]
 
 
 def test_catchup_is_limited_to_one_dispatch_per_ict_day():
@@ -100,6 +122,25 @@ def test_watchdog_runs_in_isolated_stdlib_environment(tmp_path):
     )
     assert result.returncode == 0, result.stderr
     assert json.loads(result.stdout)["status_readable"] is False
+
+
+def test_issue_fingerprint_is_stable_and_suppresses_same_latest_comment():
+    from watchdog import decision_fingerprint, fingerprint_marker, latest_issue_fingerprint
+
+    first = {"status_readable": True, "failing": ["trade", "analysis"], "hung": ["trade"]}
+    reordered = {"status_readable": True, "failing": ["analysis", "trade"], "hung": ["trade"]}
+    fingerprint = decision_fingerprint(first)
+    assert fingerprint == decision_fingerprint(reordered)
+    issue = {"body": "old", "comments": [{"body": "details\n" + fingerprint_marker(fingerprint)}]}
+    assert latest_issue_fingerprint(issue) == fingerprint
+
+
+def test_existing_enabled_state_kill_switch_skips_disable_dispatch():
+    from watchdog import trading_disabled_payload_enabled
+
+    assert trading_disabled_payload_enabled('{"disabled": true, "reason": "watchdog"}') is True
+    assert trading_disabled_payload_enabled('{"disabled": false}') is False
+    assert trading_disabled_payload_enabled("broken") is False
 
 
 def test_state_push_succeeds_only_from_loaded_sha_and_rejects_conflict(tmp_path):
@@ -147,6 +188,10 @@ def test_watchdog_workflow_is_read_only_for_state_branch():
     assert workflow.index("Create or update watchdog Issue first") < workflow.index("Dispatch persisted trading kill switch")
     assert "continue-on-error: true" in workflow
     assert "watchdog cannot read status" in workflow
+    assert "Report legacy status grace once" in workflow
+    assert 'if [ "$PRIOR" -eq 0 ]' in workflow
+    assert "Issue fingerprint unchanged; no comment added." in workflow
+    assert "Persisted trading kill switch is already enabled; dispatch skipped." in workflow
 
 
 def test_persisted_kill_switch_requires_confirmation_to_reopen(tmp_path):
@@ -173,6 +218,7 @@ def test_scheduler_records_safety_gate_as_blocked_not_failed(monkeypatch, tmp_pa
     assert result["status"] == "blocked"
     assert status["tasks"]["trade"]["state"] == "blocked"
     assert status["tasks"]["trade"]["consecutive_failures"] == 0
+    assert status["tasks"]["trade"]["blocked_reason"] == "kill switch enabled"
 
 
 def test_dashboard_status_does_not_erase_scheduler_task_history(monkeypatch, tmp_path):

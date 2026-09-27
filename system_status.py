@@ -66,7 +66,6 @@ def update_task(base_dir, task, state, error=None, run_id=None, now=None):
         row["last_error"] = None
         row["consecutive_failures"] = 0
         row.pop("started_at", None)
-        row.pop("blocked_reason", None)
     status["updated_at"] = timestamp
     _write(Path(base_dir) / STATUS_NAME, status)
     return row

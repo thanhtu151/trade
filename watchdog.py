@@ -1,7 +1,9 @@
 """Read-only watchdog decision engine for scheduler state."""
 
 import argparse
+import hashlib
 import json
+import re
 import subprocess
 from datetime import datetime, time, timedelta, timezone
 from trading_calendar import is_trading_day
@@ -42,18 +44,59 @@ def dispatched_today(runs, task, now=None):
     return False
 
 
-def evaluate(status, now=None, trading_day=True):
+def _blocked_today(row, now):
+    updated = _parse(row.get("last_update"))
+    return row.get("state") == "blocked" and updated is not None and updated.astimezone(ICT).date() == now.date()
+
+
+def decision_fingerprint(decision):
+    payload = {
+        "status_readable": bool(decision.get("status_readable")),
+        "failing": sorted(decision.get("failing") or []),
+        "hung": sorted(decision.get("hung") or []),
+    }
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()[:16]
+
+
+def fingerprint_marker(fingerprint):
+    return f"<!-- fp:{fingerprint} -->"
+
+
+def latest_issue_fingerprint(issue):
+    comments = issue.get("comments") or []
+    text = str(comments[-1].get("body", "")) if comments else str(issue.get("body", ""))
+    match = re.search(r"<!-- fp:([0-9a-f]+) -->", text)
+    return match.group(1) if match else None
+
+
+def trading_disabled_payload_enabled(text):
+    try:
+        value = json.loads(text)
+        return isinstance(value, dict) and value.get("disabled", True) is True
+    except (TypeError, json.JSONDecodeError):
+        return False
+
+
+def evaluate(status, now=None, trading_day=True, status_kind=None, deployed_at=None):
     now = (now or datetime.now(ICT)).astimezone(ICT)
     tasks = status.get("tasks", {}) if isinstance(status, dict) else {}
     status_readable = isinstance(tasks, dict) and bool(tasks)
     missed, hung, failing = [], [], []
     if not status_readable:
-        return {"status_readable": False, "missed": [], "hung": [], "failing": [], "disable_trade": False}
+        kind = status_kind or "legacy"
+        deployed = _parse(deployed_at)
+        legacy_grace = kind == "legacy" and (deployed is None or now - deployed.astimezone(ICT) < timedelta(hours=24))
+        return {
+            "status_readable": False, "status_kind": kind, "legacy_grace": legacy_grace,
+            "issue_required": kind != "legacy" or not legacy_grace,
+            "missed": [], "hung": [], "failing": [], "disable_trade": False,
+        }
     if trading_day:
         for task, scheduled in SCHEDULE.items():
             due = datetime.combine(now.date(), scheduled, ICT) + SLA_DELAY
             row = tasks.get(task, {})
-            if row.get("state") == "blocked":
+            if _blocked_today(row, now):
                 continue
             last_success = _parse(row.get("last_success"))
             if now >= due and (last_success is None or last_success.astimezone(ICT).date() != now.date()):
@@ -63,7 +106,7 @@ def evaluate(status, now=None, trading_day=True):
         row = tasks.get("rebacktest", {})
         due = datetime.combine(now.date(), time(7, 0), ICT) + SLA_DELAY
         success = _parse(row.get("last_success"))
-        if row.get("state") != "blocked" and now >= due and (success is None or success.astimezone(ICT).date() != now.date()):
+        if not _blocked_today(row, now) and now >= due and (success is None or success.astimezone(ICT).date() != now.date()):
             missed.append("rebacktest")
     for task, row in tasks.items():
         started = _parse(row.get("started_at")) if row.get("state") == "running" else None
@@ -73,24 +116,32 @@ def evaluate(status, now=None, trading_day=True):
             failing.append(task)
     critical = {"analysis", "trade"}
     disable_trade = bool(critical.intersection(failing) or critical.intersection(hung))
-    return {"status_readable": True, "missed": missed, "hung": hung, "failing": failing, "disable_trade": disable_trade}
+    return {"status_readable": True, "status_kind": "ok", "legacy_grace": False, "issue_required": bool(failing or hung),
+            "missed": missed, "hung": hung, "failing": failing, "disable_trade": disable_trade}
 
 
 def load_from_state_ref(ref="origin/state:system_status.json"):
     result = subprocess.run(["git", "show", ref], capture_output=True, text=True, encoding="utf-8", errors="replace")
     if result.returncode != 0:
-        return {}
+        return {}, "missing"
     try:
         value = json.loads(result.stdout)
-        return value if isinstance(value, dict) else {}
+        if not isinstance(value, dict):
+            return {}, "corrupt"
+        tasks = value.get("tasks")
+        return (value, "ok") if isinstance(tasks, dict) and tasks else (value, "legacy")
     except json.JSONDecodeError:
-        return {}
+        return {}, "corrupt"
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--state-ref", default="origin/state:system_status.json")
+    parser.add_argument("--deployed-at", default="")
     args = parser.parse_args()
     now = datetime.now(ICT)
-    print(json.dumps(evaluate(load_from_state_ref(args.state_ref), now, is_trading_day(now.date())), separators=(",", ":")))
+    status, kind = load_from_state_ref(args.state_ref)
+    decision = evaluate(status, now, is_trading_day(now.date()), status_kind=kind, deployed_at=args.deployed_at)
+    decision["fingerprint"] = decision_fingerprint(decision)
+    print(json.dumps(decision, separators=(",", ":")))
 

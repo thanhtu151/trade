@@ -35,9 +35,24 @@ jobs:
         shell: bash
         run: |
           git fetch origin state --depth=1 || true
-          DECISION=$(python watchdog.py)
+          DEPLOYED_AT=$(git log -1 --format=%cI -- .github/workflows/watchdog.yml watchdog.py)
+          DECISION=$(python watchdog.py --deployed-at "$DEPLOYED_AT")
           echo "json=$DECISION" >> "$GITHUB_OUTPUT"
+          echo "deployed_at=$DEPLOYED_AT" >> "$GITHUB_OUTPUT"
           echo "$DECISION" | python -m json.tool
+
+      - name: Report legacy status grace once
+        if: fromJSON(steps.decision.outputs.json).legacy_grace
+        continue-on-error: true
+        env:
+          DEPLOYED_AT: ${{ steps.decision.outputs.deployed_at }}
+        run: |
+          RUNS=$(gh run list --workflow watchdog.yml --limit 100 --json databaseId,createdAt,status)
+          PRIOR=$(RUNS="$RUNS" DEPLOYED_AT="$DEPLOYED_AT" CURRENT="$GITHUB_RUN_ID" python -c 'import json,os; from datetime import datetime; deployed=datetime.fromisoformat(os.environ["DEPLOYED_AT"]); print(sum(1 for r in json.loads(os.environ["RUNS"]) if str(r["databaseId"]) != os.environ["CURRENT"] and datetime.fromisoformat(r["createdAt"].replace("Z","+00:00")) >= deployed))')
+          if [ "$PRIOR" -eq 0 ]; then
+            echo "### Watchdog status initialization" >> "$GITHUB_STEP_SUMMARY"
+            echo "Legacy system_status.json detected. Catch-up and Issue creation are suppressed for the 24-hour initialization grace period." >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Dispatch bounded catch-up
         continue-on-error: true
@@ -69,7 +84,7 @@ jobs:
         env:
           DECISION: ${{ steps.decision.outputs.json }}
         run: |
-          NEED_ALERT=$(echo "$DECISION" | python -c 'import json,sys; d=json.load(sys.stdin); print(not d["status_readable"] or bool(d["failing"] or d["hung"]))')
+          NEED_ALERT=$(echo "$DECISION" | python -c 'import json,sys; print(json.load(sys.stdin)["issue_required"])')
           [ "$NEED_ALERT" = "False" ] && exit 0
           READABLE=$(echo "$DECISION" | python -c 'import json,sys; print(json.load(sys.stdin)["status_readable"])')
           if [ "$READABLE" = "False" ]; then
@@ -77,10 +92,18 @@ jobs:
           else
             TITLE="[watchdog] unattended trading system unhealthy"
           fi
-          BODY="Watchdog decision: $DECISION\n\nRun: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          FP=$(echo "$DECISION" | python -c 'import json,sys; print(json.load(sys.stdin)["fingerprint"])')
+          MARKER="<!-- fp:$FP -->"
+          BODY="Watchdog decision: $DECISION\n\nRun: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID\n\n$MARKER"
           ISSUE=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
           if [ -n "$ISSUE" ]; then
-            gh issue comment "$ISSUE" --body "$BODY"
+            ISSUE_JSON=$(gh issue view "$ISSUE" --json body,comments)
+            LAST_FP=$(ISSUE_JSON="$ISSUE_JSON" python -c 'import json,os; from watchdog import latest_issue_fingerprint; print(latest_issue_fingerprint(json.loads(os.environ["ISSUE_JSON"])) or "")')
+            if [ "$LAST_FP" = "$FP" ]; then
+              echo "Issue fingerprint unchanged; no comment added."
+            else
+              gh issue comment "$ISSUE" --body "$BODY"
+            fi
           else
             gh issue create --title "$TITLE" --body "$BODY"
           fi
@@ -92,7 +115,13 @@ jobs:
         env:
           DECISION: ${{ steps.decision.outputs.json }}
         run: |
-          gh workflow run scheduler.yml -f task=disable-trading -f reason="watchdog escalation from run $GITHUB_RUN_ID: $DECISION"
+          FLAG=$(git show origin/state:trading_disabled.json 2>/dev/null || true)
+          ENABLED=$(FLAG="$FLAG" python -c 'import os; from watchdog import trading_disabled_payload_enabled; print(trading_disabled_payload_enabled(os.environ["FLAG"]))')
+          if [ "$ENABLED" = "True" ]; then
+            echo "Persisted trading kill switch is already enabled; dispatch skipped."
+          else
+            gh workflow run scheduler.yml -f task=disable-trading -f reason="watchdog escalation from run $GITHUB_RUN_ID: $DECISION"
+          fi
 
       - name: Record watchdog action outcomes
         if: always()
