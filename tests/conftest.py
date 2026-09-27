@@ -19,6 +19,20 @@ os.environ.setdefault("PYTHONUTF8", "1")
 def pytest_configure(config):
     config.addinivalue_line("markers", "slow: mark test as slow")
     config.addinivalue_line("markers", "visual: mark test as visual/screenshot")
+    config.addinivalue_line("markers", "network: requires real external network access")
+
+
+def pytest_addoption(parser):
+    parser.addoption("--run-network", action="store_true", default=False, help="run real-network tests")
+
+
+def pytest_collection_modifyitems(config, items):
+    if config.getoption("--run-network"):
+        return
+    skip = pytest.mark.skip(reason="real-network test; pass --run-network to enable")
+    for item in items:
+        if "network" in item.keywords:
+            item.add_marker(skip)
 
 
 @pytest.fixture(scope="session")

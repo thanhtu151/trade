@@ -13,9 +13,9 @@ def valid_portfolio():
         "cash": 100_000_000.0,
         "positions": {
             "FPT": {
-                "qty": 100_000,
-                "avg_price": 100.0,
-                "current_price": 110.0,
+                "qty": 100,
+                "avg_price": 100_000.0,
+                "current_price": 110_000.0,
                 "market_value": 1,
                 "unrealized_pnl": 0,
                 "pnl_pct": 0,
@@ -42,7 +42,7 @@ def test_repairs_calculated_fields_and_writes_audit(tmp_path):
 def test_removes_only_near_identical_automated_duplicates(tmp_path):
     write_json(tmp_path / "paper_portfolio.json", valid_portfolio())
     base = {
-        "symbol": "FPT", "side": "BUY", "qty": 100, "price": 100,
+        "symbol": "FPT", "side": "BUY", "qty": 0.1, "price": 100_000,
         "value": 10_000, "reason": "two_stage_scheduler: BUY",
     }
     write_json(tmp_path / "paper_trades.json", [
@@ -102,7 +102,7 @@ def test_checkpoint_blocks_cash_drift_from_new_trade(tmp_path):
 
     write_json(tmp_path / "paper_trades.json", [{
         "time": "2026-08-03 09:00:00", "symbol": "FPT", "side": "BUY",
-        "qty": 100, "price": 100, "value": 10_000, "reason": "scheduler",
+        "qty": 0.1, "price": 100_000, "value": 10_000, "reason": "scheduler",
     }])
     report = run_self_healing(tmp_path)
 
@@ -120,7 +120,7 @@ def test_checkpoint_accepts_balanced_new_trade(tmp_path):
     write_json(tmp_path / "paper_portfolio.json", portfolio)
     write_json(tmp_path / "paper_trades.json", [{
         "time": "2026-08-03 09:00:00", "symbol": "FPT", "side": "BUY",
-        "qty": 100, "price": 100, "value": 10_000, "reason": "scheduler",
+        "qty": 0.1, "price": 100_000, "value": 10_000, "reason": "scheduler",
     }])
     report = run_self_healing(tmp_path)
 

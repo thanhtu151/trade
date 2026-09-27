@@ -40,6 +40,11 @@ import yfinance as yf
 from reflection_manager import ReflectionManager
 from llm_router import call_llm, call_llm_json, get_router_status
 import source_manager
+from market_data_adapter import provider_availability
+
+_provider_status = provider_availability()
+if not _provider_status["available"]:
+    st.warning("Data provider degraded: " + _provider_status["detail"])
 
 
 class _LazyModuleProxy:
@@ -5272,7 +5277,7 @@ def render_auto_trader_section():
         st.caption("LLM phân tích qua Groq / Gemini / Ollama")
     with cfg3:
         if st.button("Reset paper account", width='stretch'):
-            paper_trader.reset_state()
+            paper_trader.reset_state(reason="dashboard UI reset paper account")
             st.success("Đã reset tài khoản giấy về 100M VND.")
 
     trader_symbols = paper_trader.normalize_symbols(symbol_text) or default_symbols

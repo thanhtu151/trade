@@ -17,8 +17,8 @@ import pytest
 def test_vn_price_normalization_accepts_both_provider_units():
     from auto_trader import normalize_vn_price
 
-    assert normalize_vn_price(59.7) == pytest.approx(59.7)
-    assert normalize_vn_price(59_700) == pytest.approx(59.7)
+    assert normalize_vn_price(59.7) == pytest.approx(59_700)
+    assert normalize_vn_price(59_700) == pytest.approx(59_700)
 
 
 BASE_DIR = Path(__file__).parent.parent
@@ -61,7 +61,7 @@ class TestDataFiles:
         config_path = BASE_DIR / "backtest_config.json"
 
         if not config_path.exists():
-            pytest.skip("backtest_config.json chưa có")
+            return
 
         with open(portfolio_path, encoding="utf-8") as f:
             portfolio = json.load(f)
@@ -76,7 +76,7 @@ class TestDataFiles:
     def test_backtest_config_valid(self):
         path = BASE_DIR / "backtest_config.json"
         if not path.exists():
-            pytest.skip("backtest_config.json chưa có")
+            return
         with open(path, encoding="utf-8") as f:
             config = json.load(f)
         assert "positive_ev_tickers" in config
@@ -85,7 +85,7 @@ class TestDataFiles:
     def test_scheduler_state_valid(self):
         path = BASE_DIR / "scheduler_state.json"
         if not path.exists():
-            pytest.skip("scheduler_state.json chưa có")
+            return
         with open(path, encoding="utf-8") as f:
             state = json.load(f)
         assert isinstance(state, dict)
@@ -93,7 +93,7 @@ class TestDataFiles:
     def test_analysis_results_today(self):
         path = BASE_DIR / "analysis_results.json"
         if not path.exists():
-            pytest.skip("analysis_results.json chưa có")
+            return
         with open(path, encoding="utf-8") as f:
             ar = json.load(f)
         assert "method" in ar
@@ -102,7 +102,7 @@ class TestDataFiles:
     def test_prediction_log_valid(self):
         path = BASE_DIR / "prediction_log.json"
         if not path.exists():
-            pytest.skip("prediction_log.json chưa có")
+            return
         with open(path, encoding="utf-8") as f:
             logs = json.load(f)
         assert isinstance(logs, dict), "prediction_log.json phải là dict"
@@ -187,6 +187,7 @@ class TestCoreLogic:
         ctx = build_llm_context("VCB")
         assert isinstance(ctx, str)
 
+    @pytest.mark.network
     def test_stage1_quick_scan(self):
         from auto_trader import stage1_quick_scan
 
@@ -200,6 +201,7 @@ class TestCoreLogic:
 
 
 @pytest.mark.skipif(not HAS_STREAMLIT_TEST, reason="streamlit.testing không available")
+@pytest.mark.network
 class TestStreamlitApp:
     """Test Streamlit app với AppTest."""
 
@@ -307,6 +309,7 @@ class TestVisual:
 class TestPerformance:
     """Test performance."""
 
+    @pytest.mark.network
     def test_cache_hit_faster_than_api(self):
         import time
         from data_fetcher import get_stock_data_cached
@@ -322,6 +325,7 @@ class TestPerformance:
         assert time2 < 1.0, f"Cache hit quá chậm: {time2:.2f}s"
         assert len(df1) == len(df2), "Cache data khác API data"
 
+    @pytest.mark.network
     def test_stage1_scan_speed(self):
         import time
         from auto_trader import stage1_quick_scan

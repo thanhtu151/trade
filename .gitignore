@@ -24,6 +24,8 @@ env/
 .pytest_cache/
 *.log
 paper_portfolio.json.lock
+paper_ledger_transaction.lock
+circuit_breaker_state.json
 scheduler.pid.lock
 scheduler.pid
 

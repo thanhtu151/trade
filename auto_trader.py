@@ -13,8 +13,13 @@ from datetime import datetime, timedelta
 import pandas as pd
 import requests
 import streamlit as st
-from market_data_adapter import quote
 from llm_router import call_llm, call_llm_json
+from ledger_store import (
+    commit_portfolio_and_ledger,
+    current_epoch_id,
+    make_reset_event,
+    recover_pending_transaction,
+)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 log = logging.getLogger("auto_trader")
@@ -621,6 +626,7 @@ def default_portfolio(initial_cash=INITIAL_CASH):
 
 
 def load_portfolio():
+    recover_pending_transaction(BASE_DIR)
     portfolio = _safe_read_portfolio()
     if not portfolio:
         portfolio = default_portfolio()
@@ -641,8 +647,15 @@ def save_portfolio(portfolio):
 
 
 def load_trades():
+    recover_pending_transaction(BASE_DIR)
     trades = load_json(TRADES_FILE, [])
     return trades if isinstance(trades, list) else []
+
+
+def load_current_epoch_trades():
+    from ledger_store import events_in_current_epoch
+
+    return [event for event in events_in_current_epoch(load_trades()) if str(event.get("type", "TRADE")).upper() != "RESET"]
 
 
 def save_trades(trades):
@@ -651,9 +664,27 @@ def save_trades(trades):
     save_json(TRADES_FILE, trades)
 
 
-def reset_state(initial_cash=INITIAL_CASH):
-    save_portfolio(default_portfolio(initial_cash))
-    save_trades([])
+def save_portfolio_and_trades(portfolio, trades, operation="trade"):
+    portfolio["updated_at"] = now_text()
+    return commit_portfolio_and_ledger(BASE_DIR, portfolio, trades, operation=operation)
+
+
+def reset_state(initial_cash=INITIAL_CASH, reason="operator requested account reset", actor=None):
+    """Start a new append-only ledger epoch and atomically reset the portfolio."""
+    from ledger_store import label_epochs
+
+    trades = label_epochs(load_trades())
+    reset = make_reset_event(
+        initial_cash,
+        reason=reason,
+        actor=actor or os.getenv("GITHUB_ACTOR") or os.getenv("USERNAME") or "local-operator",
+        ledger=trades,
+    )
+    trades.append(reset)
+    portfolio = default_portfolio(initial_cash)
+    portfolio["ledger_epoch"] = reset["epoch_id"]
+    save_portfolio_and_trades(portfolio, trades, operation="reset")
+    return reset
 
 
 def default_ai_fund_config():
@@ -798,27 +829,12 @@ def fetch_history(symbol, days=180):
 
 
 def _fetch_history_uncached(symbol, days=180):
-    try:
-        from data_fetcher import get_stock_data_cached
+    from data_fetcher import get_stock_data_cached
 
-        years = max(0.1, float(days) / 365)
-        df = get_stock_data_cached(symbol, years=years)
-        cutoff = datetime.now() - timedelta(days=int(days))
-        return df[df["time"] >= cutoff].sort_values("time").reset_index(drop=True)
-    except Exception:
-        pass
-
-    from data_fetcher import _call_with_timeout
-
-    end = datetime.now().strftime("%Y-%m-%d")
-    start = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
-    quote_client = quote(symbol=symbol, source="VCI")
-    df = _call_with_timeout(quote_client.history, start=start, end=end, interval="1D")
-    if df is None or len(df) == 0:
-        return pd.DataFrame()
-    df = df.copy()
-    df["time"] = pd.to_datetime(df["time"])
-    return df.sort_values("time").reset_index(drop=True)
+    years = max(0.1, float(days) / 365)
+    df = get_stock_data_cached(symbol, years=years)
+    cutoff = datetime.now() - timedelta(days=int(days))
+    return df[df["time"] >= cutoff].sort_values("time").reset_index(drop=True)
 
 
 def fetch_history_for_scan(symbol, days=180):
@@ -863,14 +879,9 @@ def fetch_history_for_scan(symbol, days=180):
 
 
 def normalize_vn_price(price):
-    """Return a VN stock price in the portfolio's thousand-VND convention.
-
-    VNStock providers may return either 59.7 or 59,700 for the same quote.
-    The paper portfolio and its cash calculations historically use 59.7, so
-    normalize provider values at this boundary before any valuation or sizing.
-    """
+    """Return an equity price in VND, regardless of provider unit convention."""
     value = float(price)
-    return value / 1000.0 if value >= 1000 else value
+    return value * 1000.0 if 0 < value < 1000 else value
 
 
 def current_price(symbol):
@@ -1221,18 +1232,22 @@ def get_unified_portfolio_summary():
         return {"cash": 0.0, "market_value": 0.0, "equity": 0.0, "unrealized_pnl": 0.0, "n_positions": 0, "positions": {}}
 
 
-def log_trade(trades, symbol, side, qty, price, reason, pnl=None, plan=None):
-    trades.append({
+def log_trade(trades, symbol, side, qty, price, reason, pnl=None, plan=None, **metadata):
+    event = {
+        "type": "TRADE",
+        "epoch_id": current_epoch_id(trades),
         "time": now_text(),
         "symbol": symbol,
         "side": side,
-        "qty": int(qty),
+        "qty": float(qty),
         "price": round(float(price), 2),
         "value": round(float(qty) * float(price), 2),
         "reason": reason,
         "pnl": None if pnl is None else round(float(pnl), 2),
         "plan": plan or {},
-    })
+    }
+    event.update(metadata)
+    trades.append(event)
 
 
 def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pct=MAX_POSITION_PCT, plan=None):
@@ -1244,7 +1259,7 @@ def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pc
     portfolio = load_portfolio()
     trades = load_trades()
     price = current_price(symbol)
-    if price is None or price <= 0:
+    if price is None or price < 1000:
         return False, f"KhÃ´ng láº¥y Ä‘Æ°á»£c giÃ¡ hiá»‡n táº¡i cho {symbol}"
 
     equity = portfolio_equity(portfolio)
@@ -1264,7 +1279,7 @@ def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pc
     cost = qty * price
     portfolio["cash"] = float(portfolio["cash"]) - cost
     if existing:
-        old_qty = int(existing.get("qty", 0))
+        old_qty = float(existing.get("qty", 0))
         old_avg = float(existing.get("avg_price", 0))
         new_qty = old_qty + qty
         existing["avg_price"] = ((old_qty * old_avg) + cost) / new_qty
@@ -1279,8 +1294,7 @@ def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pc
             "plan": plan or {},
         }
     log_trade(trades, symbol, "BUY", qty, price, reason, plan=plan)
-    save_portfolio(portfolio)
-    save_trades(trades)
+    save_portfolio_and_trades(portfolio, trades)
     return True, f"BUY {qty:,} {symbol} @ {price:,.2f}"
 
 
@@ -1296,16 +1310,23 @@ def sell_position(symbol, reason="Manual SELL", qty=None):
     if not position:
         return False, f"KhÃ´ng cÃ³ vá»‹ tháº¿ {symbol}"
     price = current_price(symbol)
-    if price is None or price <= 0:
+    if price is None or price < 1000:
         return False, f"KhÃ´ng láº¥y Ä‘Æ°á»£c giÃ¡ hiá»‡n táº¡i cho {symbol}"
 
-    owned_qty = int(position.get("qty", 0))
-    sell_qty = owned_qty if qty is None else min(int(qty), owned_qty)
+    owned_qty = float(position.get("qty", 0))
+    sell_qty = owned_qty if qty is None else min(float(qty), owned_qty)
     if sell_qty <= 0:
         return False, "Sá»‘ lÆ°á»£ng bÃ¡n khÃ´ng há»£p lá»‡"
 
     avg_price = float(position.get("avg_price", 0))
     proceeds = sell_qty * price
+    cost_basis = sell_qty * avg_price
+    if avg_price < 1000:
+        return False, f"CRITICAL: {symbol} avg_price {avg_price:g} is not in VND; migration required"
+    if cost_basis <= 0 or proceeds > cost_basis * 3:
+        return False, (
+            f"CRITICAL: {symbol} SELL proceeds {proceeds:,.0f} exceed 3x cost basis {cost_basis:,.0f}"
+        )
     pnl = (price - avg_price) * sell_qty
     portfolio["cash"] = float(portfolio["cash"]) + proceeds
 
@@ -1315,12 +1336,11 @@ def sell_position(symbol, reason="Manual SELL", qty=None):
     else:
         portfolio["positions"].pop(symbol, None)
 
-    log_trade(trades, symbol, "SELL", sell_qty, price, reason, pnl=pnl)
-    save_portfolio(portfolio)
-    save_trades(trades)
+    log_trade(trades, symbol, "SELL", sell_qty, price, reason, pnl=pnl, cost_basis=cost_basis)
+    save_portfolio_and_trades(portfolio, trades)
     if remaining <= 0:
         prune_intraday_alerts(symbol)
-    return True, f"SELL {sell_qty:,} {symbol} @ {price:,.2f} | PnL {pnl:,.0f}"
+    return True, f"SELL {sell_qty:,.3f}".rstrip("0").rstrip(".") + f" {symbol} @ {price:,.2f} | PnL {pnl:,.0f}"
 
 
 def execute_paper_trade(
@@ -1482,10 +1502,10 @@ def execute_paper_trade(
         except Exception as exc:
             release(state_file, idempotency_key)
             return result("transient", f"live price fetch failed before mutation: {exc}")
-        if price <= 0:
-            detail = f"Khong lay duoc gia hien tai cho {ticker}"
+        if price < 1000:
+            detail = f"invalid VND equity price for {ticker}: {price}; expected >= 1,000"
             release(state_file, idempotency_key)
-            return result("transient", detail)
+            return result("blocked", detail)
 
         try:
             sizing = get_kelly_position_size(ticker, equity, price)
@@ -1516,10 +1536,9 @@ def execute_paper_trade(
         portfolio["positions"] = positions
         portfolio["updated_at"] = now_text()
         try:
-            save_portfolio(portfolio)
             trades = load_trades()
             log_trade(trades, ticker, "BUY", shares, price, reason, plan=positions[ticker].get("plan"))
-            save_trades(trades)
+            save_portfolio_and_trades(portfolio, trades)
         except Exception as exc:
             return result("failed", f"trade persistence failed; reservation retained: {exc}")
         transition(state_file, idempotency_key, "completed", f"BUY {shares} @ {price}")
@@ -2076,7 +2095,7 @@ def render_ai_fund(symbols):
     a1, a2, a3, a4 = st.columns(4)
     with a1:
         if st.button("Reset AI fund", width='stretch'):
-            reset_state(config["capital"])
+            reset_state(config["capital"], reason="UI reset AI fund")
             save_equity_history([])
             record_equity_snapshot("reset")
             st.success("Da reset AI fund theo von moi.")
@@ -2360,7 +2379,7 @@ def render_portfolio():
 
 def render_history():
     st.subheader("Trade history")
-    trades = load_trades()
+    trades = load_current_epoch_trades()
     if not trades:
         st.info("ChÆ°a cÃ³ giao dá»‹ch.")
         return
@@ -2401,7 +2420,7 @@ def main():
         st.caption("LLM phân tích qua Groq / Gemini / Ollama")
         auto_trade = False
         if st.button("Reset paper account", width='stretch'):
-            reset_state()
+            reset_state(reason="UI reset paper account")
             st.success("ÄÃ£ reset vá» 100M VND.")
 
     tabs = st.tabs(["AI fund", "Signal scanner", "Portfolio & PnL", "Trade history"])

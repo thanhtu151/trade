@@ -2,10 +2,14 @@
 Fetch and cache external data sources for feature engineering.
 """
 
-import concurrent.futures
 import json
 import logging
 import os
+import queue
+import subprocess
+import sys
+import tempfile
+import threading
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -21,6 +25,7 @@ VNSTOCK_CACHE_DIR = os.path.join(CACHE_DIR, "vnstock")
 os.makedirs(VNSTOCK_CACHE_DIR, exist_ok=True)
 
 VNSTOCK_CALL_TIMEOUT_SECONDS = 25
+VNSTOCK_WORKER = os.path.join(BASE_DIR, "vnstock_fetch_worker.py")
 
 
 def _call_with_timeout(fn, *args, timeout=VNSTOCK_CALL_TIMEOUT_SECONDS, **kwargs):
@@ -31,12 +36,55 @@ def _call_with_timeout(fn, *args, timeout=VNSTOCK_CALL_TIMEOUT_SECONDS, **kwargs
     (dashboard UI or scheduler) indefinitely. The worker thread itself cannot be
     killed once started, but the caller is freed to move on.
     """
-    executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
+    result_queue = queue.Queue(maxsize=1)
+
+    def run():
+        try:
+            result_queue.put((True, fn(*args, **kwargs)))
+        except BaseException as exc:
+            result_queue.put((False, exc))
+
+    worker = threading.Thread(target=run, daemon=True, name="bounded-vendor-call")
+    worker.start()
     try:
-        future = executor.submit(fn, *args, **kwargs)
-        return future.result(timeout=timeout)
+        ok, value = result_queue.get(timeout=timeout)
+    except queue.Empty as exc:
+        raise TimeoutError(f"vendor call exceeded {timeout}s") from exc
+    if ok:
+        return value
+    raise value
+
+
+def _history_via_worker(ticker, source, start, end, interval="1D", timeout=VNSTOCK_CALL_TIMEOUT_SECONDS):
+    """Fetch in a killable subprocess so a hung vendor SDK cannot hold the scheduler."""
+    fd, output_path = tempfile.mkstemp(prefix=f"vnstock_{ticker}_", suffix=".json")
+    os.close(fd)
+    try:
+        result = subprocess.run(
+            [sys.executable, VNSTOCK_WORKER, ticker, start, end, output_path, source, interval],
+            cwd=BASE_DIR,
+            timeout=timeout,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
+        )
+        if result.returncode != 0:
+            detail = (result.stderr or result.stdout or "").strip().splitlines()
+            raise RuntimeError(detail[-1] if detail else f"vnstock worker exited {result.returncode}")
+        with open(output_path, encoding="utf-8") as handle:
+            payload = json.load(handle)
+        if payload.get("status") != "ok":
+            raise RuntimeError(payload.get("error") or "vnstock worker failed")
+        return pd.DataFrame(payload.get("rows") or [])
+    except subprocess.TimeoutExpired as exc:
+        raise TimeoutError(f"vnstock worker exceeded {timeout}s") from exc
     finally:
-        executor.shutdown(wait=False)
+        try:
+            os.remove(output_path)
+        except OSError:
+            pass
 
 
 def _cache_path(key):
@@ -82,6 +130,19 @@ def _records_to_frame(cached):
     return pd.DataFrame(cached) if cached else pd.DataFrame()
 
 
+def _normalize_vn_equity_frame(df):
+    """Normalize provider OHLC prices to VND exactly once at the data boundary."""
+    if df is None or df.empty or "close" not in df:
+        return df
+    result = df.copy()
+    close = pd.to_numeric(result["close"], errors="coerce").dropna()
+    if not close.empty and 0 < float(close.median()) < 1000:
+        for column in ("open", "high", "low", "close"):
+            if column in result:
+                result[column] = pd.to_numeric(result[column], errors="coerce") * 1000.0
+    return result
+
+
 def _vnstock_cache_path(ticker, years):
     safe_ticker = str(ticker).upper().replace("/", "_").replace("\\", "_")
     years_key = ("%s" % years).replace(".", "p")
@@ -96,27 +157,42 @@ def _ttl_hours_for_vnstock():
 def fetch_with_fallback(ticker: str, start: str, end: str, interval: str = "1D"):
     """Fetch OHLCV trying VCI → TCBS → MSN. Returns (DataFrame, source_used)."""
     import source_manager
-    from market_data_adapter import quote
+    from market_data_adapter import VendorPackageUnavailable, provider_availability
+    from runtime_reliability import CircuitOpenError, market_data_circuit, retry_transient
+
+    if not provider_availability()["available"]:
+        raise VendorPackageUnavailable("vnstock unavailable; provider is in degraded mode")
 
     current = source_manager.get_source()
     ordered = [current] + [s for s in source_manager.SOURCES if s != current]
 
     last_exc = None
     for source in ordered:
+        circuit_key = f"vnstock:{source}"
+        if not market_data_circuit.allow(circuit_key):
+            last_exc = CircuitOpenError(f"circuit open for {source}")
+            log.warning("  %s: skipping %s because circuit is open", ticker, source)
+            continue
         try:
-            df = _call_with_timeout(
-                quote(symbol=ticker, source=source).history, start=start, end=end, interval=interval
+            df = retry_transient(
+                lambda: _history_via_worker(ticker, source, start, end, interval),
+                attempts=3,
+                base_delay=0.5,
+                max_delay=4.0,
+                is_transient=lambda _exc: True,
             )
             if df is None or df.empty:
                 raise ValueError(f"empty response from {source}")
-            df = df.copy()
+            df = _normalize_vn_equity_frame(df)
             df["time"] = pd.to_datetime(df["time"])
             source_manager.report_success(source)
+            market_data_circuit.success(circuit_key)
             log.info("  %s: fetched %d rows via %s", ticker, len(df), source)
             return df, source
         except Exception as exc:
             log.warning("  %s: source %s failed: %s", ticker, source, exc)
             source_manager.report_failure(source)
+            market_data_circuit.failure(circuit_key)
             last_exc = exc
 
     raise last_exc or RuntimeError(f"All sources failed for {ticker}")
@@ -147,6 +223,7 @@ def get_stock_data_cached(ticker, years=1, force_refresh=False):
             age_hours = (datetime.now() - cached_at).total_seconds() / 3600
             if age_hours < _ttl_hours_for_vnstock():
                 df = pd.DataFrame(cached["data"])
+                df = _normalize_vn_equity_frame(df)
                 df["time"] = pd.to_datetime(df["time"])
                 log.info("  %s: using cached data (%.1fh old, %s rows)", ticker, age_hours, len(df))
                 return df.sort_values("time").reset_index(drop=True)
@@ -178,6 +255,7 @@ def get_stock_data_cached(ticker, years=1, force_refresh=False):
             with open(cache_path, encoding="utf-8") as f:
                 cached = json.load(f)
             df = pd.DataFrame(cached["data"])
+            df = _normalize_vn_equity_frame(df)
             df["time"] = pd.to_datetime(df["time"])
             return df.sort_values("time").reset_index(drop=True)
         raise

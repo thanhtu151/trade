@@ -39,7 +39,7 @@ def test_two_runs_same_signal_execute_only_one_order(monkeypatch, tmp_path):
     monkeypatch.setattr(self_healing, "trading_permission", lambda _base: (True, "ok"))
     monkeypatch.setattr(auto_trader, "load_portfolio", lambda: portfolio)
     monkeypatch.setattr(auto_trader, "load_trades", lambda: trades)
-    monkeypatch.setattr(auto_trader, "current_price", lambda _ticker: 100.0)
+    monkeypatch.setattr(auto_trader, "current_price", lambda _ticker: 10_000.0)
     monkeypatch.setattr(
         auto_trader,
         "get_kelly_position_size",
@@ -49,7 +49,7 @@ def test_two_runs_same_signal_execute_only_one_order(monkeypatch, tmp_path):
         data_fetcher,
         "get_stock_data_cached",
         lambda *_args, **_kwargs: pd.DataFrame(
-            {"high": [101.0] * 20, "low": [99.0] * 20, "close": [100.0] * 20}
+            {"high": [10_100.0] * 20, "low": [9_900.0] * 20, "close": [10_000.0] * 20}
         ),
     )
 
@@ -61,12 +61,13 @@ def test_two_runs_same_signal_execute_only_one_order(monkeypatch, tmp_path):
 
     monkeypatch.setattr(auto_trader, "save_portfolio", save_portfolio)
     monkeypatch.setattr(auto_trader, "save_trades", save_trades)
+    monkeypatch.setattr(auto_trader, "save_portfolio_and_trades", lambda _p, _t, operation="trade": (save_portfolio(_p), save_trades(_t)))
 
     first = auto_trader.execute_paper_trade(
-        "FPT", "BUY", price=100, signal_id="signal-123", run_id="run-a", trade_date="2026-09-28"
+        "FPT", "BUY", price=10_000, signal_id="signal-123", run_id="run-a", trade_date="2026-09-28"
     )
     second = auto_trader.execute_paper_trade(
-        "FPT", "BUY", price=100, signal_id="signal-123", run_id="run-b", trade_date="2026-09-28"
+        "FPT", "BUY", price=10_000, signal_id="signal-123", run_id="run-b", trade_date="2026-09-28"
     )
 
     state = json.loads((tmp_path / "scheduler_state.json").read_text(encoding="utf-8"))
@@ -90,7 +91,7 @@ def _trade_test_environment(monkeypatch, tmp_path, portfolio=None, sizing_value=
     monkeypatch.setattr(self_healing, "trading_permission", lambda _base: (True, "ok"))
     monkeypatch.setattr(auto_trader, "load_portfolio", lambda: portfolio)
     monkeypatch.setattr(auto_trader, "load_trades", lambda: trades)
-    monkeypatch.setattr(auto_trader, "current_price", lambda _ticker: 100.0)
+    monkeypatch.setattr(auto_trader, "current_price", lambda _ticker: 10_000.0)
     monkeypatch.setattr(
         auto_trader,
         "get_kelly_position_size",
@@ -100,11 +101,19 @@ def _trade_test_environment(monkeypatch, tmp_path, portfolio=None, sizing_value=
         data_fetcher,
         "get_stock_data_cached",
         lambda *_args, **_kwargs: pd.DataFrame(
-            {"high": [101.0] * 20, "low": [99.0] * 20, "close": [100.0] * 20}
+            {"high": [10_100.0] * 20, "low": [9_900.0] * 20, "close": [10_000.0] * 20}
         ),
     )
     monkeypatch.setattr(auto_trader, "save_portfolio", lambda _value: writes.__setitem__("portfolio", writes["portfolio"] + 1))
     monkeypatch.setattr(auto_trader, "save_trades", lambda _value: writes.__setitem__("trades", writes["trades"] + 1))
+    monkeypatch.setattr(
+        auto_trader,
+        "save_portfolio_and_trades",
+        lambda _p, _t, operation="trade": (
+            writes.__setitem__("portfolio", writes["portfolio"] + 1),
+            writes.__setitem__("trades", writes["trades"] + 1),
+        ),
+    )
     return auto_trader, portfolio, writes
 
 
@@ -122,7 +131,7 @@ def test_business_skip_completes_reservation_as_skipped(monkeypatch, tmp_path, c
         monkeypatch, tmp_path, portfolio=portfolio, sizing_value=sizing_value
     )
     outcome = auto_trader.execute_paper_trade(
-        "FPT", "BUY", price=100, signal_id=f"skip-{case}", trade_date="2026-09-28"
+        "FPT", "BUY", price=10_000, signal_id=f"skip-{case}", trade_date="2026-09-28"
     )
     state = json.loads((tmp_path / "scheduler_state.json").read_text(encoding="utf-8"))
     record = state["trade_idempotency"][f"2026-09-28:FPT:BUY:skip-{case}"]
@@ -133,7 +142,7 @@ def test_business_skip_completes_reservation_as_skipped(monkeypatch, tmp_path, c
 
 def test_transient_price_failure_releases_then_retry_executes_once(monkeypatch, tmp_path):
     auto_trader, _portfolio, writes = _trade_test_environment(monkeypatch, tmp_path)
-    calls = iter((RuntimeError("temporary quote outage"), 100.0))
+    calls = iter((RuntimeError("temporary quote outage"), 10_000.0))
 
     def current_price(_ticker):
         value = next(calls)
@@ -155,9 +164,9 @@ def test_transient_price_failure_releases_then_retry_executes_once(monkeypatch, 
 
 def test_persistence_failure_keeps_reservation_fail_closed(monkeypatch, tmp_path):
     auto_trader, _portfolio, _writes = _trade_test_environment(monkeypatch, tmp_path)
-    monkeypatch.setattr(auto_trader, "save_trades", lambda _value: (_ for _ in ()).throw(OSError("disk full")))
+    monkeypatch.setattr(auto_trader, "save_portfolio_and_trades", lambda *_args, **_kwargs: (_ for _ in ()).throw(OSError("disk full")))
     outcome = auto_trader.execute_paper_trade(
-        "FPT", "BUY", price=100, signal_id="crash-signal", trade_date="2026-09-28"
+        "FPT", "BUY", price=10_000, signal_id="crash-signal", trade_date="2026-09-28"
     )
     state = json.loads((tmp_path / "scheduler_state.json").read_text(encoding="utf-8"))
     record = state["trade_idempotency"]["2026-09-28:FPT:BUY:crash-signal"]
@@ -227,8 +236,11 @@ def test_scheduler_retries_transient_then_succeeds(monkeypatch, tmp_path):
             {"status": "executed", "detail": "ok"},
         ],
     )
+    sleeps = []
+    monkeypatch.setattr(scheduler.time, "sleep", sleeps.append)
     scheduler.task_auto_trade()
     assert len(calls) == 2
+    assert len(sleeps) == 1 and sleeps[0] >= 1.0
     assert scheduler.already_ran_today("auto_trade") is True
 
 
@@ -246,6 +258,7 @@ def test_scheduler_nonfatal_trade_outcomes_do_not_fail(monkeypatch, tmp_path, st
 def test_scheduler_exhausted_failures_raise(monkeypatch, tmp_path, status):
     outcomes = [{"status": status, "detail": "still broken"}] * (2 if status == "transient" else 1)
     scheduler, calls = _scheduler_trade_environment(monkeypatch, tmp_path, outcomes)
+    monkeypatch.setattr(scheduler.time, "sleep", lambda _delay: None)
     with pytest.raises(RuntimeError, match="still broken"):
         scheduler.task_auto_trade()
     assert len(calls) == len(outcomes)
@@ -258,6 +271,7 @@ def test_run_now_keeps_daily_idempotency_state(monkeypatch, tmp_path):
     state_file = tmp_path / "scheduler_state.json"
     state_file.write_text(json.dumps({"auto_trade": "2026-09-28"}), encoding="utf-8")
     monkeypatch.setattr(scheduler, "STATE_FILE", str(state_file))
+    monkeypatch.setattr(scheduler, "BASE_DIR", str(tmp_path))
     called = []
     monkeypatch.setattr(scheduler, "task_auto_trade", lambda: called.append(True))
 

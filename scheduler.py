@@ -40,6 +40,16 @@ INSTANCE_LOCK_FILE = os.path.join(BASE_DIR, "scheduler.pid.lock")
 _instance_lock_handle = None
 
 
+def ict_now():
+    from trading_safety import VIETNAM_TZ
+
+    return datetime.now(VIETNAM_TZ)
+
+
+def ict_today():
+    return ict_now().date()
+
+
 def acquire_single_instance_lock():
     """
     Prevent two scheduler.py processes from running at once (e.g. a logon
@@ -64,24 +74,26 @@ def acquire_single_instance_lock():
         log.error("Another scheduler.py instance is already running (lock held on %s). Exiting.", INSTANCE_LOCK_FILE)
         raise SystemExit(1)
     _instance_lock_handle = lock_f  # keep a reference so the lock isn't GC'd/released early
-VN_HOLIDAYS_2026 = {
-    "2026-01-01",
-    "2026-02-17",
-    "2026-02-18",
-    "2026-02-19",
-    "2026-02-20",
-    "2026-02-21",
-    "2026-04-30",
-    "2026-05-01",
-    "2026-09-02",
+VN_EXCHANGE_HOLIDAYS = {
+    # HNX/HOSE published exchange closures, including swapped weekdays.
+    2026: {
+        "2026-01-01", "2026-01-02",
+        "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20",
+        "2026-04-27", "2026-04-30", "2026-05-01",
+        "2026-08-31", "2026-09-01", "2026-09-02",
+    },
 }
 
 
-def is_trading_day():
-    today = date.today()
+def is_trading_day(day=None):
+    today = day or ict_today()
     if today.weekday() >= 5:
         return False
-    if today.isoformat() in VN_HOLIDAYS_2026:
+    holidays = VN_EXCHANGE_HOLIDAYS.get(today.year)
+    if holidays is None:
+        log.error("No verified VN exchange calendar for %s; failing closed", today.year)
+        return False
+    if today.isoformat() in holidays:
         return False
     return True
 
@@ -95,18 +107,22 @@ def load_state():
 
 
 def save_state(state):
-    with open(STATE_FILE, "w", encoding="utf-8") as f:
+    temp_path = STATE_FILE + ".tmp"
+    with open(temp_path, "w", encoding="utf-8") as f:
         json.dump(state, f, ensure_ascii=False, indent=2)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(temp_path, STATE_FILE)
 
 
 def already_ran_today(task_name):
     state = load_state()
-    return state.get(task_name) == date.today().isoformat()
+    return state.get(task_name) == ict_today().isoformat()
 
 
 def mark_ran_today(task_name):
     state = load_state()
-    state[task_name] = date.today().isoformat()
+    state[task_name] = ict_today().isoformat()
     save_state(state)
 
 
@@ -303,7 +319,7 @@ def task_market_analysis():
     with open(ANALYSIS_RESULTS_FILE, "w", encoding="utf-8") as f:
         json.dump(
             {
-                "date": date.today().isoformat(),
+                "date": ict_today().isoformat(),
                 "method": "two_stage",
                 "prediction_horizon_days": 3,
                 "prediction_horizon_sessions": 6,
@@ -362,7 +378,7 @@ def task_auto_trade():
             raise FileNotFoundError("No analysis_results.json found")
         with open(ANALYSIS_RESULTS_FILE, encoding="utf-8") as f:
             data = json.load(f)
-        if data.get("date") != date.today().isoformat():
+        if data.get("date") != ict_today().isoformat():
             raise RuntimeError("Analysis results are not from today")
 
         tradeable = data.get("tradeable") or []
@@ -404,6 +420,12 @@ def task_auto_trade():
                         "  %s transient attempt %s/2: %s",
                         trade["ticker"], attempt + 1, outcome["detail"],
                     )
+                    if attempt + 1 < 2:
+                        from runtime_reliability import exponential_backoff
+
+                        delay = exponential_backoff(attempt, base_delay=1.0, max_delay=4.0)
+                        log.info("  %s retrying after %.2fs backoff", trade["ticker"], delay)
+                        time.sleep(delay)
                 if outcome["status"] in {"failed", "transient"}:
                     failures.append(f"{trade['ticker']}: {outcome['detail']}")
                 elif outcome["status"] in {"skipped", "duplicate", "blocked"}:
@@ -443,7 +465,7 @@ def _close_position_direct(portfolio, ticker, price, reason):
     if not trading_is_allowed(BASE_DIR):
         log.error("Direct close blocked by trading safety gate for %s", ticker)
         return False
-    from auto_trader import log_trade, save_trades
+    from auto_trader import log_trade, save_portfolio_and_trades
 
     positions = portfolio.get("positions", {}) or {}
     pos = positions.get(ticker)
@@ -469,7 +491,7 @@ def _close_position_direct(portfolio, ticker, price, reason):
         trades = []
 
     log_trade(trades, ticker, "SELL", qty, price, reason, pnl=pnl)
-    save_trades(trades)
+    save_portfolio_and_trades(portfolio, trades, operation="scheduled_close")
     log.info("  Closed %s (%s): %s cp @ %.0f = %.0f VND", ticker, reason, qty, price, proceeds)
     return True
 
@@ -495,7 +517,7 @@ def task_intraday_monitor():
     if not is_trading_day():
         return
 
-    now = datetime.now()
+    now = ict_now()
     hour = now.hour + now.minute / 60.0
     if not (9.0 <= hour <= 14.85):
         return
@@ -585,7 +607,7 @@ def task_intraday_monitor():
                 log.warning("  Intraday %s: %s", ticker, exc)
 
         if updated:
-            portfolio["updated_at"] = datetime.now().isoformat()
+            portfolio["updated_at"] = ict_now().isoformat()
             _save_portfolio_direct(portfolio)
 
         if alerts:
@@ -712,7 +734,7 @@ def task_eod_update():
                 failures.append(f"{ticker}: {exc}")
 
         if updated:
-            portfolio["updated_at"] = datetime.now().isoformat()
+            portfolio["updated_at"] = ict_now().isoformat()
             _save_portfolio_direct(portfolio)
         log.info("Closed %s positions", closed)
     except Exception as exc:
@@ -775,7 +797,7 @@ def task_daily_learning():
             if os.path.exists(debate_path):
                 with open(debate_path, encoding="utf-8") as f:
                     debate_logs = json.load(f)
-                cutoff = datetime.now().date() - timedelta(days=3)
+                cutoff = ict_today() - timedelta(days=3)
                 for entry in debate_logs if isinstance(debate_logs, list) else []:
                     if entry.get("outcome") is not None or not entry.get("final_decision"):
                         continue
@@ -807,10 +829,10 @@ def task_daily_learning():
     log.info("Daily learning DONE")
 
 
-def task_weekly_rebacktest():
+def task_weekly_rebacktest(force=False):
     """Monday 07:00 - rebacktest training watchlist and update backtest_config.json."""
-    today = date.today()
-    if today.weekday() != 0:
+    today = ict_today()
+    if today.weekday() != 0 and not force:
         return
     state = load_state()
     if state.get("weekly_rebacktest") == today.isoformat():
@@ -838,7 +860,9 @@ def task_weekly_rebacktest():
         if isinstance(watchlist, dict):
             watchlist = list(watchlist.keys())
         log.info("Re-backtesting %s tickers...", len(watchlist))
-        runner(watchlist, **runner_kwargs)
+        results = runner(watchlist, **runner_kwargs)
+        if not isinstance(results, dict) or not results:
+            raise RuntimeError("rebacktest produced no result set; preserving previous configuration")
         log.info("Weekly rebacktest DONE")
     except Exception as exc:
         log.error("Weekly rebacktest failed: %s", exc)
@@ -854,7 +878,7 @@ def setup_schedule():
     schedule.every().day.at("09:20").do(task_auto_trade)
     schedule.every().day.at("15:00").do(task_eod_update)
     schedule.every().day.at("16:00").do(task_daily_learning)
-    schedule.every().monday.at("07:00").do(task_weekly_rebacktest)
+    schedule.every().monday.at("07:00").do(task_weekly_rebacktest, force=False)
 
     log.info("Schedule registered:")
     log.info("  08:00 Morning prep")
@@ -878,19 +902,22 @@ def run_now(task_name=None):
         "trade": task_auto_trade,
         "eod": task_eod_update,
         "learning": task_daily_learning,
-        "rebacktest": task_weekly_rebacktest,
+        "rebacktest": lambda: task_weekly_rebacktest(force=True),
         "heal": run_heal,
     }
     if task_name in tasks:
         log.info("Running %s NOW...", task_name)
+        from self_healing import snapshot_state
+
+        snapshot_state(BASE_DIR, task_name)
         tasks[task_name]()
     else:
         raise ValueError(f"Unknown task {task_name!r}; available tasks: {list(tasks.keys())}")
 
 
 def catch_up_missed_tasks():
-    now = datetime.now()
-    today = date.today()
+    now = ict_now()
+    today = ict_today()
     current_hour = now.hour + now.minute / 60.0
     if not is_trading_day():
         log.info("Not a trading day - no catch-up needed")
@@ -931,7 +958,7 @@ def main():
     import sys
 
     log.info("Autonomous Trading Scheduler starting...")
-    log.info("Time: %s", datetime.now().strftime("%Y-%m-%d %H:%M"))
+    log.info("Time: %s", ict_now().strftime("%Y-%m-%d %H:%M %Z"))
     if len(sys.argv) > 1:
         run_now(sys.argv[1])
         return
