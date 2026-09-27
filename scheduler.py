@@ -330,7 +330,7 @@ def task_market_analysis():
 
 
 def task_auto_trade():
-    """09:00 - choose top candidates and execute paper trades when supported."""
+    """09:20 - choose top candidates and execute paper trades when supported."""
     if not is_trading_day():
         log.info("Not a trading day, skipping auto trade")
         mark_ran_today("auto_trade")
@@ -344,7 +344,12 @@ def task_auto_trade():
     log.info("=" * 50)
 
     from self_healing import run_self_healing
+    from trading_safety import operational_gate
 
+    operational, gate_reason = operational_gate(BASE_DIR)
+    if not operational:
+        log.warning("Auto trade BLOCKED by operational gate: %s", gate_reason)
+        return
     healing = run_self_healing(BASE_DIR, repair=True)
     if not healing["trading_allowed"]:
         log.error("Auto trade BLOCKED by self-healing: %s", healing.get("critical"))
@@ -381,18 +386,28 @@ def task_auto_trade():
                     separators=(",", ":"),
                 )
                 signal_id = hashlib.sha256(canonical_signal.encode("utf-8")).hexdigest()[:20]
-                ok, detail = execute_paper_trade(
-                    ticker=trade["ticker"],
-                    action="BUY",
-                    price=trade.get("price"),
-                    confidence=confidence,
-                    source="two_stage_scheduler",
-                    signal_id=signal_id,
-                    run_id=os.getenv("GITHUB_RUN_ID", "local"),
-                    trade_date=data["date"],
-                )
-                if not ok and "duplicate idempotency key" not in detail:
-                    failures.append(f"{trade['ticker']}: {detail}")
+                outcome = None
+                for attempt in range(2):
+                    outcome = execute_paper_trade(
+                        ticker=trade["ticker"],
+                        action="BUY",
+                        price=trade.get("price"),
+                        confidence=confidence,
+                        source="two_stage_scheduler",
+                        signal_id=signal_id,
+                        run_id=os.getenv("GITHUB_RUN_ID", "local"),
+                        trade_date=data["date"],
+                    )
+                    if outcome["status"] != "transient":
+                        break
+                    log.warning(
+                        "  %s transient attempt %s/2: %s",
+                        trade["ticker"], attempt + 1, outcome["detail"],
+                    )
+                if outcome["status"] in {"failed", "transient"}:
+                    failures.append(f"{trade['ticker']}: {outcome['detail']}")
+                elif outcome["status"] in {"skipped", "duplicate", "blocked"}:
+                    log.info("  %s %s: %s", trade["ticker"], outcome["status"], outcome["detail"])
             except Exception as exc:
                 log.warning("  %s paper trade failed: %s", trade["ticker"], exc)
                 failures.append(f"{trade['ticker']}: {exc}")
@@ -836,7 +851,7 @@ def task_weekly_rebacktest():
 def setup_schedule():
     schedule.every().day.at("08:00").do(task_morning_prep)
     schedule.every().day.at("08:30").do(task_market_analysis)
-    schedule.every().day.at("09:00").do(task_auto_trade)
+    schedule.every().day.at("09:20").do(task_auto_trade)
     schedule.every().day.at("15:00").do(task_eod_update)
     schedule.every().day.at("16:00").do(task_daily_learning)
     schedule.every().monday.at("07:00").do(task_weekly_rebacktest)
@@ -844,7 +859,7 @@ def setup_schedule():
     log.info("Schedule registered:")
     log.info("  08:00 Morning prep")
     log.info("  08:30 Market analysis")
-    log.info("  09:00 Auto trade")
+    log.info("  09:20 Auto trade")
     log.info("  15:00 EOD update")
     log.info("  16:00 Daily learning")
     log.info("  Mon 07:00 Weekly rebacktest")
@@ -886,7 +901,7 @@ def catch_up_missed_tasks():
     task_schedule = [
         ("morning_prep", "morning_prep", 8.0, task_morning_prep),
         ("market_analysis", "market_analysis", 8.5, task_market_analysis),
-        ("auto_trade", "auto_trade", 9.0, task_auto_trade),
+        ("auto_trade", "auto_trade", 9 + 20 / 60, task_auto_trade),
         ("eod_update", "eod_update", 15.0, task_eod_update),
         ("daily_learning", "daily_learning", 16.0, task_daily_learning),
     ]

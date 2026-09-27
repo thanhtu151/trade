@@ -235,7 +235,15 @@ def run_self_healing(base_dir=None, repair=True):
             and _event_signature(clean_trades[previous_count - 1]) == previous_signature
         ))
     )
-    baseline_acknowledged = bool(previous_baseline) and previous_baseline == previous_checkpoint
+    current_cash_offset = expected_cash - actual_cash if actual_cash is not None else None
+    baseline_offset = _finite_number(previous_baseline.get("cash_offset")) if isinstance(previous_baseline, dict) else None
+    offset_tolerance = 1.0
+    baseline_acknowledged = (
+        baseline_offset is not None
+        and current_cash_offset is not None
+        and checkpoint_continuous
+        and abs(current_cash_offset - baseline_offset) <= offset_tolerance
+    )
     if historical_drift:
         detail = f"historical ledger drift: expected cash {expected_cash:,.0f}, actual {actual_cash:,.0f}; not auto-repaired"
         if baseline_acknowledged and checkpoint_continuous:
@@ -297,13 +305,22 @@ def run_self_healing(base_dir=None, repair=True):
     return report
 
 
-def trading_is_allowed(base_dir=None):
-    """Run a fresh preflight; callers must fail closed on critical state."""
+def trading_permission(base_dir=None):
+    """Return a fail-closed decision and an operator-readable reason."""
     from trading_safety import operational_gate
 
-    healthy = bool(run_self_healing(base_dir=base_dir, repair=True)["trading_allowed"])
-    operational, _reason = operational_gate(base_dir=base_dir)
-    return healthy and operational
+    operational, reason = operational_gate(base_dir=base_dir)
+    if not operational:
+        return False, reason
+    report = run_self_healing(base_dir=base_dir, repair=True)
+    if not report["trading_allowed"]:
+        return False, "unsafe trading state: " + "; ".join(report["critical"])
+    return True, "trading gates passed"
+
+
+def trading_is_allowed(base_dir=None):
+    """Backward-compatible boolean gate; new callers should retain the reason."""
+    return trading_permission(base_dir)[0]
 
 
 def rebaseline(base_dir=None, reason="", operator=""):
@@ -317,7 +334,18 @@ def rebaseline(base_dir=None, reason="", operator=""):
         raise RuntimeError("cannot rebaseline unsafe state: " + "; ".join(non_drift))
 
     checkpoint = report["checkpoint"]
-    report["ledger_baseline"] = checkpoint
+    portfolio = json.loads((base / "paper_portfolio.json").read_text(encoding="utf-8"))
+    trades = json.loads((base / "paper_trades.json").read_text(encoding="utf-8"))
+    buy_value = sum(float(t.get("value", 0) or 0) for t in trades if str(t.get("side", "")).upper() == "BUY")
+    sell_value = sum(float(t.get("value", 0) or 0) for t in trades if str(t.get("side", "")).upper() == "SELL")
+    expected_cash = float(portfolio.get("initial_cash", INITIAL_CASH)) - buy_value + sell_value
+    actual_cash = float(portfolio["cash"])
+    baseline = {
+        "cash_offset": expected_cash - actual_cash,
+        "established_checkpoint": checkpoint,
+        "established_at": _now(),
+    }
+    report["ledger_baseline"] = baseline
     report["critical"] = []
     report["trading_allowed"] = True
     report["status"] = "healthy"
@@ -337,6 +365,7 @@ def rebaseline(base_dir=None, reason="", operator=""):
         "operator": str(operator or os.getenv("GITHUB_ACTOR") or os.getenv("USERNAME") or "unknown"),
         "reason": str(reason).strip(),
         "checkpoint": checkpoint,
+        "cash_offset": baseline["cash_offset"],
     }
     audit.append(event)
     _atomic_json_write(audit_path, audit, backup=False)

@@ -144,3 +144,36 @@ def test_historical_ledger_drift_blocks_until_explicit_rebaseline(tmp_path):
     assert event["operator"] == "tester"
     assert healthy["trading_allowed"] is True
     assert audit[-1]["reason"] == "approved legacy migration"
+
+
+def test_rebaseline_offset_survives_valid_trades_and_blocks_new_drift(tmp_path):
+    portfolio = valid_portfolio()
+    portfolio["cash"] = 80_000_000
+    write_json(tmp_path / "paper_portfolio.json", portfolio)
+    write_json(tmp_path / "paper_trades.json", [])
+    run_self_healing(tmp_path)
+    rebaseline(tmp_path, reason="approved 20M legacy offset", operator="tester")
+
+    trades = []
+    for index, ticker in enumerate(("FPT", "VCB", "MBB"), start=1):
+        trades.append({
+            "time": f"2026-08-03 09:0{index}:00",
+            "symbol": ticker,
+            "side": "BUY",
+            "qty": 100,
+            "price": 100_000,
+            "value": 10_000_000,
+            "reason": "scheduler",
+        })
+    portfolio["cash"] = 50_000_000
+    write_json(tmp_path / "paper_portfolio.json", portfolio)
+    write_json(tmp_path / "paper_trades.json", trades)
+
+    for _ in range(5):
+        assert run_self_healing(tmp_path)["trading_allowed"] is True
+
+    portfolio["cash"] -= 1_000_000
+    write_json(tmp_path / "paper_portfolio.json", portfolio)
+    report = run_self_healing(tmp_path)
+    assert report["trading_allowed"] is False
+    assert any("historical ledger drift" in item for item in report["critical"])

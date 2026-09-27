@@ -80,12 +80,28 @@ def reserve(state_file, key: str, metadata: dict) -> bool:
         return True
 
 
-def complete(state_file, key: str, success: bool, detail: str = ""):
+def transition(state_file, key: str, status: str, detail: str = ""):
+    if status not in {"completed", "skipped", "failed_safe"}:
+        raise ValueError(f"unsupported idempotency status: {status}")
     path = Path(state_file)
     with _locked(path):
         state = json.loads(path.read_text(encoding="utf-8"))
         record = state[STATE_BUCKET][key]
-        record["status"] = "completed" if success else "failed_safe"
+        record["status"] = status
         record["completed_at"] = datetime.now().astimezone().isoformat()
         record["detail"] = str(detail)[:500]
         _write_atomic(path, state)
+
+
+def release(state_file, key: str) -> bool:
+    """Release only a still-reserved key after a known pre-mutation transient."""
+    path = Path(state_file)
+    with _locked(path):
+        state = json.loads(path.read_text(encoding="utf-8"))
+        bucket = state.get(STATE_BUCKET, {})
+        record = bucket.get(key)
+        if not isinstance(record, dict) or record.get("status") != "reserved":
+            return False
+        del bucket[key]
+        _write_atomic(path, state)
+        return True
