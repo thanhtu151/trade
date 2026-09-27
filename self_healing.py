@@ -439,6 +439,23 @@ def trading_permission(base_dir=None):
     return True, "trading gates passed"
 
 
+def audit_exit_code(report):
+    """Kill switch is an intentional block; other critical findings fail CI."""
+    non_switch = [item for item in report.get("critical", []) if not str(item).startswith("trading kill switch:")]
+    return 2 if non_switch else 0
+
+
+def write_github_blocked_summary(report):
+    if audit_exit_code(report) != 0:
+        return
+    switch_items = [item for item in report.get("critical", []) if str(item).startswith("trading kill switch:")]
+    summary_path = os.getenv("GITHUB_STEP_SUMMARY")
+    if switch_items and summary_path:
+        with open(summary_path, "a", encoding="utf-8") as handle:
+            handle.write("### Trading blocked\n\n")
+            handle.write("Kill switch is active; non-trading task state remains healthy.\n")
+
+
 def trading_is_allowed(base_dir=None):
     """Backward-compatible boolean gate; new callers should retain the reason."""
     return trading_permission(base_dir)[0]
@@ -626,7 +643,7 @@ if __name__ == "__main__":
         raise SystemExit(0)
     result = run_self_healing()
     print(json.dumps(result, ensure_ascii=False, indent=2))
+    write_github_blocked_summary(result)
     if args.maintenance_audit:
-        maintenance_critical = [item for item in result["critical"] if not item.startswith("trading kill switch:")]
-        raise SystemExit(0 if not maintenance_critical else 2)
-    raise SystemExit(0 if result["trading_allowed"] else 2)
+        raise SystemExit(audit_exit_code(result))
+    raise SystemExit(audit_exit_code(result))
