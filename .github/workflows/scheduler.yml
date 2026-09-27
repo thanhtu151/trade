@@ -1,4 +1,5 @@
 name: VN Trading Scheduler
+run-name: scheduler-${{ inputs.task || github.event.schedule || 'unknown' }}
 
 # Runs each scheduler.py task on its own cron (times are UTC = ICT-7).
 # Each task is a one-shot `python scheduler.py <task>` that exits when done —
@@ -24,7 +25,7 @@ on:
         description: "Task to run now"
         type: choice
         default: analysis
-        options: [prep, analysis, trade, eod, learning, rebacktest, heal, rebaseline, migrate-ledger-epoch]
+        options: [prep, analysis, trade, eod, learning, rebacktest, heal, rebaseline, migrate-ledger-epoch, disable-trading, enable-trading]
       reason:
         description: "Required audit reason for rebaseline"
         type: string
@@ -71,7 +72,7 @@ jobs:
         vn_live_data_cache.json llm_router_usage.json self_healing_state.json
         circuit_breaker_state.json
         paper_portfolio.json.bak paper_trades.json.bak
-        trading_disabled.json self_healing_audit.json
+        trading_disabled.json trading_switch_audit.json self_healing_audit.json
         paper_ledger_transaction.json
         paper_portfolio.json.pre_task.bak paper_trades.json.pre_task.bak
         pre_task_snapshot.json
@@ -103,6 +104,14 @@ jobs:
           fi
           if [ "$TASK" = "migrate-ledger-epoch" ] && [ "$DISPATCH_CONFIRMATION" != "MIGRATE_LEDGER_EPOCH_2026_07_09" ]; then
             echo "::error::confirmation must equal MIGRATE_LEDGER_EPOCH_2026_07_09"
+            exit 2
+          fi
+          if [ "$TASK" = "disable-trading" ] && [ -z "$DISPATCH_REASON" ]; then
+            echo "::error::reason is required for disable-trading"
+            exit 2
+          fi
+          if [ "$TASK" = "enable-trading" ] && [ "$DISPATCH_CONFIRMATION" != "ENABLE_TRADING" ]; then
+            echo "::error::confirmation must equal ENABLE_TRADING"
             exit 2
           fi
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -137,13 +146,23 @@ jobs:
             echo "base_sha=" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Persist automatic trading kill switch
+        if: steps.pick.outputs.task == 'disable-trading'
+        run: python trading_safety.py --disable --reason "$DISPATCH_REASON" --actor "$GITHUB_ACTOR" --run-id "$GITHUB_RUN_ID"
+
+      - name: Remove trading kill switch after explicit confirmation
+        if: steps.pick.outputs.task == 'enable-trading'
+        run: python trading_safety.py --enable --confirmation "$DISPATCH_CONFIRMATION" --reason "$DISPATCH_REASON" --actor "$GITHUB_ACTOR" --run-id "$GITHUB_RUN_ID"
+
       - name: Install dependencies
+        if: steps.pick.outputs.task != 'disable-trading' && steps.pick.outputs.task != 'enable-trading'
         run: |
           python -m pip install --upgrade pip
           pip install --index-url https://vnstocks.com/api/simple --no-deps --only-binary=:all: --require-hashes -r requirements-vnstock.txt
           pip install -r requirements.txt -r requirements-ml.txt
 
       - name: Reconstruct .env from secret
+        if: steps.pick.outputs.task != 'disable-trading' && steps.pick.outputs.task != 'enable-trading'
         env:
           ENV_FILE: ${{ secrets.ENV_FILE }}
         run: |
@@ -155,6 +174,7 @@ jobs:
           fi
 
       - name: Restore LSTM models cache
+        if: steps.pick.outputs.task != 'disable-trading' && steps.pick.outputs.task != 'enable-trading'
         uses: actions/cache@v4
         with:
           path: lstm_models
@@ -163,7 +183,7 @@ jobs:
             lstm-models-
 
       - name: Run scheduler task
-        if: steps.pick.outputs.task != 'rebaseline' && steps.pick.outputs.task != 'migrate-ledger-epoch'
+        if: steps.pick.outputs.task != 'rebaseline' && steps.pick.outputs.task != 'migrate-ledger-epoch' && steps.pick.outputs.task != 'disable-trading' && steps.pick.outputs.task != 'enable-trading'
         run: python scheduler.py ${{ steps.pick.outputs.task }}
 
       - name: Rebaseline unexplained ledger drift
@@ -180,7 +200,7 @@ jobs:
       - name: Self-healing state audit
         if: always()
         run: |
-          if [ "${{ steps.pick.outputs.task }}" = "rebaseline" ] || [ "${{ steps.pick.outputs.task }}" = "migrate-ledger-epoch" ]; then
+          if [ "${{ steps.pick.outputs.task }}" = "rebaseline" ] || [ "${{ steps.pick.outputs.task }}" = "migrate-ledger-epoch" ] || [ "${{ steps.pick.outputs.task }}" = "disable-trading" ] || [ "${{ steps.pick.outputs.task }}" = "enable-trading" ]; then
             python self_healing.py --maintenance-audit
           else
             python self_healing.py
@@ -195,7 +215,11 @@ jobs:
           git checkout -q -B state 2>/dev/null || git checkout -q --orphan state
           cd "$GITHUB_WORKSPACE"
           for f in $STATE_FILES; do
-            [ -f "$f" ] && cp "$f" "/tmp/state/$f"
+            if [ -f "$f" ]; then
+              cp "$f" "/tmp/state/$f"
+            else
+              rm -f "/tmp/state/$f"
+            fi
           done
           cd "$GITHUB_WORKSPACE"
           python state_push.py --worktree /tmp/state --expected-sha "${{ steps.load-state.outputs.base_sha }}" --task "${{ steps.pick.outputs.task }}"

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import json
 import os
+import argparse
+import tempfile
 from datetime import datetime, time
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -12,6 +14,7 @@ from zoneinfo import ZoneInfo
 VIETNAM_TZ = ZoneInfo("Asia/Ho_Chi_Minh")
 DISABLE_FILE = "trading_disabled.json"
 _FALSE_VALUES = {"0", "false", "no", "off", "disabled"}
+ENABLE_CONFIRMATION = "ENABLE_TRADING"
 
 
 def vietnam_now() -> datetime:
@@ -60,3 +63,77 @@ def operational_gate(base_dir=None, now: datetime | None = None) -> tuple[bool, 
     if reason:
         return False, reason
     return True, "operational gates passed"
+
+
+def _atomic_json(path, value):
+    path = Path(path)
+    fd, temp_name = tempfile.mkstemp(prefix=path.name + ".", suffix=".tmp", dir=str(path.parent))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            json.dump(value, handle, ensure_ascii=False, indent=2)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temp_name, path)
+    finally:
+        if os.path.exists(temp_name):
+            os.remove(temp_name)
+
+
+def _append_switch_audit(base, event):
+    path = base / "trading_switch_audit.json"
+    try:
+        rows = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(rows, list):
+            rows = []
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        rows = []
+    rows.append(event)
+    _atomic_json(path, rows)
+
+
+def disable_trading(base_dir=None, reason="", actor="", run_id=""):
+    reason = str(reason or "").strip()
+    if not reason:
+        raise ValueError("disable-trading requires a reason")
+    base = Path(base_dir or Path(__file__).resolve().parent)
+    event = {
+        "action": "disable-trading", "disabled": True, "reason": reason,
+        "actor": str(actor or os.getenv("GITHUB_ACTOR") or "unknown"),
+        "run_id": str(run_id or os.getenv("GITHUB_RUN_ID") or "unknown"),
+        "at": vietnam_now().isoformat(),
+    }
+    _atomic_json(base / DISABLE_FILE, event)
+    _append_switch_audit(base, event)
+    return event
+
+
+def enable_trading(base_dir=None, confirmation="", reason="", actor="", run_id=""):
+    if confirmation != ENABLE_CONFIRMATION:
+        raise ValueError(f"confirmation must equal {ENABLE_CONFIRMATION}")
+    base = Path(base_dir or Path(__file__).resolve().parent)
+    event = {
+        "action": "enable-trading", "reason": str(reason or "operator confirmed reopening").strip(),
+        "actor": str(actor or os.getenv("GITHUB_ACTOR") or "unknown"),
+        "run_id": str(run_id or os.getenv("GITHUB_RUN_ID") or "unknown"),
+        "at": vietnam_now().isoformat(),
+    }
+    (base / DISABLE_FILE).unlink(missing_ok=True)
+    _append_switch_audit(base, event)
+    return event
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--disable", action="store_true")
+    group.add_argument("--enable", action="store_true")
+    parser.add_argument("--reason", default="")
+    parser.add_argument("--confirmation", default="")
+    parser.add_argument("--actor", default="")
+    parser.add_argument("--run-id", default="")
+    args = parser.parse_args()
+    if args.disable:
+        result = disable_trading(reason=args.reason, actor=args.actor, run_id=args.run_id)
+    else:
+        result = enable_trading(confirmation=args.confirmation, reason=args.reason, actor=args.actor, run_id=args.run_id)
+    print(json.dumps(result, ensure_ascii=False, indent=2))

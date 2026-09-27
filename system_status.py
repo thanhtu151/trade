@@ -60,6 +60,13 @@ def update_task(base_dir, task, state, error=None, run_id=None, now=None):
         row["last_error"] = {"at": timestamp, "message": str(error or "unknown error")[:2000]}
         row["consecutive_failures"] = int(row.get("consecutive_failures", 0)) + 1
         row.pop("started_at", None)
+        row.pop("blocked_reason", None)
+    elif state == "blocked":
+        row["blocked_reason"] = str(error or "blocked by safety gate")[:2000]
+        row["last_error"] = None
+        row["consecutive_failures"] = 0
+        row.pop("started_at", None)
+        row.pop("blocked_reason", None)
     status["updated_at"] = timestamp
     _write(Path(base_dir) / STATUS_NAME, status)
     return row

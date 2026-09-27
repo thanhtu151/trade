@@ -16,6 +16,7 @@ import hashlib
 from datetime import date, datetime, timedelta
 
 import schedule
+from trading_calendar import is_trading_day as calendar_is_trading_day
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -50,6 +51,10 @@ def ict_today():
     return ict_now().date()
 
 
+def is_trading_day(day=None):
+    return calendar_is_trading_day(day or ict_today())
+
+
 def acquire_single_instance_lock():
     """
     Prevent two scheduler.py processes from running at once (e.g. a logon
@@ -74,30 +79,6 @@ def acquire_single_instance_lock():
         log.error("Another scheduler.py instance is already running (lock held on %s). Exiting.", INSTANCE_LOCK_FILE)
         raise SystemExit(1)
     _instance_lock_handle = lock_f  # keep a reference so the lock isn't GC'd/released early
-VN_EXCHANGE_HOLIDAYS = {
-    # HNX/HOSE published exchange closures, including swapped weekdays.
-    2026: {
-        "2026-01-01", "2026-01-02",
-        "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20",
-        "2026-04-27", "2026-04-30", "2026-05-01",
-        "2026-08-31", "2026-09-01", "2026-09-02",
-    },
-}
-
-
-def is_trading_day(day=None):
-    today = day or ict_today()
-    if today.weekday() >= 5:
-        return False
-    holidays = VN_EXCHANGE_HOLIDAYS.get(today.year)
-    if holidays is None:
-        log.error("No verified VN exchange calendar for %s; failing closed", today.year)
-        return False
-    if today.isoformat() in holidays:
-        return False
-    return True
-
-
 def load_state():
     try:
         with open(STATE_FILE, encoding="utf-8") as f:
@@ -350,7 +331,7 @@ def task_auto_trade():
     if not is_trading_day():
         log.info("Not a trading day, skipping auto trade")
         mark_ran_today("auto_trade")
-        return
+        return {"status": "blocked", "reason": "not a verified trading day"}
     if already_ran_today("auto_trade"):
         log.info("auto_trade already ran today, skipping")
         return
@@ -365,11 +346,11 @@ def task_auto_trade():
     operational, gate_reason = operational_gate(BASE_DIR)
     if not operational:
         log.warning("Auto trade BLOCKED by operational gate: %s", gate_reason)
-        return
+        return {"status": "blocked", "reason": gate_reason}
     healing = run_self_healing(BASE_DIR, repair=True)
     if not healing["trading_allowed"]:
         log.error("Auto trade BLOCKED by self-healing: %s", healing.get("critical"))
-        raise RuntimeError("Auto trade blocked by unsafe state")
+        return {"status": "blocked", "reason": "self-healing safety gate: " + "; ".join(healing.get("critical") or [])}
     if healing["status"] == "healed":
         log.warning("Self-healing repaired state before trading: %s", healing.get("actions"))
 
@@ -921,7 +902,10 @@ def run_now(task_name=None):
         except Exception as exc:
             update_task(BASE_DIR, task_name, "failed", error=exc)
             raise
-        update_task(BASE_DIR, task_name, "success")
+        if isinstance(result, dict) and result.get("status") == "blocked":
+            update_task(BASE_DIR, task_name, "blocked", error=result.get("reason"))
+        else:
+            update_task(BASE_DIR, task_name, "success")
         return result
     else:
         raise ValueError(f"Unknown task {task_name!r}; available tasks: {list(tasks.keys())}")
