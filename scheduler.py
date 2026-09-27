@@ -908,9 +908,21 @@ def run_now(task_name=None):
     if task_name in tasks:
         log.info("Running %s NOW...", task_name)
         from self_healing import snapshot_state
+        from runtime_reliability import is_transient_network_error, retry_transient
+        from system_status import update_task
 
         snapshot_state(BASE_DIR, task_name)
-        tasks[task_name]()
+        update_task(BASE_DIR, task_name, "running")
+        try:
+            result = retry_transient(
+                tasks[task_name], attempts=3, base_delay=2, max_delay=30,
+                is_transient=is_transient_network_error,
+            )
+        except Exception as exc:
+            update_task(BASE_DIR, task_name, "failed", error=exc)
+            raise
+        update_task(BASE_DIR, task_name, "success")
+        return result
     else:
         raise ValueError(f"Unknown task {task_name!r}; available tasks: {list(tasks.keys())}")
 

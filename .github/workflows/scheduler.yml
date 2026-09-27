@@ -45,6 +45,7 @@ concurrency:
 
 permissions:
   contents: write   # GITHUB_TOKEN needs write to push the `state` branch
+  issues: write
 
 jobs:
   run-task:
@@ -117,19 +118,23 @@ jobs:
       # always-run healing and persistence steps must never depend on a prior
       # package-install step having created /tmp/state.
       - name: Load state from `state` branch
+        id: load-state
         run: |
           git config user.name "trade-bot"
           git config user.email "trade-bot@users.noreply.github.com"
           if git fetch origin state --depth=1 2>/dev/null && \
              git show-ref --verify --quiet refs/remotes/origin/state; then
             git worktree add /tmp/state origin/state
+            echo "base_sha=$(git rev-parse origin/state)" >> "$GITHUB_OUTPUT"
             for f in $STATE_FILES; do
               [ -f "/tmp/state/$f" ] && cp "/tmp/state/$f" "$f" && echo "  loaded $f"
             done
           else
             echo "No state branch yet — first run will create it."
-            mkdir -p /tmp/state
-            git -C /tmp/state init -q
+            git worktree add --detach /tmp/state HEAD
+            git -C /tmp/state checkout -q --orphan state
+            git -C /tmp/state rm -q -rf .
+            echo "base_sha=" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Install dependencies
@@ -192,12 +197,19 @@ jobs:
           for f in $STATE_FILES; do
             [ -f "$f" ] && cp "$f" "/tmp/state/$f"
           done
-          cd /tmp/state
-          git add -A
-          if git diff --cached --quiet; then
-            echo "No state changes to commit."
+          cd "$GITHUB_WORKSPACE"
+          python state_push.py --worktree /tmp/state --expected-sha "${{ steps.load-state.outputs.base_sha }}" --task "${{ steps.pick.outputs.task }}"
+
+      - name: Alert on unattended run failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="[scheduler] unattended task failure"
+          BODY="Task ${{ steps.pick.outputs.task }} failed in run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID. Self-healing was invoked; inspect the failed step and state-push result."
+          ISSUE=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$ISSUE" ]; then
+            gh issue comment "$ISSUE" --body "$BODY"
           else
-            git commit -q -m "state: after ${{ steps.pick.outputs.task }} ($(date -u '+%Y-%m-%dT%H:%M:%SZ'))"
-            git push -q "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:state
-            echo "State pushed."
+            gh issue create --title "$TITLE" --body "$BODY"
           fi
