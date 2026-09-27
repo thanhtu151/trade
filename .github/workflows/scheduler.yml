@@ -136,7 +136,10 @@ jobs:
             git worktree add /tmp/state origin/state
             echo "base_sha=$(git rev-parse origin/state)" >> "$GITHUB_OUTPUT"
             for f in $STATE_FILES; do
-              [ -f "/tmp/state/$f" ] && cp "/tmp/state/$f" "$f" && echo "  loaded $f"
+              if [ -f "/tmp/state/$f" ]; then
+                cp "/tmp/state/$f" "$f"
+                echo "  loaded $f"
+              fi
             done
           else
             echo "No state branch yet — first run will create it."
