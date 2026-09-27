@@ -110,7 +110,7 @@ def _deduplicate_trades(trades):
             key = (
                 str(trade.get("symbol", "")).upper(),
                 str(trade.get("side", "")).upper(),
-                int(float(trade.get("qty", 0) or 0)),
+                round(float(trade.get("qty", 0) or 0), 9),
                 round(float(trade.get("price", 0) or 0), 4),
                 round(float(trade.get("value", 0) or 0), 2),
                 str(trade.get("reason", "")),

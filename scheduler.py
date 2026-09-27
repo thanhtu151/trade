@@ -453,7 +453,7 @@ def _close_position_direct(portfolio, ticker, price, reason):
     if not pos:
         return False
 
-    qty = int(pos.get("qty", 0))
+    qty = float(pos.get("qty", 0) or 0)
     avg_price = float(pos.get("avg_price", price))
     proceeds = qty * float(price)
     pnl = (float(price) - avg_price) * qty
@@ -527,7 +527,7 @@ def task_intraday_monitor():
                 stop_loss = float(pos.get("stop_loss", 0) or 0)
                 target = float(pos.get("target_price", 0) or 0)
                 atr = float(pos.get("atr", 0) or (entry_price * 0.02 if entry_price > 0 else 0))
-                qty = int(pos.get("qty", 0) or 0)
+                qty = float(pos.get("qty", 0) or 0)
 
                 if not _is_plausible_price(current_price, entry_price):
                     log.warning(
@@ -662,7 +662,7 @@ def task_eod_update():
                 stop_loss = float(pos.get("stop_loss", 0) or (entry_price * 0.95))
                 target = float(pos.get("target_price", 0) or (entry_price * 1.10))
                 atr = float(pos.get("atr", 0) or 0)
-                qty = int(pos.get("qty", 0))
+                qty = float(pos.get("qty", 0) or 0)
 
                 if not _is_plausible_price(current_price, entry_price):
                     log.warning(
@@ -874,7 +874,15 @@ def run_now(task_name=None):
     def run_heal():
         report = __import__("self_healing").run_self_healing(BASE_DIR, repair=True)
         if not report["trading_allowed"]:
-            raise RuntimeError("self-healing found critical state: " + "; ".join(report["critical"]))
+            critical = [str(item) for item in report.get("critical") or []]
+            non_switch_critical = [
+                item for item in critical if not item.lower().startswith("trading kill switch:")
+            ]
+            if non_switch_critical:
+                raise RuntimeError("self-healing found critical state: " + "; ".join(critical))
+            reason = "; ".join(critical) or "trading blocked by safety gate"
+            log.warning("Self-healing completed with trading blocked: %s", reason)
+            return {"status": "blocked", "reason": reason, "report": report}
         return report
 
     tasks = {
