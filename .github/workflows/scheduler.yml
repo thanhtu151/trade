@@ -58,6 +58,7 @@ jobs:
       TF_CPP_MIN_LOG_LEVEL: "3"
       CUDA_VISIBLE_DEVICES: ""
       TRADING_ENABLED: ${{ vars.TRADING_ENABLED }}
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
       DISPATCH_REASON: ${{ github.event.inputs.reason }}
       DISPATCH_CONFIRMATION: ${{ github.event.inputs.confirmation }}
       APPLY_MIGRATION: ${{ github.event.inputs.apply_migration }}
@@ -71,6 +72,7 @@ jobs:
         advisor_audit_log.json intraday_alerts.json auto_analysis_state.json
         vn_live_data_cache.json llm_router_usage.json self_healing_state.json
         circuit_breaker_state.json
+        discord_notification_state.json
         paper_portfolio.json.bak paper_trades.json.bak
         trading_disabled.json trading_switch_audit.json self_healing_audit.json
         paper_ledger_transaction.json
@@ -257,7 +259,9 @@ jobs:
               echo "Scheduler failure fingerprint unchanged; no comment added."
             else
               gh issue comment "$ISSUE" --body "$BODY"
+              python notify.py failed --task "${{ steps.pick.outputs.task }}" --error "$FAILED_STEPS" --fingerprint "$FP"
             fi
           else
             gh issue create --title "$TITLE" --body "$BODY"
+            python notify.py failed --task "${{ steps.pick.outputs.task }}" --error "$FAILED_STEPS" --fingerprint "$FP"
           fi
