@@ -197,6 +197,44 @@ def test_legacy_open_position_blocks_then_migrates_and_sells_without_inflation(m
     assert "PnL 26,830" in message
     saved = json.loads((tmp_path / "paper_portfolio.json").read_text())
     assert saved["cash"] == pytest.approx(95_632_270)
+    assert "STB" not in saved["positions"]
+    healed = run_self_healing(tmp_path)
+    assert healed["metrics"]["cash_drift"] == pytest.approx(0)
+    assert healed["critical"] == []
+
+
+def test_direct_close_and_valuation_preserve_fractional_legacy_qty(monkeypatch, tmp_path):
+    import auto_trader
+    import scheduler
+    import self_healing
+
+    state = portfolio(10_000_000)
+    state["positions"] = {"STB": {"qty": 268.3, "avg_price": 76_800.0}}
+    write_json(tmp_path / "paper_trades.json", [])
+    captured = {}
+
+    monkeypatch.setattr(scheduler, "BASE_DIR", str(tmp_path))
+    monkeypatch.setattr(self_healing, "trading_is_allowed", lambda _base: True)
+    monkeypatch.setattr(
+        auto_trader,
+        "save_portfolio_and_trades",
+        lambda saved, trades, operation=None: captured.update(portfolio=saved, trades=trades),
+    )
+
+    assert scheduler._close_position_direct(state, "STB", 76_900.0, "test") is True
+    assert "STB" not in captured["portfolio"]["positions"]
+    assert captured["portfolio"]["cash"] == pytest.approx(10_000_000 + 268.3 * 76_900)
+    assert captured["trades"][-1]["qty"] == pytest.approx(268.3)
+
+    snapshot_file = tmp_path / "portfolio_snapshots.json"
+    monkeypatch.setattr(auto_trader, "load_portfolio", lambda: {
+        "cash": 10_000_000, "initial_cash": 100_000_000,
+        "positions": {"STB": {"qty": 268.3, "avg_price": 76_800.0}},
+    })
+    monkeypatch.setattr(auto_trader, "current_price", lambda _symbol: 76_900.0)
+    monkeypatch.setattr(auto_trader, "_portfolio_snapshot_path", lambda: str(snapshot_file))
+    snapshot = auto_trader.auto_snapshot_if_needed()
+    assert snapshot["market_value"] == pytest.approx(268.3 * 76_900)
 
 
 def test_workflow_exposes_rebaseline_and_confirmed_migration():

@@ -799,7 +799,7 @@ def auto_snapshot_if_needed():
         price = current_price(symbol)
         if price is None:
             continue
-        qty = int(pos.get("qty", 0))
+        qty = float(pos.get("qty", 0) or 0)
         avg = float(pos.get("avg_price", 0))
         market_value += qty * price
         unrealized_pnl += (price - avg) * qty
@@ -2171,7 +2171,7 @@ def render_ai_fund(symbols):
         rows_positions = []
         for symbol, pos in positions.items():
             price = current_price(symbol)
-            qty = int(pos.get("qty", 0))
+            qty = float(pos.get("qty", 0) or 0)
             avg = float(pos.get("avg_price", 0))
             value = qty * price if price else 0
             pnl = (price - avg) * qty if price else 0
@@ -2245,7 +2245,7 @@ def render_portfolio():
     unrealized = 0.0
     for symbol, pos in portfolio.get("positions", {}).items():
         price = current_price(symbol)
-        qty = int(pos.get("qty", 0))
+        qty = float(pos.get("qty", 0) or 0)
         avg = float(pos.get("avg_price", 0))
         plan = pos.get("plan") or {}
         value = qty * price if price else 0

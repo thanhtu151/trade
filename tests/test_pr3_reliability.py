@@ -9,6 +9,41 @@ from zoneinfo import ZoneInfo
 import pytest
 
 
+def test_heal_kill_switch_only_is_successful_blocked_status(monkeypatch, tmp_path):
+    import scheduler
+    import self_healing
+    from system_status import load_status
+
+    reason = "trading kill switch: TRADING_ENABLED disables trading"
+    monkeypatch.setattr(scheduler, "BASE_DIR", str(tmp_path))
+    monkeypatch.setattr(scheduler, "snapshot_state", lambda *_args, **_kwargs: None, raising=False)
+    monkeypatch.setattr(self_healing, "snapshot_state", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(self_healing, "run_self_healing", lambda *_args, **_kwargs: {
+        "trading_allowed": False, "critical": [reason], "status": "blocked",
+    })
+
+    result = scheduler.run_now("heal")
+    assert result["status"] == "blocked"
+    row = load_status(tmp_path)["tasks"]["heal"]
+    assert row["state"] == "blocked"
+    assert row["blocked_reason"] == reason
+
+
+def test_heal_still_fails_for_non_kill_switch_critical(monkeypatch, tmp_path):
+    import scheduler
+    import self_healing
+
+    monkeypatch.setattr(scheduler, "BASE_DIR", str(tmp_path))
+    monkeypatch.setattr(self_healing, "snapshot_state", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(self_healing, "run_self_healing", lambda *_args, **_kwargs: {
+        "trading_allowed": False,
+        "critical": ["trading kill switch: disabled", "cash ledger drift: 1000"],
+    })
+
+    with pytest.raises(RuntimeError, match="cash ledger drift"):
+        scheduler.run_now("heal")
+
+
 def git(path, *args):
     return subprocess.run(["git", "-C", str(path), *args], check=True, capture_output=True, text=True).stdout.strip()
 
