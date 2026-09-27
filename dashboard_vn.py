@@ -1266,12 +1266,18 @@ def save_json_file(path, data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 def set_system_status(status, message, detail=None):
-    save_json_file(SYSTEM_STATUS_FILE, {
+    # Preserve scheduler task SLA history used by the unattended watchdog.
+    # Dashboard status is a presentation concern and must not erase it.
+    current = load_json_file(SYSTEM_STATUS_FILE, {})
+    if not isinstance(current, dict):
+        current = {}
+    current.update({
         "status": status,
         "message": message,
         "detail": detail or "",
-        "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        "dashboard_updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     })
+    save_json_file(SYSTEM_STATUS_FILE, current)
 
 def classify_health_error(message):
     text = str(message).lower()
