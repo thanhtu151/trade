@@ -473,6 +473,8 @@ def _close_position_direct(portfolio, ticker, price, reason):
 
     log_trade(trades, ticker, "SELL", qty, price, reason, pnl=pnl)
     save_portfolio_and_trades(portfolio, trades, operation="scheduled_close")
+    from notify import notify_trade
+    notify_trade(ticker, "SELL", qty, price, pnl=pnl)
     log.info("  Closed %s (%s): %s cp @ %.0f = %.0f VND", ticker, reason, qty, price, proceeds)
     return True
 
@@ -912,8 +914,13 @@ def run_now(task_name=None):
             raise
         if isinstance(result, dict) and result.get("status") == "blocked":
             update_task(BASE_DIR, task_name, "blocked", error=result.get("reason"))
+            from notify import notify_task_blocked
+            notify_task_blocked(task_name, result.get("reason") or "blocked by safety gate")
         else:
             update_task(BASE_DIR, task_name, "success")
+            if task_name == "eod":
+                from notify import notify_eod
+                notify_eod(BASE_DIR)
         return result
     else:
         raise ValueError(f"Unknown task {task_name!r}; available tasks: {list(tasks.keys())}")

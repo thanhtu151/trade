@@ -1295,6 +1295,8 @@ def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pc
         }
     log_trade(trades, symbol, "BUY", qty, price, reason, plan=plan)
     save_portfolio_and_trades(portfolio, trades)
+    from notify import notify_trade
+    notify_trade(symbol, "BUY", qty, price)
     return True, f"BUY {qty:,} {symbol} @ {price:,.2f}"
 
 
@@ -1338,6 +1340,8 @@ def sell_position(symbol, reason="Manual SELL", qty=None):
 
     log_trade(trades, symbol, "SELL", sell_qty, price, reason, pnl=pnl, cost_basis=cost_basis)
     save_portfolio_and_trades(portfolio, trades)
+    from notify import notify_trade
+    notify_trade(symbol, "SELL", sell_qty, price, pnl=pnl)
     if remaining <= 0:
         prune_intraday_alerts(symbol)
     return True, f"SELL {sell_qty:,.3f}".rstrip("0").rstrip(".") + f" {symbol} @ {price:,.2f} | PnL {pnl:,.0f}"
@@ -1542,6 +1546,8 @@ def execute_paper_trade(
         except Exception as exc:
             return result("failed", f"trade persistence failed; reservation retained: {exc}")
         transition(state_file, idempotency_key, "completed", f"BUY {shares} @ {price}")
+        from notify import notify_trade
+        notify_trade(ticker, "BUY", shares, price)
         log.info(
             "BUY %s: %s cp @ %,.0f Kelly=%.1f%% (%.1f%% portfolio)",
             ticker,

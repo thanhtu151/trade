@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import argparse
 import tempfile
@@ -104,6 +105,11 @@ def disable_trading(base_dir=None, reason="", actor="", run_id=""):
     }
     _atomic_json(base / DISABLE_FILE, event)
     _append_switch_audit(base, event)
+    try:
+        from notify import notify_kill_switch
+        notify_kill_switch(event["action"], event["reason"], event["actor"], event["run_id"])
+    except Exception as exc:
+        logging.getLogger(__name__).warning("Kill-switch notification failed safely: %s", type(exc).__name__)
     return event
 
 
@@ -119,6 +125,11 @@ def enable_trading(base_dir=None, confirmation="", reason="", actor="", run_id="
     }
     (base / DISABLE_FILE).unlink(missing_ok=True)
     _append_switch_audit(base, event)
+    try:
+        from notify import notify_kill_switch
+        notify_kill_switch(event["action"], event["reason"], event["actor"], event["run_id"])
+    except Exception as exc:
+        logging.getLogger(__name__).warning("Kill-switch notification failed safely: %s", type(exc).__name__)
     return event
 
 

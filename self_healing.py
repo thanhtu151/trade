@@ -9,6 +9,7 @@ than guessed at.
 from __future__ import annotations
 
 import json
+import logging
 import math
 import os
 import shutil
@@ -228,6 +229,7 @@ def run_self_healing(base_dir=None, repair=True):
         previous_checkpoint = previous_report.get("checkpoint") or {}
         previous_baseline = previous_report.get("ledger_baseline") or {}
     except Exception:
+        previous_report = {}
         previous_checkpoint = {}
         previous_baseline = {}
 
@@ -423,6 +425,15 @@ def run_self_healing(base_dir=None, repair=True):
     }
     if repair:
         _atomic_json_write(report_path, report, backup=False)
+        new_critical = sorted(set(critical) - set(previous_report.get("critical") or []))
+        if new_critical:
+            try:
+                from notify import send_once
+                digest = hashlib.sha256("\n".join(new_critical).encode("utf-8")).hexdigest()
+                level = "warning" if all(item.startswith("trading kill switch:") for item in new_critical) else "critical"
+                send_once(f"healing|{digest}", "Self-healing critical", "\n".join(new_critical), level, base_dir=base)
+            except Exception as exc:
+                logging.getLogger(__name__).warning("Self-healing notification failed safely: %s", type(exc).__name__)
     return report
 
 

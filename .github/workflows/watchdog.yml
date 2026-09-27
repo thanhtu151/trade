@@ -21,6 +21,7 @@ jobs:
     env:
       TZ: Asia/Ho_Chi_Minh
       GH_TOKEN: ${{ github.token }}
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -103,9 +104,11 @@ jobs:
               echo "Issue fingerprint unchanged; no comment added."
             else
               gh issue comment "$ISSUE" --body "$BODY"
+              python notify.py watchdog --decision "$DECISION" --fingerprint "$FP"
             fi
           else
             gh issue create --title "$TITLE" --body "$BODY"
+            python notify.py watchdog --decision "$DECISION" --fingerprint "$FP"
           fi
 
       - name: Dispatch persisted trading kill switch
@@ -121,6 +124,7 @@ jobs:
             echo "Persisted trading kill switch is already enabled; dispatch skipped."
           else
             gh workflow run scheduler.yml -f task=disable-trading -f reason="watchdog escalation from run $GITHUB_RUN_ID: $DECISION"
+            python -c 'from notify import send_embed; send_embed("Watchdog dispatched disable-trading", "Trading disable requested by watchdog. Run: " + __import__("notify").run_url(), "critical")'
           fi
 
       - name: Record watchdog action outcomes
