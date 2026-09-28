@@ -89,7 +89,24 @@ def reconcile_finished_runs(status, runs, now=None):
     for task, row in status.get("tasks", {}).items():
         if row.get("state") != "running":
             continue
-        run = by_id.get(str(row.get("run_id")))
+        run = by_id.get(str(row.get("run_id"))) if row.get("run_id") else None
+        if run is None and row.get("started_at"):
+            scheduled_titles = {
+                "prep": "scheduler-0 1 * * 1-5", "analysis": "scheduler-30 1 * * 1-5",
+                "trade": "scheduler-20 2 * * 1-5", "eod": "scheduler-0 8 * * 1-5",
+                "learning": "scheduler-0 9 * * 1-5", "rebacktest": "scheduler-0 0 * * 1",
+            }
+            expected = {f"scheduler-{task}", scheduled_titles.get(task)}
+            started = _parse(row.get("started_at"))
+            candidates = []
+            for candidate in runs or []:
+                title = candidate.get("display_title") or candidate.get("displayTitle")
+                run_started = _parse(candidate.get("run_started_at") or candidate.get("created_at") or candidate.get("createdAt"))
+                if title in expected and run_started and abs((started - run_started).total_seconds()) <= 600:
+                    candidates.append((abs((started - run_started).total_seconds()), candidate))
+            if candidates:
+                run = min(candidates, key=lambda item: item[0])[1]
+                row["run_id"] = str(run.get("id") or run.get("databaseId"))
         if not run or run.get("status") != "completed":
             continue
         conclusion = str(run.get("conclusion") or "failed")
