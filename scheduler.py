@@ -632,6 +632,25 @@ def start_intraday_monitor():
     return thread
 
 
+class IncompleteMarketData(ConnectionError):
+    """A transient provider response that cannot safely value a position."""
+
+
+def fetch_eod_market_data(fetcher, sleeper=None, random_fn=None):
+    from runtime_reliability import is_transient_network_error, retry_transient
+
+    def validated_fetch():
+        value = fetcher()
+        if value is None or len(value) < 2:
+            raise IncompleteMarketData("insufficient market data for EOD valuation")
+        return value
+
+    return retry_transient(
+        validated_fetch, attempts=3, base_delay=1.0, max_delay=4.0,
+        is_transient=is_transient_network_error, sleeper=sleeper, random_fn=random_fn,
+    )
+
+
 def task_eod_update():
     """15:00 - update trailing stops, exit stopped positions, and refresh PnL."""
     if not is_trading_day():
@@ -656,10 +675,7 @@ def task_eod_update():
 
         for ticker, pos in list(positions.items()):
             try:
-                df = get_stock_data_cached(ticker, years=0.1)
-                if df is None or len(df) < 2:
-                    failures.append(f"{ticker}: insufficient market data")
-                    continue
+                df = fetch_eod_market_data(lambda: get_stock_data_cached(ticker, years=0.1))
 
                 current_price = float(df["close"].iloc[-1])
                 entry_price = float(pos.get("avg_price", current_price))
