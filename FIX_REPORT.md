@@ -126,3 +126,118 @@ Audit date: 2026-09-28. Branch `fix/reliability-20260928`, starting HEAD `7aa8a5
 ### Kết luận promotion gate
 
 **CHƯA SẴN SÀNG MERGE.** G1 kích hoạt stop condition. Không candidate nào được tạo/promote, active `backtest_config.json` không bị sửa, state branch không bị ghi, và `TRADING_ENABLED` không thay đổi.
+
+## Promotion gate implementation
+
+Prompt tiếp theo đã quyết định đưa cả ba writer về candidate store, nên stop G1 trước đó được giải quyết. Không candidate thật nào được persist/promote trong quá trình triển khai.
+
+| G# | Kết quả | Bằng chứng | Commit |
+|---|---|---|---|
+| G1a | Đạt: một ownership module, atomic tmp+replace | `config_store.py:57,81,149,189,223,246` | `3f6ec8b` |
+| G1b | Đạt: scheduler/dashboard pro/dashboard legacy chỉ ghi candidate | `scheduler.py:924`; `backtester_pro.py:559`; `backtester.py:458`; source-ownership test | `49e5297`, `f03e330` |
+| G1c | Đạt: AST scan cấm literal active path ngoài `config_store.py` | `test_only_config_store_python_source_names_active_config` | `f5afdc3` |
+| G1d | Đạt: dashboard báo “đã lưu ứng viên, chưa áp dụng”, hiển thị added/removed/sign/params; không có promote control | `dashboard_vn.py:5718-5730`; `test_dashboard_discloses_candidate_and_has_no_promotion_control` | `505464f` |
+| G1e | Đạt: Actions trước merge đọc tracked active; state không có active. Sau merge chỉ manual promote persist active overlay | Flow bên dưới; HEAD/main active Git object cùng `f06c51cd…`; `origin/state` không có active tại audit | Report |
+| G2 | Đạt: CLI/workflow promote + rollback, exact confirmation, backup, audit actor/time/run/hash | `config_store.py:223-262`; workflow options/steps; promote/rollback tests | `3e47e29` |
+| G3 | Đạt: finite toàn cây, universe coverage, EV/status consistency, parameter ranges; invalid fail-closed | `config_store.py:81-146`; NaN/Inf/inconsistent-universe tests | `61d93ca` |
+| G4 | Đạt: zero-trade stats được chuẩn hóa tại result boundary | `backtester_pro.py:33-57,277-298`; DXG/POW rerun; tests | `49e5297`, `92f3695` |
+| G5 | Đạt: candidate chứa comparison và Discord summary; báo cáo 50 mã bên dưới | `config_store.py:149-207`; `notify.py:122-135` | `61e6b83` |
+| G6 | Đạt | SHA `f03e330`: `pytest -q --tb=short` → **141 passed, 7 skipped, 0 failed** (215.29s) | — |
+| G7 | Đạt trên copy/in-memory; không ghi state | Active SHA-256 trước/sau giống nhau; candidate valid/source scheduler | — |
+
+### Writer/reader inventory và flow G1e
+
+| Trước | Sau |
+|---|---|
+| Scheduler ghi active trong `scheduler.py` và `backtester_pro.py` | Scheduler gọi `write_candidate("scheduler", ...)` |
+| Dashboard pro ghi active trong `backtester_pro.py` | Pro writer gọi `write_candidate("dashboard_pro", ...)` |
+| Dashboard legacy ghi active trong `backtester.py` | Legacy writer gọi `write_candidate("dashboard_legacy", ...)` |
+| Readers tự mở file hoặc dùng loader riêng | `auto_trader.py:174`, `backtester.py:23`, `backtester_pro.py:36`, `dashboard_vn.py:120,769`, scheduler loaders đều đi qua `load_active()` |
+
+```text
+Local dashboard ──backtest──> local candidate file (không commit/push/state-sync tự động)
+GitHub scheduler ──rebacktest chunks/checkpoint──> candidate on runner ──state persistence──> state branch
+Trading task ──state overlay──> load_active() ──> active only
+Manual workflow_dispatch + exact confirmation
+  ├─ promote: validate candidate → backup active → atomic active replace → audit → state persistence
+  └─ rollback: backup → atomic active replace → audit → state persistence
+```
+
+Trước lần promote đầu tiên, Actions dùng tracked `backtest_config.json` từ commit main vì state branch không có file này. Sau promote thủ công, active được persist trên state branch và overlay vào runner ở bước Load state. Không có chiều đồng bộ từ máy local lên repo/state.
+
+### Root cause NaN (G4)
+
+Isolated rerun giữ nguyên 2 năm/optimize/grid cho thấy DXG chỉ có 24 OHLCV rows, POW 25 rows; cả hai sinh `0 trades`. `backtesting.py` trả NaN cho expectancy, win rate, profit factor, Sharpe/Sortino/Calmar/Kelly khi không có trade. Giá input không âm/zero/non-finite; stop condition “dữ liệu giá sai” không kích hoạt. Result boundary mới trả các metric không xác định là `0.0`, giữ `trades=0`, và thêm `status=insufficient_trades`. JSON serialize với `allow_nan=False`.
+
+### Candidate comparison G5 (isolated, không persist)
+
+Validation errors: `[]`. Positive universe: 31→37; added: BMP, DGC, DGW, GVR, HAH, HVN, KBC, MSN, MWG, NKG, PLX, REE, VJC; removed: BID, DXG, POW, PVS, SHS, TCB, VIC. EV sign/eligibility changes: 20. Candidate parameters: ATR stop {0.8:14, 1.0:12, 1.2:8, 1.5:16}; ATR target {1.5:7, 2.0:9, 2.5:14, 3.0:20}; confluence {3:24, 4:26}. Overfit note is embedded in every comparison: optimized/evaluated on the same historical sample, requiring human out-of-sample review before promotion.
+
+| Mã | EV active | EV candidate | Trades active→candidate | Candidate status |
+|---|---:|---:|---:|---|
+| ACB | 0.219 | 0.727 | 14→22 | ok |
+| BID | 1.616 | 0.000 | 19→2 | insufficient_trades |
+| BMP | -0.096 | 1.286 | 20→25 | ok |
+| CMG | -0.181 | -0.318 | 11→27 | ok |
+| CTG | 1.017 | 2.686 | 18→9 | ok |
+| DCM | 0.235 | 0.202 | 17→16 | ok |
+| DGC | -1.080 | 0.328 | 10→6 | ok |
+| DGW | -1.189 | 0.724 | 13→17 | ok |
+| DPM | 0.343 | 4.993 | 17→22 | ok |
+| DXG | 0.196 | 0.000 | 13→0 | insufficient_trades |
+| FPT | -0.964 | -0.319 | 14→6 | ok |
+| FRT | 0.566 | 0.699 | 16→25 | ok |
+| GAS | 1.594 | 1.566 | 21→6 | ok |
+| GMD | 0.901 | 4.714 | 14→6 | ok |
+| GVR | -1.026 | 1.698 | 12→23 | ok |
+| HAH | -1.322 | 0.270 | 15→7 | ok |
+| HCM | 0.411 | 1.376 | 16→22 | ok |
+| HDB | 0.707 | 1.968 | 18→25 | ok |
+| HPG | -0.119 | -0.073 | 14→32 | ok |
+| HSG | -1.372 | -0.301 | 9→26 | ok |
+| HVN | -0.079 | 2.000 | 20→6 | ok |
+| KBC | -0.977 | 2.466 | 14→9 | ok |
+| KDH | 1.141 | 1.561 | 13→9 | ok |
+| MBB | 0.902 | 0.127 | 20→26 | ok |
+| MSN | -0.809 | 0.109 | 12→9 | ok |
+| MWG | -0.297 | 3.681 | 12→5 | ok |
+| NKG | -0.792 | 3.259 | 10→5 | ok |
+| NVL | 1.900 | 4.162 | 7→5 | ok |
+| PC1 | 2.754 | 2.207 | 15→14 | ok |
+| PLX | -0.448 | 2.493 | 19→34 | ok |
+| POW | 1.798 | 0.000 | 14→0 | insufficient_trades |
+| PVD | 0.746 | 1.425 | 13→32 | ok |
+| PVS | 0.887 | -0.104 | 13→24 | ok |
+| REE | -0.800 | 10.108 | 15→9 | ok |
+| SAB | -0.264 | -1.215 | 17→21 | ok |
+| SHS | 0.324 | -8.325 | 14→8 | ok |
+| SSI | -0.012 | -0.633 | 14→14 | ok |
+| STB | 0.685 | 4.224 | 17→7 | ok |
+| TCB | 0.330 | 0.000 | 12→4 | insufficient_trades |
+| VCB | 0.376 | 0.490 | 23→43 | ok |
+| VCI | 0.997 | 1.691 | 10→7 | ok |
+| VHM | 1.130 | 4.566 | 21→19 | ok |
+| VIB | 0.800 | 2.867 | 15→8 | ok |
+| VIC | 3.314 | 0.000 | 21→2 | insufficient_trades |
+| VJC | -0.178 | 2.801 | 23→12 | ok |
+| VND | 2.158 | 7.871 | 14→6 | ok |
+| VNM | 0.614 | 0.603 | 16→10 | ok |
+| VPB | 0.738 | 3.791 | 19→12 | ok |
+| VRE | 2.516 | 3.883 | 16→9 | ok |
+| VSC | 1.266 | 9.023 | 10→7 | ok |
+
+### G7 dry-run
+
+```text
+mode: dry-run copy; no state write
+state: running(run 36380193700) → cancelled; plan dispatch=rebacktest
+rebacktest: 5/5 mock-equivalent chunk completed
+active sha256 before: 5377994531340a050d3e0fea099e2f5bf2156e1a4b86f1d487b182cd2eaf48d6
+active sha256 after:  5377994531340a050d3e0fea099e2f5bf2156e1a4b86f1d487b182cd2eaf48d6
+candidate: source=scheduler, status=valid, tickers=[VCB,MBB,ACB,TCB,STB]
+checkpoint exists: false
+```
+
+### Kết luận promotion gate
+
+**SẴN SÀNG MERGE về mặt reliability gate.** Rebacktest sau merge chỉ tạo candidate; config thay đổi lớn nêu trên vẫn không ảnh hưởng trading cho tới khi operator review và dispatch promote với exact confirmation. Không candidate/config nào đã được promote trong quá trình này.
