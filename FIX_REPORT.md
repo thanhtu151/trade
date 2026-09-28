@@ -97,3 +97,32 @@ Nguồn cũ: tracked `backtest_config.json` (`last_updated=2026-06-23`). Nguồn
 ### Kết luận pre-merge
 
 **CHƯA SẴN SÀNG MERGE.** R7 kích hoạt STOP CONDITION vì config sinh ra làm thay đổi lớn trading universe/parameters và chứa giá trị `NaN`. Theo yêu cầu review, kết quả chỉ được báo cáo, không áp dụng và không đề xuất áp dụng. Full suite trên ba commit R5/R8/test mới cũng chưa chạy vì review dừng tại stop condition.
+
+## Promotion gate
+
+Audit date: 2026-09-28. Branch `fix/reliability-20260928`, starting HEAD `7aa8a59e101778a7f5b3ad5616afca40e0e91012`, PR #14.
+
+| G# | Kết quả | Bằng chứng | Commit |
+|---|---|---|---|
+| G1 | **STOP CONDITION: fail** — có writer khác scheduler rebacktest ghi trực tiếp active config | `dashboard_vn.py:5703-5721` cho phép người dùng chạy cả pro và legacy portfolio backtest; `backtester_pro.py:485-546` ghi `backtest_config.json`; `backtester.py:412-477` ghi cùng active file. Trading readers: `auto_trader.py:31,172-205,899-903,1653-1658`; `scheduler.py:139-159,246-265,764-785`; `dashboard_vn.py:120,768-786`; `backtester.py:20-30`; `backtester_pro.py:33-43`. | Report-only commit; không sửa code |
+| G2 | Không chạy do G1 stop | Promotion/rollback chưa được triển khai. | — |
+| G3 | Không chạy do G1 stop | Candidate validation chưa được triển khai. | — |
+| G4 | Không chạy do G1 stop | Root cause NaN chưa được điều tra trong lượt này. | — |
+| G5 | Không chạy do G1 stop | Candidate comparison/Discord chưa được triển khai. | — |
+| G6 | Không chạy do G1 stop | Không tuyên bố full-suite result cho HEAD này. | — |
+| G7 | Không chạy do G1 stop | Không chạy rebacktest dry-run sau gate vì gate chưa tồn tại. | — |
+
+### G1 writer inventory
+
+| Luồng | Entry point | Writer active |
+|---|---|---|
+| Scheduled/watchdog rebacktest pro | `scheduler.py:837-930` | `backtester_pro.run_portfolio_backtest_pro()` và final aggregation trong scheduler đều ghi active |
+| Scheduled fallback legacy | `scheduler.py:850-856` | `backtester.run_portfolio_backtest()` gọi `update_backtest_config()` |
+| Dashboard portfolio backtest pro | Nút `btn_portfolio_bt`, `dashboard_vn.py:5703-5715` | `backtester_pro.py:519-544` |
+| Dashboard portfolio backtest legacy | Nút `btn_portfolio_bt`, `dashboard_vn.py:5710-5721` | `backtester.py:412-477` |
+
+Đây không chỉ là helper có thể gọi lý thuyết: nó là UI action trực tiếp. Vì vậy sửa riêng scheduler rebacktest sẽ không thỏa invariant “không có đường code tự ghi candidate sang active”. Theo STOP CONDITION, audit dừng trước khi sửa.
+
+### Kết luận promotion gate
+
+**CHƯA SẴN SÀNG MERGE.** G1 kích hoạt stop condition. Không candidate nào được tạo/promote, active `backtest_config.json` không bị sửa, state branch không bị ghi, và `TRADING_ENABLED` không thay đổi.
