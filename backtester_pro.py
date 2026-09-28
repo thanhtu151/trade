@@ -543,8 +543,9 @@ def run_portfolio_backtest_pro(tickers, years=2, optimize=False, source="dashboa
     from config_store import load_active
     config = dict(load_active(BASE_DIR))
 
-    config["positive_ev_tickers"] = positive_ev
     config["backtest_universe"] = [str(ticker).upper() for ticker in tickers]
+    config["positive_ev_tickers"] = positive_ev
+    config["negative_ev_tickers"] = sorted(set(config["backtest_universe"]) - set(positive_ev))
     config["ev_data"] = {ticker: finite_metric_record(result) if "error" not in result else {
         "ev": 0.0, "win_rate": 0.0, "trades": 0, "sharpe": 0.0, "profit_factor": 0.0, "status": "error"
     } for ticker, result in results.items()}

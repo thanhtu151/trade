@@ -61,6 +61,20 @@ def test_validation_rejects_nan_and_promotion_is_fail_closed(tmp_path):
         promote(PROMOTE_CONFIRMATION, actor="tester", base_dir=tmp_path)
 
 
+def test_validation_rejects_nonfinite_numbers_anywhere_and_inconsistent_universe():
+    from config_store import validate
+
+    payload = valid_config()
+    payload["optimal_config"] = {"atr_stop_mult": float("inf"), "atr_target_mult": 2.0,
+                                 "max_hold_days": 15, "min_confluence": 4}
+    payload["positive_ev_tickers"] = ["BBB"]
+    payload["negative_ev_tickers"] = []
+    errors = validate(payload)
+    assert any("must be finite" in error and "optimal_config" in error for error in errors)
+    assert any("positive_ev_tickers inconsistent" in error for error in errors)
+    assert any("negative_ev_tickers must cover" in error for error in errors)
+
+
 def test_promote_requires_confirmation_backs_up_and_audits_then_rollback(tmp_path):
     from config_store import (PROMOTE_CONFIRMATION, ROLLBACK_CONFIRMATION, promote, rollback,
                               write_candidate)

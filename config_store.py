@@ -82,6 +82,16 @@ def validate(config):
     errors = []
     if not isinstance(config, dict):
         return ["config root must be an object"]
+    def check_finite(value, path="config"):
+        if isinstance(value, dict):
+            for key, item in value.items():
+                check_finite(item, f"{path}.{key}")
+        elif isinstance(value, list):
+            for index, item in enumerate(value):
+                check_finite(item, f"{path}[{index}]")
+        elif isinstance(value, float) and not math.isfinite(value):
+            errors.append(f"{path} must be finite")
+    check_finite(config)
     universe = config.get("backtest_universe")
     ev_data = config.get("ev_data")
     positive = config.get("positive_ev_tickers")
@@ -99,6 +109,9 @@ def validate(config):
     if not isinstance(positive, list) or any(item not in universe for item in positive):
         errors.append("positive_ev_tickers must be a subset of backtest_universe")
         positive = []
+    negative = config.get("negative_ev_tickers")
+    if not isinstance(negative, list) or set(negative) != set(universe) - set(positive):
+        errors.append("negative_ev_tickers must cover the non-positive universe exactly")
     for ticker, row in ev_data.items():
         if not isinstance(row, dict):
             errors.append(f"ev_data.{ticker} must be an object")
@@ -113,6 +126,10 @@ def validate(config):
         trades = row.get("trades", 0)
         if isinstance(trades, (int, float)) and trades < 0:
             errors.append(f"ev_data.{ticker}.trades must be non-negative")
+        should_be_positive = (status == "ok" and isinstance(row.get("ev"), (int, float)) and
+                              _finite(row.get("ev")) and row.get("ev") > 0 and trades >= 5)
+        if (ticker in positive) != should_be_positive:
+            errors.append(f"positive_ev_tickers inconsistent with ev_data.{ticker}")
     params = config.get("optimal_params_per_ticker", {})
     if not isinstance(params, dict):
         errors.append("optimal_params_per_ticker must be an object")
