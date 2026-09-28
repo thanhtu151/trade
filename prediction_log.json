@@ -3447,12 +3447,13 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.5 llm=GIỮ",
     "entry_price": 10.45,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 10200.0,
+    "actual_direction": 1,
+    "correct": true,
+    "pnl_pct": 97507.656,
     "logged_at": "2026-09-23T13:33:22.451302",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-28T18:37:50.196470"
   },
   "HCM_2026-09-23": {
     "id": "HCM_2026-09-23",
@@ -3464,12 +3465,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "entry_price": 25.4,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 23900.0,
+    "actual_direction": 1,
+    "correct": true,
+    "pnl_pct": 93994.488,
     "logged_at": "2026-09-23T13:33:35.810493",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-28T18:37:55.546727"
   },
   "VRE_2026-09-23": {
     "id": "VRE_2026-09-23",
@@ -3481,12 +3483,13 @@
     "source": "two_stage",
     "notes": "stage1_score=3.0 llm=skip",
     "entry_price": 24.95,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 24400.0,
+    "actual_direction": 1,
+    "correct": false,
+    "pnl_pct": 97695.591,
     "logged_at": "2026-09-23T13:33:47.612205",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-28T18:38:01.210469"
   },
   "PC1_2026-09-23": {
     "id": "PC1_2026-09-23",
@@ -3498,12 +3501,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "entry_price": 21.15,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 20250.0,
+    "actual_direction": 1,
+    "correct": false,
+    "pnl_pct": 95644.681,
     "logged_at": "2026-09-23T13:34:13.883892",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-28T18:38:06.139426"
   },
   "VRE_2026-09-24": {
     "id": "VRE_2026-09-24",
@@ -3515,12 +3519,13 @@
     "source": "two_stage",
     "notes": "stage1_score=3.5 llm=skip",
     "entry_price": 24.25,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 24400.0,
+    "actual_direction": 1,
+    "correct": false,
+    "pnl_pct": 100518.557,
     "logged_at": "2026-09-24T13:39:23.893195",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-28T18:38:06.309205"
   },
   "DXG_2026-09-24": {
     "id": "DXG_2026-09-24",
@@ -3532,12 +3537,13 @@
     "source": "two_stage",
     "notes": "stage1_score=3.5 llm=skip",
     "entry_price": 10.25,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 10200.0,
+    "actual_direction": 1,
+    "correct": false,
+    "pnl_pct": 99412.195,
     "logged_at": "2026-09-24T13:39:34.848164",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-28T18:38:06.493026"
   },
   "VHM_2026-09-24": {
     "id": "VHM_2026-09-24",
@@ -3549,12 +3555,13 @@
     "source": "two_stage",
     "notes": "stage1_score=4.0 llm=skip",
     "entry_price": 65.7,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 69500.0,
+    "actual_direction": 1,
+    "correct": false,
+    "pnl_pct": 105683.866,
     "logged_at": "2026-09-24T13:40:16.296043",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-28T18:38:11.458796"
   },
   "PC1_2026-09-24": {
     "id": "PC1_2026-09-24",
@@ -3566,12 +3573,13 @@
     "source": "two_stage",
     "notes": "stage1_score=2.0 llm=skip",
     "entry_price": 21.1,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 20250.0,
+    "actual_direction": 1,
+    "correct": false,
+    "pnl_pct": 95871.564,
     "logged_at": "2026-09-24T13:40:27.746839",
-    "resolved": false
+    "resolved": true,
+    "resolved_at": "2026-09-28T18:38:11.780578"
   },
   "VIC_2026-09-28": {
     "id": "VIC_2026-09-28",

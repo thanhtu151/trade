@@ -4044,8 +4044,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 97764.77,
+    "actual_price_3d": 27500.0
   },
   {
     "ticker": "GMD",
@@ -4132,8 +4134,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 97042.86,
+    "actual_price_3d": 10200.0
   },
   {
     "ticker": "DCM",
@@ -4175,8 +4179,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 103429.41,
+    "actual_price_3d": 35200.0
   },
   {
     "ticker": "TCB",
@@ -4218,8 +4224,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 99144.71,
+    "actual_price_3d": 32850.0
   },
   {
     "ticker": "FRT",
@@ -4261,8 +4269,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 101202.46,
+    "actual_price_3d": 140000.0
   },
   {
     "ticker": "VPB",
@@ -4304,8 +4314,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 82158.06,
+    "actual_price_3d": 22950.0
   },
   {
     "ticker": "VIC",
@@ -4347,8 +4359,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 100420.16,
+    "actual_price_3d": 231900.0
   },
   {
     "ticker": "DCM",
@@ -4390,8 +4404,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 103429.41,
+    "actual_price_3d": 35200.0
   },
   {
     "ticker": "VIB",
