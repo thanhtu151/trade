@@ -142,7 +142,7 @@ Prompt tiếp theo đã quyết định đưa cả ba writer về candidate stor
 | G3 | Đạt: finite toàn cây, universe coverage, EV/status consistency, parameter ranges; invalid fail-closed | `config_store.py:81-146`; NaN/Inf/inconsistent-universe tests | `61d93ca` |
 | G4 | Đạt: zero-trade stats được chuẩn hóa tại result boundary | `backtester_pro.py:33-57,277-298`; DXG/POW rerun; tests | `49e5297`, `92f3695` |
 | G5 | Đạt: candidate chứa comparison và Discord summary; báo cáo 50 mã bên dưới | `config_store.py:149-207`; `notify.py:122-135` | `61e6b83` |
-| G6 | Đạt | SHA `f03e330`: `pytest -q --tb=short` → **141 passed, 7 skipped, 0 failed** (215.29s) | — |
+| G6 | Đạt | Code HEAD `f03e330`: `pytest -q --tb=short` → **141 passed, 7 skipped, 0 failed** (215.29s). Report-only HEAD `c228bc7`: cùng lệnh → **141 passed, 7 skipped, 0 failed** (211.16s). | — |
 | G7 | Đạt trên copy/in-memory; không ghi state | Active SHA-256 trước/sau giống nhau; candidate valid/source scheduler | — |
 
 ### Writer/reader inventory và flow G1e
