@@ -25,6 +25,6 @@ Audit baseline: `origin/main` at `f1236dc1461ab2164648864cf592c372b1b95b38`.
 | B6 | `watchdog.py` | Invalid tabular CLI output test | Non-JSON and wrong-schema API responses fail with explicit errors | Rejected as an existing repo defect; hardened new API boundary anyway. |
 | B8 | `scheduler.py`, `scheduler.yml` | Chunk/checkpoint/resume and persistence tests | Five tickers per invocation; aggregate config and checkpoint are persisted | Completion takes multiple watchdog ticks by design. |
 
-Full suite: `123 passed, 7 skipped` using an E:-hosted pytest temp directory. Targeted reliability suite: `63 passed` before the final two persistence assertions were added.
+Full suite: `125 passed, 7 skipped` using an E:-hosted pytest temp directory. Targeted reliability suite: `63 passed` before the final two persistence assertions were added.
 
 Manual action required: merge the PR after review. Do not enable `TRADING_ENABLED` until operational review is complete. No ledger, trade, snapshot, repository variable, or secret was modified by this change.
