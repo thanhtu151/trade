@@ -834,7 +834,7 @@ def task_daily_learning():
 
 
 def task_weekly_rebacktest(force=False):
-    """Monday 07:00 - rebacktest training watchlist and update backtest_config.json."""
+    """Monday 07:00 - rebacktest the watchlist and stage a promotion candidate."""
     today = ict_today()
     if today.weekday() != 0 and not force:
         return

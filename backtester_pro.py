@@ -504,7 +504,7 @@ def optimize_strategy(ticker, years=2):
 
 def run_portfolio_backtest_pro(tickers, years=2, optimize=False, source="dashboard_pro", write_output=True):
     """
-    Backtest a portfolio and update backtest_config.json.
+    Backtest a portfolio and optionally write a promotion candidate.
     """
     results = {}
     optimal_params = {}
