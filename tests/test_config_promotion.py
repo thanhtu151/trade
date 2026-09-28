@@ -112,6 +112,21 @@ def test_nonfinite_backtest_metrics_become_explicit_insufficient_status():
     assert all(not isinstance(value, float) or math.isfinite(value) for value in row.values())
 
 
+def test_zero_trade_library_stats_are_sanitized_at_result_boundary():
+    from backtester_pro import _build_result_from_stats
+
+    stats = {"Return [%]": 0.0, "Buy & Hold Return [%]": -4.0, "Win Rate [%]": float("nan"),
+             "Profit Factor": float("nan"), "Sharpe Ratio": float("nan"),
+             "Sortino Ratio": float("nan"), "Calmar Ratio": float("nan"),
+             "Max. Drawdown [%]": 0.0, "# Trades": 0, "Expectancy [%]": float("nan"),
+             "Kelly Criterion": float("nan")}
+    result = _build_result_from_stats("DXG", "test", 2, 0.0015, stats)
+    assert result["status"] == "insufficient_trades"
+    assert result["trades"] == 0
+    assert result["expectancy_pct"] == result["win_rate"] == result["sharpe"] == 0.0
+    assert all(not isinstance(value, float) or math.isfinite(value) for value in result.values())
+
+
 def test_candidate_comparison_includes_universe_sign_params_and_trade_counts():
     from config_store import compare_configs
 
