@@ -26,6 +26,46 @@ os.makedirs(VNSTOCK_CACHE_DIR, exist_ok=True)
 
 VNSTOCK_CALL_TIMEOUT_SECONDS = 25
 VNSTOCK_WORKER = os.path.join(BASE_DIR, "vnstock_fetch_worker.py")
+MIN_HISTORY_COVERAGE = 0.90
+
+
+class InsufficientDataError(RuntimeError):
+    """A provider responded, but not with enough history for the request."""
+
+    status = "insufficient_data"
+
+    def __init__(self, ticker, detail, quality=None):
+        self.ticker = str(ticker).upper()
+        self.quality = quality or {}
+        super().__init__(f"{self.status}: {self.ticker}: {detail}")
+
+
+def assess_history_quality(df, start, end, min_coverage=MIN_HISTORY_COVERAGE):
+    """Check requested daily history against weekday sessions with holiday tolerance."""
+    expected = pd.bdate_range(pd.Timestamp(start).normalize(), pd.Timestamp(end).normalize())
+    expected_rows = len(expected)
+    if df is None or df.empty or "time" not in df:
+        return {"status": "insufficient_data", "rows": 0, "expected_business_days": expected_rows,
+                "coverage": 0.0, "reason": "empty response"}
+    times = pd.to_datetime(df["time"], errors="coerce").dropna().dt.normalize().drop_duplicates().sort_values()
+    rows = len(times)
+    coverage = min(1.0, rows / expected_rows) if expected_rows else 1.0
+    first = times.iloc[0].date().isoformat() if rows else None
+    last = times.iloc[-1].date().isoformat() if rows else None
+    first_expected = expected[0].date().isoformat() if expected_rows else str(start)
+    # 90% tolerates exchange holidays and brief suspensions, while rejecting provider caps/truncation.
+    start_limit_index = min(max(int(expected_rows * (1 - min_coverage)), 0), max(expected_rows - 1, 0))
+    latest_acceptable_start = expected[start_limit_index] if expected_rows else pd.Timestamp(start)
+    starts_on_time = bool(rows and times.iloc[0] <= latest_acceptable_start)
+    ok = coverage >= min_coverage and starts_on_time
+    reason = None if ok else (
+        f"coverage {coverage:.1%} ({rows}/{expected_rows} business days), "
+        f"first={first}, required_start<={latest_acceptable_start.date().isoformat()}"
+    )
+    return {"status": "ok" if ok else "insufficient_data", "rows": rows,
+            "expected_business_days": expected_rows, "coverage": round(coverage, 6),
+            "first": first, "last": last, "requested_start": str(start), "requested_end": str(end),
+            "first_expected": first_expected, "reason": reason}
 
 
 def _call_with_timeout(fn, *args, timeout=VNSTOCK_CALL_TIMEOUT_SECONDS, **kwargs):
@@ -185,6 +225,11 @@ def fetch_with_fallback(ticker: str, start: str, end: str, interval: str = "1D")
                 raise ValueError(f"empty response from {source}")
             df = _normalize_vn_equity_frame(df)
             df["time"] = pd.to_datetime(df["time"])
+            quality = assess_history_quality(df, start, end)
+            if quality["status"] != "ok":
+                raise InsufficientDataError(ticker, f"{source}: {quality['reason']}", quality)
+            df.attrs["data_quality"] = quality
+            df.attrs["source"] = source
             source_manager.report_success(source)
             market_data_circuit.success(circuit_key)
             log.info("  %s: fetched %d rows via %s", ticker, len(df), source)
@@ -214,17 +259,29 @@ def get_stock_data_cached(ticker, years=1, force_refresh=False):
     """
     ticker = str(ticker).upper()
     cache_path = _vnstock_cache_path(ticker, years)
+    end = datetime.now().strftime("%Y-%m-%d")
+    start = (datetime.now() - timedelta(days=int(float(years) * 365))).strftime("%Y-%m-%d")
 
     if not force_refresh and os.path.exists(cache_path):
         try:
             with open(cache_path, encoding="utf-8") as f:
                 cached = json.load(f)
-            cached_at = datetime.fromisoformat(cached["cached_at"])
+            required_metadata = {"source", "requested_start", "requested_end", "row_count", "fetched_at"}
+            if not required_metadata.issubset(cached):
+                raise ValueError("legacy cache lacks data-quality metadata")
+            if cached["requested_start"] != start or cached["requested_end"] != end:
+                raise ValueError("cache requested range does not match")
+            cached_at = datetime.fromisoformat(cached["fetched_at"])
             age_hours = (datetime.now() - cached_at).total_seconds() / 3600
             if age_hours < _ttl_hours_for_vnstock():
                 df = pd.DataFrame(cached["data"])
                 df = _normalize_vn_equity_frame(df)
                 df["time"] = pd.to_datetime(df["time"])
+                quality = assess_history_quality(df, start, end)
+                if quality["status"] != "ok" or int(cached["row_count"]) != len(df):
+                    raise ValueError(quality.get("reason") or "cache row count mismatch")
+                df.attrs["data_quality"] = quality
+                df.attrs["source"] = cached["source"]
                 log.info("  %s: using cached data (%.1fh old, %s rows)", ticker, age_hours, len(df))
                 return df.sort_values("time").reset_index(drop=True)
         except Exception as exc:
@@ -232,16 +289,22 @@ def get_stock_data_cached(ticker, years=1, force_refresh=False):
 
     log.info("  %s: fetching from vnstock API (with source fallback)...", ticker)
     try:
-        end = datetime.now().strftime("%Y-%m-%d")
-        start = (datetime.now() - timedelta(days=int(float(years) * 365))).strftime("%Y-%m-%d")
-        df, _source = fetch_with_fallback(ticker, start, end)
+        df, source = fetch_with_fallback(ticker, start, end)
+        attrs = dict(df.attrs)
         df = df.sort_values("time").reset_index(drop=True)
+        df.attrs.update(attrs)
 
         cache_data = {
             "ticker": ticker,
             "years": years,
             "cached_at": datetime.now().isoformat(),
             "rows": len(df),
+            "source": source,
+            "requested_start": start,
+            "requested_end": end,
+            "row_count": len(df),
+            "fetched_at": datetime.now().isoformat(),
+            "data_quality": df.attrs.get("data_quality", {}),
             "data": _serialize_frame_records(df),
         }
         with open(cache_path, "w", encoding="utf-8") as f:
@@ -254,9 +317,17 @@ def get_stock_data_cached(ticker, years=1, force_refresh=False):
             log.warning("  %s: using stale cache as last resort", ticker)
             with open(cache_path, encoding="utf-8") as f:
                 cached = json.load(f)
+            required_metadata = {"source", "requested_start", "requested_end", "row_count", "fetched_at"}
+            if not required_metadata.issubset(cached):
+                raise InsufficientDataError(ticker, "stale cache lacks data-quality metadata") from exc
             df = pd.DataFrame(cached["data"])
             df = _normalize_vn_equity_frame(df)
             df["time"] = pd.to_datetime(df["time"])
+            quality = assess_history_quality(df, start, end)
+            if quality["status"] != "ok" or int(cached["row_count"]) != len(df):
+                raise InsufficientDataError(ticker, quality.get("reason") or "stale cache row mismatch", quality) from exc
+            df.attrs["data_quality"] = quality
+            df.attrs["source"] = cached["source"]
             return df.sort_values("time").reset_index(drop=True)
         raise
 
