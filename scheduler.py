@@ -850,13 +850,14 @@ def task_weekly_rebacktest(force=False):
             from backtester_pro import run_portfolio_backtest_pro
 
             runner = run_portfolio_backtest_pro
-            runner_kwargs = {"years": 2, "optimize": True}
+            runner_kwargs = {"years": 2, "optimize": True, "source": "scheduler", "write_output": False}
         except Exception as exc:
             log.warning("backtester_pro unavailable, falling back to legacy backtester: %s", exc)
             from backtester import run_portfolio_backtest
 
             runner = run_portfolio_backtest
-            runner_kwargs = {"years": 2, "atr_stop": 1.0, "atr_target": 2.0}
+            runner_kwargs = {"years": 2, "atr_stop": 1.0, "atr_target": 2.0,
+                             "source": "scheduler", "write_output": False}
 
         watchlist_path = os.path.join(BASE_DIR, "training_watchlist.json")
         with open(watchlist_path, encoding="utf-8") as f:
@@ -882,13 +883,12 @@ def task_weekly_rebacktest(force=False):
         if not isinstance(results, dict) or not results:
             raise RuntimeError("rebacktest produced no result set; preserving previous configuration")
         accumulated.update(results)
-        config_path = os.path.join(BASE_DIR, "backtest_config.json")
-        try:
-            with open(config_path, encoding="utf-8") as handle:
-                chunk_config = json.load(handle)
-            optimal_params.update(chunk_config.get("optimal_params_per_ticker") or {})
-        except (FileNotFoundError, OSError, ValueError, TypeError):
-            pass
+        for ticker, result in results.items():
+            params = result.get("optimal_params") if isinstance(result, dict) else None
+            if params:
+                optimal_params[ticker] = params
+            elif "error" not in result:
+                optimal_params[ticker] = {"atr_stop": 1.0, "atr_target": 2.0, "confluence_min": 4}
         completed.extend(ticker for ticker in chunk if ticker not in completed)
         if len(completed) < len(watchlist):
             payload = {"date": today.isoformat(), "watchlist_hash": fingerprint,
@@ -906,26 +906,24 @@ def task_weekly_rebacktest(force=False):
         positive_ev = [ticker for ticker, result in accumulated.items()
                        if result.get("expectancy_pct", -999) > 0 and result.get("trades", 0) >= 5]
         positive_ev.sort(key=lambda ticker: accumulated[ticker].get("expectancy_pct", 0), reverse=True)
-        try:
-            with open(config_path, encoding="utf-8") as handle:
-                final_config = json.load(handle)
-        except (FileNotFoundError, OSError, ValueError, TypeError):
-            final_config = {}
+        from backtester_pro import finite_metric_record
+        from config_store import load_active
+        final_config = dict(load_active(BASE_DIR))
         final_config.update({
+            "backtest_universe": [str(ticker).upper() for ticker in watchlist],
             "positive_ev_tickers": positive_ev,
-            "ev_data": {ticker: {"ev": result.get("expectancy_pct", 0), "win_rate": result.get("win_rate", 0),
-                         "trades": result.get("trades", 0), "sharpe": result.get("sharpe", 0),
-                         "profit_factor": result.get("profit_factor", 0)}
-                        for ticker, result in accumulated.items() if "error" not in result},
+            "negative_ev_tickers": sorted(set(watchlist) - set(positive_ev)),
+            "ev_data": {ticker: finite_metric_record(result) if "error" not in result else {
+                "ev": 0.0, "win_rate": 0.0, "trades": 0, "sharpe": 0.0,
+                "profit_factor": 0.0, "status": "error",
+            } for ticker, result in accumulated.items()},
             "optimal_params_per_ticker": optimal_params,
             "last_updated": today.isoformat(), "backtester": "backtesting.py",
         })
-        temporary = config_path + ".tmp"
-        with open(temporary, "w", encoding="utf-8") as handle:
-            json.dump(final_config, handle, ensure_ascii=False, indent=2)
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(temporary, config_path)
+        from config_store import write_candidate
+        candidate = write_candidate("scheduler", final_config, base_dir=BASE_DIR)
+        if candidate["status"] != "valid":
+            raise RuntimeError("rebacktest candidate is invalid: " + "; ".join(candidate["validation_errors"]))
         log.info("Weekly rebacktest DONE")
     except Exception as exc:
         log.error("Weekly rebacktest failed: %s", exc)

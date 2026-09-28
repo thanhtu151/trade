@@ -31,16 +31,33 @@ except Exception as exc:  # pragma: no cover - exercised only when dependency is
 
 
 def load_backtest_config_file():
-    """Load backtest_config.json with a safe default fallback."""
-    config_path = os.path.join(BASE_DIR, "backtest_config.json")
-    try:
-        with open(config_path, encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return {
+    """Load the active config through its single ownership boundary."""
+    from config_store import load_active
+    return load_active(BASE_DIR) or {
             "positive_ev_tickers": ["MBB", "ACB", "VCB", "TCB"],
             "optimal_config": {"atr_stop_mult": 1.0, "atr_target_mult": 2.0, "max_hold_days": 15},
-        }
+    }
+
+
+def _finite_float(value, default=0.0):
+    try:
+        number = float(value)
+        return number if np.isfinite(number) else float(default)
+    except (TypeError, ValueError):
+        return float(default)
+
+
+def finite_metric_record(result):
+    trades = int(_finite_float(result.get("trades", 0), 0))
+    insufficient = trades < 5
+    return {
+        "ev": 0.0 if insufficient else _finite_float(result.get("expectancy_pct")),
+        "win_rate": 0.0 if insufficient else _finite_float(result.get("win_rate")),
+        "trades": trades,
+        "sharpe": 0.0 if insufficient else _finite_float(result.get("sharpe")),
+        "profit_factor": 0.0 if insufficient else _finite_float(result.get("profit_factor")),
+        "status": "insufficient_trades" if insufficient else "ok",
+    }
 
 
 def _to_numeric_frame(df):
@@ -255,24 +272,27 @@ def _stats_value(stats, key, default=0.0):
 
 
 def _build_result_from_stats(ticker, strategy_name, years, commission, stats):
-    return {
+    trades = int(_finite_float(_stats_value(stats, "# Trades", 0), 0))
+    result = {
         "ticker": ticker,
         "strategy": strategy_name,
         "years": years,
         "commission": commission,
-        "return_pct": round(float(_stats_value(stats, "Return [%]")), 2),
-        "buy_hold_pct": round(float(_stats_value(stats, "Buy & Hold Return [%]")), 2),
-        "win_rate": round(float(_stats_value(stats, "Win Rate [%]")) / 100, 4),
-        "profit_factor": round(float(_stats_value(stats, "Profit Factor")), 3),
-        "sharpe": round(float(_stats_value(stats, "Sharpe Ratio")), 3),
-        "sortino": round(float(_stats_value(stats, "Sortino Ratio")), 3),
-        "calmar": round(float(_stats_value(stats, "Calmar Ratio")), 3),
-        "max_drawdown_pct": round(float(_stats_value(stats, "Max. Drawdown [%]")), 2),
-        "trades": int(_stats_value(stats, "# Trades", 0)),
-        "expectancy_pct": round(float(_stats_value(stats, "Expectancy [%]")), 3),
-        "kelly": round(float(_stats_value(stats, "Kelly Criterion")), 4),
+        "return_pct": round(_finite_float(_stats_value(stats, "Return [%]")), 2),
+        "buy_hold_pct": round(_finite_float(_stats_value(stats, "Buy & Hold Return [%]")), 2),
+        "win_rate": round(_finite_float(_stats_value(stats, "Win Rate [%]")) / 100, 4),
+        "profit_factor": round(_finite_float(_stats_value(stats, "Profit Factor")), 3),
+        "sharpe": round(_finite_float(_stats_value(stats, "Sharpe Ratio")), 3),
+        "sortino": round(_finite_float(_stats_value(stats, "Sortino Ratio")), 3),
+        "calmar": round(_finite_float(_stats_value(stats, "Calmar Ratio")), 3),
+        "max_drawdown_pct": round(_finite_float(_stats_value(stats, "Max. Drawdown [%]")), 2),
+        "trades": trades,
+        "expectancy_pct": round(_finite_float(_stats_value(stats, "Expectancy [%]")), 3),
+        "kelly": round(_finite_float(_stats_value(stats, "Kelly Criterion")), 4),
+        "status": "insufficient_trades" if trades < 5 else "ok",
         "backtested_at": datetime.now().isoformat(),
     }
+    return result
 
 
 def _legacy_fallback_backtest(ticker, years, atr_stop, atr_target):
@@ -482,7 +502,7 @@ def optimize_strategy(ticker, years=2):
     return best
 
 
-def run_portfolio_backtest_pro(tickers, years=2, optimize=False):
+def run_portfolio_backtest_pro(tickers, years=2, optimize=False, source="dashboard_pro", write_output=True):
     """
     Backtest a portfolio and update backtest_config.json.
     """
@@ -502,6 +522,10 @@ def run_portfolio_backtest_pro(tickers, years=2, optimize=False):
                     atr_target=params["atr_target"],
                     confluence_min=params["confluence_min"],
                 )
+                result["optimal_params"] = {
+                    "atr_stop": params["atr_stop"], "atr_target": params["atr_target"],
+                    "confluence_min": params["confluence_min"],
+                }
             else:
                 result, _, _ = run_backtest_pro(ticker, years=years)
             results[ticker] = result
@@ -516,34 +540,23 @@ def run_portfolio_backtest_pro(tickers, years=2, optimize=False):
     ]
     positive_ev.sort(key=lambda ticker: results[ticker].get("expectancy_pct", 0), reverse=True)
 
-    config_path = os.path.join(BASE_DIR, "backtest_config.json")
-    try:
-        with open(config_path, encoding="utf-8") as f:
-            config = json.load(f)
-    except Exception:
-        config = {}
+    from config_store import load_active
+    config = dict(load_active(BASE_DIR))
 
     config["positive_ev_tickers"] = positive_ev
-    config["ev_data"] = {
-        ticker: {
-            "ev": result.get("expectancy_pct", 0),
-            "win_rate": result.get("win_rate", 0),
-            "trades": result.get("trades", 0),
-            "sharpe": result.get("sharpe", 0),
-            "profit_factor": result.get("profit_factor", 0),
-        }
-        for ticker, result in results.items()
-        if "error" not in result
-    }
+    config["backtest_universe"] = [str(ticker).upper() for ticker in tickers]
+    config["ev_data"] = {ticker: finite_metric_record(result) if "error" not in result else {
+        "ev": 0.0, "win_rate": 0.0, "trades": 0, "sharpe": 0.0, "profit_factor": 0.0, "status": "error"
+    } for ticker, result in results.items()}
     if optimize and optimal_params:
         config["optimal_params_per_ticker"] = optimal_params
     config["last_updated"] = datetime.now().strftime("%Y-%m-%d")
     config["backtester"] = "backtesting.py"
 
-    with open(config_path, "w", encoding="utf-8") as f:
-        json.dump(config, f, ensure_ascii=False, indent=2)
-
-    print("\nUpdated backtest_config.json")
+    if write_output:
+        from config_store import write_candidate
+        candidate = write_candidate(source, config, base_dir=BASE_DIR)
+        print(f"\nSaved {candidate['status']} candidate; active config unchanged")
     print(f"  Positive EV tickers: {positive_ev}")
     return results
 

@@ -18,16 +18,12 @@ os.makedirs(RESULTS_DIR, exist_ok=True)
 
 
 def load_backtest_config_file():
-    """Load backtest_config.json."""
-    config_path = os.path.join(BASE_DIR, "backtest_config.json")
-    try:
-        with open(config_path, encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return {
+    """Load the active config through its single ownership boundary."""
+    from config_store import load_active
+    return load_active(BASE_DIR) or {
             "positive_ev_tickers": ["MBB", "ACB", "VCB", "TCB"],
             "optimal_config": {"atr_stop_mult": 1.0, "atr_target_mult": 2.0, "max_hold_days": 15},
-        }
+    }
 
 
 def generate_signals(df, ticker):
@@ -409,9 +405,8 @@ def run_backtest(ticker, years=2, use_ensemble=True, atr_stop=1.5, atr_target=3.
     return result
 
 
-def update_backtest_config(results, atr_stop=1.0, atr_target=2.0):
-    """Update backtest_config.json after a portfolio backtest."""
-    config_path = os.path.join(BASE_DIR, "backtest_config.json")
+def update_backtest_config(results, atr_stop=1.0, atr_target=2.0, source="dashboard_legacy"):
+    """Write a candidate config after a legacy portfolio backtest."""
     positive_ev = []
     negative_ev = []
     ev_data = {}
@@ -419,6 +414,8 @@ def update_backtest_config(results, atr_stop=1.0, atr_target=2.0):
     for ticker, result in results.items():
         ticker = str(ticker).upper()
         if "error" in result:
+            ev_data[ticker] = {"ev": 0.0, "win_rate": 0.0, "trades": 0, "sharpe": 0.0,
+                               "profit_factor": 0.0, "status": "error"}
             continue
         metrics = result.get("without_ensemble", {})
         ev = metrics.get("ev_per_trade_pct", 0)
@@ -428,6 +425,9 @@ def update_backtest_config(results, atr_stop=1.0, atr_target=2.0):
             "ev": round(float(ev), 3),
             "win_rate": round(float(win_rate), 3),
             "trades": int(trades),
+            "sharpe": round(float(metrics.get("sharpe_ratio", 0) or 0), 3),
+            "profit_factor": round(float(metrics.get("profit_factor", 0) or 0), 3),
+            "status": "ok" if int(trades) >= 5 else "insufficient_trades",
         }
         if ev > 0 and trades >= 5:
             positive_ev.append(ticker)
@@ -438,6 +438,7 @@ def update_backtest_config(results, atr_stop=1.0, atr_target=2.0):
     negative_ev.sort(key=lambda item: ev_data[item]["ev"])
 
     config = {
+        "backtest_universe": [str(ticker).upper() for ticker in results],
         "optimal_config": {
             "atr_stop_mult": atr_stop,
             "atr_target_mult": atr_target,
@@ -447,18 +448,21 @@ def update_backtest_config(results, atr_stop=1.0, atr_target=2.0):
         "positive_ev_tickers": positive_ev,
         "negative_ev_tickers": negative_ev,
         "ev_data": ev_data,
+        "optimal_params_per_ticker": {
+            str(ticker).upper(): {"atr_stop": atr_stop, "atr_target": atr_target, "confluence_min": 4}
+            for ticker in results
+        },
         "last_updated": datetime.now().strftime("%Y-%m-%d"),
     }
-    with open(config_path, "w", encoding="utf-8") as f:
-        json.dump(config, f, ensure_ascii=False, indent=2)
-
-    print("\nUpdated backtest_config.json")
+    from config_store import write_candidate
+    candidate = write_candidate(source, config, base_dir=BASE_DIR)
+    print(f"\nSaved {candidate['status']} candidate; active config unchanged")
     print(f"  Positive EV: {positive_ev}")
     print(f"  Negative EV: {negative_ev}")
     return config
 
 
-def run_portfolio_backtest(tickers, years=2, atr_stop=1.0, atr_target=2.0):
+def run_portfolio_backtest(tickers, years=2, atr_stop=1.0, atr_target=2.0, source="dashboard_legacy", write_output=True):
     """Backtest a list of tickers and auto-update config."""
     results = {}
     for ticker in tickers:
@@ -474,7 +478,8 @@ def run_portfolio_backtest(tickers, years=2, atr_stop=1.0, atr_target=2.0):
             print(f"{ticker} ERROR: {exc}")
             results[str(ticker).upper()] = {"error": str(exc)}
 
-    update_backtest_config(results, atr_stop=atr_stop, atr_target=atr_target)
+    if write_output:
+        update_backtest_config(results, atr_stop=atr_stop, atr_target=atr_target, source=source)
     profitable = [
         ticker
         for ticker, result in results.items()
