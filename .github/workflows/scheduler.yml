@@ -76,6 +76,8 @@ jobs:
         paper_portfolio.json.bak paper_trades.json.bak
         trading_disabled.json trading_switch_audit.json self_healing_audit.json
         paper_ledger_transaction.json
+        rebacktest_checkpoint.json
+        backtest_config.json
         paper_portfolio.json.pre_task.bak paper_trades.json.pre_task.bak
         pre_task_snapshot.json
     steps:

@@ -37,6 +37,8 @@ log = logging.getLogger("scheduler")
 STATE_FILE = os.path.join(BASE_DIR, "scheduler_state.json")
 ANALYSIS_RESULTS_FILE = os.path.join(BASE_DIR, "analysis_results.json")
 INTRADAY_ALERTS_FILE = os.path.join(BASE_DIR, "intraday_alerts.json")
+REBACKTEST_CHECKPOINT = "rebacktest_checkpoint.json"
+REBACKTEST_CHUNK_SIZE = 5
 INSTANCE_LOCK_FILE = os.path.join(BASE_DIR, "scheduler.pid.lock")
 _instance_lock_handle = None
 
@@ -592,7 +594,6 @@ def task_intraday_monitor():
         if updated:
             portfolio["updated_at"] = ict_now().isoformat()
             _save_portfolio_direct(portfolio)
-
         if alerts:
             existing = []
             try:
@@ -657,6 +658,7 @@ def task_eod_update():
             try:
                 df = get_stock_data_cached(ticker, years=0.1)
                 if df is None or len(df) < 2:
+                    failures.append(f"{ticker}: insufficient market data")
                     continue
 
                 current_price = float(df["close"].iloc[-1])
@@ -678,6 +680,7 @@ def task_eod_update():
                 pos["unrealized_pnl"] = round((current_price - entry_price) * qty, 2)
                 pos["pnl_pct"] = round((current_price / entry_price - 1) * 100, 4) if entry_price > 0 else 0.0
                 pos["hold_days"] = int(pos.get("hold_days", 0)) + 1
+                updated = True
 
                 if atr > 0 and current_price >= entry_price + atr:
                     new_stop = max(stop_loss, entry_price)
@@ -726,6 +729,8 @@ def task_eod_update():
 
     if failures:
         raise RuntimeError("EOD update incomplete: " + "; ".join(failures))
+    from portfolio_snapshots import record_snapshot
+    record_snapshot(BASE_DIR, portfolio, ict_today(), recorded_at=ict_now())
     mark_ran_today("eod_update")
     log.info("EOD update DONE")
 
@@ -842,10 +847,69 @@ def task_weekly_rebacktest(force=False):
             watchlist = json.load(f)
         if isinstance(watchlist, dict):
             watchlist = list(watchlist.keys())
-        log.info("Re-backtesting %s tickers...", len(watchlist))
-        results = runner(watchlist, **runner_kwargs)
+        checkpoint_path = os.path.join(BASE_DIR, REBACKTEST_CHECKPOINT)
+        fingerprint = hashlib.sha256(json.dumps(watchlist, sort_keys=True).encode("utf-8")).hexdigest()
+        try:
+            with open(checkpoint_path, encoding="utf-8") as handle:
+                checkpoint = json.load(handle)
+            if checkpoint.get("date") != today.isoformat() or checkpoint.get("watchlist_hash") != fingerprint:
+                checkpoint = {}
+        except (FileNotFoundError, OSError, ValueError, TypeError):
+            checkpoint = {}
+        completed = list(checkpoint.get("completed") or [])
+        accumulated = dict(checkpoint.get("results") or {})
+        optimal_params = dict(checkpoint.get("optimal_params") or {})
+        pending = [ticker for ticker in watchlist if ticker not in completed]
+        chunk = pending[:REBACKTEST_CHUNK_SIZE]
+        log.info("Re-backtesting chunk of %s (%s/%s already complete)...", len(chunk), len(completed), len(watchlist))
+        results = runner(chunk, **runner_kwargs)
         if not isinstance(results, dict) or not results:
             raise RuntimeError("rebacktest produced no result set; preserving previous configuration")
+        accumulated.update(results)
+        config_path = os.path.join(BASE_DIR, "backtest_config.json")
+        try:
+            with open(config_path, encoding="utf-8") as handle:
+                chunk_config = json.load(handle)
+            optimal_params.update(chunk_config.get("optimal_params_per_ticker") or {})
+        except (FileNotFoundError, OSError, ValueError, TypeError):
+            pass
+        completed.extend(ticker for ticker in chunk if ticker not in completed)
+        if len(completed) < len(watchlist):
+            payload = {"date": today.isoformat(), "watchlist_hash": fingerprint,
+                       "completed": completed, "results": accumulated, "optimal_params": optimal_params}
+            temporary = checkpoint_path + ".tmp"
+            with open(temporary, "w", encoding="utf-8") as handle:
+                json.dump(payload, handle, ensure_ascii=False, indent=2)
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(temporary, checkpoint_path)
+            log.info("Rebacktest checkpoint saved: %s/%s", len(completed), len(watchlist))
+            return {"status": "deferred", "reason": f"checkpointed {len(completed)}/{len(watchlist)} tickers"}
+        if os.path.exists(checkpoint_path):
+            os.remove(checkpoint_path)
+        positive_ev = [ticker for ticker, result in accumulated.items()
+                       if result.get("expectancy_pct", -999) > 0 and result.get("trades", 0) >= 5]
+        positive_ev.sort(key=lambda ticker: accumulated[ticker].get("expectancy_pct", 0), reverse=True)
+        try:
+            with open(config_path, encoding="utf-8") as handle:
+                final_config = json.load(handle)
+        except (FileNotFoundError, OSError, ValueError, TypeError):
+            final_config = {}
+        final_config.update({
+            "positive_ev_tickers": positive_ev,
+            "ev_data": {ticker: {"ev": result.get("expectancy_pct", 0), "win_rate": result.get("win_rate", 0),
+                         "trades": result.get("trades", 0), "sharpe": result.get("sharpe", 0),
+                         "profit_factor": result.get("profit_factor", 0)}
+                        for ticker, result in accumulated.items() if "error" not in result},
+            "optimal_params_per_ticker": optimal_params,
+            "last_updated": today.isoformat(), "backtester": "backtesting.py",
+        })
+        temporary = config_path + ".tmp"
+        with open(temporary, "w", encoding="utf-8") as handle:
+            json.dump(final_config, handle, ensure_ascii=False, indent=2)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, config_path)
         log.info("Weekly rebacktest DONE")
     except Exception as exc:
         log.error("Weekly rebacktest failed: %s", exc)
@@ -877,14 +941,16 @@ def run_now(task_name=None):
         report = __import__("self_healing").run_self_healing(BASE_DIR, repair=True)
         if not report["trading_allowed"]:
             critical = [str(item) for item in report.get("critical") or []]
-            non_switch_critical = [
-                item for item in critical if not item.lower().startswith("trading kill switch:")
-            ]
+            non_switch_critical = [item for item in critical if not item.lower().startswith("trading kill switch:")]
             if non_switch_critical:
                 raise RuntimeError("self-healing found critical state: " + "; ".join(critical))
-            reason = "; ".join(critical) or "trading blocked by safety gate"
-            log.warning("Self-healing completed with trading blocked: %s", reason)
-            return {"status": "blocked", "reason": reason, "report": report}
+            inhibitors = [str(item) for item in report.get("inhibitors") or []]
+            if not inhibitors and critical:
+                # Backward compatibility while old state reports age out.
+                reason = "; ".join(critical)
+                return {"status": "blocked", "reason": reason, "report": report}
+            log.info("Self-healing healthy; trading remains operationally blocked: %s", "; ".join(inhibitors))
+            return report
         return report
 
     tasks = {
@@ -916,6 +982,8 @@ def run_now(task_name=None):
             update_task(BASE_DIR, task_name, "blocked", error=result.get("reason"))
             from notify import notify_task_blocked
             notify_task_blocked(task_name, result.get("reason") or "blocked by safety gate")
+        elif isinstance(result, dict) and result.get("status") == "deferred":
+            update_task(BASE_DIR, task_name, "deferred", error=result.get("reason"))
         else:
             update_task(BASE_DIR, task_name, "success")
             if task_name == "eod":

@@ -18,6 +18,10 @@ COLORS = {"critical": 0xE74C3C, "warning": 0xF1C40F, "info": 0x2ECC71, "success"
 STATE_FILE = "discord_notification_state.json"
 
 
+def ict_today():
+    return datetime.now(ZoneInfo("Asia/Ho_Chi_Minh")).date()
+
+
 def _safe_warning(message):
     log.warning("Discord notification failed: %s", str(message).replace(os.getenv("DISCORD_WEBHOOK_URL", "__unset__"), "[redacted]"))
 
@@ -141,19 +145,21 @@ def build_eod_summary(base_dir):
     healing = load("self_healing_state.json", {})
     positions = portfolio.get("positions", {}) or {}
     cash = float(portfolio.get("cash", 0) or 0)
-    market = sum(float(p.get("market_value", float(p.get("qty", 0)) * float(p.get("current_price", p.get("avg_price", 0))))) for p in positions.values())
-    equity = cash + market
+    from portfolio_snapshots import daily_change, portfolio_equity
+    equity, market = portfolio_equity(portfolio)
     snapshots = load("portfolio_snapshots.json", [])
-    prior = float(snapshots[-1].get("equity", equity)) if snapshots else equity
-    change = ((equity / prior) - 1) * 100 if prior else 0.0
-    today = datetime.now(ZoneInfo("Asia/Ho_Chi_Minh")).date().isoformat()
+    change, change_reason = daily_change(equity, snapshots, ict_today(), portfolio.get("ledger_epoch", 0))
+    today = ict_today().isoformat()
     today_trades = sum(1 for row in trades if str(row.get("time", ""))[:10] == today and str(row.get("type", "TRADE")).upper() != "RESET")
     task_text = ", ".join(f"{name}:{row.get('state','?')}" for name, row in sorted(status.items())) or "none"
     critical = healing.get("critical") or []
+    inhibitors = healing.get("inhibitors") or []
+    change_text = f"{change:+.2f}%" if change is not None else f"N/A ({change_reason})"
     description = (
-        f"Cash: {format_vnd(cash)}\nTotal assets: {format_vnd(equity)}\nDaily change: {change:+.2f}%\n"
+        f"Cash: {format_vnd(cash)}\nTotal assets: {format_vnd(equity)}\nDaily change: {change_text}\n"
         f"Positions: {len(positions)}\nToday's trades: {today_trades}\nTasks: {task_text}\n"
-        f"Trading allowed: {bool(healing.get('trading_allowed', not critical))}\nCritical: {critical or 'none'}"
+        f"Trading allowed: {bool(healing.get('trading_allowed', not (critical or inhibitors)))}\n"
+        f"Inhibitors: {inhibitors or 'none'}\nCritical: {critical or 'none'}"
     )
     return description
 
