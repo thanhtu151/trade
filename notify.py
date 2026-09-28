@@ -119,6 +119,20 @@ def notify_kill_switch(action, reason, actor="unknown", run_id="unknown"):
     return send_once(f"switch|{action}|{run_id}", "Trading kill switch changed", f"**{action}**: {reason}", level, [("Actor", actor), ("Run", run_id)])
 
 
+def notify_backtest_candidate(candidate):
+    comparison = candidate.get("comparison") or {}
+    errors = candidate.get("validation_errors") or []
+    description = (
+        f"Source: {candidate.get('source', 'unknown')}\nStatus: {candidate.get('status', 'unknown')}\n"
+        f"Added: {comparison.get('universe_added', [])}\nRemoved: {comparison.get('universe_removed', [])}\n"
+        f"EV sign changes: {comparison.get('ev_sign_changes', 0)}\n"
+        f"Parameter changes: {len(comparison.get('parameter_changes') or {})}\n"
+        f"Validation: {errors or 'passed'}\nCandidate saved; active trading config unchanged."
+    )
+    return send_embed("Backtest config candidate", description,
+                      "warning" if candidate.get("status") == "invalid" else "info")
+
+
 def notify_trade(symbol, side, qty, price, pnl=None):
     value = float(qty) * float(price)
     fields = [("Side", side), ("Quantity", f"{float(qty):,.3f}".rstrip("0").rstrip(".")),
