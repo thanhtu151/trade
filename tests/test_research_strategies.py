@@ -27,7 +27,7 @@ def synthetic(n_symbols=30, n_days=400, seed=1):
 def test_universe_uses_only_past_data():
     prices = synthetic()
     panel = Panel(prices)
-    rule = UniverseRule(top_n=10, min_history=100)
+    rule = UniverseRule(top_n=10, min_history=100, price_quantile_floor=0)
     strat = Momentum(panel, rule=rule, lookback=100, skip=10, hold=5)
     before = universe(strat.pre, rule, 250)
     # Changing everything after session 250 must not change the universe at 250.
@@ -43,9 +43,9 @@ def test_universe_uses_only_past_data():
 def test_universe_requires_history_and_liquidity_rank():
     prices = synthetic()
     panel = Panel(prices)
-    pre = Momentum(panel, rule=UniverseRule(top_n=5, min_history=100)).pre
-    assert universe(pre, UniverseRule(top_n=5, min_history=100), 50) == []
-    top = universe(pre, UniverseRule(top_n=5, min_history=100), 200)
+    pre = Momentum(panel, rule=UniverseRule(top_n=5, min_history=100, price_quantile_floor=0)).pre
+    assert universe(pre, UniverseRule(top_n=5, min_history=100, price_quantile_floor=0), 50) == []
+    top = universe(pre, UniverseRule(top_n=5, min_history=100, price_quantile_floor=0), 200)
     value = (prices["close"] * prices["volume"]).groupby(prices["symbol"]).apply(
         lambda s: s.iloc[141:201].median())
     assert top == list(value.sort_values(ascending=False).index[:5])  # highest traded value first
@@ -53,7 +53,7 @@ def test_universe_requires_history_and_liquidity_rank():
 
 def test_momentum_rebalances_monthly_and_prefers_winners():
     panel = Panel(synthetic())
-    strat = Momentum(panel, rule=UniverseRule(top_n=30, min_history=100), lookback=100, skip=10,
+    strat = Momentum(panel, rule=UniverseRule(top_n=30, min_history=100, price_quantile_floor=0), lookback=100, skip=10,
                      hold=5, keep_rank=10)
     out = simulate(panel, strat, Config(costs=Costs(0, 0, 0, 0), stop_loss=None))
     rebalance_dates = {d for d, _ in strat.log}
@@ -65,7 +65,7 @@ def test_momentum_rebalances_monthly_and_prefers_winners():
 
 def test_rank_buffer_keeps_existing_holding():
     panel = Panel(synthetic())
-    strat = Momentum(panel, rule=UniverseRule(top_n=30, min_history=100, min_price=0), lookback=100, skip=10,
+    strat = Momentum(panel, rule=UniverseRule(top_n=30, min_history=100, min_price=0, price_quantile_floor=0), lookback=100, skip=10,
                      hold=3, keep_rank=30)
     i = max(month_end_sessions(panel.dates))
     target = strat(panel, i, {"S00": 1000})
@@ -80,7 +80,18 @@ def test_regime_filter_moves_to_cash():
     idx["close"] = np.linspace(100, 50, len(idx))  # persistent downtrend
     idx["open"] = idx["high"] = idx["low"] = idx["close"]
     panel = Panel(pd.concat([prices, idx]))
-    strat = Momentum(panel, rule=UniverseRule(top_n=30, min_history=100), lookback=100, skip=10,
+    strat = Momentum(panel, rule=UniverseRule(top_n=30, min_history=100, price_quantile_floor=0), lookback=100, skip=10,
                      hold=5, regime_symbol="VNINDEX", regime_ma=50, regime_exposure=0.0)
     i = max(month_end_sessions(panel.dates))
     assert strat(panel, i, {"S29": 1000}) == {}
+
+
+def test_relative_price_floor_drops_cheapest_liquid_names():
+    prices = synthetic()
+    panel = Panel(prices)
+    rule = UniverseRule(top_n=30, candidates=30, min_history=100, price_quantile_floor=0.2)
+    pre = Momentum(panel, rule=rule).pre
+    names = universe(pre, rule, 300)
+    close = pre.close.iloc[300]
+    assert len(names) == 24  # 30 candidates minus the cheapest 20%
+    assert close[names].min() > close.drop(labels=names).max()

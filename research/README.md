@@ -27,7 +27,7 @@ python -m research.report                                # → research/reports/
 |---|---|
 | `data.py` | Tải mọi cổ phiếu HOSE/HNX/UPCoM/**đã hủy niêm yết** từ 2010 (VCI, phân trang ~2.000 phiên/lần). Lưu parquet theo ngày tải để tái lập. |
 | `engine.py` | Mô phỏng theo ngày: khớp ở giá mở cửa phiên sau, phí môi giới + phí Sở, thuế bán 0,1%, trượt giá, lô 100, T+2, không khớp khi kịch trần/sàn lúc mở cửa, giới hạn 5% ADV20 (phần dư chuyển sang phiên sau), stop tính theo gap, xóa sổ mã ngừng giao dịch. |
-| `strategies.py` | Vũ trụ point-in-time (top 100 theo giá trị giao dịch trung vị 60 phiên, giá ≥ 10.000đ, niêm yết ≥ 252 phiên). Momentum long-only có bộ đệm thứ hạng, bộ lọc VN-Index/MA200 tùy chọn, bộ chọn ngẫu nhiên cho placebo. |
+| `strategies.py` | Vũ trụ point-in-time (top 125 theo giá trị giao dịch trung vị 60 phiên → bỏ 20% mã giá thấp nhất → giữ top 100; niêm yết ≥ 252 phiên). Momentum long-only có bộ đệm thứ hạng, bộ lọc VN-Index/MA200 tùy chọn, bộ chọn ngẫu nhiên cho placebo. |
 | `metrics.py` | Sharpe, PSR, MinTRL, Deflated Sharpe, PBO (CSCV), block bootstrap, drawdown. Đã kiểm với ví dụ trong paper gốc. |
 | `run_momentum.py` | 4 biến thể **đăng ký trước**, ghi mọi lần chạy vào `trials.jsonl` (số lần thử N cho DSR), placebo, chấm Cửa 1. |
 | `report.py` | Xuất báo cáo tiếng Việt. |
@@ -46,7 +46,7 @@ python -m research.report                                # → research/reports/
 
 - **Giá đã điều chỉnh**: vnstock chỉ trả giá điều chỉnh, nên kịch trần/sàn được suy ra từ % biến động
   (mở cửa lệch ≥ 6,5% so với đóng cửa trước và nằm ở cực trị phiên), không so với giá trần/sàn tuyệt đối.
-  Lọc giá ≥ 10.000đ trên giá điều chỉnh loại hơi nhiều mã ở giai đoạn cũ.
+  Vì vậy ngưỡng giá ≥ 10.000đ (theo đề xuất ban đầu) được thay bằng ngưỡng tương đối: chẩn đoán cho thấy ngưỡng tuyệt đối trên giá điều chỉnh chỉ để lại 13 mã năm 2011 và 9 mã năm 2012. Quyết định này đưa ra trước khi xem kết quả chiến lược.
 - **Sống sót**: có 232 mã "DELISTED" và mã đã chuyển UPCoM, nhưng mã hủy niêm yết từ lâu mà nguồn không còn
   lưu thì vẫn thiếu. Kết quả vì vậy có thể còn lạc quan hơn thực tế.
 - **Sàn giao dịch theo thời gian**: không biết mã nằm ở sàn nào trong quá khứ, nên vũ trụ chỉ dựa vào thanh

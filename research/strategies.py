@@ -15,7 +15,13 @@ INDEX_SYMBOLS = {"VNINDEX", "VN30", "HNXINDEX", "E1VFVN30"}
 class UniverseRule:
     top_n: int = 100             # by median 60-session traded value
     value_window: int = 60
-    min_price: float = 10.0      # thousand VND (adjusted price, see README)
+    min_price: float = 0.0       # absolute floor, thousand VND; off by default (see below)
+    # vnstock prices are dividend/split adjusted, so an absolute 10,000 VND floor
+    # removes most of the market before ~2016 (13 eligible names in 2011). Penny
+    # stocks are excluded relatively instead: among the `candidates` most liquid
+    # names, drop the cheapest `price_quantile_floor` share, then keep top_n.
+    candidates: int = 125
+    price_quantile_floor: float = 0.2
     min_history: int = 252       # sessions listed before eligibility
     min_traded_ratio: float = 0.9
 
@@ -46,8 +52,11 @@ def universe(pre, rule, i):
     )
     value = pre.median_value.iloc[i].to_numpy()
     value = np.where(ok & np.isfinite(value), value, -np.inf)
-    order = np.argsort(-value)[: rule.top_n]
-    return [pre.close.columns[k] for k in order if np.isfinite(value[k])]
+    order = [k for k in np.argsort(-value)[: max(rule.candidates, rule.top_n)] if np.isfinite(value[k])]
+    if rule.price_quantile_floor > 0 and order:
+        floor = np.quantile(close[order], rule.price_quantile_floor)
+        order = [k for k in order if close[k] > floor]
+    return [pre.close.columns[k] for k in order[: rule.top_n]]
 
 
 def month_end_sessions(dates):

@@ -27,8 +27,12 @@ SNAPSHOT_ROOT = ROOT / "data"
 START = "2010-01-01"
 PAGE_FULL = 1900  # a page this long may have older sessions before it
 INDEXES = ("VNINDEX", "VN30", "HNXINDEX", "E1VFVN30")
-# Guest tier allows 20 requests/minute; stay just under it.
-MIN_INTERVAL = float(os.getenv("VNSTOCK_MIN_INTERVAL", "3.1"))
+# Guest tier: 20 requests/minute, 1,200/hour, 5,000/day, enforced client-side
+# by vnai (it calls sys.exit when exceeded). vnstock's own retries after a
+# timeout also count, so keep well under the per-minute limit.
+MIN_INTERVAL = float(os.getenv("VNSTOCK_MIN_INTERVAL", "6"))
+# Fetch order: indexes and exchange-listed/delisted names before the long UPCoM tail.
+EXCHANGE_PRIORITY = {"HSX": 0, "HNX": 1, "DELISTED": 2, "UPCOM": 3}
 
 
 class _Throttle:
@@ -59,6 +63,10 @@ def _fetch(symbol, start, end, throttle, attempts=4):
         try:
             frame = Quote(symbol=symbol, source="VCI").history(start=start, end=end, interval="1D")
             return frame if frame is not None else pd.DataFrame()
+        except SystemExit as exc:  # vnai quota guard terminates instead of raising
+            log.warning("%s: rate limit reached (%s); waiting 65s", symbol, str(exc)[:80])
+            time.sleep(65)
+            continue
         except Exception as exc:
             text = str(exc).lower()
             if any(key in text for key in ("không tìm thấy", "not found", "no data", "empty", "invalid symbol")):
@@ -103,7 +111,11 @@ def download(snapshot_dir, symbols=None):
     else:
         listing = list_stocks()
         listing.to_csv(listing_path, index=False)
-    wanted = list(symbols) if symbols else list(INDEXES) + listing["symbol"].tolist()
+    if symbols:
+        wanted = list(symbols)
+    else:
+        ordered = listing.assign(_p=listing["exchange"].map(EXCHANGE_PRIORITY).fillna(9)).sort_values(["_p", "symbol"])
+        wanted = list(INDEXES) + ordered["symbol"].tolist()
 
     manifest_path = snapshot_dir / "manifest.json"
     manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {
