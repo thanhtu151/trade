@@ -6,12 +6,12 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   actions: write
   issues: write
 
 concurrency:
-  group: vn-trading-watchdog
+  group: vn-trading-scheduler
   cancel-in-progress: false
 
 jobs:
@@ -30,6 +30,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+
+      - name: Reconcile durable running tasks with Actions API
+        shell: bash
+        run: |
+          git fetch origin state --depth=1
+          BASE_SHA=$(git rev-parse origin/state)
+          git worktree add --detach /tmp/watchdog-state origin/state
+          gh api --method GET "repos/$GITHUB_REPOSITORY/actions/workflows/scheduler.yml/runs?per_page=100" > /tmp/scheduler-runs.json
+          python watchdog.py --reconcile-status /tmp/watchdog-state/system_status.json --runs-file /tmp/scheduler-runs.json
+          git config --global user.name "trade-bot"
+          git config --global user.email "trade-bot@users.noreply.github.com"
+          python state_push.py --worktree /tmp/watchdog-state --expected-sha "$BASE_SHA" --task watchdog-reconcile
 
       - name: Read watchdog decision from state branch
         id: decision
@@ -67,15 +79,11 @@ jobs:
             exit 0
           fi
           RUNS=$(gh run list --workflow scheduler.yml --event workflow_dispatch --limit 100 --json displayTitle,createdAt)
-          echo "$DECISION" | python -c 'import json,sys; print("\n".join(json.load(sys.stdin)["missed"][:2]))' | while read -r TASK; do
-            [ -z "$TASK" ] && continue
-            ALREADY=$(RUNS="$RUNS" TASK="$TASK" python -c 'import json,os; from watchdog import dispatched_today; print(dispatched_today(json.loads(os.environ["RUNS"]), os.environ["TASK"]))')
-            if [ "$ALREADY" = "True" ]; then
-              echo "$TASK already had a workflow_dispatch catch-up today; skipping."
-            else
-              gh workflow run scheduler.yml -f task="$TASK"
-            fi
-          done
+          PLAN=$(DECISION="$DECISION" RUNS="$RUNS" python -c 'import json,os; from watchdog import plan_catchup; print(json.dumps(plan_catchup(json.loads(os.environ["DECISION"]), json.loads(os.environ["RUNS"]))))')
+          TASK=$(PLAN="$PLAN" python -c 'import json,os; print(json.loads(os.environ["PLAN"])["dispatch"] or "")')
+          DEFERRED=$(PLAN="$PLAN" python -c 'import json,os; print(",".join(json.loads(os.environ["PLAN"])["deferred"]))')
+          echo "Catch-up dispatch: ${TASK:-none}; deferred: ${DEFERRED:-none}" >> "$GITHUB_STEP_SUMMARY"
+          [ -z "$TASK" ] || gh workflow run scheduler.yml -f task="$TASK"
 
       - name: Create or update watchdog Issue first
         id: issue
