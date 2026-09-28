@@ -133,3 +133,62 @@ def test_workflow_persists_rebacktest_outputs():
     workflow = (Path(__file__).resolve().parents[1] / ".github" / "workflows" / "scheduler.yml").read_text()
     assert "rebacktest_checkpoint.json" in workflow
     assert "backtest_config.json" in workflow
+
+
+def test_legacy_running_row_without_run_id_reconciles_by_task_and_start_time():
+    from watchdog import reconcile_finished_runs
+
+    status = {"tasks": {"rebacktest": {
+        "state": "running", "started_at": "2026-09-28T05:03:48+00:00", "consecutive_failures": 0,
+    }}}
+    runs = [{
+        "id": 36380193700, "display_title": "scheduler-0 0 * * 1", "event": "schedule",
+        "run_started_at": "2026-09-28T05:02:37Z", "status": "completed", "conclusion": "cancelled",
+    }]
+    changed = reconcile_finished_runs(status, runs, now="2026-09-28T06:32:58+00:00")
+    assert changed == ["rebacktest"]
+    assert status["tasks"]["rebacktest"]["state"] == "cancelled"
+    assert status["tasks"]["rebacktest"]["run_id"] == "36380193700"
+
+
+def test_multi_tick_queue_finishes_eod_learning_before_resuming_rebacktest():
+    from watchdog import plan_catchup
+
+    decision = {"missed": ["rebacktest", "learning", "eod"], "resumable": ["rebacktest"]}
+    runs = []
+    first = plan_catchup(decision, runs)
+    assert first == {"dispatch": "eod", "deferred": ["learning", "rebacktest"]}
+    runs.append({"displayTitle": "scheduler-eod", "createdAt": "2026-09-28T11:35:00Z"})
+    second = plan_catchup(decision, runs, datetime(2026, 9, 28, 18, 50, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")))
+    assert second == {"dispatch": "learning", "deferred": ["rebacktest"]}
+    runs.append({"displayTitle": "scheduler-learning", "createdAt": "2026-09-28T11:50:00Z"})
+    third = plan_catchup(decision, runs, datetime(2026, 9, 28, 19, 5, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")))
+    assert third == {"dispatch": "rebacktest", "deferred": []}
+
+
+def test_eod_market_data_retries_incomplete_response_with_backoff():
+    import scheduler
+
+    calls, waits = [], []
+    def fetch():
+        calls.append(1)
+        if len(calls) < 3:
+            return None
+        return [1, 2]
+
+    result = scheduler.fetch_eod_market_data(fetch, sleeper=waits.append, random_fn=lambda: 0)
+    assert result == [1, 2]
+    assert len(calls) == 3
+    assert waits == [1.0, 2.0]
+
+
+def test_heal_success_cannot_bypass_active_environment_kill_switch(monkeypatch, tmp_path):
+    from trading_safety import operational_gate
+
+    monkeypatch.setenv("TRADING_ENABLED", "false")
+    (tmp_path / "self_healing_state.json").write_text(json.dumps({
+        "status": "success", "trading_allowed": True, "critical": [],
+    }))
+    allowed, reason = operational_gate(tmp_path, datetime(2026, 9, 28, 10, 0, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")))
+    assert allowed is False
+    assert "TRADING_ENABLED" in reason
