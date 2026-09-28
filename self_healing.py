@@ -207,7 +207,7 @@ def _repair_portfolio(portfolio, actions, warnings, critical):
 
 def run_self_healing(base_dir=None, repair=True):
     base = Path(base_dir or Path(__file__).resolve().parent)
-    actions, warnings, critical = [], [], []
+    actions, warnings, critical, inhibitors = [], [], [], []
     portfolio_path = base / "paper_portfolio.json"
     trades_path = base / "paper_trades.json"
     report_path = base / REPORT_FILE
@@ -223,7 +223,7 @@ def run_self_healing(base_dir=None, repair=True):
 
     switch_reason = kill_switch_reason(base)
     if switch_reason:
-        critical.append(f"trading kill switch: {switch_reason}")
+        inhibitors.append(f"trading kill switch: {switch_reason}")
     try:
         previous_report = json.loads(report_path.read_text(encoding="utf-8"))
         previous_checkpoint = previous_report.get("checkpoint") or {}
@@ -391,7 +391,7 @@ def run_self_healing(base_dir=None, repair=True):
     if repair and duplicates and not critical:
         _atomic_json_write(trades_path, clean_trades)
 
-    status = "blocked" if critical else "healed" if actions else "healthy"
+    status = "blocked" if critical else "operationally_blocked" if inhibitors else "healed" if actions else "healthy"
     next_checkpoint = {
         "cash": actual_cash,
         "equity": current_equity,
@@ -403,11 +403,12 @@ def run_self_healing(base_dir=None, repair=True):
 
     report = {
         "status": status,
-        "trading_allowed": not critical,
+        "trading_allowed": not (critical or inhibitors),
         "updated_at": _now(),
         "actions": actions,
         "warnings": warnings,
         "critical": critical,
+        "inhibitors": inhibitors,
         "metrics": {
             "cash": actual_cash,
             "positions": len(portfolio.get("positions", {})) if isinstance(portfolio.get("positions"), dict) else 0,
@@ -446,7 +447,8 @@ def trading_permission(base_dir=None):
         return False, reason
     report = run_self_healing(base_dir=base_dir, repair=True)
     if not report["trading_allowed"]:
-        return False, "unsafe trading state: " + "; ".join(report["critical"])
+        reasons = (report.get("critical") or []) + (report.get("inhibitors") or [])
+        return False, "unsafe trading state: " + "; ".join(reasons)
     return True, "trading gates passed"
 
 
@@ -459,7 +461,9 @@ def audit_exit_code(report):
 def write_github_blocked_summary(report):
     if audit_exit_code(report) != 0:
         return
-    switch_items = [item for item in report.get("critical", []) if str(item).startswith("trading kill switch:")]
+    switch_items = list(report.get("inhibitors") or [])
+    if not switch_items:
+        switch_items = [item for item in report.get("critical", []) if str(item).startswith("trading kill switch:")]
     summary_path = os.getenv("GITHUB_STEP_SUMMARY")
     if switch_items and summary_path:
         with open(summary_path, "a", encoding="utf-8") as handle:
@@ -502,8 +506,8 @@ def rebaseline(base_dir=None, reason="", operator=""):
     }
     report["ledger_baseline"] = baseline
     report["critical"] = []
-    report["trading_allowed"] = True
-    report["status"] = "healthy"
+    report["trading_allowed"] = not bool(report.get("inhibitors"))
+    report["status"] = "operationally_blocked" if report.get("inhibitors") else "healthy"
     report["updated_at"] = _now()
     _atomic_json_write(base / REPORT_FILE, report, backup=False)
 
