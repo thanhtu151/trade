@@ -1,0 +1,222 @@
+{
+ "experiment": "trend",
+ "primary": "trend_ma200d",
+ "period": "dev",
+ "range": [
+  "2013-01-01",
+  "2023-12-31"
+ ],
+ "generated_at": "2026-09-29T10:17:46",
+ "snapshot": "2026-09-29",
+ "buy_hold": {
+  "start": "2013-01-02",
+  "end": "2023-12-29",
+  "cagr": 0.071861,
+  "vol_annual": 0.190028,
+  "sharpe_annual": 0.460631,
+  "max_drawdown": -0.487303,
+  "sharpe_annual_p05": -0.065271,
+  "psr_vs_0": 0.916961
+ },
+ "buy_hold_by_year": {
+  "2013": 0.129976,
+  "2014": 0.063212,
+  "2015": -0.016391,
+  "2016": 0.04787,
+  "2017": 0.54151,
+  "2018": -0.12898,
+  "2019": 0.021504,
+  "2020": 0.209818,
+  "2021": 0.424368,
+  "2022": -0.349289,
+  "2023": 0.118226
+ },
+ "trials": {
+  "trend_ma200d": {
+   "summary": {
+    "start": "2013-01-02",
+    "end": "2023-12-29",
+    "cagr": 0.057133,
+    "vol_annual": 0.133488,
+    "sharpe_annual": 0.483149,
+    "max_drawdown": -0.339517,
+    "sharpe_annual_p05": -0.166293,
+    "psr_vs_0": 0.928796,
+    "switches_per_year": 5.7815,
+    "time_invested": 0.588128
+   },
+   "halves": [
+    {
+     "trend": {
+      "start": "2013-01-02",
+      "end": "2018-07-09",
+      "cagr": 0.053732,
+      "vol_annual": 0.141535,
+      "sharpe_annual": 0.440549,
+      "max_drawdown": -0.291952,
+      "sharpe_annual_p05": -0.34418,
+      "psr_vs_0": 0.816237
+     },
+     "buy_hold": {
+      "start": "2013-01-02",
+      "end": "2018-07-09",
+      "cagr": 0.108611,
+      "vol_annual": 0.168187,
+      "sharpe_annual": 0.697081,
+      "max_drawdown": -0.250391,
+      "sharpe_annual_p05": 0.013769,
+      "psr_vs_0": 0.940927
+     }
+    },
+    {
+     "trend": {
+      "start": "2018-07-10",
+      "end": "2023-12-29",
+      "cagr": 0.060588,
+      "vol_annual": 0.124976,
+      "sharpe_annual": 0.533194,
+      "max_drawdown": -0.213701,
+      "sharpe_annual_p05": -0.638162,
+      "psr_vs_0": 0.894895
+     },
+     "buy_hold": {
+      "start": "2018-07-10",
+      "end": "2023-12-29",
+      "cagr": 0.036549,
+      "vol_annual": 0.209651,
+      "sharpe_annual": 0.275815,
+      "max_drawdown": -0.427768,
+      "sharpe_annual_p05": -0.439564,
+      "psr_vs_0": 0.729655
+     }
+    }
+   ],
+   "by_year": {
+    "2013": 0.098223,
+    "2014": 0.000815,
+    "2015": -0.134994,
+    "2016": 0.023646,
+    "2017": 0.506881,
+    "2018": -0.093304,
+    "2019": -0.099624,
+    "2020": 0.279642,
+    "2021": 0.422586,
+    "2022": -0.064317,
+    "2023": -0.101811
+   },
+   "cash_yield_4pct": {
+    "start": "2013-01-02",
+    "end": "2023-12-29",
+    "cagr": 0.074842,
+    "vol_annual": 0.133456,
+    "sharpe_annual": 0.607703,
+    "max_drawdown": -0.304584,
+    "sharpe_annual_p05": -0.030303,
+    "psr_vs_0": 0.966993
+   },
+   "gate_c": {
+    "passed": false,
+    "checks": {
+     "sharpe_ge_buy_hold": true,
+     "max_dd_le_60pct_of_buy_hold": false,
+     "cagr_ge_buy_hold_minus_3pct": true,
+     "switches_le_6_per_year": true,
+     "holds_in_both_halves": false
+    }
+   }
+  },
+  "trend_ma10m": {
+   "summary": {
+    "start": "2013-01-02",
+    "end": "2023-12-29",
+    "cagr": 0.071344,
+    "vol_annual": 0.134351,
+    "sharpe_annual": 0.58036,
+    "max_drawdown": -0.237862,
+    "sharpe_annual_p05": -0.048552,
+    "psr_vs_0": 0.969878,
+    "switches_per_year": 1.651857,
+    "time_invested": 0.563001
+   },
+   "halves": [
+    {
+     "trend": {
+      "start": "2013-01-02",
+      "end": "2018-07-09",
+      "cagr": 0.063622,
+      "vol_annual": 0.141944,
+      "sharpe_annual": 0.505554,
+      "max_drawdown": -0.237862,
+      "sharpe_annual_p05": -0.329749,
+      "psr_vs_0": 0.868549
+     },
+     "buy_hold": {
+      "start": "2013-01-02",
+      "end": "2018-07-09",
+      "cagr": 0.108611,
+      "vol_annual": 0.168187,
+      "sharpe_annual": 0.697081,
+      "max_drawdown": -0.250391,
+      "sharpe_annual_p05": 0.013769,
+      "psr_vs_0": 0.940927
+     }
+    },
+    {
+     "trend": {
+      "start": "2018-07-10",
+      "end": "2023-12-29",
+      "cagr": 0.079175,
+      "vol_annual": 0.126353,
+      "sharpe_annual": 0.666256,
+      "max_drawdown": -0.183485,
+      "sharpe_annual_p05": -0.380034,
+      "psr_vs_0": 0.944567
+     },
+     "buy_hold": {
+      "start": "2018-07-10",
+      "end": "2023-12-29",
+      "cagr": 0.036549,
+      "vol_annual": 0.209651,
+      "sharpe_annual": 0.275815,
+      "max_drawdown": -0.427768,
+      "sharpe_annual_p05": -0.439564,
+      "psr_vs_0": 0.729655
+     }
+    }
+   ],
+   "by_year": {
+    "2013": -0.042745,
+    "2014": 0.133703,
+    "2015": -0.131066,
+    "2016": 0.037576,
+    "2017": 0.482631,
+    "2018": -0.035561,
+    "2019": -0.014702,
+    "2020": 0.291536,
+    "2021": 0.422372,
+    "2022": -0.083788,
+    "2023": -0.086971
+   },
+   "cash_yield_4pct": {
+    "start": "2013-01-02",
+    "end": "2023-12-29",
+    "cagr": 0.090377,
+    "vol_annual": 0.134315,
+    "sharpe_annual": 0.71159,
+    "max_drawdown": -0.237858,
+    "sharpe_annual_p05": 0.095198,
+    "psr_vs_0": 0.989123
+   },
+   "gate_c": {
+    "passed": false,
+    "checks": {
+     "sharpe_ge_buy_hold": true,
+     "max_dd_le_60pct_of_buy_hold": true,
+     "cagr_ge_buy_hold_minus_3pct": true,
+     "switches_le_6_per_year": true,
+     "holds_in_both_halves": false
+    }
+   }
+  }
+ }
+}
