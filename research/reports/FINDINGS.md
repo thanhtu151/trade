@@ -83,3 +83,35 @@ phát triển chỉ từ 07/2019 đến 12/2023.
 2. **Giới hạn vũ trụ vào VN30** (vốn hóa lớn), thay vì top 100 thanh khoản.
 3. **Phương án thực dụng:** nắm ETF VN30 và dùng bộ lọc VN-Index/MA200 để giảm drawdown. Mục tiêu không phải
    alpha mà là đi cùng thị trường với rủi ro thấp hơn.
+
+---
+
+# Kết luận thí nghiệm 3 — Lọc xu hướng trên ETF VN30 (29/09/2026)
+
+Số liệu chi tiết: [trend_dev.md](trend_dev.md). Mục tiêu là **giảm rủi ro**, không phải alpha. Cửa C gồm 5
+tiêu chí, được chốt trước khi chạy (xem docstring `run_trend.py`).
+
+| 2013–2023 | CAGR | Sharpe | Max DD | Lần vào/ra/năm |
+|---|---|---|---|---|
+| Mua & giữ ETF VN30 (đại diện) | +7,2% | 0,46 | −49% | — |
+| VN30 ≥ MA200 ngày (chính) | +5,7% | 0,48 | −34% | 5,8 |
+| VN30 ≥ MA 10 tháng | +7,1% | 0,58 | −24% | 1,7 |
+
+- **Biến thể chính KHÔNG ĐẠT** (trượt tiêu chí drawdown và độ bền hai nửa) → holdout **không** chạy.
+- **MA 10 tháng đạt 4/5 tiêu chí** nhưng trượt tiêu chí độ bền.
+  - Nửa 2013–2018 (tăng/đi ngang): kém mua & giữ (Sharpe 0,51 so với 0,70).
+  - Nửa 2018–2023: tốt hơn rõ rệt (Sharpe 0,67 so với 0,28, DD −18% so với −43%).
+  - Nó hoạt động như **bảo hiểm**: trả phí trong thị trường tăng, bù lại khi thị trường sập (2022: −8% so với −35%).
+- Nếu tiền mặt được gửi quỹ tiền tệ khoảng 4%/năm, MA 10 tháng đạt CAGR 9,0% so với 7,2%.
+- MA 10 tháng không phải biến thể chính. Chọn nó sau khi đã thấy kết quả là một lựa chọn có thiên lệch
+  (N hiện = 9). Nếu dùng, phải coi đây là quyết định quản trị rủi ro có ý thức, không phải edge đã chứng minh.
+
+## Tổng kết sau 3 thí nghiệm (N = 9)
+
+| Hướng | Kết quả |
+|---|---|
+| Momentum xếp hạng chéo | Không có edge (thua VN30 khoảng 6%/năm) |
+| Giá trị E/P | Không có edge, rơi vào bẫy giá trị |
+| Lọc xu hướng ETF VN30 | Không đạt cửa định trước. MA 10 tháng giảm rủi ro rõ nhưng không ổn định giữa các giai đoạn |
+
+Điều duy nhất có bằng chứng: **mua & giữ nhóm vốn hóa lớn (VN30) thắng mọi chiến lược chủ động đã thử** sau chi phí.
