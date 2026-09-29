@@ -74,3 +74,18 @@ def page(context):
     page = context.new_page()
     yield page
     page.close()
+
+
+@pytest.fixture(autouse=True)
+def isolated_market_data_circuit(monkeypatch, tmp_path):
+    """Keep tests from reading or writing the real circuit_breaker_state.json.
+
+    Tests that simulate provider failures would otherwise accumulate failures in
+    the repository's state file, open the MSN/VCI circuits for later tests and
+    for the dashboard/scheduler on that machine.
+    """
+    import runtime_reliability
+
+    monkeypatch.setattr(runtime_reliability, "market_data_circuit", runtime_reliability.CircuitBreaker(
+        failure_threshold=3, recovery_seconds=300,
+        state_path=tmp_path / "circuit_breaker_state.json", namespace="market_data"))
