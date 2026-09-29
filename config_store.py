@@ -121,7 +121,7 @@ def validate(config):
             if not isinstance(value, (int, float)) or isinstance(value, bool) or not _finite(value):
                 errors.append(f"ev_data.{ticker}.{field} must be finite")
         status = row.get("status")
-        if status not in {"ok", "insufficient_trades"}:
+        if status not in {"ok", "insufficient_trades", "not_significant"}:
             errors.append(f"ev_data.{ticker}.status is invalid")
         trades = row.get("trades", 0)
         if isinstance(trades, (int, float)) and trades < 0:
@@ -186,7 +186,7 @@ def compare_configs(active, candidate):
     }
 
 
-def write_candidate(source, payload, base_dir=None):
+def write_candidate(source, payload, base_dir=None, notify=True):
     base = _base(base_dir)
     errors = validate(payload)
     safe_payload = _json_safe(payload)
@@ -200,11 +200,12 @@ def write_candidate(source, payload, base_dir=None):
         "comparison": compare_configs(load_active(base), safe_payload),
     }
     _atomic_json(base / CANDIDATE_NAME, envelope)
-    try:
-        from notify import notify_backtest_candidate
-        notify_backtest_candidate(envelope)
-    except Exception:
-        pass
+    if notify:
+        try:
+            from notify import notify_backtest_candidate
+            notify_backtest_candidate(envelope)
+        except Exception:
+            pass
     return envelope
 
 

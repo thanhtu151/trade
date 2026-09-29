@@ -25,7 +25,7 @@ on:
         description: "Task to run now"
         type: choice
         default: analysis
-        options: [prep, analysis, trade, eod, learning, rebacktest, heal, calendar, rebaseline, migrate-ledger-epoch, disable-trading, enable-trading, promote-backtest-config, rollback-backtest-config]
+        options: [prep, analysis, trade, eod, learning, rebacktest, heal, calendar, review-config, rebaseline, migrate-ledger-epoch, disable-trading, enable-trading, promote-backtest-config, rollback-backtest-config]
       reason:
         description: "Required audit reason for rebaseline"
         type: string
@@ -58,6 +58,8 @@ jobs:
       TF_CPP_MIN_LOG_LEVEL: "3"
       CUDA_VISIBLE_DEVICES: ""
       TRADING_ENABLED: ${{ vars.TRADING_ENABLED }}
+      # Set the repository variable CONFIG_AUTO_PROMOTE=false to make config reviews advisory only.
+      CONFIG_AUTO_PROMOTE: ${{ vars.CONFIG_AUTO_PROMOTE || 'true' }}
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
       DISPATCH_REASON: ${{ github.event.inputs.reason }}
       DISPATCH_CONFIRMATION: ${{ github.event.inputs.confirmation }}
@@ -83,6 +85,7 @@ jobs:
         pre_task_snapshot.json
         etf_core_state.json
         trading_calendar.json
+        config_review_log.json
     steps:
       - name: Checkout code (main)
         uses: actions/checkout@v4
