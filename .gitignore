@@ -76,3 +76,4 @@ backtest_config.backup.json
 backtest_config_audit.json
 .tmp-tests/
 etf_core_state.json
+trading_calendar.json

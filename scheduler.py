@@ -123,8 +123,33 @@ def prefetch_stock_data(tickers, years=2):
             log.warning("  %s: prefetch failed: %s", ticker, exc)
 
 
+def sync_trading_calendar(max_age_days=6):
+    """Refresh trading_calendar.json weekly; never lets a failure block the caller."""
+    import json as _json
+
+    from trading_calendar import CALENDAR_FILE
+
+    try:
+        generated = _json.loads(CALENDAR_FILE.read_text(encoding="utf-8")).get("generated_at")
+        age = ict_now() - datetime.fromisoformat(generated)
+        if age < timedelta(days=max_age_days):
+            return None
+    except Exception:
+        pass  # missing or unreadable file: sync now
+    try:
+        from calendar_sync import sync
+
+        result = sync()
+        log.info("Trading calendar synced: %s", result)
+        return result
+    except Exception as exc:
+        log.warning("Trading calendar sync failed: %s", exc)
+        return None
+
+
 def task_morning_prep():
     """08:00 - clear cache, refresh external data, train missing EV-positive models."""
+    sync_trading_calendar()
     if already_ran_today("morning_prep"):
         log.info("morning_prep already ran today, skipping")
         return
@@ -1001,6 +1026,7 @@ def run_now(task_name=None):
         "learning": task_daily_learning,
         "rebacktest": lambda: task_weekly_rebacktest(force=True),
         "heal": run_heal,
+        "calendar": lambda: sync_trading_calendar(max_age_days=0),
     }
     if task_name in tasks:
         log.info("Running %s NOW...", task_name)

@@ -48,6 +48,8 @@ jobs:
         shell: bash
         run: |
           git fetch origin state --depth=1 || true
+          # Use the calendar the scheduler maintains (holiday lists, observed sessions).
+          git show origin/state:trading_calendar.json > trading_calendar.json 2>/dev/null || rm -f trading_calendar.json
           DEPLOYED_AT=$(git log -1 --format=%cI -- .github/workflows/watchdog.yml watchdog.py)
           DECISION=$(python watchdog.py --deployed-at "$DEPLOYED_AT")
           echo "json=$DECISION" >> "$GITHUB_OUTPUT"
