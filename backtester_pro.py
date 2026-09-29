@@ -298,14 +298,16 @@ def _build_result_from_stats(ticker, strategy_name, years, commission, stats):
 def _legacy_fallback_backtest(ticker, years, atr_stop, atr_target):
     from backtester import run_backtest
 
+    # No ensemble filter: the ensemble models are trained on this same window
+    # (train_ensemble uses the last 6 years), so filtered results leak the future.
     legacy = run_backtest(
         ticker,
         years=years,
-        use_ensemble=True,
+        use_ensemble=False,
         atr_stop=atr_stop,
         atr_target=atr_target,
     )
-    legacy_metrics = legacy.get("with_ensemble", {}) or {}
+    legacy_metrics = legacy.get("without_ensemble", {}) or {}
     result = {
         "ticker": ticker,
         "strategy": "LegacyFallback",
@@ -452,37 +454,40 @@ def optimize_strategy(ticker, years=2):
         print(f"\nOptimizing {ticker} with legacy fallback...")
         from backtester import run_backtest
 
+        # The legacy backtester has no confluence parameter (sweeping it only
+        # repeated identical runs) and runs without the ensemble filter, whose
+        # models are trained on the evaluation window (look-ahead).
+        confluence_min = VNConfluenceStrategy.confluence_min
         candidates = []
         for atr_stop in (0.8, 1.0, 1.2, 1.5):
             for atr_target in (1.5, 2.0, 2.5, 3.0):
                 if atr_target <= atr_stop:
                     continue
-                for confluence_min in (3, 4, 5):
-                    try:
-                        res = run_backtest(
-                            ticker,
-                            years=years,
-                            use_ensemble=True,
-                            atr_stop=atr_stop,
-                            atr_target=atr_target,
-                        )
-                        metrics = res.get("with_ensemble", {}) or {}
-                        expectancy = float(metrics.get("ev_per_trade_pct", 0.0))
-                        trades = int(metrics.get("total_trades", 0))
-                        candidates.append(
-                            {
-                                "ticker": ticker,
-                                "atr_stop": atr_stop,
-                                "atr_target": atr_target,
-                                "confluence_min": confluence_min,
-                                "expectancy": expectancy,
-                                "win_rate": float(metrics.get("win_rate", 0.0)),
-                                "sharpe": float(metrics.get("sharpe_ratio", 0.0)),
-                                "trades": trades,
-                            }
-                        )
-                    except Exception:
-                        continue
+                try:
+                    res = run_backtest(
+                        ticker,
+                        years=years,
+                        use_ensemble=False,
+                        atr_stop=atr_stop,
+                        atr_target=atr_target,
+                    )
+                    metrics = res.get("without_ensemble", {}) or {}
+                    expectancy = float(metrics.get("ev_per_trade_pct", 0.0))
+                    trades = int(metrics.get("total_trades", 0))
+                    candidates.append(
+                        {
+                            "ticker": ticker,
+                            "atr_stop": atr_stop,
+                            "atr_target": atr_target,
+                            "confluence_min": confluence_min,
+                            "expectancy": expectancy,
+                            "win_rate": float(metrics.get("win_rate", 0.0)),
+                            "sharpe": float(metrics.get("sharpe_ratio", 0.0)),
+                            "trades": trades,
+                        }
+                    )
+                except Exception:
+                    continue
         best = max(candidates, key=lambda item: item["expectancy"], default=None)
         if best is None:
             raise RuntimeError(f"Unable to optimize {ticker}")
