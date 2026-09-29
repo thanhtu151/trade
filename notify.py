@@ -102,7 +102,9 @@ def notify_task_failed(task, error, fingerprint):
 
 
 def notify_task_blocked(task, reason):
-    fp = hashlib.sha256(f"blocked|{task}|{reason}|{os.getenv('GITHUB_RUN_ID','local')}".encode()).hexdigest()
+    # One reminder per task and reason each ICT week while the block persists.
+    week = datetime.now(ZoneInfo("Asia/Ho_Chi_Minh")).isocalendar()
+    fp = hashlib.sha256(f"blocked|{task}|{reason}|{week[0]}-W{week[1]}".encode()).hexdigest()
     return send_once(fp, "Task blocked", f"**{task}** blocked: {reason}\n{run_url()}", "warning")
 
 

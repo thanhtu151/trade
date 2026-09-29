@@ -7,6 +7,14 @@ import pandas as pd
 import pytest
 
 
+
+
+def _in_session():
+    from datetime import datetime
+    from trading_safety import VIETNAM_TZ
+
+    return datetime(2026, 9, 29, 10, 0, tzinfo=VIETNAM_TZ)
+
 def test_kill_switch_and_market_session(monkeypatch, tmp_path):
     from trading_safety import operational_gate, VIETNAM_TZ
 
@@ -210,6 +218,7 @@ def _scheduler_trade_environment(monkeypatch, tmp_path, outcomes):
     monkeypatch.setattr(scheduler, "ANALYSIS_RESULTS_FILE", str(analysis_file))
     monkeypatch.setattr(scheduler, "STATE_FILE", str(tmp_path / "scheduler_state.json"))
     monkeypatch.setattr(scheduler, "is_trading_day", lambda: True)
+    monkeypatch.setattr(scheduler, "ict_now", _in_session)
     monkeypatch.setattr(trading_safety, "operational_gate", lambda _base: (True, "ok"))
     monkeypatch.setattr(
         self_healing,
@@ -321,6 +330,7 @@ def test_analysis_failure_is_not_marked_success(monkeypatch, tmp_path):
     monkeypatch.setattr(scheduler, "STATE_FILE", str(state_file))
     monkeypatch.setattr(scheduler, "ANALYSIS_RESULTS_FILE", str(tmp_path / "analysis_results.json"))
     monkeypatch.setattr(scheduler, "is_trading_day", lambda: True)
+    monkeypatch.setattr(scheduler, "ict_now", _in_session)
     monkeypatch.setattr(scheduler, "_load_scan_watchlist", lambda: ["FPT"])
     monkeypatch.setattr(
         auto_trader,
@@ -331,3 +341,21 @@ def test_analysis_failure_is_not_marked_success(monkeypatch, tmp_path):
     with pytest.raises(RuntimeError, match="logic failure"):
         scheduler.task_market_analysis()
     assert not state_file.exists()
+
+
+def test_auto_trade_never_runs_outside_the_session(monkeypatch, tmp_path):
+    from datetime import datetime
+    import scheduler
+    from trading_safety import VIETNAM_TZ
+
+    marked = []
+    monkeypatch.setattr(scheduler, "is_trading_day", lambda: True)
+    monkeypatch.setattr(scheduler, "already_ran_today", lambda _key: False)
+    monkeypatch.setattr(scheduler, "mark_ran_today", marked.append)
+    monkeypatch.setattr("trading_safety.operational_gate", lambda _base: pytest.fail("must not reach the gate"))
+    # Lunch break: skipped but retried later (not marked).
+    monkeypatch.setattr(scheduler, "ict_now", lambda: datetime(2026, 9, 29, 11, 50, tzinfo=VIETNAM_TZ))
+    assert scheduler.task_auto_trade()["reason"] == "outside trading session (late run)" and marked == []
+    # After the close (the delayed 15:42 cron run): skipped and closed for the day.
+    monkeypatch.setattr(scheduler, "ict_now", lambda: datetime(2026, 9, 29, 15, 42, tzinfo=VIETNAM_TZ))
+    assert scheduler.task_auto_trade()["status"] == "blocked" and marked == ["auto_trade"]

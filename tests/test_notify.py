@@ -98,3 +98,16 @@ def test_trade_embed_contains_sell_pnl_in_vnd(monkeypatch):
     assert captured["fields"]["Price"] == "76,900 VND"
     assert captured["fields"]["Value"] == "20,632,270 VND"
     assert captured["fields"]["PnL"] == "26,830 VND"
+
+
+def test_blocked_reminder_is_sent_once_per_week(monkeypatch, tmp_path):
+    import notify
+
+    sent = []
+    monkeypatch.setattr(notify, "send_embed", lambda *a, **k: sent.append(a) or True)
+    monkeypatch.setattr(notify, "STATE_FILE", str(tmp_path / "discord_notification_state.json"))
+    monkeypatch.setenv("GITHUB_RUN_ID", "1")
+    notify.notify_task_blocked("trade", "TRADING_ENABLED disables trading")
+    monkeypatch.setenv("GITHUB_RUN_ID", "2")
+    notify.notify_task_blocked("trade", "TRADING_ENABLED disables trading")
+    assert len(sent) == 1
