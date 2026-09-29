@@ -1243,6 +1243,15 @@ def log_trade(trades, symbol, side, qty, price, reason, pnl=None, plan=None, **m
         "plan": plan or {},
     }
     event.update(metadata)
+    if "data_provenance" not in event:
+        try:
+            from data_fetcher import data_provenance
+
+            provenance = data_provenance(symbol)
+            if provenance:
+                event["data_provenance"] = provenance
+        except Exception:
+            pass
     trades.append(event)
 
 

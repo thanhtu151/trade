@@ -241,3 +241,123 @@ checkpoint exists: false
 ### Kết luận promotion gate
 
 **SẴN SÀNG MERGE về mặt reliability gate.** Rebacktest sau merge chỉ tạo candidate; config thay đổi lớn nêu trên vẫn không ảnh hưởng trading cho tới khi operator review và dispatch promote với exact confirmation. Không candidate/config nào đã được promote trong quá trình này.
+
+## Data integrity
+
+Audit date: 2026-09-28. Branch `fix/data-integrity-20260928` được tạo từ PR #14 HEAD `ff40624` vì GitHub vẫn báo PR #14 `OPEN`, `mergedAt=null`; `origin/main` tại audit là `f1236dc`. Không merge, state write, cache deletion, active-config change hay workflow dispatch nào được thực hiện.
+
+| D# | Kết quả | Bằng chứng | Commit |
+|---|---|---|---|
+| D1 | Audit cache isolated đủ 50 mã; 49/50 dưới 90% so với 523 phiên tham chiếu VCI. Fresh audit toàn bộ dừng theo D4 | Bảng dưới; `E:\Tradeclone-review-backtest\cache\vnstock` | Report only |
+| D2 | Xác nhận root cause: fallback MSN trả dữ liệu cắt cụt nhưng response không rỗng bị coi là success và được cache | `data_fetcher.py:157-190,210-249`; `source_manager.py:11-12,39-76`; fresh response mẫu dưới | Report only |
+| D3 | Chưa sửa | D4 kích hoạt STOP CONDITION trước phase sửa/test | — |
+| D4 | **STOP CONDITION**: auto trader đã giao dịch POW và DXG qua dữ liệu không có quality gate | `origin/state:paper_trades.json`; 12 entries, gồm 4 BUY `two_stage_scheduler`; bảng dưới | Report only |
+| D5 | Chưa thực hiện | Dừng tại D4 | — |
+| D6 | Chưa thực hiện | Dừng tại D4 | — |
+| D7 | Chưa thực hiện | Không chạy/persist rebacktest sau stop | — |
+| D8 | Chưa thực hiện | Không tuyên bố merge-ready khi D4 đang mở | — |
+
+### D1 — độ phủ cache 50 mã
+
+Tham chiếu là 523 session dates từ fresh VCI/VCB cho cùng request hai năm. `Missing` và `max gap` tính theo chuỗi session tham chiếu; đây là audit phát hiện truncation, không phải thay thế lịch HOSE chính thức. Cache hiện tại của repo chỉ có các file ngắn hạn rời rạc; bảng là cache 50 mã của isolated G4 run, không ghi vào repo/state.
+
+| Mã | Rows | First | Last | Missing | Coverage | Max gap | <90% |
+|---|---:|---|---|---:|---:|---:|---|
+| ACB | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| BID | 365 | 2025-04-10 | 2026-09-25 | 172 | 67.1% | 158 | YES |
+| BMP | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| CMG | 365 | 2025-04-14 | 2026-09-25 | 173 | 66.9% | 160 | YES |
+| CTG | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| DCM | 365 | 2025-04-08 | 2026-09-28 | 175 | 66.5% | 156 | YES |
+| DGC | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| DGW | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| DPM | 365 | 2025-04-14 | 2026-09-25 | 173 | 66.9% | 160 | YES |
+| DXG | 24 | 2024-10-18 | 2026-09-18 | 500 | 4.4% | 41 | YES |
+| FPT | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| FRT | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| GAS | 365 | 2024-12-16 | 2026-09-27 | 250 | 52.2% | 82 | YES |
+| GMD | 365 | 2025-04-22 | 2026-09-27 | 243 | 53.5% | 166 | YES |
+| GVR | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| HAH | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| HCM | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| HDB | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| HPG | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| HSG | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| HVN | 365 | 2025-04-22 | 2026-09-27 | 243 | 53.5% | 166 | YES |
+| KBC | 365 | 2025-04-24 | 2026-09-25 | 173 | 66.9% | 168 | YES |
+| KDH | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| MBB | 365 | 2025-04-22 | 2026-09-25 | 173 | 66.9% | 166 | YES |
+| MSN | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| MWG | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| NKG | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| NVL | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| PC1 | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| PLX | 365 | 2025-03-31 | 2026-09-23 | 240 | 54.1% | 151 | YES |
+| POW | 25 | 2026-08-24 | 2026-09-27 | 506 | 3.3% | 500 | YES |
+| PVD | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| PVS | 365 | 2025-04-08 | 2026-09-28 | 175 | 66.5% | 156 | YES |
+| REE | 351 | 2024-09-30 | 2026-09-25 | 189 | 63.9% | 27 | YES |
+| SAB | 365 | 2025-04-17 | 2026-09-25 | 173 | 66.9% | 163 | YES |
+| SHS | 365 | 2025-04-22 | 2026-09-25 | 173 | 66.9% | 166 | YES |
+| SSI | 365 | 2025-03-25 | 2026-09-27 | 245 | 53.2% | 147 | YES |
+| STB | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| TCB | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| VCB | 523 | 2024-08-20 | 2026-09-28 | 0 | 100.0% | 0 |  |
+| VCI | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| VHM | 365 | 2025-04-15 | 2026-09-27 | 243 | 53.5% | 161 | YES |
+| VIB | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| VIC | 365 | 2025-04-16 | 2026-09-25 | 174 | 66.7% | 162 | YES |
+| VJC | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| VND | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| VNM | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| VPB | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| VRE | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+| VSC | 365 | 2025-04-10 | 2026-09-28 | 158 | 69.8% | 158 | YES |
+
+### D2 — root cause và fresh response
+
+Request giữ nguyên `start=2024-09-28`, `end=2026-09-28`, `interval=1D`:
+
+| Mã | VCI | MSN |
+|---|---|---|
+| VCB | 523 rows, 2024-08-20..2026-09-28 | 365 rows, 2025-04-10..2026-09-28 |
+| DXG | 523 rows, 2024-08-20..2026-09-28 | 24 rows, 2024-10-18..2026-09-18 |
+| POW | 523 rows, 2024-08-20..2026-09-28 | 25 rows, 2026-08-24..2026-09-27 |
+
+VCI tự tính `countBack` theo business days và trả đủ. MSN response bị cap/cắt không đồng nhất. Sau một lỗi VCI, source manager chuyển sang MSN trong 10 phút; response MSN chỉ cần không rỗng là được `report_success`, ghi cache và dùng cho các mã tiếp theo. Cache không phải nguồn gốc ban đầu nhưng giữ lại response sai.
+
+### D4 — giao dịch bị ảnh hưởng
+
+`scan_symbol()` chỉ yêu cầu 55 dòng (`auto_trader.py:1076-1089`) và không kiểm tra coverage. BUY plan tiếp tục fetch 0.1 năm để tính ATR (`auto_trader.py:1346,1441`); close-position có thể fetch 45 ngày (`auto_trader.py:1643,1673`). Vì provider/source không được lưu cùng trade, không thể chứng minh hậu nghiệm từng call dùng VCI hay MSN; các lệnh tự động dưới đây nằm trong phạm vi bị ảnh hưởng và cần operator review.
+
+| Time | Mã | Side | Qty | Price | Reason |
+|---|---|---|---:|---:|---|
+| 2026-06-19 09:14:22 | POW | BUY | 1,770,700 | 14.20 | two_stage_scheduler: BUY |
+| 2026-06-19 10:48:47 | POW | SELL | 1,770,700 | 14.20 | Manual SELL |
+| 2026-06-20 11:07:21 | POW | BUY | 225,184 | 89.02 | Manual BUY từ Two-Stage Analysis |
+| 2026-06-21 14:49:58 | POW | SELL | 225,184 | 13.90 | Manual SELL |
+| 2026-06-21 14:51:54 | POW | BUY | 2,295,752 | 13.90 | Manual BUY từ Two-Stage Analysis |
+| 2026-06-22 09:47:17 | POW | SELL | 2,295,752 | 13.90 | Manual SELL |
+| 2026-06-30 10:41:48 | POW | BUY | 2,657,200 | 14.80 | two_stage_scheduler: BUY |
+| 2026-07-01 10:10:33 | POW | SELL | 2,657,200 | 14.70 | Manual SELL |
+| 2026-07-23 12:21:23 | POW | BUY | 1,645,900 | 13.05 | two_stage_scheduler: BUY |
+| 2026-08-31 22:45:09 | POW | SELL | 1,645,900 | 13.10 | stop_loss |
+| 2026-09-16 14:06:18 | DXG | BUY | 1,904,600 | 10.40 | two_stage_scheduler: BUY |
+| 2026-09-24 20:05:48 | DXG | SELL | 1,904,600 | 10.15 | stop_loss |
+
+### Kết luận data integrity
+
+**CHƯA SẴN SÀNG MERGE.** D4 kích hoạt STOP CONDITION vì auto trader đã ghi giao dịch POW/DXG trong khi fetch path không có coverage gate. Theo yêu cầu, không tự sửa sau phát hiện này. D3/D5/D6/D7/D8 còn mở; không có candidate mới, promotion, active-config change hay state mutation.
+
+## Data integrity — hoàn tất (29/09/2026)
+
+Tiếp nối audit ở trên sau khi #14 đã merge. Branch được merge với `main` (#14, #16, #18), không rebase lại lịch sử.
+
+| D# | Kết quả | Bằng chứng |
+|---|---|---|
+| D3 | **Sửa lại cổng chất lượng.** Commit `5e51aad` so độ phủ với *ngày trong tuần* ≥ 90%, nên từ chối cả dữ liệu VCI đầy đủ khi cửa sổ ngắn vắt qua ngày nghỉ. Ví dụ: EOD dùng 0,1 năm; ngày 28/09/2026 chỉ phủ 88,5% do nghỉ 31/8–2/9; sau Tết chỉ 81,5%; `years=0.02` với 1 ngày nghỉ chỉ 80%. Nếu merge nguyên bản thì EOD/auto trader sẽ hỏng. Nay số phiên kỳ vọng lấy từ `trading_calendar` (#18), cho thiếu tối đa `max(10%, 2 phiên)`, và vẫn yêu cầu dữ liệu bắt đầu đúng hạn. | Mô phỏng 50 mã × mọi ngày kết thúc 2025–2026 × cửa sổ 0,02–2 năm: **19.500 cửa sổ, 0 lần từ chối nhầm**. Mẫu cắt cụt kiểu MSN (365 dòng cuối, 1/21 dòng): **0 lần lọt**. Gọi thật: VCI VCB/DXG/POW 0,1 năm và 2 năm đều `ok` (phủ 99,4–100%); MSN DXG 24 dòng (4,6%) và POW 25 dòng (3,4%) bị từ chối. |
+| D4 | **Đã review 12 lệnh POW/DXG.** Có 11/12 giá khớp nằm trong biên độ giá thật của phiên. Lệnh lỗi duy nhất là 2026-06-20 (thứ Bảy) POW BUY 225.184 @ 89,02, gấp 6,3 lần giá thị trường 13,85–14,20. Lệnh này gây lỗ ảo −16,9 triệu, thuộc **epoch 0** nên đã được cách ly bởi migration epoch. Epoch 1 (sổ hiện hành): POW +82.295, DXG −476.150. DXG dừng lỗ ở −2,4% sau 6 phiên; stop có thể đặt từ ATR trên 24 dòng cụt. Tổng ảnh hưởng ≈ −0,39 triệu (≈0,5% tài sản). | So với OHLC VCI trong snapshot `research/data/2026-09-29` |
+| D5 | **Không sửa sổ lệnh.** Giá khớp của epoch 1 là giá thật. Lệnh sai giá nằm trong epoch 0 đã cách ly. Viết lại lịch sử sẽ làm hỏng chuỗi đối soát của self-healing mà không đem lại gì. | Quyết định vận hành |
+| D6 | **Truy vết từ nay:** mỗi lệnh ghi `data_provenance` gồm nguồn, cách lấy (fresh/cache/stale), số dòng, độ phủ và khoảng ngày, lấy từ lần fetch gần nhất của mã đó. Không cần xóa cache thủ công: cache cũ thiếu metadata bị bỏ qua tự động, và `data_cache/` trên runner Actions không được persist. | `data_fetcher.data_provenance`, `auto_trader.log_trade`; test `test_trades_record_the_provenance_of_the_data_behind_them` |
+| D7 | Không dispatch rebacktest thủ công. Theo #14, rebacktest chỉ tạo candidate. Lần chạy thứ Hai tới sẽ dùng dữ liệu đã qua cổng chất lượng; candidate cần được review trước khi promote. | — |
+| D8 | **Sẵn sàng merge.** Full suite 175 passed, 12 skipped (playwright/dashboard/network), với `TestDataFiles` được deselect vì cần file runtime cục bộ. Hai test data-integrity trước đây fail khi máy không có vnstock nay đã mock `provider_availability`. | `pytest tests --deselect tests/test_dashboard.py::TestDataFiles` |
