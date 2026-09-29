@@ -38,6 +38,9 @@ STATE_FILE = os.path.join(BASE_DIR, "scheduler_state.json")
 ANALYSIS_RESULTS_FILE = os.path.join(BASE_DIR, "analysis_results.json")
 INTRADAY_ALERTS_FILE = os.path.join(BASE_DIR, "intraday_alerts.json")
 REBACKTEST_CHECKPOINT = "rebacktest_checkpoint.json"
+# Six years give ~50-80 trades per ticker, enough for config_review's evidence
+# criteria (two years gave at most ~23).
+REBACKTEST_YEARS = 6
 REBACKTEST_CHUNK_SIZE = 5
 INSTANCE_LOCK_FILE = os.path.join(BASE_DIR, "scheduler.pid.lock")
 _instance_lock_handle = None
@@ -916,13 +919,13 @@ def task_weekly_rebacktest(force=False):
             from backtester_pro import run_portfolio_backtest_pro
 
             runner = run_portfolio_backtest_pro
-            runner_kwargs = {"years": 2, "optimize": True, "source": "scheduler", "write_output": False}
+            runner_kwargs = {"years": REBACKTEST_YEARS, "optimize": True, "source": "scheduler", "write_output": False}
         except Exception as exc:
             log.warning("backtester_pro unavailable, falling back to legacy backtester: %s", exc)
             from backtester import run_portfolio_backtest
 
             runner = run_portfolio_backtest
-            runner_kwargs = {"years": 2, "atr_stop": 1.0, "atr_target": 2.0,
+            runner_kwargs = {"years": REBACKTEST_YEARS, "atr_stop": 1.0, "atr_target": 2.0,
                              "source": "scheduler", "write_output": False}
 
         watchlist_path = os.path.join(BASE_DIR, "training_watchlist.json")

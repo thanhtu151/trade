@@ -9,7 +9,9 @@ fixed here, before any candidate was reviewed:
   C1 valid      candidate passed config_store.validate (no ticker with a data error)
   C2 fresh      candidate created within MAX_AGE_DAYS
   C3 trades     at least MIN_TRADES trades for the ticker
-  C4 edge       EV > 0 and profit factor >= MIN_PROFIT_FACTOR
+  C4 edge       EV >= MIN_EV_PCT per trade and profit factor >= MIN_PROFIT_FACTOR
+                (the legacy backtester excludes costs, so EV must clear an
+                approximate 0.5% round trip rather than zero)
   C5 evidence   win rate beats the stop/target break-even (+ cost margin) with
                 z >= MIN_Z. Exits are mostly at the ATR stop or target, so a
                 trade is close to a Bernoulli outcome with break-even
@@ -40,6 +42,7 @@ LOG_NAME = "config_review_log.json"
 MAX_AGE_DAYS = 8
 MIN_TRADES = 30
 MIN_PROFIT_FACTOR = 1.2
+MIN_EV_PCT = 0.5
 MIN_Z = 3.0
 COST_MARGIN = 0.02
 MIN_QUALIFIED = 5
@@ -75,7 +78,7 @@ def ticker_evidence(row, stop, target):
     z = ((win_rate - breakeven) / math.sqrt(breakeven * (1 - breakeven) / trades)) if trades > 0 else float("-inf")
     checks = {
         "C3_trades": trades >= MIN_TRADES,
-        "C4_edge": row.get("status") == "ok" and ev > 0 and profit_factor >= MIN_PROFIT_FACTOR,
+        "C4_edge": row.get("status") == "ok" and ev >= MIN_EV_PCT and profit_factor >= MIN_PROFIT_FACTOR,
         "C5_evidence": z >= MIN_Z,
     }
     detail = {"trades": trades, "ev": ev, "profit_factor": profit_factor, "win_rate": round(win_rate, 4),
@@ -125,7 +128,8 @@ def review(envelope, active, now=None):
 
 
 def criteria():
-    return {"max_age_days": MAX_AGE_DAYS, "min_trades": MIN_TRADES, "min_profit_factor": MIN_PROFIT_FACTOR,
+    return {"max_age_days": MAX_AGE_DAYS, "min_trades": MIN_TRADES, "min_ev_pct": MIN_EV_PCT,
+            "min_profit_factor": MIN_PROFIT_FACTOR,
             "min_z": MIN_Z, "cost_margin": COST_MARGIN, "min_qualified": MIN_QUALIFIED}
 
 
