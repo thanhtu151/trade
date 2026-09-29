@@ -651,12 +651,38 @@ def fetch_eod_market_data(fetcher, sleeper=None, random_fn=None):
     )
 
 
+def run_etf_core():
+    """Advance the ETF core paper sleeve; isolated so it never breaks the EOD task."""
+    from system_status import update_task
+
+    update_task(BASE_DIR, "etf_core", "running")
+    try:
+        from etf_core import run_daily
+
+        info = run_daily()
+    except Exception as exc:
+        log.error("ETF core failed: %s", exc)
+        update_task(BASE_DIR, "etf_core", "failed", error=exc)
+        try:
+            from notify import notify_task_failed
+
+            notify_task_failed("etf_core", exc, f"etf_core:{ict_today().isoformat()}")
+        except Exception:
+            pass
+        return None
+    update_task(BASE_DIR, "etf_core", "success")
+    log.info("ETF core: signal=%s equity=%s pending=%s", info["signal"], info["equity"], info["pending"])
+    return info
+
+
 def task_eod_update():
     """15:00 - update trailing stops, exit stopped positions, and refresh PnL."""
     if not is_trading_day():
         log.info("Not a trading day, skipping EOD update")
         mark_ran_today("eod_update")
         return
+    # Has its own per-session idempotency, so it also runs when the LLM EOD already did.
+    run_etf_core()
     if already_ran_today("eod_update"):
         log.info("eod_update already ran today, skipping")
         return

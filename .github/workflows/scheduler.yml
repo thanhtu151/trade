@@ -81,6 +81,7 @@ jobs:
         backtest_config.backup.json backtest_config_audit.json
         paper_portfolio.json.pre_task.bak paper_trades.json.pre_task.bak
         pre_task_snapshot.json
+        etf_core_state.json
     steps:
       - name: Checkout code (main)
         uses: actions/checkout@v4
