@@ -258,5 +258,19 @@
       "VHM"
     ],
     "n_positions": 2
+  },
+  {
+    "date": "2026-09-29",
+    "time": "2026-09-29T16:40:27.915610+07:00",
+    "ledger_epoch": 1,
+    "cash": 34898105.0,
+    "market_value": 42040895.0,
+    "equity": 76939000.0,
+    "positions": [
+      "GMD",
+      "HCM",
+      "STB"
+    ],
+    "n_positions": 3
   }
 ]

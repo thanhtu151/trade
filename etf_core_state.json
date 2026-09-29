@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "etf": "E1VFVN30",
+ "signal_symbol": "VN30",
+ "months": 10,
+ "initial_cash": 100000000.0,
+ "cash": 100000000.0,
+ "units": 0,
+ "started": "2026-09-29",
+ "last_session": "2026-09-29",
+ "pending": null,
+ "signal": null,
+ "trades": [],
+ "equity": [
+  {
+   "session": "2026-09-29",
+   "close": 34390.0,
+   "units": 0,
+   "cash": 100000000.0,
+   "equity": 100000000.0
+  }
+ ],
+ "signals": []
+}
