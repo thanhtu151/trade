@@ -16,6 +16,9 @@ VIETNAM_TZ = ZoneInfo("Asia/Ho_Chi_Minh")
 DISABLE_FILE = "trading_disabled.json"
 _FALSE_VALUES = {"0", "false", "no", "off", "disabled"}
 ENABLE_CONFIRMATION = "ENABLE_TRADING"
+# HoSE daily price band; a paper fill further than this from the previous close is bad data.
+MAX_FILL_DEVIATION = 0.07
+EXIT_SESSION_END = time(14, 45)  # end of the ATC auction
 
 
 def vietnam_now() -> datetime:
@@ -41,7 +44,12 @@ def kill_switch_reason(base_dir=None) -> str | None:
     return None
 
 
-def market_session_reason(now: datetime | None = None) -> str | None:
+def market_session_reason(now: datetime | None = None, exit_order: bool = False) -> str | None:
+    """Entries trade 09:15-11:25/13:00-14:25; exits may also use the ATC call.
+
+    HoSE/HNX close with the ATC auction 14:30-14:45, so a stop-loss or EOD exit
+    found after 14:25 can still be filled in the same session.
+    """
     current = now or vietnam_now()
     if current.tzinfo is None:
         current = current.replace(tzinfo=VIETNAM_TZ)
@@ -49,21 +57,55 @@ def market_session_reason(now: datetime | None = None) -> str | None:
     if current.weekday() >= 5:
         return "market is closed on weekends"
     wall_time = current.time().replace(tzinfo=None)
+    afternoon_end = EXIT_SESSION_END if exit_order else time(14, 25)
     morning = time(9, 15) <= wall_time <= time(11, 25)
-    afternoon = time(13, 0) <= wall_time <= time(14, 25)
+    afternoon = time(13, 0) <= wall_time <= afternoon_end
     if not (morning or afternoon):
+        if exit_order:
+            return "outside exit sessions (09:15-11:25, 13:00-14:45 ICT incl. ATC)"
         return "outside configured trading sessions (09:15-11:25, 13:00-14:25 ICT)"
     return None
 
 
-def operational_gate(base_dir=None, now: datetime | None = None) -> tuple[bool, str]:
+def operational_gate(base_dir=None, now: datetime | None = None, exit_order: bool = False) -> tuple[bool, str]:
     reason = kill_switch_reason(base_dir)
     if reason:
         return False, reason
-    reason = market_session_reason(now)
+    reason = market_session_reason(now, exit_order=exit_order)
     if reason:
         return False, reason
     return True, "operational gates passed"
+
+
+def price_sanity_reason(price, prev_close=None, day_low=None, day_high=None,
+                        max_deviation=MAX_FILL_DEVIATION) -> str | None:
+    """Reason to refuse a paper fill at ``price`` (VND), or None when it is plausible.
+
+    Fails closed without a previous close: an unchecked fill is how VPB @28.0
+    (day range 21.90-22.57) reached the ledger.
+    """
+    try:
+        price = float(price)
+    except (TypeError, ValueError):
+        return f"fill price {price!r} is not a number"
+    if not price > 0:
+        return f"fill price {price} is not positive"
+    if prev_close is None or not float(prev_close) > 0:
+        return "no previous close to validate the fill price against"
+    prev_close = float(prev_close)
+    deviation = price / prev_close - 1
+    # Tolerance only absorbs float error: 23,861 / 22,300 - 1 is exactly 7% but
+    # evaluates to 0.07000000000000006 > 0.07, which would reject the ceiling price.
+    if abs(deviation) > max_deviation + 1e-9:
+        return (
+            f"fill price {price:,.0f} deviates {deviation:+.1%} from previous close "
+            f"{prev_close:,.0f} (limit {max_deviation:.0%})"
+        )
+    if day_low is not None and day_high is not None and float(day_low) > 0 and float(day_high) > 0:
+        low, high = float(day_low), float(day_high)
+        if price < low * (1 - 1e-9) or price > high * (1 + 1e-9):
+            return f"fill price {price:,.0f} is outside today's range [{low:,.0f}, {high:,.0f}]"
+    return None
 
 
 def _atomic_json(path, value):

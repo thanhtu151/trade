@@ -321,6 +321,8 @@ def run_self_healing(base_dir=None, repair=True):
         if price < 1000:
             low_price_events.append({"symbol": event.get("symbol"), "time": event.get("time"), "price": price})
         expected_cash += value if side == "SELL" else -value
+        # Fees and sell tax are charged to cash on top of the traded value.
+        expected_cash -= _finite_number(event.get("fees")) or 0.0
     if low_price_events:
         warnings.append(f"current epoch contains {len(low_price_events)} legacy price(s) below 1,000 VND; history was not modified")
     actual_cash = _finite_number(portfolio.get("cash"))
@@ -378,6 +380,8 @@ def run_self_healing(base_dir=None, repair=True):
                 checkpoint_expected_cash -= value
             elif side == "SELL":
                 checkpoint_expected_cash += value
+            # Same rule as the epoch replay: fees and sell tax come out of cash.
+            checkpoint_expected_cash -= _finite_number(event.get("fees")) or 0.0
         if actual_cash is None or abs(checkpoint_expected_cash - actual_cash) > 1.0:
             critical.append(
                 f"cash checkpoint mismatch: expected {checkpoint_expected_cash:,.0f}, actual {actual_cash or 0:,.0f}"
@@ -438,11 +442,11 @@ def run_self_healing(base_dir=None, repair=True):
     return report
 
 
-def trading_permission(base_dir=None):
+def trading_permission(base_dir=None, exit_order=False):
     """Return a fail-closed decision and an operator-readable reason."""
     from trading_safety import operational_gate
 
-    operational, reason = operational_gate(base_dir=base_dir)
+    operational, reason = operational_gate(base_dir=base_dir, exit_order=exit_order)
     if not operational:
         return False, reason
     report = run_self_healing(base_dir=base_dir, repair=True)
@@ -471,9 +475,9 @@ def write_github_blocked_summary(report):
             handle.write("Kill switch is active; non-trading task state remains healthy.\n")
 
 
-def trading_is_allowed(base_dir=None):
+def trading_is_allowed(base_dir=None, exit_order=False):
     """Backward-compatible boolean gate; new callers should retain the reason."""
-    return trading_permission(base_dir)[0]
+    return trading_permission(base_dir, exit_order=exit_order)[0]
 
 
 def rebaseline(base_dir=None, reason="", operator=""):

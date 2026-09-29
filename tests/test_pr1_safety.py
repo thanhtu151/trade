@@ -44,7 +44,7 @@ def test_two_runs_same_signal_execute_only_one_order(monkeypatch, tmp_path):
     writes = {"portfolio": 0, "trades": 0}
 
     monkeypatch.setattr(auto_trader, "BASE_DIR", str(tmp_path))
-    monkeypatch.setattr(self_healing, "trading_permission", lambda _base: (True, "ok"))
+    monkeypatch.setattr(self_healing, "trading_permission", lambda _base, **_kw: (True, "ok"))
     monkeypatch.setattr(auto_trader, "load_portfolio", lambda: portfolio)
     monkeypatch.setattr(auto_trader, "load_trades", lambda: trades)
     monkeypatch.setattr(auto_trader, "current_price", lambda _ticker: 10_000.0)
@@ -96,7 +96,7 @@ def _trade_test_environment(monkeypatch, tmp_path, portfolio=None, sizing_value=
     trades = []
     writes = {"portfolio": 0, "trades": 0}
     monkeypatch.setattr(auto_trader, "BASE_DIR", str(tmp_path))
-    monkeypatch.setattr(self_healing, "trading_permission", lambda _base: (True, "ok"))
+    monkeypatch.setattr(self_healing, "trading_permission", lambda _base, **_kw: (True, "ok"))
     monkeypatch.setattr(auto_trader, "load_portfolio", lambda: portfolio)
     monkeypatch.setattr(auto_trader, "load_trades", lambda: trades)
     monkeypatch.setattr(auto_trader, "current_price", lambda _ticker: 10_000.0)
@@ -187,7 +187,7 @@ def test_structured_blocked_result_preserves_gate_reason(monkeypatch):
     import self_healing
 
     reason = "outside configured trading sessions (09:15-11:25, 13:00-14:25 ICT)"
-    monkeypatch.setattr(self_healing, "trading_permission", lambda _base: (False, reason))
+    monkeypatch.setattr(self_healing, "trading_permission", lambda _base, **_kw: (False, reason))
     outcome = auto_trader.execute_paper_trade("FPT", "BUY", signal_id="blocked")
     assert outcome == {"status": "blocked", "detail": reason, "idempotency_key": None}
 
