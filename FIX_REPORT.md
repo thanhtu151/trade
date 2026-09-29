@@ -348,3 +348,16 @@ VCI tự tính `countBack` theo business days và trả đủ. MSN response bị
 ### Kết luận data integrity
 
 **CHƯA SẴN SÀNG MERGE.** D4 kích hoạt STOP CONDITION vì auto trader đã ghi giao dịch POW/DXG trong khi fetch path không có coverage gate. Theo yêu cầu, không tự sửa sau phát hiện này. D3/D5/D6/D7/D8 còn mở; không có candidate mới, promotion, active-config change hay state mutation.
+
+## Data integrity — hoàn tất (29/09/2026)
+
+Tiếp nối audit ở trên sau khi #14 đã merge. Branch được merge với `main` (#14, #16, #18), không rebase lại lịch sử.
+
+| D# | Kết quả | Bằng chứng |
+|---|---|---|
+| D3 | **Sửa lại cổng chất lượng.** Commit `5e51aad` so độ phủ với *ngày trong tuần* ≥ 90%, nên từ chối cả dữ liệu VCI đầy đủ khi cửa sổ ngắn vắt qua ngày nghỉ. Ví dụ: EOD dùng 0,1 năm; ngày 28/09/2026 chỉ phủ 88,5% do nghỉ 31/8–2/9; sau Tết chỉ 81,5%; `years=0.02` với 1 ngày nghỉ chỉ 80%. Nếu merge nguyên bản thì EOD/auto trader sẽ hỏng. Nay số phiên kỳ vọng lấy từ `trading_calendar` (#18), cho thiếu tối đa `max(10%, 2 phiên)`, và vẫn yêu cầu dữ liệu bắt đầu đúng hạn. | Mô phỏng 50 mã × mọi ngày kết thúc 2025–2026 × cửa sổ 0,02–2 năm: **19.500 cửa sổ, 0 lần từ chối nhầm**. Mẫu cắt cụt kiểu MSN (365 dòng cuối, 1/21 dòng): **0 lần lọt**. Gọi thật: VCI VCB/DXG/POW 0,1 năm và 2 năm đều `ok` (phủ 99,4–100%); MSN DXG 24 dòng (4,6%) và POW 25 dòng (3,4%) bị từ chối. |
+| D4 | **Đã review 12 lệnh POW/DXG.** Có 11/12 giá khớp nằm trong biên độ giá thật của phiên. Lệnh lỗi duy nhất là 2026-06-20 (thứ Bảy) POW BUY 225.184 @ 89,02, gấp 6,3 lần giá thị trường 13,85–14,20. Lệnh này gây lỗ ảo −16,9 triệu, thuộc **epoch 0** nên đã được cách ly bởi migration epoch. Epoch 1 (sổ hiện hành): POW +82.295, DXG −476.150. DXG dừng lỗ ở −2,4% sau 6 phiên; stop có thể đặt từ ATR trên 24 dòng cụt. Tổng ảnh hưởng ≈ −0,39 triệu (≈0,5% tài sản). | So với OHLC VCI trong snapshot `research/data/2026-09-29` |
+| D5 | **Không sửa sổ lệnh.** Giá khớp của epoch 1 là giá thật. Lệnh sai giá nằm trong epoch 0 đã cách ly. Viết lại lịch sử sẽ làm hỏng chuỗi đối soát của self-healing mà không đem lại gì. | Quyết định vận hành |
+| D6 | **Truy vết từ nay:** mỗi lệnh ghi `data_provenance` gồm nguồn, cách lấy (fresh/cache/stale), số dòng, độ phủ và khoảng ngày, lấy từ lần fetch gần nhất của mã đó. Không cần xóa cache thủ công: cache cũ thiếu metadata bị bỏ qua tự động, và `data_cache/` trên runner Actions không được persist. | `data_fetcher.data_provenance`, `auto_trader.log_trade`; test `test_trades_record_the_provenance_of_the_data_behind_them` |
+| D7 | Không dispatch rebacktest thủ công. Theo #14, rebacktest chỉ tạo candidate. Lần chạy thứ Hai tới sẽ dùng dữ liệu đã qua cổng chất lượng; candidate cần được review trước khi promote. | — |
+| D8 | **Sẵn sàng merge.** Full suite 175 passed, 12 skipped (playwright/dashboard/network), với `TestDataFiles` được deselect vì cần file runtime cục bộ. Hai test data-integrity trước đây fail khi máy không có vnstock nay đã mock `provider_availability`. | `pytest tests --deselect tests/test_dashboard.py::TestDataFiles` |

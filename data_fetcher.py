@@ -40,30 +40,48 @@ class InsufficientDataError(RuntimeError):
         super().__init__(f"{self.status}: {self.ticker}: {detail}")
 
 
+MIN_MISSING_ALLOWANCE = 2  # sessions: today's bar not yet published, a one-day suspension
+
+
+def expected_sessions(start, end):
+    """Exchange sessions between start and end from the trading calendar."""
+    from trading_calendar import is_trading_day
+
+    days = pd.bdate_range(pd.Timestamp(start).normalize(), pd.Timestamp(end).normalize())
+    return pd.DatetimeIndex([d for d in days if is_trading_day(d.date())])
+
+
 def assess_history_quality(df, start, end, min_coverage=MIN_HISTORY_COVERAGE):
-    """Check requested daily history against weekday sessions with holiday tolerance."""
-    expected = pd.bdate_range(pd.Timestamp(start).normalize(), pd.Timestamp(end).normalize())
+    """Check requested daily history against exchange sessions from the trading calendar.
+
+    Holidays are not counted as missing (a weekday-based count rejected clean VCI
+    data whenever a short window spanned a holiday, e.g. 0.1 years across Tet).
+    Up to max(10% of sessions, MIN_MISSING_ALLOWANCE) sessions may be missing,
+    and the data must start within that allowance of the first expected session,
+    which still rejects provider caps and truncation.
+    """
+    expected = expected_sessions(start, end)
     expected_rows = len(expected)
     if df is None or df.empty or "time" not in df:
-        return {"status": "insufficient_data", "rows": 0, "expected_business_days": expected_rows,
+        return {"status": "insufficient_data", "rows": 0, "expected_sessions": expected_rows,
                 "coverage": 0.0, "reason": "empty response"}
     times = pd.to_datetime(df["time"], errors="coerce").dropna().dt.normalize().drop_duplicates().sort_values()
     rows = len(times)
-    coverage = min(1.0, rows / expected_rows) if expected_rows else 1.0
+    present = int(expected.isin(times).sum()) if expected_rows else rows
+    coverage = present / expected_rows if expected_rows else 1.0
+    allowance = max(int(expected_rows * (1 - min_coverage)), MIN_MISSING_ALLOWANCE)
     first = times.iloc[0].date().isoformat() if rows else None
     last = times.iloc[-1].date().isoformat() if rows else None
     first_expected = expected[0].date().isoformat() if expected_rows else str(start)
-    # 90% tolerates exchange holidays and brief suspensions, while rejecting provider caps/truncation.
-    start_limit_index = min(max(int(expected_rows * (1 - min_coverage)), 0), max(expected_rows - 1, 0))
-    latest_acceptable_start = expected[start_limit_index] if expected_rows else pd.Timestamp(start)
+    latest_acceptable_start = expected[min(allowance, expected_rows - 1)] if expected_rows else pd.Timestamp(start)
     starts_on_time = bool(rows and times.iloc[0] <= latest_acceptable_start)
-    ok = coverage >= min_coverage and starts_on_time
+    ok = (expected_rows - present) <= allowance and starts_on_time
     reason = None if ok else (
-        f"coverage {coverage:.1%} ({rows}/{expected_rows} business days), "
+        f"coverage {coverage:.1%} ({present}/{expected_rows} exchange sessions), "
         f"first={first}, required_start<={latest_acceptable_start.date().isoformat()}"
     )
     return {"status": "ok" if ok else "insufficient_data", "rows": rows,
-            "expected_business_days": expected_rows, "coverage": round(coverage, 6),
+            "expected_sessions": expected_rows, "coverage": round(coverage, 6),
             "first": first, "last": last, "requested_start": str(start), "requested_end": str(end),
             "first_expected": first_expected, "reason": reason}
 
@@ -300,6 +318,26 @@ def _serialize_frame_records(df):
     return records
 
 
+_PROVENANCE = {}
+
+
+def _remember_provenance(ticker, df, via):
+    """Record where the latest data for ticker came from, for trade audit records."""
+    quality = df.attrs.get("data_quality") or {}
+    _PROVENANCE[str(ticker).upper()] = {
+        "source": df.attrs.get("source"), "via": via, "rows": len(df),
+        "coverage": quality.get("coverage"), "first": quality.get("first"), "last": quality.get("last"),
+        "at": datetime.now().isoformat(timespec="seconds"),
+    }
+    return df
+
+
+def data_provenance(ticker):
+    """Provenance of the most recent get_stock_data_cached() result for ticker, if any."""
+    entry = _PROVENANCE.get(str(ticker).upper())
+    return dict(entry) if entry else None
+
+
 def get_stock_data_cached(ticker, years=1, force_refresh=False):
     """
     Fetch OHLCV data with a file cache to avoid VNStock rate limits.
@@ -331,7 +369,7 @@ def get_stock_data_cached(ticker, years=1, force_refresh=False):
                 df.attrs["data_quality"] = quality
                 df.attrs["source"] = cached["source"]
                 log.info("  %s: using cached data (%.1fh old, %s rows)", ticker, age_hours, len(df))
-                return df.sort_values("time").reset_index(drop=True)
+                return _remember_provenance(ticker, df.sort_values("time").reset_index(drop=True), "cache")
         except Exception as exc:
             log.warning("  Cache read failed for %s: %s", ticker, exc)
 
@@ -358,7 +396,7 @@ def get_stock_data_cached(ticker, years=1, force_refresh=False):
         with open(cache_path, "w", encoding="utf-8") as f:
             json.dump(cache_data, f, ensure_ascii=False)
         time.sleep(1)
-        return df
+        return _remember_provenance(ticker, df, "fresh")
     except Exception as exc:
         log.error("  %s: all sources failed: %s", ticker, exc)
         if os.path.exists(cache_path):
@@ -376,7 +414,7 @@ def get_stock_data_cached(ticker, years=1, force_refresh=False):
                 raise InsufficientDataError(ticker, quality.get("reason") or "stale cache row mismatch", quality) from exc
             df.attrs["data_quality"] = quality
             df.attrs["source"] = cached["source"]
-            return df.sort_values("time").reset_index(drop=True)
+            return _remember_provenance(ticker, df.sort_values("time").reset_index(drop=True), "stale_cache")
         raise
 
 
