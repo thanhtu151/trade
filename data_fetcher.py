@@ -126,6 +126,54 @@ def _prepare_yfinance_cache(yf):
         pass
 
 
+def _yahoo_chart_close(symbol, start, end):
+    """Daily closes straight from Yahoo's chart API using plain requests.
+
+    Fallback for when yfinance's curl_cffi transport is broken, e.g. after
+    TensorFlow is loaded on Linux and curl_cffi raises
+    "Impersonating chrome150 is not supported".
+    """
+    import requests
+
+    resp = requests.get(
+        f"https://query2.finance.yahoo.com/v8/finance/chart/{symbol}",
+        params={"period1": int(start.timestamp()), "period2": int(end.timestamp()), "interval": "1d"},
+        headers={"User-Agent": "Mozilla/5.0"},
+        timeout=20,
+    )
+    resp.raise_for_status()
+    result = (resp.json().get("chart") or {}).get("result") or []
+    if not result or not result[0].get("timestamp"):
+        return pd.DataFrame()
+    closes = result[0]["indicators"]["quote"][0].get("close") or []
+    index = pd.to_datetime(result[0]["timestamp"], unit="s").normalize()
+    df = pd.DataFrame({"Close": closes}, index=index).dropna()
+    df.index.name = "Date"
+    return df[~df.index.duplicated(keep="last")]
+
+
+def _download_close(symbols, start, end):
+    """Return a Date-indexed frame with a Close column for the first symbol that has data."""
+    for symbol in symbols:
+        try:
+            import yfinance as yf
+
+            _prepare_yfinance_cache(yf)
+            df = yf.download(symbol, start=start, end=end, progress=False, auto_adjust=False)
+            if df is not None and not df.empty:
+                return _flatten_yfinance_columns(df)
+        except Exception as exc:
+            log.warning("yfinance download failed for %s: %s", symbol, exc)
+        try:
+            df = _yahoo_chart_close(symbol, start, end)
+            if not df.empty:
+                log.info("%s: fetched %s rows via Yahoo chart API fallback", symbol, len(df))
+                return df
+        except Exception as exc:
+            log.warning("Yahoo chart fallback failed for %s: %s", symbol, exc)
+    return pd.DataFrame()
+
+
 def _records_to_frame(cached):
     return pd.DataFrame(cached) if cached else pd.DataFrame()
 
@@ -304,18 +352,12 @@ def fetch_usdvnd(years=6):
         return _records_to_frame(cached)
 
     try:
-        import yfinance as yf
-
-        _prepare_yfinance_cache(yf)
         end = datetime.now()
         start = end - timedelta(days=years * 365)
-        df = yf.download("USDVND=X", start=start, end=end, progress=False, auto_adjust=False)
-        if df.empty:
-            df = yf.download("VND=X", start=start, end=end, progress=False, auto_adjust=False)
+        df = _download_close(("USDVND=X", "VND=X"), start, end)
         if df.empty:
             return pd.DataFrame()
 
-        df = _flatten_yfinance_columns(df)
         df = df[["Close"]].rename(columns={"Close": "usdvnd"})
         df.index = pd.to_datetime(df.index)
         df["usdvnd_change"] = df["usdvnd"].pct_change()
@@ -338,16 +380,12 @@ def fetch_vix(years=6):
         return _records_to_frame(cached)
 
     try:
-        import yfinance as yf
-
-        _prepare_yfinance_cache(yf)
         end = datetime.now()
         start = end - timedelta(days=years * 365)
-        df = yf.download("^VIX", start=start, end=end, progress=False, auto_adjust=False)
+        df = _download_close(("^VIX",), start, end)
         if df.empty:
             return pd.DataFrame()
 
-        df = _flatten_yfinance_columns(df)
         df = df[["Close"]].rename(columns={"Close": "vix"})
         df.index = pd.to_datetime(df.index)
         df["vix_change"] = df["vix"].pct_change()

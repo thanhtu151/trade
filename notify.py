@@ -68,16 +68,16 @@ def send_once(fingerprint, title, description, level="info", fields=None, base_d
     path = base / STATE_FILE
     try:
         state = json.loads(path.read_text(encoding="utf-8"))
-        sent = set(state.get("sent", [])) if isinstance(state, dict) else set()
+        sent = [str(item) for item in state.get("sent", [])] if isinstance(state, dict) else []
     except Exception:
-        sent = set()
+        sent = []
     if fingerprint and fingerprint in sent:
         return False
     delivered = send_embed(title, description, level=level, fields=fields, **kwargs)
     if delivered and fingerprint:
         try:
-            sent.add(fingerprint)
-            recent = sorted(sent)[-500:]
+            # Keep insertion order so the oldest fingerprints are evicted first.
+            recent = (sent + [fingerprint])[-500:]
             temp = path.with_suffix(path.suffix + ".tmp")
             temp.write_text(json.dumps({"sent": recent}, ensure_ascii=False, indent=2), encoding="utf-8")
             os.replace(temp, path)
@@ -159,8 +159,11 @@ def build_eod_summary(base_dir):
 
 
 def notify_eod(base_dir):
+    # One summary per ICT trading day: a delayed cron or a watchdog catch-up can
+    # re-run eod after it already completed, and that re-run must stay silent.
+    ict_date = datetime.now(ZoneInfo("Asia/Ho_Chi_Minh")).date().isoformat()
     try:
-        return send_embed("End-of-day summary", build_eod_summary(base_dir), "info")
+        return send_once(f"eod:{ict_date}", "End-of-day summary", build_eod_summary(base_dir), "info", base_dir=base_dir)
     except Exception as exc:
         _safe_warning(f"could not build EOD summary: {type(exc).__name__}")
         return False
