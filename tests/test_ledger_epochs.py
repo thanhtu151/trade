@@ -414,7 +414,7 @@ def test_circuit_breaker_state_survives_process_restart(tmp_path):
     assert restarted.allow("VCI") is False
 
 
-def test_exchange_calendar_has_verified_closures_and_unknown_year_fails_closed():
+def test_exchange_calendar_has_verified_closures_and_unknown_year_uses_statutory_rules():
     from datetime import date
     from scheduler import is_trading_day
 
@@ -423,7 +423,10 @@ def test_exchange_calendar_has_verified_closures_and_unknown_year_fails_closed()
     assert is_trading_day(date(2026, 4, 27)) is False
     assert is_trading_day(date(2026, 8, 31)) is False
     assert is_trading_day(date(2026, 9, 28)) is True
-    assert is_trading_day(date(2027, 9, 1)) is False
+    # 2027 has no official list yet: statutory holidays close, other weekdays trade.
+    assert is_trading_day(date(2027, 9, 2)) is False
+    assert is_trading_day(date(2027, 2, 8)) is False  # Lunar New Year (3rd day)
+    assert is_trading_day(date(2027, 9, 1)) is True
 
 
 def test_manual_rebacktest_runs_off_monday_and_marks_only_success(monkeypatch, tmp_path):

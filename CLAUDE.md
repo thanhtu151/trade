@@ -105,6 +105,7 @@ Trained models are saved under `lstm_models/` as `<TICKER>_xgb.pkl`, `<TICKER>_l
 | `train_lstm.py` | Sequence-based LSTM for price direction using a sliding window of 20 days. Uses `MinMaxScaler` per ticker. |
 | `backtester.py` | Rule-based signal replay (no LLM) measuring win rate, EV/trade, Sharpe, and max drawdown. Config driven by `backtest_config.json` (stores `positive_ev_tickers` — tickers where backtesting found positive expected value). |
 | `backtester_pro.py` | Extended backtester with walk-forward optimization over ATR stop/target multipliers. |
+| `etf_core.py` | Paper sleeve independent of the LLM portfolio: holds E1VFVN30 while VN30's month-end close is at/above its 10-month average, else cash. Runs inside the EOD task (`scheduler.run_etf_core`), fills at the next open with full costs, state in `etf_core_state.json`. Chosen from the research backtests (PR #17); run 3–6 months on paper before any real money. |
 | `vnstock_fetch_worker.py` | Thin subprocess wrapper around `vnstock` API calls — spawned by `auto_trader.py` to isolate rate-limited fetches with a 30s timeout and 1.05s minimum inter-request delay. |
 
 ### State Files (runtime, gitignored)

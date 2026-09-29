@@ -66,3 +66,8 @@ def vendor_status(*args, **kwargs):
 
 def vnstock_client(*args, **kwargs):
     return _vendor_class("vnstock", "Vnstock")(*args, **kwargs)
+
+
+def market_events() -> dict:
+    """vnstock's table of VN market holidays ({ISO date: {"event", "type"}})."""
+    return dict(_vendor_class("vnstock.core.utils.market_events", "MARKET_EVENTS"))

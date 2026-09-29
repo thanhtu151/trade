@@ -3,6 +3,8 @@ Test suite cho VN Stock Dashboard.
 Chạy: pytest tests/ -v
 """
 
+
+from __future__ import annotations
 from datetime import date
 import ast
 import collections
