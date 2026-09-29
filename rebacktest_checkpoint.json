@@ -31,7 +31,12 @@
     "MWG",
     "FRT",
     "DGW",
-    "VNM"
+    "VNM",
+    "MSN",
+    "SAB",
+    "GAS",
+    "PLX",
+    "POW"
   ],
   "results": {
     "VCB": {
@@ -723,6 +728,121 @@
         "atr_target": 1.5,
         "confluence_min": 4
       }
+    },
+    "MSN": {
+      "ticker": "MSN",
+      "strategy": "LegacyFallback",
+      "years": 6,
+      "commission": 0.0015,
+      "return_pct": 5.74,
+      "buy_hold_pct": 0.0,
+      "win_rate": 0.439,
+      "profit_factor": 1.31,
+      "sharpe": 1.89,
+      "sortino": 0.0,
+      "calmar": 0.0,
+      "max_drawdown_pct": 4.18,
+      "trades": 41,
+      "expectancy_pct": 0.717,
+      "kelly": 0.0,
+      "backtested_at": "2026-09-29T12:08:49.139998",
+      "optimal_params": {
+        "atr_stop": 1.5,
+        "atr_target": 3.0,
+        "confluence_min": 4
+      }
+    },
+    "SAB": {
+      "ticker": "SAB",
+      "strategy": "LegacyFallback",
+      "years": 6,
+      "commission": 0.0015,
+      "return_pct": 1.99,
+      "buy_hold_pct": 0.0,
+      "win_rate": 0.3333,
+      "profit_factor": 1.2,
+      "sharpe": 1.24,
+      "sortino": 0.0,
+      "calmar": 0.0,
+      "max_drawdown_pct": 3.51,
+      "trades": 36,
+      "expectancy_pct": 0.287,
+      "kelly": 0.0,
+      "backtested_at": "2026-09-29T12:08:59.010294",
+      "optimal_params": {
+        "atr_stop": 1.2,
+        "atr_target": 3.0,
+        "confluence_min": 4
+      }
+    },
+    "GAS": {
+      "ticker": "GAS",
+      "strategy": "LegacyFallback",
+      "years": 6,
+      "commission": 0.0015,
+      "return_pct": 8.51,
+      "buy_hold_pct": 0.0,
+      "win_rate": 0.434,
+      "profit_factor": 1.53,
+      "sharpe": 2.83,
+      "sortino": 0.0,
+      "calmar": 0.0,
+      "max_drawdown_pct": 4.09,
+      "trades": 53,
+      "expectancy_pct": 0.79,
+      "kelly": 0.0,
+      "backtested_at": "2026-09-29T12:09:09.569203",
+      "optimal_params": {
+        "atr_stop": 1.2,
+        "atr_target": 2.0,
+        "confluence_min": 4
+      }
+    },
+    "PLX": {
+      "ticker": "PLX",
+      "strategy": "LegacyFallback",
+      "years": 6,
+      "commission": 0.0015,
+      "return_pct": 15.38,
+      "buy_hold_pct": 0.0,
+      "win_rate": 0.6038,
+      "profit_factor": 2.2,
+      "sharpe": 5.65,
+      "sortino": 0.0,
+      "calmar": 0.0,
+      "max_drawdown_pct": 2.91,
+      "trades": 53,
+      "expectancy_pct": 1.366,
+      "kelly": 0.0,
+      "backtested_at": "2026-09-29T12:09:20.092099",
+      "optimal_params": {
+        "atr_stop": 1.2,
+        "atr_target": 1.5,
+        "confluence_min": 4
+      }
+    },
+    "POW": {
+      "ticker": "POW",
+      "strategy": "LegacyFallback",
+      "years": 6,
+      "commission": 0.0015,
+      "return_pct": 9.54,
+      "buy_hold_pct": 0.0,
+      "win_rate": 0.4762,
+      "profit_factor": 1.54,
+      "sharpe": 3.0,
+      "sortino": 0.0,
+      "calmar": 0.0,
+      "max_drawdown_pct": 4.68,
+      "trades": 42,
+      "expectancy_pct": 1.12,
+      "kelly": 0.0,
+      "backtested_at": "2026-09-29T12:09:29.957112",
+      "optimal_params": {
+        "atr_stop": 1.5,
+        "atr_target": 2.5,
+        "confluence_min": 4
+      }
     }
   },
   "optimal_params": {
@@ -874,6 +994,31 @@
     "VNM": {
       "atr_stop": 1.0,
       "atr_target": 1.5,
+      "confluence_min": 4
+    },
+    "MSN": {
+      "atr_stop": 1.5,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "SAB": {
+      "atr_stop": 1.2,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "GAS": {
+      "atr_stop": 1.2,
+      "atr_target": 2.0,
+      "confluence_min": 4
+    },
+    "PLX": {
+      "atr_stop": 1.2,
+      "atr_target": 1.5,
+      "confluence_min": 4
+    },
+    "POW": {
+      "atr_stop": 1.5,
+      "atr_target": 2.5,
       "confluence_min": 4
     }
   }
