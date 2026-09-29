@@ -24,11 +24,15 @@ from pathlib import Path
 
 
 VN_EXCHANGE_HOLIDAYS = {
+    # HOSE notice 2294/TB-SGDHCM (09/12/2025), plus 24/11 Vietnam Culture Day: a
+    # statutory paid holiday from 2026 under Resolution 28/2026/QH16 (effective
+    # 01/07/2026), adopted after that notice was published.
     2026: {
         "2026-01-01", "2026-01-02",
         "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20",
         "2026-04-27", "2026-04-30", "2026-05-01",
         "2026-08-31", "2026-09-01", "2026-09-02",
+        "2026-11-24",
     },
 }
 
@@ -158,6 +162,8 @@ def provisional_holidays(year):
     tet_days = [tet + timedelta(days=offset) for offset in range(-1, 4)]
     fixed = [date(year, 1, 1), date(year, 4, 30), date(year, 5, 1), date(year, 9, 2),
              lunar_to_solar(year, 3, 10)]
+    if year >= 2026:  # Vietnam Culture Day, Resolution 28/2026/QH16
+        fixed.append(date(year, 11, 24))
     return _weekdays(tet_days + fixed)
 
 

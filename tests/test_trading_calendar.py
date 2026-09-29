@@ -39,7 +39,8 @@ def test_hung_kings_day_2026_matches_verified_calendar():
 def test_provisional_year_closes_statutory_days_only(calendar_file):
     assert tc.year_status(2027) == "provisional"
     closed = tc.closures(2027)
-    assert {"2027-01-01", "2027-02-05", "2027-02-08", "2027-02-09", "2027-04-30", "2027-09-02"} <= closed
+    assert {"2027-01-01", "2027-02-05", "2027-02-08", "2027-02-09", "2027-04-30", "2027-09-02",
+            "2027-11-24"} <= closed
     assert tc.is_trading_day(date(2027, 1, 4)) is True
 
 
@@ -63,17 +64,18 @@ def vnindex(days):
 def test_sync_builds_statuses_observations_and_discrepancies(calendar_file):
     traded = [d for d in pd.bdate_range("2026-01-05", "2026-09-28") if d.strftime("%Y-%m-%d") not in
               tc.VN_EXCHANGE_HOLIDAYS[2026] and d != pd.Timestamp("2026-06-01")]
-    announced = {2025: {"2025-01-27", "2025-01-28", "2025-01-29"}, 2026: {"2026-11-24", "2026-03-02"}}
+    announced = {2025: {"2025-01-27", "2025-01-28", "2025-01-29"}, 2026: {"2026-11-25", "2026-03-02"}}
     result = calendar_sync.sync(today=date(2026, 10, 5), fetch=lambda: vnindex(traded), announced=announced,
                                 path=calendar_file, notify=False)
     data = json.loads(calendar_file.read_text())
     assert result["years"] == {"2025": "announced", "2026": "verified", "2027": "provisional"}
     assert "2026-06-01" in data["years"]["2026"]["closed"]  # observed closure, no list had it
-    assert any("2026-11-24" in d for d in data["discrepancies"])
+    assert any("2026-11-25" in d for d in data["discrepancies"])
     assert any("2026-03-02" in d and "traded" in d for d in data["discrepancies"])
     assert any("2027" in a for a in result["alerts"])  # next year still provisional in October
     assert tc.is_trading_day(date(2026, 6, 1)) is False
-    assert tc.is_trading_day(date(2026, 11, 24)) is True  # verified year keeps its own list
+    assert tc.is_trading_day(date(2026, 11, 25)) is True  # verified year keeps its own list
+    assert tc.is_trading_day(date(2026, 11, 24)) is False  # Vietnam Culture Day
 
 
 def test_sync_survives_missing_market_data(calendar_file):
