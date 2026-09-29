@@ -4,19 +4,21 @@ Số liệu chi tiết: [momentum.md](momentum.md) · dữ liệu thô: `momentu
 
 ## Kết quả
 
+> Số liệu cập nhật sau khi sửa lỗi engine: thứ tự khớp lệnh khi thiếu tiền phụ thuộc hash seed ngẫu nhiên của Python (lần chạy đầu cho CAGR −3,1%). Engine giờ khớp lệnh theo thứ tự xếp hạng, kết quả cố định giữa các lần chạy. Kết luận không đổi.
+
 **Momentum xếp hạng chéo long-only KHÔNG có edge trên HOSE/HNX giai đoạn 2011–2023**, sau chi phí thực tế.
 
 | | Momentum 6-1 (chính) | Tốt nhất trong 4 biến thể (6-1 + lọc MA200) | VN30 (chỉ số) |
 |---|---|---|---|
-| CAGR | −3,1% | +0,4% | +7,5% |
-| Sharpe năm | 0,01 | 0,12 | 0,49 |
-| Max drawdown | −83% | −49% | −48% |
-| Deflated Sharpe | 0,50 | 0,63 | — |
+| CAGR | −1,8% | −0,2% | +7,5% |
+| Sharpe năm | 0,06 | 0,10 | 0,49 |
+| Max drawdown | −80% | −49% | −48% |
+| Deflated Sharpe | 0,62 | 0,65 | — |
 
-- Trượt cả 9 tiêu chí của Cửa 1. PBO = 0,69: chọn biến thể "tốt nhất" trong 4 biến thể còn tệ hơn chọn ngẫu nhiên.
-- Placebo: chiến lược chính đứng ở phân vị 89% so với chọn mã ngẫu nhiên. Tín hiệu có nhỉnh hơn ngẫu nhiên một chút, nhưng mức Sharpe tuyệt đối quá thấp để dùng.
-- Khi giảm chi phí về mức broker 0 phí, CAGR vẫn âm (−1,8%). Chi phí không phải nguyên nhân chính.
-- Lợi nhuận theo năm biến động dữ dội: +41% (2015, 2021) rồi −33% (2018), −68% (2022).
+- Trượt cả 9 tiêu chí của Cửa 1. PBO = 0,96: biến thể "tốt nhất" trong giai đoạn huấn luyện gần như luôn tụt xuống nửa dưới ở giai đoạn kiểm tra.
+- Placebo: chiến lược chính đứng ở phân vị 94% so với chọn mã ngẫu nhiên. Tín hiệu có nhỉnh hơn ngẫu nhiên một chút, nhưng mức Sharpe tuyệt đối quá thấp để dùng.
+- Khi giảm chi phí về mức broker 0 phí, CAGR vẫn âm (−0,3%). Chi phí làm tệ thêm nhưng không phải nguyên nhân chính.
+- Lợi nhuận theo năm biến động dữ dội: +38% (2015), +42% (2021) rồi −35% (2018), −66% (2022).
 
 ## Vì sao thất bại (chẩn đoán, không phải biến thể mới)
 

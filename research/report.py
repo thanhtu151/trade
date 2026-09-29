@@ -25,7 +25,11 @@ NAMES = {
     "mom_12_1": "Momentum 12-1",
     "mom_6_1_regime0": "6-1 + lọc MA200 (0%)",
     "mom_6_1_regime50": "6-1 + lọc MA200 (50%)",
+    "value_ep": "E/P (chính)",
+    "value_ep_lowturn": "E/P + turnover thấp",
+    "value_ep_mom": "E/P + momentum 6-1",
 }
+TITLES = {"momentum": "momentum", "value": "giá trị (E/P)"}
 
 
 def pct(x, digits=1):
@@ -52,19 +56,19 @@ def section(report):
     for name, b in report["benchmarks"].items():
         lines.append(f"| {name} (chỉ số, không phí) | {pct(b['cagr'])} | {num(b['sharpe_annual'])} | "
                      f"{pct(b['max_drawdown'])} | — | — | — | — | — | — | — |")
-    lines += ["", f"- PBO (4 biến thể, CSCV 8 khối): **{num(report['pbo'])}**"]
+    lines += ["", f"- PBO ({len(report['trials'])} biến thể, CSCV 8 khối): **{num(report['pbo'])}**"]
     low = report.get("primary_low_cost")
     if low:
-        lines.append(f"- Độ nhạy chi phí (6-1, broker 0 phí, trượt giá 0,1%): CAGR {pct(low['cagr'])}, "
+        lines.append(f"- Độ nhạy chi phí (biến thể chính, broker 0 phí, trượt giá 0,1%): CAGR {pct(low['cagr'])}, "
                      f"Sharpe {num(low['sharpe_annual'])}")
     pl = report["placebo"]
     if pl["runs"]:
         lines.append(f"- Placebo chọn mã ngẫu nhiên ({pl['runs']} lần): Sharpe trung vị {num(pl['sharpe_p50'])}, "
                      f"phân vị 95% {num(pl['sharpe_p95'])}; chiến lược chính đứng ở phân vị "
                      f"**{num(pl['primary_percentile'] * 100, 0)}%**")
-    primary = report["trials"]["mom_6_1"]
-    years = primary["by_year"]
-    lines += ["", "Lợi nhuận theo năm (Momentum 6-1, sau phí):", "",
+    primary_key = report.get("primary", "mom_6_1")
+    years = report["trials"][primary_key]["by_year"]
+    lines += ["", f"Lợi nhuận theo năm ({NAMES.get(primary_key, primary_key)}, sau phí):", "",
               "| " + " | ".join(years) + " |", "|" + "---|" * len(years),
               "| " + " | ".join(pct(v) for v in years.values()) + " |", ""]
     gate = report["gate1"]
@@ -73,20 +77,23 @@ def section(report):
     return "\n".join(lines)
 
 
-def render():
-    parts = ["# Kết quả thí nghiệm momentum trên HOSE/HNX", ""]
+def render(experiment="momentum"):
+    parts = [f"# Kết quả thí nghiệm {TITLES.get(experiment, experiment)} trên HOSE/HNX", ""]
     for period in ("dev", "holdout"):
-        path = REPORT_DIR / f"momentum_{period}.json"
+        path = REPORT_DIR / f"{experiment}_{period}.json"
         if path.exists():
             report = json.loads(path.read_text(encoding="utf-8"))
             if period == "dev":
                 parts += [f"Snapshot dữ liệu: `{report['snapshot']}` · {report['universe_symbols_in_panel']} mã "
                           f"trong panel · tạo lúc {report['generated_at']}", ""]
             parts += [section(report), ""]
-    out = REPORT_DIR / "momentum.md"
+    out = REPORT_DIR / f"{experiment}.md"
     out.write_text("\n".join(parts), encoding="utf-8")
     return out
 
 
 if __name__ == "__main__":
-    print(render())
+    import sys
+
+    for name in sys.argv[1:] or ["momentum"]:
+        print(render(name))

@@ -129,7 +129,8 @@ def random_picker(seed):
     rng = np.random.default_rng(seed)
 
     def pick(strategy, i):
-        names = universe(strategy.pre, strategy.rule, i)
+        # Same eligibility as the strategy (e.g. profitable names for Value).
+        names = strategy.eligible(i) if hasattr(strategy, "eligible") else universe(strategy.pre, strategy.rule, i)
         return list(rng.permutation(names)) if names else []
 
     return pick
@@ -144,3 +145,54 @@ class BuyAndHold:
     def __call__(self, panel, i, holdings):
         # Keep asking until the position exists (the symbol may not trade yet).
         return None if holdings.get(self.symbol) else {self.symbol: 0.99}
+
+
+def _pct_rank(series, ascending=True):
+    return series.rank(pct=True, ascending=ascending)
+
+
+class Value(Momentum):
+    """Long-only value ranking on point-in-time earnings yield (E/P).
+
+    mode "ep":          rank by E/P (profitable names only)
+    mode "ep_lowturn":  average percentile of E/P and of low 252-session share turnover
+    mode "ep_mom":      average percentile of E/P and of 6-1 momentum
+    Holding, buffer and rebalance rules are the same as Momentum.
+    """
+
+    def __init__(self, panel, ep, shares, mode="ep", turnover_window=252, **kwargs):
+        kwargs.setdefault("lookback", 126)
+        kwargs.setdefault("skip", 21)
+        super().__init__(panel, **kwargs)
+        self.mode = mode
+        self.ep = ep.reindex(index=panel.dates, columns=panel.symbols)
+        volume = pd.DataFrame(np.where(panel.traded, panel.volume, 0.0), index=panel.dates, columns=panel.symbols)
+        avg_volume = volume.rolling(turnover_window, min_periods=turnover_window // 2).mean()
+        self.turnover = avg_volume / shares.reindex(index=panel.dates, columns=panel.symbols)
+
+    def eligible(self, i):
+        names = universe(self.pre, self.rule, i)
+        ep = self.ep.iloc[i].reindex(names)
+        return list(ep[ep > 0].index)
+
+    def ranked(self, i):
+        names = self.eligible(i)
+        if len(names) < self.hold:
+            return []
+        ep = self.ep.iloc[i][names]
+        if self.mode == "ep":
+            score = ep
+        elif self.mode == "ep_lowturn":
+            turn = self.turnover.iloc[i][names]
+            score = (_pct_rank(ep) + _pct_rank(turn, ascending=False)) / 2
+            score = score[turn.notna()]
+        elif self.mode == "ep_mom":
+            if i < self.lookback:
+                return []
+            close = self.pre.close
+            mom = close.iloc[i - self.skip][names] / close.iloc[i - self.lookback][names] - 1
+            score = (_pct_rank(ep) + _pct_rank(mom)) / 2
+            score = score[mom.notna()]
+        else:
+            raise ValueError(self.mode)
+        return list(score.replace([np.inf, -np.inf], np.nan).dropna().sort_values(ascending=False).index)

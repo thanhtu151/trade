@@ -119,3 +119,13 @@ def test_metrics_match_published_examples():
     # Bailey & Lopez de Prado (2014): DSR ~0.90 for SR 2.5, T=1250, N=100, V=0.5, skew -3, kurt 10.
     dsr = metrics.deflated_sharpe(2.5 / math.sqrt(252), 1250, 100, 0.5 / 252, -3, 10)
     assert dsr == pytest.approx(0.90, abs=0.005)
+
+
+def test_cash_goes_to_orders_in_strategy_rank_order():
+    # Cash covers only one name: the first-ranked symbol must win, independent of hash order.
+    prices = pd.concat([make_prices(flat(40), "ZZZ"), make_prices(flat(40), "AAA")])
+    panel = Panel(prices)
+    plan = {24: {"ZZZ": 0.9, "AAA": 0.9}}
+    out = simulate(panel, Script(plan), Config(initial_cash=10_000_000, costs=ZERO, stop_loss=None))
+    buys = out["trades"][out["trades"]["side"] == "BUY"]
+    assert buys["symbol"].iloc[0] == "ZZZ" and buys.groupby("symbol")["qty"].sum()["ZZZ"] == 900

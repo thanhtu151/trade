@@ -217,7 +217,9 @@ def simulate(panel, strategy, config=None, start=None, end=None):
         # 5) strategy signal at the close -> orders for the next open
         weights = strategy(panel, i, dict(shares))
         if weights is not None:
-            for sym in set(shares) | set(weights):
+            # Strategy order first (its ranking decides who gets cash), then sells of
+            # dropped holdings; never iterate a set, whose order varies per process.
+            for sym in list(weights) + sorted(s for s in shares if s not in weights):
                 if sym in stop_sells:
                     continue
                 w = weights.get(sym, 0.0)

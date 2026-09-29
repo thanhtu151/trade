@@ -73,22 +73,27 @@ def by_year(returns):
     return {str(k): float(v) for k, v in ((1 + returns).groupby(returns.index.year).prod() - 1).items()}
 
 
-def run_trial(panel, name, params, start, end, costs=None):
-    strat = Momentum(panel, **params)
+def momentum_factory(panel, params, **extra):
+    return Momentum(panel, **params, **extra)
+
+
+def run_trial(panel, name, params, start, end, costs=None, factory=momentum_factory):
+    strat = factory(panel, params)
     out = simulate(panel, strat, Config(costs=costs or Costs()), start=start, end=end)
     out["strategy"] = strat
     return out
 
 
-def evaluate(panel, period, label):
+def evaluate(panel, period, label, trials=None, factory=momentum_factory):
+    trials = trials or TRIALS
     start, end = period
     bench = index_returns(panel, "VNINDEX", start, end)
     vn30 = index_returns(panel, "VN30", start, end)
     results, monthly_sr, monthly_returns = {}, {}, {}
-    for name, params in TRIALS.items():
+    for name, params in trials.items():
         t0 = time.time()
-        net = run_trial(panel, name, params, start, end)
-        gross = run_trial(panel, name, params, start, end, costs=Costs(0, 0, 0, 0))
+        net = run_trial(panel, name, params, start, end, factory=factory)
+        gross = run_trial(panel, name, params, start, end, costs=Costs(0, 0, 0, 0), factory=factory)
         r = net["curve"]["return"]
         monthly = (1 + r).resample("ME").prod() - 1
         monthly_sr[name] = metrics.sharpe(monthly)
@@ -118,23 +123,24 @@ def evaluate(panel, period, label):
         }
     # DSR uses the spread of monthly Sharpe across every trial run in this period.
     sr_var = float(np.var(list(monthly_sr.values()), ddof=1)) if len(monthly_sr) > 1 else None
-    n_trials = max(len(TRIALS), count_logged_trials())
+    n_trials = max(len(trials), count_logged_trials())
     for name, res in results.items():
         res["summary"] = metrics.summarize(res.pop("_returns"), n_trials=n_trials,
                                            sr_variance=sr_var if sr_var and sr_var > 0 else None,
                                            benchmark_returns=bench)
-    for name in TRIALS:
-        log_trial(label, name, TRIALS[name], period, results[name]["summary"])
+    for name in trials:
+        log_trial(label, name, trials[name], period, results[name]["summary"])
     matrix = pd.DataFrame(monthly_returns).dropna().to_numpy()
     pbo = metrics.probability_of_backtest_overfitting(matrix, n_splits=8) if len(matrix) >= 16 else None
     return results, {"VNINDEX": metrics.summarize(bench), "VN30": metrics.summarize(vn30)}, pbo
 
 
-def placebo(panel, period, n_runs=PLACEBO_RUNS):
+def placebo(panel, period, n_runs=PLACEBO_RUNS, params=None, factory=momentum_factory):
     start, end = period
+    params = params if params is not None else TRIALS[PRIMARY]
     sharpes = []
     for seed in range(n_runs):
-        strat = Momentum(panel, **TRIALS[PRIMARY], picker=random_picker(seed))
+        strat = factory(panel, params, picker=random_picker(seed))
         out = simulate(panel, strat, Config(), start=start, end=end)
         sharpes.append(metrics.sharpe(out["curve"]["return"]) * math.sqrt(252))
     return np.array(sharpes)
@@ -188,34 +194,34 @@ def _clean(obj):
     return obj
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("period", choices=("dev", "holdout"))
-    parser.add_argument("--force-holdout", action="store_true")
-    parser.add_argument("--placebo", type=int, default=PLACEBO_RUNS)
-    args = parser.parse_args()
-
-    if args.period == "holdout" and HOLDOUT_LOCK.exists() and not args.force_holdout:
-        raise SystemExit(f"holdout already evaluated: {HOLDOUT_LOCK.read_text()}")
-    period = DEV if args.period == "dev" else HOLDOUT
-    panel = load_panel()
+def run_experiment(experiment, period_name, trials, primary, factory=momentum_factory, panel=None,
+                   placebo_runs=PLACEBO_RUNS, force_holdout=False, dev=DEV, holdout=HOLDOUT):
+    """Evaluate pre-registered trials on one period and write reports/<experiment>_<period>.json."""
+    locks = json.loads(HOLDOUT_LOCK.read_text()) if HOLDOUT_LOCK.exists() else {}
+    if period_name == "holdout" and experiment in locks and not force_holdout:
+        raise SystemExit(f"holdout already evaluated for {experiment}: {locks[experiment]}")
+    period = dev if period_name == "dev" else holdout
+    panel = panel if panel is not None else load_panel()
     print(f"panel: {len(panel.symbols)} symbols, {len(panel.dates)} sessions "
           f"{panel.dates[0].date()}..{panel.dates[-1].date()}")
-    results, benchmarks, pbo = evaluate(panel, period, args.period)
+    results, benchmarks, pbo = evaluate(panel, period, period_name, trials, factory)
     # Cost sensitivity for the primary trial (same rules, cheaper execution): not a new trial.
-    low_cost = run_trial(panel, PRIMARY, TRIALS[PRIMARY], *period,
-                         costs=Costs(brokerage=0.0, exchange_fee=0.0003, sell_tax=0.001, slippage=0.001))
+    low_cost = run_trial(panel, primary, trials[primary], *period,
+                         costs=Costs(brokerage=0.0, exchange_fee=0.0003, sell_tax=0.001, slippage=0.001),
+                         factory=factory)
     low_cost_summary = metrics.summarize(low_cost["curve"]["return"])
-    placebo_sharpes = placebo(panel, period, args.placebo) if args.placebo else np.array([])
-    primary_sharpe = results[PRIMARY]["summary"]["sharpe_annual"]
+    placebo_sharpes = (placebo(panel, period, placebo_runs, trials[primary], factory)
+                       if placebo_runs else np.array([]))
+    primary_sharpe = results[primary]["summary"]["sharpe_annual"]
     report = {
+        "experiment": experiment, "primary": primary,
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "snapshot": latest_snapshot().name,
-        "period": args.period, "range": list(period),
+        "period": period_name, "range": list(period),
         "universe_symbols_in_panel": len(panel.symbols),
         "trials": results, "benchmarks": benchmarks, "pbo": pbo,
         "primary_low_cost": low_cost_summary,
-        "gate1": gate1(results[PRIMARY], benchmarks, pbo),
+        "gate1": gate1(results[primary], benchmarks, pbo),
         "placebo": {
             "runs": int(len(placebo_sharpes)),
             "sharpe_p50": float(np.median(placebo_sharpes)) if len(placebo_sharpes) else None,
@@ -224,12 +230,23 @@ def main():
         },
     }
     REPORT_DIR.mkdir(exist_ok=True)
-    path = REPORT_DIR / f"momentum_{args.period}.json"
+    path = REPORT_DIR / f"{experiment}_{period_name}.json"
     path.write_text(json.dumps(_clean(report), ensure_ascii=False, indent=1), encoding="utf-8")
-    if args.period == "holdout":
-        HOLDOUT_LOCK.write_text(json.dumps({"evaluated_at": report["generated_at"], "snapshot": report["snapshot"],
-                                            "forced": args.force_holdout}))
-    print(path)
+    if period_name == "holdout":
+        locks[experiment] = {"evaluated_at": report["generated_at"], "snapshot": report["snapshot"],
+                             "forced": force_holdout}
+        HOLDOUT_LOCK.write_text(json.dumps(locks, indent=1))
+    return path
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("period", choices=("dev", "holdout"))
+    parser.add_argument("--force-holdout", action="store_true")
+    parser.add_argument("--placebo", type=int, default=PLACEBO_RUNS)
+    args = parser.parse_args()
+    print(run_experiment("momentum", args.period, TRIALS, PRIMARY, placebo_runs=args.placebo,
+                         force_holdout=args.force_holdout))
 
 
 if __name__ == "__main__":
