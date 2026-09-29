@@ -3,11 +3,12 @@
 import json
 import os
 import tempfile
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 
 STATUS_NAME = "system_status.json"
+TASK_DEADLINES = {"rebacktest": 85, "prep": 55, "analysis": 55, "trade": 25, "eod": 55, "learning": 55, "heal": 25}
 
 
 def utc_now():
@@ -51,21 +52,32 @@ def update_task(base_dir, task, state, error=None, run_id=None, now=None):
     row["run_id"] = str(run_id or os.getenv("GITHUB_RUN_ID") or "local")
     if state == "running":
         row["started_at"] = timestamp
+        started = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+        row["deadline_at"] = (started + timedelta(minutes=TASK_DEADLINES.get(str(task), 55))).isoformat()
     elif state == "success":
         row["last_success"] = timestamp
         row["last_error"] = None
         row["consecutive_failures"] = 0
         row.pop("started_at", None)
+        row.pop("deadline_at", None)
     elif state == "failed":
         row["last_error"] = {"at": timestamp, "message": str(error or "unknown error")[:2000]}
         row["consecutive_failures"] = int(row.get("consecutive_failures", 0)) + 1
         row.pop("started_at", None)
+        row.pop("deadline_at", None)
         row.pop("blocked_reason", None)
     elif state == "blocked":
         row["blocked_reason"] = str(error or "blocked by safety gate")[:2000]
         row["last_error"] = None
         row["consecutive_failures"] = 0
         row.pop("started_at", None)
+        row.pop("deadline_at", None)
+    elif state in {"cancelled", "deferred"}:
+        row["last_error"] = {"at": timestamp, "message": str(error or state)[:2000]}
+        if state == "cancelled":
+            row["consecutive_failures"] = int(row.get("consecutive_failures", 0)) + 1
+        row.pop("started_at", None)
+        row.pop("deadline_at", None)
     status["updated_at"] = timestamp
     _write(Path(base_dir) / STATUS_NAME, status)
     return row

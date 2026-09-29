@@ -28,7 +28,6 @@ PORTFOLIO_LOCK_FILE = PORTFOLIO_FILE + ".lock"
 TRADES_FILE = os.path.join(BASE_DIR, "paper_trades.json")
 AI_FUND_CONFIG_FILE = os.path.join(BASE_DIR, "paper_ai_fund_config.json")
 AI_FUND_EQUITY_FILE = os.path.join(BASE_DIR, "paper_ai_fund_equity.json")
-BACKTEST_CONFIG_FILE = os.path.join(BASE_DIR, "backtest_config.json")
 VNSTOCK_FETCH_WORKER = os.path.join(BASE_DIR, "vnstock_fetch_worker.py")
 INITIAL_CASH = 100_000_000.0
 MAX_POSITION_PCT = 0.20
@@ -171,11 +170,8 @@ def _safe_write_portfolio(portfolio):
 
 def load_backtest_config():
     """Load backtest results to know which tickers have positive EV."""
-    try:
-        with open(BACKTEST_CONFIG_FILE, encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return None
+    from config_store import load_active
+    return load_active(BASE_DIR) or None
 
 
 def get_tradeable_tickers(watchlist):

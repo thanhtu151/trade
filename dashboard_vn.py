@@ -116,11 +116,8 @@ def get_portfolio_summary_cached():
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def get_backtest_config_cached():
-    try:
-        with open("backtest_config.json", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return {}
+    from config_store import load_active
+    return load_active(BASE_DIR)
 
 
 def get_ensemble_predictor():
@@ -768,9 +765,8 @@ def _analysis_horizon_label(analysis, default_sessions=4):
 def get_ev_badge(ticker):
     """Return EV badge text and Streamlit message type from backtest config."""
     try:
-        config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "backtest_config.json")
-        with open(config_path, encoding="utf-8") as f:
-            config = json.load(f)
+        from config_store import load_active
+        config = load_active(BASE_DIR)
         ev_data = config.get("ev_data", {})
         ticker = str(ticker).upper()
         if ticker in ev_data:
@@ -5720,6 +5716,17 @@ def render_backtest_section():
                             atr_target=bt_target,
                         )
                 st.session_state["last_portfolio_backtest"] = results
+                from config_store import load_candidate
+                candidate = load_candidate(BASE_DIR)
+                st.info("Đã lưu ứng viên, chưa áp dụng vào cấu hình trading active.")
+                comparison = candidate.get("comparison") or {}
+                summary_rows = [
+                    {"Thay đổi": "Mã thêm", "Giá trị": ", ".join(comparison.get("universe_added") or []) or "Không"},
+                    {"Thay đổi": "Mã bớt", "Giá trị": ", ".join(comparison.get("universe_removed") or []) or "Không"},
+                    {"Thay đổi": "EV đổi dấu", "Giá trị": comparison.get("ev_sign_changes", 0)},
+                    {"Thay đổi": "Mã đổi tham số", "Giá trị": len(comparison.get("parameter_changes") or {})},
+                ]
+                st.dataframe(pd.DataFrame(summary_rows), use_container_width=True, hide_index=True)
             except Exception as exc:
                 st.error(f"Lỗi portfolio backtest: {exc}")
 

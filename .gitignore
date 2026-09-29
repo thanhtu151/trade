@@ -71,3 +71,7 @@ llm_router_usage.json
 self_healing_state.json
 self_healing_audit.json
 trading_disabled.json
+backtest_config.candidate.json
+backtest_config.backup.json
+backtest_config_audit.json
+.tmp-tests/

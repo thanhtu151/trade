@@ -212,10 +212,12 @@ def test_state_push_succeeds_only_from_loaded_sha_and_rejects_conflict(tmp_path)
         publish(runner, stale, "eod", sleeper=lambda _delay: None)
 
 
-def test_watchdog_workflow_is_read_only_for_state_branch():
+def test_watchdog_workflow_serializes_and_reconciles_state_branch():
     root = Path(__file__).resolve().parent.parent
     workflow = (root / ".github" / "workflows" / "watchdog.yml").read_text(encoding="utf-8")
-    assert "contents: read" in workflow
+    assert "contents: write" in workflow
+    assert "group: vn-trading-scheduler" in workflow
+    assert "--reconcile-status" in workflow
     assert "git push" not in workflow
     assert "gh workflow run scheduler.yml" in workflow
     assert "gh variable set" not in workflow
