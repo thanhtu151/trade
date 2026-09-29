@@ -6,310 +6,778 @@
     "min_confluence": 4
   },
   "positive_ev_tickers": [
-    "VIC",
-    "PC1",
-    "VRE",
-    "VND",
-    "NVL",
-    "POW",
-    "BID",
-    "GAS",
-    "VSC",
-    "KDH",
-    "VHM",
-    "CTG",
-    "VCI",
     "MBB",
-    "GMD",
-    "PVS",
-    "VIB",
-    "PVD",
-    "VPB",
-    "HDB",
-    "STB",
-    "VNM",
-    "FRT",
-    "HCM",
-    "VCB",
-    "DPM",
-    "TCB",
-    "SHS",
-    "DCM",
     "ACB",
-    "DXG"
+    "VIB",
+    "SSI",
+    "VCI",
+    "VIC",
+    "FRT",
+    "DGC"
   ],
   "negative_ev_tickers": [
-    "HSG",
-    "HAH",
-    "DGW",
-    "DGC",
-    "GVR",
-    "KBC",
-    "FPT",
-    "MSN",
-    "REE",
-    "NKG",
-    "PLX",
-    "MWG",
-    "SAB",
-    "CMG",
-    "VJC",
-    "HPG",
+    "BID",
     "BMP",
+    "CMG",
+    "CTG",
+    "DCM",
+    "DGW",
+    "DPM",
+    "DXG",
+    "FPT",
+    "GAS",
+    "GMD",
+    "GVR",
+    "HAH",
+    "HCM",
+    "HDB",
+    "HPG",
+    "HSG",
     "HVN",
-    "SSI"
+    "KBC",
+    "KDH",
+    "MSN",
+    "MWG",
+    "NKG",
+    "NVL",
+    "PC1",
+    "PLX",
+    "POW",
+    "PVD",
+    "PVS",
+    "REE",
+    "SAB",
+    "SHS",
+    "STB",
+    "TCB",
+    "VCB",
+    "VHM",
+    "VJC",
+    "VND",
+    "VNM",
+    "VPB",
+    "VRE",
+    "VSC"
   ],
   "ev_data": {
     "VCB": {
-      "ev": 0.376,
-      "win_rate": 0.391,
-      "trades": 23
+      "ev": 0.183,
+      "win_rate": 0.2692,
+      "trades": 52,
+      "sharpe": 0.94,
+      "profit_factor": 1.16,
+      "status": "not_significant"
     },
     "BID": {
-      "ev": 1.616,
-      "win_rate": 0.579,
-      "trades": 19
+      "ev": 1.35,
+      "win_rate": 0.5833,
+      "trades": 48,
+      "sharpe": 4.9,
+      "profit_factor": 1.93,
+      "status": "not_significant"
     },
     "CTG": {
-      "ev": 1.017,
-      "win_rate": 0.5,
-      "trades": 18
+      "ev": 1.418,
+      "win_rate": 0.6379,
+      "trades": 58,
+      "sharpe": 6.53,
+      "profit_factor": 2.38,
+      "status": "not_significant"
     },
     "TCB": {
-      "ev": 0.33,
-      "win_rate": 0.5,
-      "trades": 12
+      "ev": 0.561,
+      "win_rate": 0.383,
+      "trades": 47,
+      "sharpe": 2.35,
+      "profit_factor": 1.41,
+      "status": "not_significant"
     },
     "MBB": {
-      "ev": 0.902,
-      "win_rate": 0.5,
-      "trades": 20
+      "ev": 1.71,
+      "win_rate": 0.4828,
+      "trades": 58,
+      "sharpe": 6.16,
+      "profit_factor": 2.45,
+      "status": "ok"
     },
     "ACB": {
-      "ev": 0.219,
-      "win_rate": 0.429,
-      "trades": 14
+      "ev": 1.965,
+      "win_rate": 0.641,
+      "trades": 39,
+      "sharpe": 7.87,
+      "profit_factor": 3.18,
+      "status": "ok"
     },
     "VPB": {
-      "ev": 0.738,
-      "win_rate": 0.421,
-      "trades": 19
+      "ev": 1.996,
+      "win_rate": 0.5625,
+      "trades": 48,
+      "sharpe": 5.88,
+      "profit_factor": 2.39,
+      "status": "not_significant"
     },
     "STB": {
-      "ev": 0.685,
-      "win_rate": 0.471,
-      "trades": 17
+      "ev": 1.088,
+      "win_rate": 0.4364,
+      "trades": 55,
+      "sharpe": 3.02,
+      "profit_factor": 1.56,
+      "status": "not_significant"
     },
     "HDB": {
-      "ev": 0.707,
-      "win_rate": 0.444,
-      "trades": 18
+      "ev": 1.262,
+      "win_rate": 0.5614,
+      "trades": 57,
+      "sharpe": 4.7,
+      "profit_factor": 1.88,
+      "status": "not_significant"
     },
     "VIB": {
-      "ev": 0.8,
-      "win_rate": 0.533,
-      "trades": 15
+      "ev": 1.973,
+      "win_rate": 0.4423,
+      "trades": 52,
+      "sharpe": 6.06,
+      "profit_factor": 2.56,
+      "status": "ok"
     },
     "SSI": {
-      "ev": -0.012,
-      "win_rate": 0.357,
-      "trades": 14
+      "ev": 3.309,
+      "win_rate": 0.675,
+      "trades": 40,
+      "sharpe": 7.99,
+      "profit_factor": 3.12,
+      "status": "ok"
     },
     "VND": {
-      "ev": 2.158,
-      "win_rate": 0.571,
-      "trades": 14
+      "ev": 2.502,
+      "win_rate": 0.5333,
+      "trades": 45,
+      "sharpe": 4.89,
+      "profit_factor": 1.97,
+      "status": "not_significant"
     },
     "HCM": {
-      "ev": 0.411,
-      "win_rate": 0.438,
-      "trades": 16
+      "ev": 1.612,
+      "win_rate": 0.4375,
+      "trades": 48,
+      "sharpe": 4.24,
+      "profit_factor": 1.86,
+      "status": "not_significant"
     },
     "VCI": {
-      "ev": 0.997,
-      "win_rate": 0.5,
-      "trades": 10
+      "ev": 3.975,
+      "win_rate": 0.6154,
+      "trades": 39,
+      "sharpe": 8.39,
+      "profit_factor": 3.17,
+      "status": "ok"
     },
     "SHS": {
-      "ev": 0.324,
-      "win_rate": 0.357,
-      "trades": 14
+      "ev": 1.289,
+      "win_rate": 0.4884,
+      "trades": 43,
+      "sharpe": 2.24,
+      "profit_factor": 1.37,
+      "status": "not_significant"
     },
     "HPG": {
-      "ev": -0.119,
-      "win_rate": 0.357,
-      "trades": 14
+      "ev": 0.651,
+      "win_rate": 0.439,
+      "trades": 41,
+      "sharpe": 2.13,
+      "profit_factor": 1.35,
+      "status": "not_significant"
     },
     "HSG": {
-      "ev": -1.372,
-      "win_rate": 0.222,
-      "trades": 9
+      "ev": 1.983,
+      "win_rate": 0.5641,
+      "trades": 39,
+      "sharpe": 4.52,
+      "profit_factor": 1.85,
+      "status": "not_significant"
     },
     "NKG": {
-      "ev": -0.792,
-      "win_rate": 0.3,
-      "trades": 10
+      "ev": 1.731,
+      "win_rate": 0.4884,
+      "trades": 43,
+      "sharpe": 3.37,
+      "profit_factor": 1.62,
+      "status": "not_significant"
     },
     "VIC": {
-      "ev": 3.314,
-      "win_rate": 0.714,
-      "trades": 21
+      "ev": 2.32,
+      "win_rate": 0.5,
+      "trades": 44,
+      "sharpe": 6.05,
+      "profit_factor": 2.47,
+      "status": "ok"
     },
     "VHM": {
-      "ev": 1.13,
-      "win_rate": 0.429,
-      "trades": 21
+      "ev": 0.731,
+      "win_rate": 0.3585,
+      "trades": 53,
+      "sharpe": 2.73,
+      "profit_factor": 1.52,
+      "status": "not_significant"
     },
     "VRE": {
-      "ev": 2.516,
-      "win_rate": 0.562,
-      "trades": 16
+      "ev": 0.494,
+      "win_rate": 0.4167,
+      "trades": 48,
+      "sharpe": 1.94,
+      "profit_factor": 1.31,
+      "status": "not_significant"
     },
     "NVL": {
-      "ev": 1.9,
-      "win_rate": 0.429,
-      "trades": 7
+      "ev": 0.651,
+      "win_rate": 0.4872,
+      "trades": 39,
+      "sharpe": 2.3,
+      "profit_factor": 1.37,
+      "status": "not_significant"
     },
     "KDH": {
-      "ev": 1.141,
-      "win_rate": 0.538,
-      "trades": 13
+      "ev": 0.482,
+      "win_rate": 0.5102,
+      "trades": 49,
+      "sharpe": 1.73,
+      "profit_factor": 1.26,
+      "status": "not_significant"
     },
     "DXG": {
-      "ev": 0.196,
-      "win_rate": 0.385,
-      "trades": 13
+      "ev": 0.433,
+      "win_rate": 0.4103,
+      "trades": 39,
+      "sharpe": 0.8,
+      "profit_factor": 1.12,
+      "status": "not_significant"
     },
     "FPT": {
-      "ev": -0.964,
-      "win_rate": 0.214,
-      "trades": 14
+      "ev": 0.632,
+      "win_rate": 0.3667,
+      "trades": 60,
+      "sharpe": 3.01,
+      "profit_factor": 1.62,
+      "status": "not_significant"
     },
     "CMG": {
-      "ev": -0.181,
-      "win_rate": 0.364,
-      "trades": 11
+      "ev": -0.086,
+      "win_rate": 0.3387,
+      "trades": 62,
+      "sharpe": -0.37,
+      "profit_factor": 0.95,
+      "status": "not_significant"
     },
     "MWG": {
-      "ev": -0.297,
-      "win_rate": 0.333,
-      "trades": 12
+      "ev": 0.429,
+      "win_rate": 0.3111,
+      "trades": 45,
+      "sharpe": 1.69,
+      "profit_factor": 1.29,
+      "status": "not_significant"
     },
     "FRT": {
-      "ev": 0.566,
-      "win_rate": 0.438,
-      "trades": 16
+      "ev": 2.537,
+      "win_rate": 0.4681,
+      "trades": 47,
+      "sharpe": 5.92,
+      "profit_factor": 2.49,
+      "status": "ok"
     },
     "DGW": {
-      "ev": -1.189,
-      "win_rate": 0.231,
-      "trades": 13
+      "ev": 1.37,
+      "win_rate": 0.3636,
+      "trades": 55,
+      "sharpe": 3.69,
+      "profit_factor": 1.74,
+      "status": "not_significant"
     },
     "VNM": {
-      "ev": 0.614,
-      "win_rate": 0.438,
-      "trades": 16
+      "ev": 0.25,
+      "win_rate": 0.4286,
+      "trades": 42,
+      "sharpe": 1.7,
+      "profit_factor": 1.27,
+      "status": "not_significant"
     },
     "MSN": {
-      "ev": -0.809,
-      "win_rate": 0.25,
-      "trades": 12
+      "ev": 0.717,
+      "win_rate": 0.439,
+      "trades": 41,
+      "sharpe": 1.89,
+      "profit_factor": 1.31,
+      "status": "not_significant"
     },
     "SAB": {
-      "ev": -0.264,
-      "win_rate": 0.353,
-      "trades": 17
+      "ev": 0.287,
+      "win_rate": 0.3333,
+      "trades": 36,
+      "sharpe": 1.24,
+      "profit_factor": 1.2,
+      "status": "not_significant"
     },
     "GAS": {
-      "ev": 1.594,
-      "win_rate": 0.476,
-      "trades": 21
+      "ev": 0.79,
+      "win_rate": 0.434,
+      "trades": 53,
+      "sharpe": 2.83,
+      "profit_factor": 1.53,
+      "status": "not_significant"
     },
     "PLX": {
-      "ev": -0.448,
-      "win_rate": 0.316,
-      "trades": 19
+      "ev": 1.366,
+      "win_rate": 0.6038,
+      "trades": 53,
+      "sharpe": 5.65,
+      "profit_factor": 2.2,
+      "status": "not_significant"
     },
     "POW": {
-      "ev": 1.798,
-      "win_rate": 0.571,
-      "trades": 14
+      "ev": 1.12,
+      "win_rate": 0.4762,
+      "trades": 42,
+      "sharpe": 3.0,
+      "profit_factor": 1.54,
+      "status": "not_significant"
     },
     "PVD": {
-      "ev": 0.746,
-      "win_rate": 0.385,
-      "trades": 13
+      "ev": 1.219,
+      "win_rate": 0.4423,
+      "trades": 52,
+      "sharpe": 3.46,
+      "profit_factor": 1.62,
+      "status": "not_significant"
     },
     "PVS": {
-      "ev": 0.887,
-      "win_rate": 0.385,
-      "trades": 13
+      "ev": 1.359,
+      "win_rate": 0.5455,
+      "trades": 44,
+      "sharpe": 3.19,
+      "profit_factor": 1.54,
+      "status": "not_significant"
     },
     "GVR": {
-      "ev": -1.026,
-      "win_rate": 0.25,
-      "trades": 12
+      "ev": 1.077,
+      "win_rate": 0.3333,
+      "trades": 48,
+      "sharpe": 2.54,
+      "profit_factor": 1.47,
+      "status": "not_significant"
     },
     "DGC": {
-      "ev": -1.08,
-      "win_rate": 0.2,
-      "trades": 10
+      "ev": 2.201,
+      "win_rate": 0.5641,
+      "trades": 39,
+      "sharpe": 6.05,
+      "profit_factor": 2.43,
+      "status": "ok"
     },
     "DPM": {
-      "ev": 0.343,
-      "win_rate": 0.353,
-      "trades": 17
+      "ev": 1.111,
+      "win_rate": 0.4808,
+      "trades": 52,
+      "sharpe": 2.96,
+      "profit_factor": 1.51,
+      "status": "not_significant"
     },
     "DCM": {
-      "ev": 0.235,
-      "win_rate": 0.353,
-      "trades": 17
+      "ev": 1.409,
+      "win_rate": 0.4043,
+      "trades": 47,
+      "sharpe": 3.36,
+      "profit_factor": 1.64,
+      "status": "not_significant"
     },
     "BMP": {
-      "ev": -0.096,
-      "win_rate": 0.4,
-      "trades": 20
+      "ev": 0.959,
+      "win_rate": 0.5,
+      "trades": 40,
+      "sharpe": 3.15,
+      "profit_factor": 1.55,
+      "status": "not_significant"
     },
     "GMD": {
-      "ev": 0.901,
-      "win_rate": 0.429,
-      "trades": 14
+      "ev": 1.037,
+      "win_rate": 0.4783,
+      "trades": 46,
+      "sharpe": 2.78,
+      "profit_factor": 1.48,
+      "status": "not_significant"
     },
     "VSC": {
-      "ev": 1.266,
-      "win_rate": 0.4,
-      "trades": 10
+      "ev": 1.426,
+      "win_rate": 0.375,
+      "trades": 40,
+      "sharpe": 3.84,
+      "profit_factor": 1.85,
+      "status": "not_significant"
     },
     "HAH": {
-      "ev": -1.322,
-      "win_rate": 0.2,
-      "trades": 15
+      "ev": 1.673,
+      "win_rate": 0.4375,
+      "trades": 48,
+      "sharpe": 3.42,
+      "profit_factor": 1.62,
+      "status": "not_significant"
     },
     "VJC": {
-      "ev": -0.178,
-      "win_rate": 0.304,
-      "trades": 23
+      "ev": -0.033,
+      "win_rate": 0.383,
+      "trades": 47,
+      "sharpe": -0.13,
+      "profit_factor": 0.98,
+      "status": "not_significant"
     },
     "HVN": {
-      "ev": -0.079,
-      "win_rate": 0.35,
-      "trades": 20
+      "ev": 0.935,
+      "win_rate": 0.4048,
+      "trades": 42,
+      "sharpe": 2.12,
+      "profit_factor": 1.37,
+      "status": "not_significant"
     },
     "REE": {
-      "ev": -0.8,
-      "win_rate": 0.2,
-      "trades": 15
+      "ev": 0.424,
+      "win_rate": 0.3846,
+      "trades": 39,
+      "sharpe": 1.2,
+      "profit_factor": 1.2,
+      "status": "not_significant"
     },
     "PC1": {
-      "ev": 2.754,
-      "win_rate": 0.6,
-      "trades": 15
+      "ev": 0.193,
+      "win_rate": 0.3115,
+      "trades": 61,
+      "sharpe": 0.66,
+      "profit_factor": 1.1,
+      "status": "not_significant"
     },
     "KBC": {
-      "ev": -0.977,
-      "win_rate": 0.214,
-      "trades": 14
+      "ev": 1.807,
+      "win_rate": 0.3333,
+      "trades": 45,
+      "sharpe": 4.47,
+      "profit_factor": 2.15,
+      "status": "not_significant"
     }
   },
-  "last_updated": "2026-06-23"
+  "last_updated": "2026-09-29",
+  "backtest_universe": [
+    "VCB",
+    "BID",
+    "CTG",
+    "TCB",
+    "MBB",
+    "ACB",
+    "VPB",
+    "STB",
+    "HDB",
+    "VIB",
+    "SSI",
+    "VND",
+    "HCM",
+    "VCI",
+    "SHS",
+    "HPG",
+    "HSG",
+    "NKG",
+    "VIC",
+    "VHM",
+    "VRE",
+    "NVL",
+    "KDH",
+    "DXG",
+    "FPT",
+    "CMG",
+    "MWG",
+    "FRT",
+    "DGW",
+    "VNM",
+    "MSN",
+    "SAB",
+    "GAS",
+    "PLX",
+    "POW",
+    "PVD",
+    "PVS",
+    "GVR",
+    "DGC",
+    "DPM",
+    "DCM",
+    "BMP",
+    "GMD",
+    "VSC",
+    "HAH",
+    "VJC",
+    "HVN",
+    "REE",
+    "PC1",
+    "KBC"
+  ],
+  "optimal_params_per_ticker": {
+    "VCB": {
+      "atr_stop": 0.8,
+      "atr_target": 2.5,
+      "confluence_min": 4
+    },
+    "BID": {
+      "atr_stop": 1.5,
+      "atr_target": 2.0,
+      "confluence_min": 4
+    },
+    "CTG": {
+      "atr_stop": 1.2,
+      "atr_target": 1.5,
+      "confluence_min": 4
+    },
+    "TCB": {
+      "atr_stop": 1.0,
+      "atr_target": 2.5,
+      "confluence_min": 4
+    },
+    "MBB": {
+      "atr_stop": 1.0,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "ACB": {
+      "atr_stop": 1.5,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "VPB": {
+      "atr_stop": 1.5,
+      "atr_target": 2.5,
+      "confluence_min": 4
+    },
+    "STB": {
+      "atr_stop": 1.5,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "HDB": {
+      "atr_stop": 1.5,
+      "atr_target": 2.0,
+      "confluence_min": 4
+    },
+    "VIB": {
+      "atr_stop": 0.8,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "SSI": {
+      "atr_stop": 1.5,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "VND": {
+      "atr_stop": 1.5,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "HCM": {
+      "atr_stop": 1.0,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "VCI": {
+      "atr_stop": 1.5,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "SHS": {
+      "atr_stop": 1.5,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "HPG": {
+      "atr_stop": 1.5,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "HSG": {
+      "atr_stop": 1.5,
+      "atr_target": 2.5,
+      "confluence_min": 4
+    },
+    "NKG": {
+      "atr_stop": 1.5,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "VIC": {
+      "atr_stop": 1.0,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "VHM": {
+      "atr_stop": 0.8,
+      "atr_target": 2.0,
+      "confluence_min": 4
+    },
+    "VRE": {
+      "atr_stop": 1.0,
+      "atr_target": 1.5,
+      "confluence_min": 4
+    },
+    "NVL": {
+      "atr_stop": 1.0,
+      "atr_target": 1.5,
+      "confluence_min": 4
+    },
+    "KDH": {
+      "atr_stop": 1.5,
+      "atr_target": 2.0,
+      "confluence_min": 4
+    },
+    "DXG": {
+      "atr_stop": 1.5,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "FPT": {
+      "atr_stop": 0.8,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "CMG": {
+      "atr_stop": 0.8,
+      "atr_target": 1.5,
+      "confluence_min": 4
+    },
+    "MWG": {
+      "atr_stop": 0.8,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "FRT": {
+      "atr_stop": 1.0,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "DGW": {
+      "atr_stop": 0.8,
+      "atr_target": 2.5,
+      "confluence_min": 4
+    },
+    "VNM": {
+      "atr_stop": 1.0,
+      "atr_target": 1.5,
+      "confluence_min": 4
+    },
+    "MSN": {
+      "atr_stop": 1.5,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "SAB": {
+      "atr_stop": 1.2,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "GAS": {
+      "atr_stop": 1.2,
+      "atr_target": 2.0,
+      "confluence_min": 4
+    },
+    "PLX": {
+      "atr_stop": 1.2,
+      "atr_target": 1.5,
+      "confluence_min": 4
+    },
+    "POW": {
+      "atr_stop": 1.5,
+      "atr_target": 2.5,
+      "confluence_min": 4
+    },
+    "PVD": {
+      "atr_stop": 1.0,
+      "atr_target": 2.0,
+      "confluence_min": 4
+    },
+    "PVS": {
+      "atr_stop": 1.5,
+      "atr_target": 2.0,
+      "confluence_min": 4
+    },
+    "GVR": {
+      "atr_stop": 1.0,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "DGC": {
+      "atr_stop": 1.2,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "DPM": {
+      "atr_stop": 1.5,
+      "atr_target": 2.5,
+      "confluence_min": 4
+    },
+    "DCM": {
+      "atr_stop": 1.2,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "BMP": {
+      "atr_stop": 1.5,
+      "atr_target": 2.5,
+      "confluence_min": 4
+    },
+    "GMD": {
+      "atr_stop": 1.5,
+      "atr_target": 2.5,
+      "confluence_min": 4
+    },
+    "VSC": {
+      "atr_stop": 0.8,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "HAH": {
+      "atr_stop": 1.2,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "VJC": {
+      "atr_stop": 1.5,
+      "atr_target": 2.0,
+      "confluence_min": 4
+    },
+    "HVN": {
+      "atr_stop": 1.5,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "REE": {
+      "atr_stop": 1.5,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "PC1": {
+      "atr_stop": 0.8,
+      "atr_target": 2.0,
+      "confluence_min": 4
+    },
+    "KBC": {
+      "atr_stop": 0.8,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    }
+  },
+  "backtester": "backtesting.py",
+  "review": {
+    "at": "2026-09-29T12:17:26+07:00",
+    "source_created_at": "2026-09-29T12:17:25.991751+07:00",
+    "criteria": {
+      "max_age_days": 8,
+      "min_trades": 30,
+      "min_ev_pct": 0.5,
+      "min_profit_factor": 1.2,
+      "min_z": 3.0,
+      "cost_margin": 0.02,
+      "min_qualified": 5
+    }
+  }
 }

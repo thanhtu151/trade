@@ -1,0 +1,315 @@
+{
+  "optimal_config": {
+    "atr_stop_mult": 1.0,
+    "atr_target_mult": 2.0,
+    "max_hold_days": 15,
+    "min_confluence": 4
+  },
+  "positive_ev_tickers": [
+    "VIC",
+    "PC1",
+    "VRE",
+    "VND",
+    "NVL",
+    "POW",
+    "BID",
+    "GAS",
+    "VSC",
+    "KDH",
+    "VHM",
+    "CTG",
+    "VCI",
+    "MBB",
+    "GMD",
+    "PVS",
+    "VIB",
+    "PVD",
+    "VPB",
+    "HDB",
+    "STB",
+    "VNM",
+    "FRT",
+    "HCM",
+    "VCB",
+    "DPM",
+    "TCB",
+    "SHS",
+    "DCM",
+    "ACB",
+    "DXG"
+  ],
+  "negative_ev_tickers": [
+    "HSG",
+    "HAH",
+    "DGW",
+    "DGC",
+    "GVR",
+    "KBC",
+    "FPT",
+    "MSN",
+    "REE",
+    "NKG",
+    "PLX",
+    "MWG",
+    "SAB",
+    "CMG",
+    "VJC",
+    "HPG",
+    "BMP",
+    "HVN",
+    "SSI"
+  ],
+  "ev_data": {
+    "VCB": {
+      "ev": 0.376,
+      "win_rate": 0.391,
+      "trades": 23
+    },
+    "BID": {
+      "ev": 1.616,
+      "win_rate": 0.579,
+      "trades": 19
+    },
+    "CTG": {
+      "ev": 1.017,
+      "win_rate": 0.5,
+      "trades": 18
+    },
+    "TCB": {
+      "ev": 0.33,
+      "win_rate": 0.5,
+      "trades": 12
+    },
+    "MBB": {
+      "ev": 0.902,
+      "win_rate": 0.5,
+      "trades": 20
+    },
+    "ACB": {
+      "ev": 0.219,
+      "win_rate": 0.429,
+      "trades": 14
+    },
+    "VPB": {
+      "ev": 0.738,
+      "win_rate": 0.421,
+      "trades": 19
+    },
+    "STB": {
+      "ev": 0.685,
+      "win_rate": 0.471,
+      "trades": 17
+    },
+    "HDB": {
+      "ev": 0.707,
+      "win_rate": 0.444,
+      "trades": 18
+    },
+    "VIB": {
+      "ev": 0.8,
+      "win_rate": 0.533,
+      "trades": 15
+    },
+    "SSI": {
+      "ev": -0.012,
+      "win_rate": 0.357,
+      "trades": 14
+    },
+    "VND": {
+      "ev": 2.158,
+      "win_rate": 0.571,
+      "trades": 14
+    },
+    "HCM": {
+      "ev": 0.411,
+      "win_rate": 0.438,
+      "trades": 16
+    },
+    "VCI": {
+      "ev": 0.997,
+      "win_rate": 0.5,
+      "trades": 10
+    },
+    "SHS": {
+      "ev": 0.324,
+      "win_rate": 0.357,
+      "trades": 14
+    },
+    "HPG": {
+      "ev": -0.119,
+      "win_rate": 0.357,
+      "trades": 14
+    },
+    "HSG": {
+      "ev": -1.372,
+      "win_rate": 0.222,
+      "trades": 9
+    },
+    "NKG": {
+      "ev": -0.792,
+      "win_rate": 0.3,
+      "trades": 10
+    },
+    "VIC": {
+      "ev": 3.314,
+      "win_rate": 0.714,
+      "trades": 21
+    },
+    "VHM": {
+      "ev": 1.13,
+      "win_rate": 0.429,
+      "trades": 21
+    },
+    "VRE": {
+      "ev": 2.516,
+      "win_rate": 0.562,
+      "trades": 16
+    },
+    "NVL": {
+      "ev": 1.9,
+      "win_rate": 0.429,
+      "trades": 7
+    },
+    "KDH": {
+      "ev": 1.141,
+      "win_rate": 0.538,
+      "trades": 13
+    },
+    "DXG": {
+      "ev": 0.196,
+      "win_rate": 0.385,
+      "trades": 13
+    },
+    "FPT": {
+      "ev": -0.964,
+      "win_rate": 0.214,
+      "trades": 14
+    },
+    "CMG": {
+      "ev": -0.181,
+      "win_rate": 0.364,
+      "trades": 11
+    },
+    "MWG": {
+      "ev": -0.297,
+      "win_rate": 0.333,
+      "trades": 12
+    },
+    "FRT": {
+      "ev": 0.566,
+      "win_rate": 0.438,
+      "trades": 16
+    },
+    "DGW": {
+      "ev": -1.189,
+      "win_rate": 0.231,
+      "trades": 13
+    },
+    "VNM": {
+      "ev": 0.614,
+      "win_rate": 0.438,
+      "trades": 16
+    },
+    "MSN": {
+      "ev": -0.809,
+      "win_rate": 0.25,
+      "trades": 12
+    },
+    "SAB": {
+      "ev": -0.264,
+      "win_rate": 0.353,
+      "trades": 17
+    },
+    "GAS": {
+      "ev": 1.594,
+      "win_rate": 0.476,
+      "trades": 21
+    },
+    "PLX": {
+      "ev": -0.448,
+      "win_rate": 0.316,
+      "trades": 19
+    },
+    "POW": {
+      "ev": 1.798,
+      "win_rate": 0.571,
+      "trades": 14
+    },
+    "PVD": {
+      "ev": 0.746,
+      "win_rate": 0.385,
+      "trades": 13
+    },
+    "PVS": {
+      "ev": 0.887,
+      "win_rate": 0.385,
+      "trades": 13
+    },
+    "GVR": {
+      "ev": -1.026,
+      "win_rate": 0.25,
+      "trades": 12
+    },
+    "DGC": {
+      "ev": -1.08,
+      "win_rate": 0.2,
+      "trades": 10
+    },
+    "DPM": {
+      "ev": 0.343,
+      "win_rate": 0.353,
+      "trades": 17
+    },
+    "DCM": {
+      "ev": 0.235,
+      "win_rate": 0.353,
+      "trades": 17
+    },
+    "BMP": {
+      "ev": -0.096,
+      "win_rate": 0.4,
+      "trades": 20
+    },
+    "GMD": {
+      "ev": 0.901,
+      "win_rate": 0.429,
+      "trades": 14
+    },
+    "VSC": {
+      "ev": 1.266,
+      "win_rate": 0.4,
+      "trades": 10
+    },
+    "HAH": {
+      "ev": -1.322,
+      "win_rate": 0.2,
+      "trades": 15
+    },
+    "VJC": {
+      "ev": -0.178,
+      "win_rate": 0.304,
+      "trades": 23
+    },
+    "HVN": {
+      "ev": -0.079,
+      "win_rate": 0.35,
+      "trades": 20
+    },
+    "REE": {
+      "ev": -0.8,
+      "win_rate": 0.2,
+      "trades": 15
+    },
+    "PC1": {
+      "ev": 2.754,
+      "win_rate": 0.6,
+      "trades": 15
+    },
+    "KBC": {
+      "ev": -0.977,
+      "win_rate": 0.214,
+      "trades": 14
+    }
+  },
+  "last_updated": "2026-06-23"
+}
