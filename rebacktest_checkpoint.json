@@ -41,7 +41,12 @@
     "PVS",
     "GVR",
     "DGC",
-    "DPM"
+    "DPM",
+    "DCM",
+    "BMP",
+    "GMD",
+    "VSC",
+    "HAH"
   ],
   "results": {
     "VCB": {
@@ -963,6 +968,121 @@
         "atr_target": 2.5,
         "confluence_min": 4
       }
+    },
+    "DCM": {
+      "ticker": "DCM",
+      "strategy": "LegacyFallback",
+      "years": 6,
+      "commission": 0.0015,
+      "return_pct": 13.67,
+      "buy_hold_pct": 0.0,
+      "win_rate": 0.4043,
+      "profit_factor": 1.64,
+      "sharpe": 3.36,
+      "sortino": 0.0,
+      "calmar": 0.0,
+      "max_drawdown_pct": 5.59,
+      "trades": 47,
+      "expectancy_pct": 1.409,
+      "kelly": 0.0,
+      "backtested_at": "2026-09-29T12:14:02.910629",
+      "optimal_params": {
+        "atr_stop": 1.2,
+        "atr_target": 3.0,
+        "confluence_min": 4
+      }
+    },
+    "BMP": {
+      "ticker": "BMP",
+      "strategy": "LegacyFallback",
+      "years": 6,
+      "commission": 0.0015,
+      "return_pct": 7.77,
+      "buy_hold_pct": 0.0,
+      "win_rate": 0.5,
+      "profit_factor": 1.55,
+      "sharpe": 3.15,
+      "sortino": 0.0,
+      "calmar": 0.0,
+      "max_drawdown_pct": 3.66,
+      "trades": 40,
+      "expectancy_pct": 0.959,
+      "kelly": 0.0,
+      "backtested_at": "2026-09-29T12:14:14.705622",
+      "optimal_params": {
+        "atr_stop": 1.5,
+        "atr_target": 2.5,
+        "confluence_min": 4
+      }
+    },
+    "GMD": {
+      "ticker": "GMD",
+      "strategy": "LegacyFallback",
+      "years": 6,
+      "commission": 0.0015,
+      "return_pct": 9.65,
+      "buy_hold_pct": 0.0,
+      "win_rate": 0.4783,
+      "profit_factor": 1.48,
+      "sharpe": 2.78,
+      "sortino": 0.0,
+      "calmar": 0.0,
+      "max_drawdown_pct": 4.21,
+      "trades": 46,
+      "expectancy_pct": 1.037,
+      "kelly": 0.0,
+      "backtested_at": "2026-09-29T12:14:27.384261",
+      "optimal_params": {
+        "atr_stop": 1.5,
+        "atr_target": 2.5,
+        "confluence_min": 4
+      }
+    },
+    "VSC": {
+      "ticker": "VSC",
+      "strategy": "LegacyFallback",
+      "years": 6,
+      "commission": 0.0015,
+      "return_pct": 11.76,
+      "buy_hold_pct": 0.0,
+      "win_rate": 0.375,
+      "profit_factor": 1.85,
+      "sharpe": 3.84,
+      "sortino": 0.0,
+      "calmar": 0.0,
+      "max_drawdown_pct": 4.47,
+      "trades": 40,
+      "expectancy_pct": 1.426,
+      "kelly": 0.0,
+      "backtested_at": "2026-09-29T12:14:40.388400",
+      "optimal_params": {
+        "atr_stop": 0.8,
+        "atr_target": 3.0,
+        "confluence_min": 4
+      }
+    },
+    "HAH": {
+      "ticker": "HAH",
+      "strategy": "LegacyFallback",
+      "years": 6,
+      "commission": 0.0015,
+      "return_pct": 16.73,
+      "buy_hold_pct": 0.0,
+      "win_rate": 0.4375,
+      "profit_factor": 1.62,
+      "sharpe": 3.42,
+      "sortino": 0.0,
+      "calmar": 0.0,
+      "max_drawdown_pct": 5.73,
+      "trades": 48,
+      "expectancy_pct": 1.673,
+      "kelly": 0.0,
+      "backtested_at": "2026-09-29T12:14:51.757666",
+      "optimal_params": {
+        "atr_stop": 1.2,
+        "atr_target": 3.0,
+        "confluence_min": 4
+      }
     }
   },
   "optimal_params": {
@@ -1164,6 +1284,31 @@
     "DPM": {
       "atr_stop": 1.5,
       "atr_target": 2.5,
+      "confluence_min": 4
+    },
+    "DCM": {
+      "atr_stop": 1.2,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "BMP": {
+      "atr_stop": 1.5,
+      "atr_target": 2.5,
+      "confluence_min": 4
+    },
+    "GMD": {
+      "atr_stop": 1.5,
+      "atr_target": 2.5,
+      "confluence_min": 4
+    },
+    "VSC": {
+      "atr_stop": 0.8,
+      "atr_target": 3.0,
+      "confluence_min": 4
+    },
+    "HAH": {
+      "atr_stop": 1.2,
+      "atr_target": 3.0,
       "confluence_min": 4
     }
   }
