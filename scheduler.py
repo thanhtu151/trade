@@ -495,25 +495,30 @@ def _save_portfolio_direct(portfolio):
     _safe_write_portfolio(portfolio)
 
 
-def _close_position_direct(portfolio, ticker, price, reason):
+def _close_position_direct(portfolio, ticker, price, reason, market_df=None):
     from self_healing import trading_is_allowed
 
-    if not trading_is_allowed(BASE_DIR):
+    if not trading_is_allowed(BASE_DIR, exit_order=True):
         log.error("Direct close blocked by trading safety gate for %s", ticker)
         return False
-    from auto_trader import log_trade, save_portfolio_and_trades
+    from auto_trader import fill_price_block_reason, log_trade, save_portfolio_and_trades, trade_costs
 
     positions = portfolio.get("positions", {}) or {}
     pos = positions.get(ticker)
     if not pos:
         return False
+    blocked = fill_price_block_reason(ticker, price, df=market_df)
+    if blocked:
+        log.error("Direct close of %s (%s) blocked by price gate: %s", ticker, reason, blocked)
+        return False
 
     qty = float(pos.get("qty", 0) or 0)
     avg_price = float(pos.get("avg_price", price))
     proceeds = qty * float(price)
-    pnl = (float(price) - avg_price) * qty
+    costs = trade_costs("SELL", proceeds)
+    pnl = (float(price) - avg_price) * qty - costs["fees"] - float(pos.get("entry_fees", 0) or 0)
 
-    portfolio["cash"] = float(portfolio.get("cash", 0)) + proceeds
+    portfolio["cash"] = float(portfolio.get("cash", 0)) + proceeds - costs["fees"]
     positions.pop(ticker, None)
     portfolio["positions"] = positions
 
@@ -526,7 +531,7 @@ def _close_position_direct(portfolio, ticker, price, reason):
     except Exception:
         trades = []
 
-    log_trade(trades, ticker, "SELL", qty, price, reason, pnl=pnl)
+    log_trade(trades, ticker, "SELL", qty, price, reason, pnl=pnl, **costs)
     save_portfolio_and_trades(portfolio, trades, operation="scheduled_close")
     from notify import notify_trade
     notify_trade(ticker, "SELL", qty, price, pnl=pnl)
@@ -563,6 +568,7 @@ def task_intraday_monitor():
     log.info("Intraday monitor check...")
 
     try:
+        from auto_trader import position_stop_loss, set_position_stop_loss
         from data_fetcher import get_stock_data_cached
 
         portfolio = load_portfolio_direct()
@@ -581,7 +587,7 @@ def task_intraday_monitor():
 
                 current_price = float(df["close"].iloc[-1])
                 entry_price = float(pos.get("avg_price", current_price) or current_price or 0)
-                stop_loss = float(pos.get("stop_loss", 0) or 0)
+                stop_loss = position_stop_loss(pos)
                 target = float(pos.get("target_price", 0) or 0)
                 atr = float(pos.get("atr", 0) or (entry_price * 0.02 if entry_price > 0 else 0))
                 qty = float(pos.get("qty", 0) or 0)
@@ -601,14 +607,14 @@ def task_intraday_monitor():
 
                 if stop_loss > 0 and current_price <= stop_loss:
                     log.warning("  STOP LOSS HIT: %s @ %.1f (stop=%.1f)", ticker, current_price, stop_loss)
-                    _close_position_direct(portfolio, ticker, current_price, "stop_loss_intraday")
+                    _close_position_direct(portfolio, ticker, current_price, "stop_loss_intraday", market_df=df)
                     alerts.append({"time": now.isoformat(), "message": f"🔴 {ticker}: STOP LOSS @ {current_price:,.1f}"})
                     updated = True
                     continue
 
                 if target > 0 and current_price >= target:
                     log.info("  TARGET HIT: %s @ %.1f (target=%.1f)", ticker, current_price, target)
-                    _close_position_direct(portfolio, ticker, current_price, "target_intraday")
+                    _close_position_direct(portfolio, ticker, current_price, "target_intraday", market_df=df)
                     alerts.append({"time": now.isoformat(), "message": f"🟢 {ticker}: TARGET @ {current_price:,.1f}"})
                     updated = True
                     continue
@@ -617,7 +623,7 @@ def task_intraday_monitor():
                     if current_price >= entry_price + atr:
                         new_stop = max(stop_loss, entry_price)
                         if new_stop > stop_loss:
-                            pos["stop_loss"] = round(new_stop, 1)
+                            set_position_stop_loss(pos, new_stop)
                             stop_loss = new_stop
                             updated = True
                             log.info("  Trailing stop %s -> break-even %.1f", ticker, new_stop)
@@ -625,7 +631,7 @@ def task_intraday_monitor():
                     if current_price >= entry_price + 2 * atr:
                         new_stop = max(stop_loss, entry_price + atr)
                         if new_stop > stop_loss:
-                            pos["stop_loss"] = round(new_stop, 1)
+                            set_position_stop_loss(pos, new_stop)
                             stop_loss = new_stop
                             updated = True
                             log.info("  Trailing stop %s -> +1ATR %.1f", ticker, new_stop)
@@ -745,6 +751,7 @@ def task_eod_update():
     log.info("=" * 50)
     failures = []
     try:
+        from auto_trader import position_stop_loss, set_position_stop_loss
         from data_fetcher import get_stock_data_cached
 
         portfolio = load_portfolio_direct()
@@ -758,7 +765,7 @@ def task_eod_update():
 
                 current_price = float(df["close"].iloc[-1])
                 entry_price = float(pos.get("avg_price", current_price))
-                stop_loss = float(pos.get("stop_loss", 0) or (entry_price * 0.95))
+                stop_loss = position_stop_loss(pos) or (entry_price * 0.95)
                 target = float(pos.get("target_price", 0) or (entry_price * 1.10))
                 atr = float(pos.get("atr", 0) or 0)
                 qty = float(pos.get("qty", 0) or 0)
@@ -780,7 +787,7 @@ def task_eod_update():
                 if atr > 0 and current_price >= entry_price + atr:
                     new_stop = max(stop_loss, entry_price)
                     if new_stop > stop_loss:
-                        pos["stop_loss"] = round(new_stop, 1)
+                        set_position_stop_loss(pos, new_stop)
                         stop_loss = new_stop
                         updated = True
                         log.info("  %s: trailing stop -> break-even %.0f", ticker, new_stop)
@@ -788,25 +795,25 @@ def task_eod_update():
                 if atr > 0 and current_price >= entry_price + 2 * atr:
                     new_stop = max(stop_loss, entry_price + atr)
                     if new_stop > stop_loss:
-                        pos["stop_loss"] = round(new_stop, 1)
+                        set_position_stop_loss(pos, new_stop)
                         stop_loss = new_stop
                         updated = True
                         log.info("  %s: trailing stop -> +1ATR %.0f", ticker, new_stop)
 
                 if current_price <= stop_loss:
-                    if _close_position_direct(portfolio, ticker, current_price, "stop_loss"):
+                    if _close_position_direct(portfolio, ticker, current_price, "stop_loss", market_df=df):
                         closed += 1
                         updated = True
                         continue
 
                 if current_price >= target:
-                    if _close_position_direct(portfolio, ticker, current_price, "target"):
+                    if _close_position_direct(portfolio, ticker, current_price, "target", market_df=df):
                         closed += 1
                         updated = True
                         continue
 
                 if int(pos.get("hold_days", 0)) >= 15:
-                    if _close_position_direct(portfolio, ticker, current_price, "timeout"):
+                    if _close_position_direct(portfolio, ticker, current_price, "timeout", market_df=df):
                         closed += 1
                         updated = True
                         continue

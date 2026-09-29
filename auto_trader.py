@@ -33,6 +33,11 @@ INITIAL_CASH = 100_000_000.0
 MAX_POSITION_PCT = 0.20
 STOP_LOSS_PCT = 0.05
 TAKE_PROFIT_PCT = 0.15
+# Ledger convention: price in VND per share, qty in whole shares (HoSE board lot).
+LOT_SIZE = 100
+# Paper trading costs, charged to cash on every fill (VN brokers ~0.1%; sell tax 0.1%).
+PAPER_FEE_RATE = float(os.getenv("PAPER_FEE_RATE", "0.001"))
+PAPER_SELL_TAX_RATE = float(os.getenv("PAPER_SELL_TAX_RATE", "0.001"))
 OLLAMA_TIMEOUT_SECONDS = 8
 VNSTOCK_FETCH_TIMEOUT_SECONDS = 30
 VNSTOCK_MIN_DELAY_SECONDS = 1.05
@@ -1189,6 +1194,80 @@ def position_market_value(position, price):
     return float(position.get("qty", 0)) * price
 
 
+def round_to_lot(qty):
+    """Whole board lots only; never a fractional share."""
+    return max(0, int(float(qty) // LOT_SIZE) * LOT_SIZE)
+
+
+def trade_costs(side, value):
+    """Broker fee on both sides plus sell tax, in VND."""
+    value = float(value)
+    fee = value * PAPER_FEE_RATE
+    tax = value * PAPER_SELL_TAX_RATE if str(side).upper() == "SELL" else 0.0
+    return {"fee": round(fee, 2), "tax": round(tax, 2), "fees": round(fee + tax, 2)}
+
+
+def position_stop_loss(position):
+    """position["stop_loss"] is the source of truth; plan["stop_loss"] mirrors it."""
+    plan = position.get("plan") if isinstance(position.get("plan"), dict) else {}
+    value = position.get("stop_loss") or plan.get("stop_loss") or 0
+    return float(value or 0)
+
+
+def set_position_stop_loss(position, value):
+    plan = position.get("plan") if isinstance(position.get("plan"), dict) else {}
+    if "initial_stop_loss" not in plan and plan.get("stop_loss"):
+        plan["initial_stop_loss"] = plan["stop_loss"]
+    value = round(float(value), 1)
+    position["stop_loss"] = value
+    plan["stop_loss"] = value
+    position["plan"] = plan
+    return value
+
+
+def market_reference(symbol, df=None, today=None):
+    """Previous close and today's low/high in VND from daily bars (None when unknown)."""
+    if df is None:
+        from data_fetcher import get_stock_data_cached
+
+        df = get_stock_data_cached(symbol, years=0.1)
+    reference = {"prev_close": None, "day_low": None, "day_high": None}
+    if df is None or len(df) == 0 or "close" not in df:
+        return reference
+    if "time" in df:
+        from trading_safety import vietnam_now
+
+        today = today or vietnam_now().date()
+        dates = pd.to_datetime(df["time"]).dt.date
+        today_rows = df[dates == today]
+        earlier = df[dates < today]
+        if len(today_rows):
+            row = today_rows.iloc[-1]
+            if "low" in df and "high" in df:
+                reference["day_low"] = normalize_vn_price(row["low"])
+                reference["day_high"] = normalize_vn_price(row["high"])
+    else:
+        earlier = df
+    if len(earlier):
+        reference["prev_close"] = normalize_vn_price(earlier["close"].iloc[-1])
+    return reference
+
+
+def fill_price_block_reason(symbol, price, df=None):
+    """Price-sanity gate for every paper fill; returns a reason to refuse, or None."""
+    from trading_safety import price_sanity_reason
+
+    try:
+        reference = market_reference(symbol, df=df)
+    except Exception as exc:
+        return f"{symbol}: market reference unavailable ({exc}); fill not validated"
+    reason = price_sanity_reason(price, **reference)
+    if reason:
+        log.warning("PRICE GATE blocked %s @ %s: %s", symbol, price, reason)
+        return f"{symbol}: {reason}"
+    return None
+
+
 def portfolio_equity(portfolio):
     equity = float(portfolio.get("cash", 0))
     for symbol, pos in portfolio.get("positions", {}).items():
@@ -1229,13 +1308,17 @@ def get_unified_portfolio_summary():
 
 
 def log_trade(trades, symbol, side, qty, price, reason, pnl=None, plan=None, **metadata):
+    if float(price) < 1000:
+        raise ValueError(f"{symbol}: refusing to log price {price} - ledger prices are VND per share")
+    qty = float(qty)
     event = {
         "type": "TRADE",
         "epoch_id": current_epoch_id(trades),
         "time": now_text(),
         "symbol": symbol,
         "side": side,
-        "qty": float(qty),
+        # Whole shares for every new fill; legacy fractional positions keep their qty.
+        "qty": int(qty) if qty.is_integer() else qty,
         "price": round(float(price), 2),
         "value": round(float(qty) * float(price), 2),
         "reason": reason,
@@ -1274,21 +1357,24 @@ def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pc
     if existing:
         existing_value = float(existing.get("qty", 0)) * price
     desired_value = max_value if target_value is None else min(float(target_value), max_value)
-    available_value = min(float(portfolio["cash"]), max(0, desired_value - existing_value))
-    qty = int(available_value // price)
-    if target_value is not None:
-        qty = int(qty / 100) * 100
+    blocked = fill_price_block_reason(symbol, price)
+    if blocked:
+        return False, f"PRICE GATE: {blocked}"
+    available_value = min(float(portfolio["cash"]) / (1 + PAPER_FEE_RATE), max(0, desired_value - existing_value))
+    qty = round_to_lot(available_value // price)
     if qty <= 0:
         return False, f"KhÃ´ng Ä‘á»§ tiá»n hoáº·c vá»‹ tháº¿ {symbol} Ä‘Ã£ Ä‘áº¡t giá»›i háº¡n 20%"
 
     cost = qty * price
-    portfolio["cash"] = float(portfolio["cash"]) - cost
+    costs = trade_costs("BUY", cost)
+    portfolio["cash"] = float(portfolio["cash"]) - cost - costs["fees"]
     if existing:
         old_qty = float(existing.get("qty", 0))
         old_avg = float(existing.get("avg_price", 0))
         new_qty = old_qty + qty
         existing["avg_price"] = ((old_qty * old_avg) + cost) / new_qty
         existing["qty"] = new_qty
+        existing["entry_fees"] = float(existing.get("entry_fees", 0) or 0) + costs["fees"]
         if plan:
             existing["plan"] = plan
     else:
@@ -1296,9 +1382,12 @@ def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pc
             "qty": qty,
             "avg_price": price,
             "opened_at": now_text(),
+            "entry_fees": costs["fees"],
             "plan": plan or {},
         }
-    log_trade(trades, symbol, "BUY", qty, price, reason, plan=plan)
+    if (plan or {}).get("stop_loss"):
+        set_position_stop_loss(portfolio["positions"][symbol], plan["stop_loss"])
+    log_trade(trades, symbol, "BUY", qty, price, reason, plan=plan, **costs)
     save_portfolio_and_trades(portfolio, trades)
     from notify import notify_trade
     notify_trade(symbol, "BUY", qty, price)
@@ -1308,7 +1397,7 @@ def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pc
 def sell_position(symbol, reason="Manual SELL", qty=None):
     from self_healing import trading_permission
 
-    allowed, gate_reason = trading_permission(BASE_DIR)
+    allowed, gate_reason = trading_permission(BASE_DIR, exit_order=True)
     if not allowed:
         return False, gate_reason
     portfolio = load_portfolio()
@@ -1321,7 +1410,8 @@ def sell_position(symbol, reason="Manual SELL", qty=None):
         return False, f"KhÃ´ng láº¥y Ä‘Æ°á»£c giÃ¡ hiá»‡n táº¡i cho {symbol}"
 
     owned_qty = float(position.get("qty", 0))
-    sell_qty = owned_qty if qty is None else min(float(qty), owned_qty)
+    # Partial sells are whole lots; a full exit sells whatever is held (legacy fractional qty included).
+    sell_qty = owned_qty if qty is None or float(qty) >= owned_qty else round_to_lot(qty)
     if sell_qty <= 0:
         return False, "Sá»‘ lÆ°á»£ng bÃ¡n khÃ´ng há»£p lá»‡"
 
@@ -1334,16 +1424,23 @@ def sell_position(symbol, reason="Manual SELL", qty=None):
         return False, (
             f"CRITICAL: {symbol} SELL proceeds {proceeds:,.0f} exceed 3x cost basis {cost_basis:,.0f}"
         )
-    pnl = (price - avg_price) * sell_qty
-    portfolio["cash"] = float(portfolio["cash"]) + proceeds
+    blocked = fill_price_block_reason(symbol, price)
+    if blocked:
+        return False, f"PRICE GATE: {blocked}"
+    costs = trade_costs("SELL", proceeds)
+    entry_fees = float(position.get("entry_fees", 0) or 0) * (sell_qty / owned_qty)
+    pnl = (price - avg_price) * sell_qty - costs["fees"] - entry_fees
+    portfolio["cash"] = float(portfolio["cash"]) + proceeds - costs["fees"]
 
     remaining = owned_qty - sell_qty
     if remaining > 0:
         position["qty"] = remaining
+        if entry_fees:
+            position["entry_fees"] = float(position["entry_fees"]) - entry_fees
     else:
         portfolio["positions"].pop(symbol, None)
 
-    log_trade(trades, symbol, "SELL", sell_qty, price, reason, pnl=pnl, cost_basis=cost_basis)
+    log_trade(trades, symbol, "SELL", sell_qty, price, reason, pnl=pnl, cost_basis=cost_basis, **costs)
     save_portfolio_and_trades(portfolio, trades)
     from notify import notify_trade
     notify_trade(symbol, "SELL", sell_qty, price, pnl=pnl)
@@ -1369,7 +1466,7 @@ def execute_paper_trade(
     """
     from self_healing import trading_permission
 
-    allowed, gate_reason = trading_permission(BASE_DIR)
+    allowed, gate_reason = trading_permission(BASE_DIR, exit_order=str(action).upper() == "SELL")
     if not allowed:
         log.warning("Trading gate blocked %s %s: %s", action, ticker, gate_reason)
         return {"status": "blocked", "detail": gate_reason, "idempotency_key": None}
@@ -1430,7 +1527,9 @@ def execute_paper_trade(
     def _resolve_live_price():
         """Always prefer the live market price for BUY sizing and entry planning."""
         live_price = float(current_price(ticker) or 0)
-        provided_price = float(price or 0)
+        # Analysis prices may still be in thousand VND; sizing thousand-VND prices
+        # against VND cash is what produced qty x1000 in the ledger.
+        provided_price = normalize_vn_price(price) if float(price or 0) > 0 else 0.0
         if live_price > 0:
             if provided_price > 0:
                 ratio = max(live_price / provided_price, provided_price / live_price) if live_price and provided_price else 1
@@ -1471,6 +1570,7 @@ def execute_paper_trade(
             "plan": {
                 "target_price": target,
                 "stop_loss": stop_loss,
+                "initial_stop_loss": stop_loss,
                 "atr": round(float(atr), 2),
                 "hold_days": "toi da 15 phien",
                 "sell_rule": f"Ban khi cham target {target:,.2f}, cat lo duoi {stop_loss:,.2f}.",
@@ -1515,13 +1615,18 @@ def execute_paper_trade(
             detail = f"invalid VND equity price for {ticker}: {price}; expected >= 1,000"
             release(state_file, idempotency_key)
             return result("blocked", detail)
+        blocked = fill_price_block_reason(ticker, price)
+        if blocked:
+            release(state_file, idempotency_key)
+            return result("blocked", f"PRICE GATE: {blocked}")
 
         try:
             sizing = get_kelly_position_size(ticker, equity, price)
             max_spend = cash * 0.95
             value = min(float(sizing.get("value", 0)), max_spend)
-            shares = int(value / price / 100) * 100 if price > 0 else 0
+            shares = round_to_lot(value / price) if price > 0 else 0
             value = shares * price
+            costs = trade_costs("BUY", value)
             kelly_fraction = float(sizing.get("kelly_fraction", 0.25))
             position_plan = _build_buy_plan(price, price, shares, value, kelly_fraction)
         except Exception as exc:
@@ -1533,20 +1638,21 @@ def execute_paper_trade(
             detail = f"{ticker}: position too small ({value:,.0f})"
             transition(state_file, idempotency_key, "skipped", detail)
             return result("skipped", detail)
-        if value > cash:
-            log.error("%s: cost %,.0f > cash %,.0f, abort", ticker, value, cash)
-            detail = f"{ticker}: cost {value:,.0f} > cash {cash:,.0f}"
+        if value + costs["fees"] > cash:
+            log.error("%s: cost %,.0f > cash %,.0f, abort", ticker, value + costs["fees"], cash)
+            detail = f"{ticker}: cost {value + costs['fees']:,.0f} > cash {cash:,.0f}"
             transition(state_file, idempotency_key, "skipped", detail)
             return result("skipped", detail)
 
+        position_plan["entry_fees"] = costs["fees"]
         positions[ticker] = position_plan
 
-        portfolio["cash"] = cash - value
+        portfolio["cash"] = cash - value - costs["fees"]
         portfolio["positions"] = positions
         portfolio["updated_at"] = now_text()
         try:
             trades = load_trades()
-            log_trade(trades, ticker, "BUY", shares, price, reason, plan=positions[ticker].get("plan"))
+            log_trade(trades, ticker, "BUY", shares, price, reason, plan=positions[ticker].get("plan"), **costs)
             save_portfolio_and_trades(portfolio, trades)
         except Exception as exc:
             return result("failed", f"trade persistence failed; reservation retained: {exc}")
@@ -1617,11 +1723,12 @@ def run_risk_checks():
         if avg <= 0:
             continue
         plan = pos.get("plan") or {}
-        planned_stop = float(plan.get("stop_loss") or 0)
+        planned_stop = position_stop_loss(pos)
         planned_target = float(plan.get("target_price") or 0)
         atr = float(plan.get("atr") or 0)
         if atr > 0 and price >= avg + atr and planned_stop < avg:
-            plan["stop_loss"] = round(avg, 2)
+            set_position_stop_loss(pos, avg)
+            plan = pos["plan"]
             plan["trailing_stop_active"] = True
             plan["sell_rule"] = (
                 f"Trailing stop da keo len break-even {avg:,.2f}; "
@@ -1684,7 +1791,7 @@ def check_and_close_positions():
             if atr <= 0:
                 atr = price * 0.02
 
-            stop_loss = float(plan.get("stop_loss") or (entry_price - atr_stop * atr))
+            stop_loss = position_stop_loss(position) or (entry_price - atr_stop * atr)
             target = float(plan.get("target_price") or (entry_price + atr_target * atr))
 
             if price <= stop_loss:
@@ -2264,7 +2371,7 @@ def render_portfolio():
         pnl_pct = ((price - avg) / avg * 100) if price and avg else 0
         market_value += value
         unrealized += pnl
-        stop = plan.get("stop_loss") or avg * (1 - STOP_LOSS_PCT)
+        stop = position_stop_loss(pos) or avg * (1 - STOP_LOSS_PCT)
         target = plan.get("target_price") or avg * (1 + TAKE_PROFIT_PCT)
 
         # Distance to stop/target as % of current price

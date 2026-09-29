@@ -177,10 +177,13 @@ def test_legacy_open_position_blocks_then_migrates_and_sells_without_inflation(m
     monkeypatch.setattr(auto_trader, "PORTFOLIO_FILE", str(tmp_path / "paper_portfolio.json"))
     monkeypatch.setattr(auto_trader, "TRADES_FILE", str(tmp_path / "paper_trades.json"))
     monkeypatch.setattr(auto_trader, "current_price", lambda _symbol: 76_900.0)
-    monkeypatch.setattr(self_healing, "trading_permission", lambda base: (
+    monkeypatch.setattr(self_healing, "trading_permission", lambda base, **_kw: (
         run_self_healing(base)["trading_allowed"],
         "unsafe trading state",
     ))
+    monkeypatch.setattr(auto_trader, "market_reference", lambda *_a, **_k: {
+        "prev_close": 76_800.0, "day_low": 76_000.0, "day_high": 77_500.0,
+    })
     blocked = run_self_healing(tmp_path)
     assert blocked["trading_allowed"] is False
     assert any("open position STB" in item for item in blocked["critical"])
@@ -194,9 +197,10 @@ def test_legacy_open_position_blocks_then_migrates_and_sells_without_inflation(m
     assert change["after"]["avg_price"] == 76_800
     ok, message = auto_trader.sell_position("STB")
     assert ok is True
-    assert "PnL 26,830" in message
+    # 26,830 gross minus 0.1% fee + 0.1% sell tax on 20,632,270 proceeds.
+    assert "PnL -14,435" in message
     saved = json.loads((tmp_path / "paper_portfolio.json").read_text())
-    assert saved["cash"] == pytest.approx(95_632_270)
+    assert saved["cash"] == pytest.approx(95_632_270 - 41_264.54)
     assert "STB" not in saved["positions"]
     healed = run_self_healing(tmp_path)
     assert healed["metrics"]["cash_drift"] == pytest.approx(0)
@@ -214,7 +218,10 @@ def test_direct_close_and_valuation_preserve_fractional_legacy_qty(monkeypatch, 
     captured = {}
 
     monkeypatch.setattr(scheduler, "BASE_DIR", str(tmp_path))
-    monkeypatch.setattr(self_healing, "trading_is_allowed", lambda _base: True)
+    monkeypatch.setattr(self_healing, "trading_is_allowed", lambda _base, **_kw: True)
+    monkeypatch.setattr(auto_trader, "market_reference", lambda *_a, **_k: {
+        "prev_close": 76_800.0, "day_low": 76_000.0, "day_high": 77_500.0,
+    })
     monkeypatch.setattr(
         auto_trader,
         "save_portfolio_and_trades",
@@ -223,7 +230,7 @@ def test_direct_close_and_valuation_preserve_fractional_legacy_qty(monkeypatch, 
 
     assert scheduler._close_position_direct(state, "STB", 76_900.0, "test") is True
     assert "STB" not in captured["portfolio"]["positions"]
-    assert captured["portfolio"]["cash"] == pytest.approx(10_000_000 + 268.3 * 76_900)
+    assert captured["portfolio"]["cash"] == pytest.approx(10_000_000 + 268.3 * 76_900 * (1 - 0.002))
     assert captured["trades"][-1]["qty"] == pytest.approx(268.3)
 
     snapshot_file = tmp_path / "portfolio_snapshots.json"
@@ -274,7 +281,7 @@ def test_new_sub_thousand_price_is_blocked_but_not_reserved(monkeypatch, tmp_pat
     import self_healing
 
     monkeypatch.setattr(auto_trader, "BASE_DIR", str(tmp_path))
-    monkeypatch.setattr(self_healing, "trading_permission", lambda _base: (True, "ok"))
+    monkeypatch.setattr(self_healing, "trading_permission", lambda _base, **_kw: (True, "ok"))
     monkeypatch.setattr(auto_trader, "load_portfolio", lambda: portfolio(100_000_000))
     monkeypatch.setattr(auto_trader, "current_price", lambda _ticker: 76.8)
     outcome = auto_trader.execute_paper_trade(
@@ -487,7 +494,7 @@ def test_sell_proceeds_over_three_times_cost_basis_is_blocked(monkeypatch, tmp_p
     monkeypatch.setattr(auto_trader, "PORTFOLIO_FILE", str(tmp_path / "paper_portfolio.json"))
     monkeypatch.setattr(auto_trader, "TRADES_FILE", str(tmp_path / "paper_trades.json"))
     monkeypatch.setattr(auto_trader, "current_price", lambda _symbol: 40_000.0)
-    monkeypatch.setattr(self_healing, "trading_permission", lambda _base: (True, "ok"))
+    monkeypatch.setattr(self_healing, "trading_permission", lambda _base, **_kw: (True, "ok"))
     ok, message = auto_trader.sell_position("FPT")
     assert ok is False
     assert "exceed 3x cost basis" in message
