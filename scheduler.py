@@ -380,6 +380,16 @@ def task_auto_trade():
     if already_ran_today("auto_trade"):
         log.info("auto_trade already ran today, skipping")
         return
+    # GitHub Actions cron can start hours late (2026-09-29: the 09:20 trade run
+    # started at 15:42). Never place orders outside the continuous session.
+    from watchdog import trade_session_open
+
+    now = ict_now()
+    if not trade_session_open(now):
+        if now.time() > datetime.strptime("14:25", "%H:%M").time():
+            mark_ran_today("auto_trade")  # the session is over; do not retry today
+        log.warning("Auto trade skipped: %s is outside the trading session", now.strftime("%H:%M"))
+        return {"status": "blocked", "reason": "outside trading session (late run)"}
 
     log.info("=" * 50)
     log.info("TASK: Auto Trade")
