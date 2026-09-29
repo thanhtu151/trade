@@ -129,13 +129,18 @@ def load_fundamentals(snapshot_dir=None):
             caps.drop_duplicates(["symbol", "period_end"], keep="last"))
 
 
-def earnings_yield_panel(panel, earnings, caps):
+MAX_EARNINGS_AGE_DAYS = 200  # a TTM figure whose last quarter ended longer ago is stale
+
+
+def earnings_yield_panel(panel, earnings, caps, max_age_days=MAX_EARNINGS_AGE_DAYS):
     """Daily E/P, TTM net income known on each date divided by market cap.
 
     TTM earnings on date t = sum of the latest 4 consecutive quarters whose
     announcement date is <= t. Market cap on t = market cap at the latest
     quarter end q <= t, scaled by the adjusted price move from q to t (exact
-    when no new shares were issued in between).
+    when no new shares were issued in between). Non-positive market caps are
+    treated as missing, and TTM earnings expire when the latest quarter in them
+    ended more than `max_age_days` before t (the company stopped reporting).
     """
     close = panel.frame("last_close")
     ep = pd.DataFrame(np.nan, index=close.index, columns=close.columns)
@@ -151,11 +156,15 @@ def earnings_yield_panel(panel, earnings, caps):
         q = e.set_index("period_end")["net_income"]
         consecutive = q.index.to_period("Q").astype("int64").to_series(index=q.index).diff(3) == 3
         ttm = q.rolling(4).sum()[consecutive.values]
-        known = pd.Series(ttm.values, index=e.set_index("period_end").loc[ttm.index, "public_date"].values)
+        public = e.set_index("period_end").loc[ttm.index, "public_date"].values
+        known = pd.DataFrame({"ttm": ttm.values, "period_end": ttm.index}, index=public)
         known = known.groupby(level=0).last().sort_index()
-        ttm_daily = known.reindex(close.index, method="ffill")
+        known_daily = known.reindex(close.index, method="ffill")
+        age = close.index.to_series() - known_daily["period_end"]
+        ttm_daily = known_daily["ttm"].where(age <= pd.Timedelta(days=max_age_days))
         # market cap at quarter end, rolled forward with the adjusted price
-        cap_q = c.set_index("period_end")["market_cap"].dropna()
+        cap_q = c.set_index("period_end")["market_cap"]
+        cap_q = cap_q[cap_q > 0]
         px = close[symbol]
         px_q = px.reindex(cap_q.index, method="ffill")
         base = (cap_q / px_q).replace([np.inf, -np.inf], np.nan).dropna()

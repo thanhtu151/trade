@@ -17,9 +17,15 @@ python -m research.run_momentum dev
 # 3. Holdout 2024–nay: CHỈ CHẠY MỘT LẦN (có file khóa research/holdout_used.json)
 python -m research.run_momentum holdout
 
-# 4. Báo cáo markdown
-python -m research.report                                # → research/reports/momentum.md
+# 4. Thí nghiệm giá trị (E/P) — cần BCTC quý trước
+python -m research.fundamentals                          # ~1 giờ, 300 mã từng vào vũ trụ từ 2018
+python -m research.run_value dev
+
+# 5. Báo cáo markdown
+python -m research.report momentum value                 # → research/reports/{momentum,value}.md
 ```
+
+Kết luận các thí nghiệm: [reports/FINDINGS.md](reports/FINDINGS.md).
 
 ## Thành phần
 
@@ -30,6 +36,8 @@ python -m research.report                                # → research/reports/
 | `strategies.py` | Vũ trụ point-in-time (top 125 theo giá trị giao dịch trung vị 60 phiên → bỏ 20% mã giá thấp nhất → giữ top 100; niêm yết ≥ 252 phiên). Momentum long-only có bộ đệm thứ hạng, bộ lọc VN-Index/MA200 tùy chọn, bộ chọn ngẫu nhiên cho placebo. |
 | `metrics.py` | Sharpe, PSR, MinTRL, Deflated Sharpe, PBO (CSCV), block bootstrap, drawdown. Đã kiểm với ví dụ trong paper gốc. |
 | `run_momentum.py` | 4 biến thể **đăng ký trước**, ghi mọi lần chạy vào `trials.jsonl` (số lần thử N cho DSR), placebo, chấm Cửa 1. |
+| `fundamentals.py` | BCTC quý từ VCI (2018-Q1 →) với ngày công bố thật; E/P TTM theo ngày (4 quý liên tiếp, hết hạn sau 200 ngày). |
+| `run_value.py` | 3 biến thể giá trị đăng ký trước: E/P, E/P + turnover thấp, E/P + momentum. |
 | `report.py` | Xuất báo cáo tiếng Việt. |
 
 ## Mặc định chi phí (`engine.Costs`)
@@ -51,6 +59,6 @@ python -m research.report                                # → research/reports/
   lưu thì vẫn thiếu. Kết quả vì vậy có thể còn lạc quan hơn thực tế.
 - **Sàn giao dịch theo thời gian**: không biết mã nằm ở sàn nào trong quá khứ, nên vũ trụ chỉ dựa vào thanh
   khoản (có thể gồm mã UPCoM thanh khoản cao như ACV, BSR).
-- **Không có BCTC point-in-time** (chưa có ngày công bố) → chiến lược value/PEAD cần độ trễ 60 ngày.
+- **BCTC chỉ có từ 2018** (VCI), nên thí nghiệm dùng BCTC có giai đoạn phát triển ngắn (07/2019–2023).
 - Thuế 5% cổ tức tiền mặt chưa mô hình (giá điều chỉnh đã gộp cổ tức trước thuế).
 - Benchmark là chỉ số giá (không gồm cổ tức, không phí) → hơi bất lợi cho benchmark.

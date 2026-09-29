@@ -45,9 +45,11 @@ def test_ttm_requires_consecutive_quarters():
     caps = pd.DataFrame({"symbol": "AAA", "period_end": pd.date_range("2018-03-31", periods=8, freq="QE"),
                          "market_cap": 4000.0, "shares": 400.0})
     ep, _ = earnings_yield_panel(panel, earnings, caps)
-    # After 2019-Q2 is published, 2018-Q3..2019-Q2 is not consecutive: keep the last valid TTM.
+    # 2018-Q3..2019-Q2 is not consecutive, so no new TTM appears: the 2018-Q4 TTM
+    # stays in use until it is 200 days old, then E/P is missing.
+    assert ep["AAA"].loc["2019-06-03"] == pytest.approx(400 / 4000)
     q2_public = earnings[earnings["period_end"] == pd.Timestamp("2019-06-30")]["public_date"].iloc[0]
-    assert ep["AAA"].loc[q2_public] == pytest.approx(400 / 4000)
+    assert np.isnan(ep["AAA"].loc[q2_public])
 
 
 def test_market_cap_follows_price_between_quarters():
@@ -75,3 +77,14 @@ def test_value_ranks_cheapest_profitable_names():
     assert strat.ranked(i)[:3] == ["CHEAP", "MID", "RICH"]
     assert "LOSS" not in strat.eligible(i)
     assert set(strat(panel, i, {})) == {"CHEAP", "MID"}
+
+
+def test_stale_earnings_expire_and_zero_caps_are_missing():
+    panel = flat_panel(start="2018-01-01", periods=700)
+    earnings = quarters("AAA", [100.0] * 4)  # reporting stops after 2018-Q4
+    caps = pd.DataFrame({"symbol": "AAA", "period_end": pd.date_range("2018-03-31", periods=8, freq="QE"),
+                         "market_cap": [4000.0] * 7 + [0.0], "shares": 400.0})
+    ep, _ = earnings_yield_panel(panel, earnings, caps, max_age_days=200)
+    assert ep["AAA"].loc["2019-03-01"] == pytest.approx(0.1)
+    assert np.isnan(ep["AAA"].loc["2019-08-01"])  # 2018-Q4 ended > 200 days earlier
+    assert np.isfinite(ep["AAA"].dropna()).all()

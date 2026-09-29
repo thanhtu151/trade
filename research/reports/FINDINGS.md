@@ -43,3 +43,43 @@ Số liệu chi tiết: [momentum.md](momentum.md) · dữ liệu thô: `momentu
 1. **Value E/P + turnover thấp** (Huang, Liu & Shu 2023: E/P và turnover là hai factor giải thích nhiều nhất ở VN). Cần tải BCTC quý. vnstock/VCI chỉ có từ 2018-Q1 nên giai đoạn phát triển sẽ ngắn (2019–2023). Cần tìm nguồn BCTC dài hơn.
 2. **Bộ lọc chất lượng vũ trụ**: loại mã turnover cao nhất trước khi xếp hạng. Đây là giả thuyết mới, phải đăng ký trước và tính vào N.
 3. Giữ hệ thống paper trading hiện tại ở chế độ quan sát. Chưa có chiến lược nào đủ bằng chứng để thay nó.
+
+---
+
+# Kết luận thí nghiệm 2 — Giá trị E/P long-only (29/09/2026)
+
+Số liệu chi tiết: [value.md](value.md) · dữ liệu thô: `value_dev.json`
+
+BCTC quý lấy từ VCI, dùng **ngày công bố thật** (`publicDate`). Lợi nhuận TTM phải gồm 4 quý liên tiếp và
+hết hiệu lực sau 200 ngày. Vốn hóa bằng 0 được coi là thiếu dữ liệu. Dữ liệu chỉ có từ 2018, nên giai đoạn
+phát triển chỉ từ 07/2019 đến 12/2023.
+
+| | E/P (chính) | E/P + turnover thấp | E/P + momentum | VN30 (chỉ số) |
+|---|---|---|---|---|
+| CAGR | −17,5% | −2,8% | −18,2% | +5,9% |
+| Sharpe năm | −0,48 | −0,01 | −0,52 | 0,38 |
+| Max drawdown | −74% | −50% | −76% | −43% |
+| Deflated Sharpe (N = 7) | 0,16 | 0,37 | 0,13 | — |
+
+- Trượt cả 9 tiêu chí Cửa 1. Placebo: E/P đứng ở **phân vị 1%**, nghĩa là **tệ hơn chọn mã ngẫu nhiên** trong
+  cùng nhóm mã có lãi.
+- **Nguyên nhân: bẫy giá trị.** Mã P/E thấp nhất liên tục là những mã sắp sụp lợi nhuận hoặc có lãi đột biến
+  một lần: PDR, NVL, GIL (P/E 1,2–1,6 cuối 2022), APS (P/E 1,4 giữa 2022, lãi tự doanh 2021), LDG, VRC (2019),
+  FLC (2021). 77/135 lệnh bán là do chạm stop.
+- Turnover thấp làm giảm thiệt hại đáng kể (−2,8% so với −17,5%, drawdown −50% so với −74%). Điều này khớp với
+  bằng chứng turnover ở VN, nhưng vẫn không thắng VN30.
+
+## Tổng kết sau 2 thí nghiệm (N = 7 lần thử)
+
+- **Chưa chiến lược xếp hạng chéo nào thắng được VN30** sau chi phí, trên vũ trụ thanh khoản point-in-time.
+- Vấn đề chung: top 100 thanh khoản ở VN chứa nhiều mã đầu cơ và mã chất lượng lợi nhuận thấp. Chọn theo tín
+  hiệu đơn giản (giá tăng, P/E thấp) đều rơi đúng vào nhóm này.
+- **Holdout 2024–2026 vẫn chưa bị dùng.**
+
+## Giả thuyết đáng thử tiếp (mỗi cái tính thêm vào N)
+
+1. **Chất lượng + giá trị:** chỉ xét mã có lợi nhuận ổn định (ví dụ không lỗ quý nào trong 8 quý, ROE ≥ 15%,
+   lợi nhuận không phụ thuộc thu nhập tài chính), rồi mới xếp theo E/P. Đây là cách chuẩn để tránh bẫy giá trị.
+2. **Giới hạn vũ trụ vào VN30** (vốn hóa lớn), thay vì top 100 thanh khoản.
+3. **Phương án thực dụng:** nắm ETF VN30 và dùng bộ lọc VN-Index/MA200 để giảm drawdown. Mục tiêu không phải
+   alpha mà là đi cùng thị trường với rủi ro thấp hơn.
