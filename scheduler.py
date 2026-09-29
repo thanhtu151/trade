@@ -147,9 +147,24 @@ def sync_trading_calendar(max_age_days=6):
         return None
 
 
+def review_backtest_candidate():
+    """Review a pending rebacktest candidate against config_review's criteria (never raises)."""
+    try:
+        from config_review import review_pending
+
+        row = review_pending(BASE_DIR)
+        if row:
+            log.info("Config review: %s (%s qualified) %s", row["decision"], len(row["qualified"]), row["checks"])
+        return row
+    except Exception as exc:
+        log.warning("Config review failed: %s", exc)
+        return None
+
+
 def task_morning_prep():
     """08:00 - clear cache, refresh external data, train missing EV-positive models."""
     sync_trading_calendar()
+    review_backtest_candidate()
     if already_ran_today("morning_prep"):
         log.info("morning_prep already ran today, skipping")
         return
@@ -975,6 +990,7 @@ def task_weekly_rebacktest(force=False):
         candidate = write_candidate("scheduler", final_config, base_dir=BASE_DIR)
         if candidate["status"] != "valid":
             raise RuntimeError("rebacktest candidate is invalid: " + "; ".join(candidate["validation_errors"]))
+        review_backtest_candidate()
         log.info("Weekly rebacktest DONE")
     except Exception as exc:
         log.error("Weekly rebacktest failed: %s", exc)
@@ -1027,6 +1043,7 @@ def run_now(task_name=None):
         "rebacktest": lambda: task_weekly_rebacktest(force=True),
         "heal": run_heal,
         "calendar": lambda: sync_trading_calendar(max_age_days=0),
+        "review-config": review_backtest_candidate,
     }
     if task_name in tasks:
         log.info("Running %s NOW...", task_name)
