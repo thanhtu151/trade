@@ -479,14 +479,25 @@ def task_auto_trade():
     log.info("Auto trade DONE")
 
 
-def load_portfolio_direct():
-    """Load the unified paper portfolio JSON directly."""
-    try:
-        from auto_trader import _safe_read_portfolio
+class PortfolioUnavailable(RuntimeError):
+    """The paper portfolio could not be read reliably; trading must not proceed."""
 
-        return _safe_read_portfolio()
-    except Exception:
-        return {"cash": 100_000_000, "positions": {}}
+
+def load_portfolio_direct():
+    """Load the unified paper portfolio JSON directly.
+
+    Fails closed: an unreadable or corrupt portfolio raises instead of looking like an
+    empty one, because callers write the result back and would wipe real positions.
+    """
+    from auto_trader import _safe_read_portfolio
+
+    try:
+        portfolio = _safe_read_portfolio()
+    except Exception as exc:
+        raise PortfolioUnavailable(f"portfolio read failed: {exc}") from exc
+    if not isinstance(portfolio, dict) or portfolio.get("updated_at") == "unknown":
+        raise PortfolioUnavailable("portfolio file is corrupt or empty; refusing to treat it as an empty portfolio")
+    return portfolio
 
 
 def _save_portfolio_direct(portfolio):
@@ -506,6 +517,11 @@ def _close_position_direct(portfolio, ticker, price, reason, market_df=None):
     positions = portfolio.get("positions", {}) or {}
     pos = positions.get(ticker)
     if not pos:
+        return False
+    from auto_trader import settlement_block_reason
+    unsettled = settlement_block_reason(pos)
+    if unsettled:
+        log.warning("Direct close of %s (%s) blocked: %s", ticker, reason, unsettled)
         return False
     blocked = fill_price_block_reason(ticker, price, df=market_df)
     if blocked:

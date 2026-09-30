@@ -173,9 +173,14 @@ def test_round_trip_charges_fees_to_cash_and_reconciles(monkeypatch, tmp_path):
     assert cash_after_buy == pytest.approx(100_000_000 - value * 1.001)
 
     monkeypatch.setattr(auto_trader, "current_price", lambda _s: 22_500.0)
+    # T+2: the shares just bought are only sellable once they have settled.
+    import trading_safety
+    from datetime import timedelta
+    monkeypatch.setattr(trading_safety, "vietnam_now",
+                        lambda: datetime.now(trading_safety.VIETNAM_TZ) + timedelta(days=10))
     ok, message = auto_trader.sell_position("VPB")
     assert ok is True, message
-    sell = json.loads((tmp_path / "paper_trades.json").read_text())[-1]
+    sell =json.loads((tmp_path / "paper_trades.json").read_text())[-1]
     proceeds = 400 * 22_500.0
     assert sell["fees"] == pytest.approx(proceeds * 0.002)
     assert sell["pnl"] == pytest.approx(400 * 200 - proceeds * 0.002 - value * 0.001, abs=0.02)

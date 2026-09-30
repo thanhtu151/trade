@@ -1394,6 +1394,30 @@ def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pc
     return True, f"BUY {qty:,} {symbol} @ {price:,.2f}"
 
 
+SETTLEMENT_DAYS = 2  # VN equities settle T+2: bought shares cannot be sold before then
+
+
+def settlement_block_reason(position, today=None):
+    """Reason the shares are not yet sellable (T+2), or None.
+
+    Legacy positions without a parseable entry_date are allowed with a warning.
+    """
+    from trading_calendar import add_trading_days
+    from trading_safety import vietnam_now
+
+    raw = str((position or {}).get("entry_date") or "")[:10]
+    try:
+        bought = datetime.strptime(raw, "%Y-%m-%d").date()
+    except ValueError:
+        log.warning("position has no parseable entry_date (%r); T+2 cannot be checked", raw)
+        return None
+    today = today or vietnam_now().date()
+    sellable_from = add_trading_days(bought, SETTLEMENT_DAYS)
+    if today < sellable_from:
+        return f"T+{SETTLEMENT_DAYS}: shares bought {bought} are not settled until {sellable_from}"
+    return None
+
+
 def sell_position(symbol, reason="Manual SELL", qty=None):
     from self_healing import trading_permission
 
@@ -1405,6 +1429,9 @@ def sell_position(symbol, reason="Manual SELL", qty=None):
     position = portfolio.get("positions", {}).get(symbol)
     if not position:
         return False, f"KhÃ´ng cÃ³ vá»‹ tháº¿ {symbol}"
+    unsettled = settlement_block_reason(position)
+    if unsettled:
+        return False, unsettled
     price = current_price(symbol)
     if price is None or price < 1000:
         return False, f"KhÃ´ng láº¥y Ä‘Æ°á»£c giÃ¡ hiá»‡n táº¡i cho {symbol}"
