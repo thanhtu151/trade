@@ -38,6 +38,8 @@ def liquid_candidates(n=70):
     """Shortlist of the n most liquid symbols (60-session avg traded value) from the research
     snapshot. Only the symbol list comes from research; prices and the final top-50 ranking
     (done by E6) come from the live fetch."""
+    if not os.path.isdir(RESEARCH_PRICES):        # e.g. GitHub Actions: use the committed snapshot list
+        return json.loads((BASE / "paper_universe.json").read_text(encoding="utf-8"))["symbols"][:n]
     scored = {}
     for name in os.listdir(RESEARCH_PRICES):
         sym = name[:-len(".parquet")]

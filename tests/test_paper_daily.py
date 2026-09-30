@@ -75,6 +75,26 @@ def test_catch_up_runs_two_missed_sessions_in_order_without_duplicates(monkeypat
     assert {p.name: p.read_text() for p in (tmp_path / "logs").iterdir()} == before
 
 
+def test_universe_falls_back_to_committed_list_without_research_dir(monkeypatch):
+    monkeypatch.setattr(paper_run, "RESEARCH_PRICES", "/nonexistent/prices/")
+    syms = paper_run.liquid_candidates(70)
+    assert len(syms) == 70 and len(set(syms)) == 70 and "E1VFVN30" not in syms
+
+
+def test_workflow_draft_is_valid_paper_only_and_uses_own_state_branch():
+    import yaml
+    from pathlib import Path
+    text = (Path(paper_run.BASE) / "scripts" / "paper-daily.workflow.yml").read_text(encoding="utf-8")
+    wf = yaml.safe_load(text)
+    on = wf.get(True, wf.get("on"))                       # PyYAML reads bare `on` as True
+    assert on["schedule"] == [{"cron": "30 8 * * 1-5"}] and "workflow_dispatch" in on
+    assert on["push"]["branches"] == ["feat/paper-etf-broker"]
+    assert wf["permissions"] == {"contents": "write"}
+    assert wf["concurrency"]["cancel-in-progress"] is False
+    assert wf["jobs"]["paper"]["env"]["STATE_BRANCH"] == "paper-state"
+    assert "--reset" not in text and "place_order" not in text
+
+
 def test_catch_up_on_non_session_today_still_fills_earlier_gap(monkeypatch, tmp_path, capsys):
     assert _run_on(monkeypatch, tmp_path, "2026-03-26") == 0
     assert _run_on(monkeypatch, tmp_path, "2026-04-04") == 0                  # Sat: no bar; 27/3..31/3 missed
