@@ -1,50 +1,5 @@
 [
   {
-    "ticker": "PVD",
-    "date": "2026-07-21",
-    "time": "2026-07-21T15:33:52.983528",
-    "market_data": {
-      "price": 18.5,
-      "rsi": 38.6,
-      "macd_bull": false,
-      "vol_ratio": 1.98,
-      "score": 3.0,
-      "ensemble_signal": "N/A",
-      "weekly_trend": "sideways",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 40668950.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": -44.44,
-    "actual_price_3d": 18.5
-  },
-  {
     "ticker": "HDB",
     "date": "2026-07-23",
     "time": "2026-07-23T11:58:48.442232",
@@ -4460,6 +4415,49 @@
       "score": 3.0,
       "ensemble_signal": "không rõ",
       "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 34898105.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "FRT",
+    "date": "2026-09-30",
+    "time": "2026-09-30T08:34:06.532747",
+    "market_data": {
+      "price": 142000.0,
+      "rsi": 52.3,
+      "macd_bull": true,
+      "vol_ratio": 1.58,
+      "score": 4.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "sideways",
       "news_sentiment": 0.0,
       "market_regime": "UNKNOWN",
       "cash_available": 34898105.0
