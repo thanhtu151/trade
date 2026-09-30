@@ -100,6 +100,9 @@ def main(argv=None):
                     help="'top' = 70 most liquid candidates (E6 keeps top 50), or comma-separated symbols")
     ap.add_argument("--logs-dir", default=str(BASE / "paper_logs"))
     ap.add_argument("--reset", action="store_true", help="start from fresh state and empty logs")
+    ap.add_argument("--require-exact", action="store_true",
+                    help="if --date has no bar, print 'no session' and exit 0 instead of using an earlier session")
+    ap.add_argument("--summary-csv", help="append one row per session date (skipped if the date is already there)")
     args = ap.parse_args(argv)
 
     want = date.fromisoformat(args.date)
@@ -119,6 +122,9 @@ def main(argv=None):
         return 2
     ts = sessions[-1]
     day = ts.date()
+    if args.require_exact and day != want:
+        print(f"no session: {want} (phiên gần nhất có dữ liệu: {day})")
+        return 0
     prev = etf.loc[etf.index < ts]
     if prev.empty:
         print("LỖI: thiếu phiên trước để lấy giá tham chiếu", file=sys.stderr)
@@ -160,7 +166,24 @@ def main(argv=None):
         print("  Lệnh: không có")
     print(f"  Chờ khớp phiên sau: {out.get('pending')}")
     print(f"  NAV: {out['nav']:,.0f} VND (vốn đầu {INITIAL_CASH:,.0f})")
+    if args.summary_csv:
+        _summary_row(Path(args.summary_csv), day, out)
     return 0
+
+
+def _summary_row(path, day, out):
+    """One row per session date; a re-run of the same date never adds a second row."""
+    header = "date,e1,e6,vn30,nav,orders"
+    lines = path.read_text(encoding="utf-8").splitlines() if path.exists() else []
+    if any(l.startswith(f"{day.isoformat()},") for l in lines):
+        return
+    sig = out["signals"]
+    e1 = next((t for n, t in sig.items() if n.startswith("E1")), None)
+    e6 = next((t for n, t in sig.items() if n.startswith("E6")), None)
+    onoff = lambda t: "" if t is None else ("ON" if t.weight else "OFF")
+    vn30 = (e1.details.get("close") if e1 else None) or (e6.details.get("vn30") if e6 else "")
+    row = f"{day.isoformat()},{onoff(e1)},{onoff(e6)},{vn30},{out['nav']:.0f},{len(out['orders'])}"
+    path.write_text("\n".join((lines or [header]) + [row]) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
