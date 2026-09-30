@@ -2,7 +2,7 @@
   "status": "idle",
   "message": "AI tự động đã phân tích xong",
   "detail": "Hoàn tất 50 mã trong training watchlist",
-  "updated_at": "2026-09-30T08:07:05.060609+00:00",
+  "updated_at": "2026-09-30T08:44:08.850937+00:00",
   "version": 1,
   "tasks": {
     "heal": {
@@ -40,9 +40,9 @@
     "trade": {
       "consecutive_failures": 0,
       "state": "blocked",
-      "last_update": "2026-09-30T02:21:38.361047+00:00",
-      "run_id": "36659373126",
-      "blocked_reason": "TRADING_ENABLED disables trading",
+      "last_update": "2026-09-30T08:44:08.850937+00:00",
+      "run_id": "36691409984",
+      "blocked_reason": "outside trading session (late run)",
       "last_error": null
     },
     "eod": {
