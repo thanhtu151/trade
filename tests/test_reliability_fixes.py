@@ -66,6 +66,7 @@ def test_eod_persists_snapshot_even_when_prices_do_not_change(monkeypatch, tmp_p
     monkeypatch.setattr(scheduler, "already_ran_today", lambda _name: False)
     monkeypatch.setattr(scheduler, "mark_ran_today", lambda _name: None)
     monkeypatch.setattr(scheduler, "load_portfolio_direct", lambda: portfolio)
+    monkeypatch.setattr(scheduler, "record_eod_equity_snapshot", lambda: None)  # keep tests off the repo NAV file
     monkeypatch.setattr(scheduler, "_save_portfolio_direct", lambda _p: None)
     monkeypatch.setattr(data_fetcher, "get_stock_data_cached", lambda *_a, **_k: pd.DataFrame({"close": [100, 100]}))
     scheduler.task_eod_update()

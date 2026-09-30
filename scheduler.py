@@ -750,6 +750,17 @@ def run_etf_core():
     return info
 
 
+def record_eod_equity_snapshot():
+    """NAV history row per session so the daily-loss entry halt has a previous-session baseline."""
+    try:
+        from auto_trader import record_equity_snapshot
+
+        return record_equity_snapshot("eod")
+    except Exception as exc:
+        log.warning("EOD equity snapshot failed: %s", exc)
+        return None
+
+
 def task_eod_update():
     """15:00 - update trailing stops, exit stopped positions, and refresh PnL."""
     if not is_trading_day():
@@ -849,6 +860,7 @@ def task_eod_update():
         raise RuntimeError("EOD update incomplete: " + "; ".join(failures))
     from portfolio_snapshots import record_snapshot
     record_snapshot(BASE_DIR, portfolio, ict_today(), recorded_at=ict_now())
+    record_eod_equity_snapshot()
     mark_ran_today("eod_update")
     log.info("EOD update DONE")
 

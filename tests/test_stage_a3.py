@@ -1,5 +1,6 @@
 """Stage (a)-3: consensus buy gate, VN30 market gate, daily-loss/drawdown halt, fail-closed portfolio read."""
 
+import json
 from datetime import date
 
 import pandas as pd
@@ -164,3 +165,57 @@ def test_execute_paper_trade_reports_transient_on_corrupt_portfolio(monkeypatch,
     monkeypatch.setattr(auto_trader.time, "sleep", lambda *_a: None)
     outcome = auto_trader.execute_paper_trade("VPB", "BUY", price=22.4, signal_id="corrupt", trade_date="2026-09-21")
     assert outcome["status"] == "transient" and "portfolio read failed" in outcome["detail"]
+
+
+# ---- T41: dashboard warning on PortfolioReadError + daily EOD equity snapshot ----
+
+def test_dashboard_portfolio_guard_shows_warning_not_crash(monkeypatch):
+    dashboard = pytest.importorskip("dashboard_vn")
+    import auto_trader
+
+    shown = []
+    monkeypatch.setattr(dashboard.st, "error", lambda msg, *a, **k: shown.append(msg))
+
+    def corrupt():
+        raise auto_trader.PortfolioReadError("bad json")
+
+    dashboard._render_with_portfolio_guard(corrupt)
+    assert len(shown) == 1 and "paper_portfolio.json" in shown[0] and "bad json" in shown[0]
+
+    def other():
+        raise ValueError("unrelated")
+
+    with pytest.raises(ValueError):
+        dashboard._render_with_portfolio_guard(other)
+
+
+def test_eod_records_equity_snapshot(monkeypatch, tmp_path):
+    import auto_trader
+    import scheduler
+
+    portfolio = {"cash": 1_000_000.0, "initial_cash": 1_000_000.0, "positions": {}}
+    portfolio_file = tmp_path / "paper_portfolio.json"
+    portfolio_file.write_text(json.dumps(portfolio), encoding="utf-8")
+    monkeypatch.setattr(auto_trader, "PORTFOLIO_FILE", str(portfolio_file))
+    monkeypatch.setattr(auto_trader, "AI_FUND_EQUITY_FILE", str(tmp_path / "equity.json"))
+    monkeypatch.setattr(scheduler, "BASE_DIR", str(tmp_path))
+    monkeypatch.setattr(scheduler, "is_trading_day", lambda: True)
+    monkeypatch.setattr(scheduler, "already_ran_today", lambda _n: False)
+    monkeypatch.setattr(scheduler, "mark_ran_today", lambda _n: None)
+    monkeypatch.setattr(scheduler, "run_etf_core", lambda: None)
+    monkeypatch.setattr(scheduler, "load_portfolio_direct", lambda: portfolio)
+    monkeypatch.setattr(scheduler, "_save_portfolio_direct", lambda _p: None)
+
+    scheduler.task_eod_update()
+
+    rows = json.loads((tmp_path / "equity.json").read_text(encoding="utf-8"))
+    assert rows[-1]["label"] == "eod" and rows[-1]["equity"] == 1_000_000.0
+
+
+def test_eod_snapshot_failure_does_not_break_eod(monkeypatch, tmp_path):
+    import auto_trader
+    import scheduler
+
+    monkeypatch.setattr(auto_trader, "record_equity_snapshot",
+                        lambda label="": (_ for _ in ()).throw(auto_trader.PortfolioReadError("corrupt")))
+    assert scheduler.record_eod_equity_snapshot() is None

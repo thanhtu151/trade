@@ -220,6 +220,7 @@ def test_eod_trailing_stop_updates_position_and_plan(monkeypatch, tmp_path):
     monkeypatch.setattr(scheduler, "already_ran_today", lambda _name: False)
     monkeypatch.setattr(scheduler, "mark_ran_today", lambda _name: None)
     monkeypatch.setattr(scheduler, "load_portfolio_direct", lambda: portfolio)
+    monkeypatch.setattr(scheduler, "record_eod_equity_snapshot", lambda: None)  # keep tests off the repo NAV file
     monkeypatch.setattr(scheduler, "_save_portfolio_direct", lambda _p: None)
     monkeypatch.setattr(data_fetcher, "get_stock_data_cached",
                         lambda *_a, **_k: pd.DataFrame({"close": [25_000.0, 25_500.0]}))
