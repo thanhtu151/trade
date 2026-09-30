@@ -212,7 +212,7 @@ def _scheduler_trade_environment(monkeypatch, tmp_path, outcomes):
 
     analysis_file = tmp_path / "analysis_results.json"
     analysis_file.write_text(
-        json.dumps({"date": datetime.now().date().isoformat(), "tradeable": [{"ticker": "FPT", "price": 100}]}),
+        json.dumps({"date": _in_session().date().isoformat(), "tradeable": [{"ticker": "FPT", "price": 100}]}),
         encoding="utf-8",
     )
     monkeypatch.setattr(scheduler, "ANALYSIS_RESULTS_FILE", str(analysis_file))
