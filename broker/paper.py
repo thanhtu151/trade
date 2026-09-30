@@ -1,8 +1,9 @@
 """PaperBroker: simulated fills with the same pre-trade checks a live broker must pass.
 
-Costs follow the protocol: 0.5% round trip = 0.35% fees + 0.15% slippage, split evenly per
-side (0.175% fee, 0.075% slippage). Sell tax is assumed to be inside the 0.35% (TODO: confirm
-with the CEO; etf_core.py still uses its own, higher constants).
+Costs follow the CEO's protocol (T58), all module constants:
+  BUY  = 0.125% fee + 0.075% slippage
+  SELL = 0.125% fee + 0.100% sell tax + 0.075% slippage      (round trip ~0.5%)
+etf_core.py keeps its own older constants and is not wired to this broker.
 """
 
 import json
@@ -16,13 +17,13 @@ from broker.base import Broker, Fill, Order
 LOT = 100
 BAND = 0.07                       # HOSE daily price limit vs reference price
 SETTLEMENT_DAYS = 2               # T+2
-FEE_ROUND_TRIP = 0.0035
-SLIPPAGE_ROUND_TRIP = 0.0015
-FEE_PER_SIDE = FEE_ROUND_TRIP / 2
-SLIPPAGE_PER_SIDE = SLIPPAGE_ROUND_TRIP / 2
+BUY_FEE = 0.00125
+SELL_FEE = 0.00125
+SELL_TAX = 0.001
+SLIPPAGE_PER_SIDE = 0.00075
 
-# TODO(verify): HOSE tick table not checked against the exchange's current rules.
-# Assumed: stocks <10,000 VND -> 10; 10,000-49,950 -> 50; >=50,000 -> 100; ETFs -> 10.
+# Tick table: HOSE trading rules ("quy chế giao dịch HOSE"), confirmed by the CEO in T58.
+# Stocks <10,000 VND -> 10; 10,000-49,950 -> 50; >=50,000 -> 100; ETFs -> 10 at any price.
 ETF_SYMBOLS = {"E1VFVN30", "FUEVFVND"}
 
 
@@ -49,6 +50,16 @@ class PaperBroker(Broker):
         self.journal_path = Path(journal_path) if journal_path else None
         self._add_days = add_trading_days or _default_add_trading_days
 
+    def to_dict(self):
+        return {"cash": self.cash, "seen": sorted(self.seen),
+                "lots": {s: [[d.isoformat(), q] for d, q in lots] for s, lots in self.lots.items()}}
+
+    def load_dict(self, data):
+        self.cash = float(data["cash"])
+        self.lots = {s: [[date.fromisoformat(d), q] for d, q in lots] for s, lots in data["lots"].items()}
+        self.seen = {cid: None for cid in data.get("seen", [])}
+        return self
+
     # -- Broker API ---------------------------------------------------------
     def get_cash(self):
         return self.cash
@@ -66,7 +77,7 @@ class PaperBroker(Broker):
         return False              # paper orders fill or reject immediately
 
     def place_order(self, o: Order) -> Fill:
-        if o.client_id and o.client_id in self.seen:
+        if o.client_id and o.client_id in self.seen:   # restored ids map to None
             return Fill(o.client_id, "DUPLICATE", o.symbol, o.side)
         fill = self._execute(o)
         if o.client_id:
@@ -114,7 +125,7 @@ class PaperBroker(Broker):
             if o.limit_price is not None and px > o.limit_price:
                 return self._reject(o, "limit_not_reached")
         value = px * o.qty
-        fee = value * FEE_PER_SIDE
+        fee = value * (BUY_FEE if side == "BUY" else SELL_FEE + SELL_TAX)   # sell fee includes tax
         if side == "BUY":
             if self.cash < value + fee:
                 return self._reject(o, "insufficient_cash")

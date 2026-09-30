@@ -33,7 +33,7 @@ def test_buy_fills_with_slippage_fee_and_lot():
     assert f.status == "FILLED" and f.qty == 1000
     assert f.price == 30030 and f.price % tick_size("E1VFVN30", 30000) == 0
     assert f.slippage_pct == pytest.approx(0.1, abs=0.01)
-    assert f.fee == pytest.approx(f.price * 1000 * 0.00175, abs=0.01)
+    assert f.fee == pytest.approx(f.price * 1000 * 0.00125, abs=0.01)
     assert b.get_cash() == pytest.approx(100_000_000 - f.price * 1000 - f.fee)
 
 
@@ -73,6 +73,7 @@ def test_switch_to_cash_sells_everything_and_journals(tmp_path):
     b.place_order(order())
     f = b.place_order(order("SELL", day=WED, ref=30500, mkt=30500))
     assert f.status == "FILLED" and b.get_positions() == {}
+    assert f.fee == pytest.approx(f.price * 1000 * 0.00225, abs=0.01)   # 0.125% fee + 0.1% tax
     assert b.get_cash() > 100_000_000 * 0.99
     rows = [json.loads(x) for x in journal.read_text().splitlines()]
     assert [r["status"] for r in rows] == ["FILLED", "FILLED"]

@@ -2,9 +2,8 @@
 
 from signals.base import Target, Signal
 from signals.e1_ma10m import E1Ma10Month
+from signals.e6_ma200_breadth import E6Ma200Breadth
 
-# E6 (MA200 daily + 60% breadth) will be registered here and run in monitor-only mode
-# alongside E1; it is intentionally not implemented yet.
-REGISTRY = {E1Ma10Month.name: E1Ma10Month}
+REGISTRY = {E1Ma10Month.name: E1Ma10Month, E6Ma200Breadth.name: E6Ma200Breadth}
 
-__all__ = ["Target", "Signal", "E1Ma10Month", "REGISTRY"]
+__all__ = ["Target", "Signal", "E1Ma10Month", "E6Ma200Breadth", "REGISTRY"]

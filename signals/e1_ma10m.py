@@ -11,6 +11,8 @@ from signals.base import Target
 
 class E1Ma10Month:
     name = "E1_ma10m"
+    cadence = "month_end"     # runner re-evaluates only on the last session of a month
+    monitor_only = False
     series = "VN30"      # key in `data`; may be pointed at the ETF's own closes instead
     months = 10
 
