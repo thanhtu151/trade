@@ -272,5 +272,19 @@
       "STB"
     ],
     "n_positions": 3
+  },
+  {
+    "date": "2026-09-30",
+    "time": "2026-09-30T15:07:05.058176+07:00",
+    "ledger_epoch": 1,
+    "cash": 34898105.0,
+    "market_value": 41773670.0,
+    "equity": 76671775.0,
+    "positions": [
+      "GMD",
+      "HCM",
+      "STB"
+    ],
+    "n_positions": 3
   }
 ]

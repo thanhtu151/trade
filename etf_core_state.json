@@ -7,9 +7,9 @@
  "cash": 100000000.0,
  "units": 0,
  "started": "2026-09-29",
- "last_session": "2026-09-29",
+ "last_session": "2026-09-30",
  "pending": null,
- "signal": null,
+ "signal": "OFF",
  "trades": [],
  "equity": [
   {
@@ -18,7 +18,21 @@
    "units": 0,
    "cash": 100000000.0,
    "equity": 100000000.0
+  },
+  {
+   "session": "2026-09-30",
+   "close": 34550.0,
+   "units": 0,
+   "cash": 100000000.0,
+   "equity": 100000000.0
   }
  ],
- "signals": []
+ "signals": [
+  {
+   "session": "2026-09-30",
+   "signal": "OFF",
+   "vn30_close": 1906.81,
+   "ma10m": 1972.91
+  }
+ ]
 }

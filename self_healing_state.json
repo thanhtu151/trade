@@ -1,7 +1,7 @@
 {
   "status": "operationally_blocked",
   "trading_allowed": false,
-  "updated_at": "2026-09-30 14:12:19",
+  "updated_at": "2026-09-30 15:07:05",
   "actions": [],
   "warnings": [
     "current epoch contains 45 legacy price(s) below 1,000 VND; history was not modified"
@@ -24,7 +24,7 @@
   },
   "checkpoint": {
     "cash": 34898105.0,
-    "equity": 76939000.0,
+    "equity": 76671775.0,
     "trade_events": 107,
     "last_event_signature": "643a1988a1426a93"
   },
