@@ -1,0 +1,41 @@
+2026-09-30 18:16:29 start date=2026-09-30 python=/Users/drone/Downloads/tradeclone/.worktrees/paper/../../.venv/bin/python
+  VCK: source VCI failed: insufficient_data: VCK: VCI: coverage 51.7% (194/375 exchange sessions), first=2025-12-16, required_start<=2025-05-27
+source_manager: VCI failed (1x)
+source_manager: switching to MSN
+  VCK: source MSN failed: insufficient_data: VCK: MSN: coverage 51.5% (193/375 exchange sessions), first=2025-12-16, required_start<=2025-05-27
+source_manager: MSN failed (1x)
+source_manager: all sources exhausted, will use stale cache
+  VCK: all sources failed: insufficient_data: VCK: MSN: coverage 51.5% (193/375 exchange sessions), first=2025-12-16, required_start<=2025-05-27
+  TCX: skipping MSN because circuit is open
+  TCX: source VCI failed: insufficient_data: TCX: VCI: coverage 62.4% (234/375 exchange sessions), first=2025-10-21, required_start<=2025-05-27
+source_manager: VCI failed (2x)
+  TCX: all sources failed: insufficient_data: TCX: VCI: coverage 62.4% (234/375 exchange sessions), first=2025-10-21, required_start<=2025-05-27
+  GEL: skipping MSN because circuit is open
+  GEL: source VCI failed: insufficient_data: GEL: VCI: coverage 42.1% (158/375 exchange sessions), first=2026-02-06, required_start<=2025-05-27
+source_manager: VCI failed (3x)
+  GEL: all sources failed: insufficient_data: GEL: VCI: coverage 42.1% (158/375 exchange sessions), first=2026-02-06, required_start<=2025-05-27
+Cảnh báo: không lấy được giá 3 mã: VCK,TCX,GEL
+Phiên: 2026-09-30 (yêu cầu 2026-09-30) [cuối tháng]; nguồn: data_fetcher
+  E1_ma10m: OFF (close<ma10m) {'close': 1906.81, 'ma': 1972.91} [điều khiển lệnh]
+  E6_ma200d_b60: OFF (off) {'vn30': 1906.81, 'ma200': 1960.19, 'vn30_above': False, 'breadth_pct': 28.0, 'universe': 50} [theo dõi]
+  Lệnh: không có
+  Chờ khớp phiên sau: None
+  NAV: 100,000,000 VND (vốn đầu 100,000,000)
+2026-09-30 18:16:40 done
+2026-09-30 18:16:42 start date=2026-09-30 python=/Users/drone/Downloads/tradeclone/.worktrees/paper/../../.venv/bin/python
+  VCK: skipping VCI because circuit is open
+  VCK: skipping MSN because circuit is open
+  VCK: all sources failed: circuit open for MSN
+  TCX: skipping VCI because circuit is open
+  TCX: skipping MSN because circuit is open
+  TCX: all sources failed: circuit open for MSN
+  GEL: skipping VCI because circuit is open
+  GEL: skipping MSN because circuit is open
+  GEL: all sources failed: circuit open for MSN
+Cảnh báo: không lấy được giá 3 mã: VCK,TCX,GEL
+Phiên: 2026-09-30 (yêu cầu 2026-09-30) [cuối tháng]; nguồn: data_fetcher
+Bỏ qua: already_processed
+  Lệnh: không có
+  Chờ khớp phiên sau: None
+  NAV: 100,000,000 VND (vốn đầu 100,000,000)
+2026-09-30 18:16:43 done

@@ -1,0 +1,12 @@
+{
+ "broker": {
+  "cash": 100000000.0,
+  "seen": [],
+  "lots": {}
+ },
+ "runner": {
+  "pending": null,
+  "target_weight": 0.0,
+  "last_day": "2026-09-30"
+ }
+}
