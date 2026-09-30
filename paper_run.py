@@ -34,14 +34,34 @@ def _series(df, col="close", scale=1.0):
     return d[col] * scale if col in d else d
 
 
+def liquid_candidates(n=70):
+    """Shortlist of the n most liquid symbols (60-session avg traded value) from the research
+    snapshot. Only the symbol list comes from research; prices and the final top-50 ranking
+    (done by E6) come from the live fetch."""
+    scored = {}
+    for name in os.listdir(RESEARCH_PRICES):
+        sym = name[:-len(".parquet")]
+        if sym in EXCLUDE:
+            continue
+        df = pd.read_parquet(RESEARCH_PRICES + name).tail(60)
+        if len(df) >= 60:
+            scored[sym] = float((df["close"] * df["volume"]).mean())
+    return sorted(scored, key=scored.get, reverse=True)[:n]
+
+
 def load_data_fetcher(universe):
     from data_fetcher import get_stock_data_cached as get
     etf, vn30 = get(ETF, years=0.5), get("VN30", years=1.5)
-    closes, values = {}, {}
+    closes, values, failed = {}, {}, []
     for s in universe:
-        df = get(s, years=1.5)
-        closes[s] = _series(df)
-        values[s] = closes[s] * _series(df, "volume")
+        try:
+            df = get(s, years=1.5)
+            closes[s] = _series(df)
+            values[s] = closes[s] * _series(df, "volume")
+        except Exception:
+            failed.append(s)
+    if failed:
+        print(f"Cảnh báo: không lấy được giá {len(failed)} mã: {','.join(failed)}", file=sys.stderr)
     return _bars(etf), _series(vn30), pd.DataFrame(closes), pd.DataFrame(values)
 
 
@@ -76,8 +96,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", required=True, help="YYYY-MM-DD")
     ap.add_argument("--source", choices=["data_fetcher", "research"], default="data_fetcher")
-    ap.add_argument("--universe", default="VCB,BID,CTG,TCB,MBB,ACB,VPB,STB,HDB,VIB,SSI,VND,HCM,VCI,HPG,VIC,VHM,FPT,MWG,VNM",
-                    help="stocks for E6 breadth when --source data_fetcher")
+    ap.add_argument("--universe", default="top",
+                    help="'top' = 70 most liquid candidates (E6 keeps top 50), or comma-separated symbols")
     ap.add_argument("--logs-dir", default=str(BASE / "paper_logs"))
     ap.add_argument("--reset", action="store_true", help="start from fresh state and empty logs")
     args = ap.parse_args(argv)
@@ -87,7 +107,8 @@ def main(argv=None):
         if args.source == "research":
             etf, vn30, closes, values = load_research()
         else:
-            etf, vn30, closes, values = load_data_fetcher([s for s in args.universe.split(",") if s])
+            uni = liquid_candidates() if args.universe == "top" else [s for s in args.universe.split(",") if s]
+            etf, vn30, closes, values = load_data_fetcher(uni)
     except Exception as exc:
         print(f"LỖI lấy giá ({args.source}): {exc!r}. Thử --source research.", file=sys.stderr)
         return 2
