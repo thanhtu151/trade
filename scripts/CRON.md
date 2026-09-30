@@ -16,3 +16,4 @@ Bỏ qua thứ 7/CN; ngày không có phiên thì ghi `no session` và thoát 0.
   (`date,e1,e6,vn30,nav,orders`, mỗi ngày một dòng).
 - Cài thủ công khi được duyệt: `crontab -e`, dán dòng trên. Cần `vnstock` đã cài trong `.venv`
   (xem `requirements-vnstock.txt`).
+- Chạy bù: nếu máy tắt lúc 15:30, lần chạy kế tiếp tự chạy các phiên bị lỡ (sau ngày cuối trong `summary.csv`, theo thứ tự ngày, dùng giá lịch sử từng ngày, `--catch-up`). Chạy lại không ghi trùng.

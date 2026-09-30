@@ -102,6 +102,8 @@ def main(argv=None):
     ap.add_argument("--reset", action="store_true", help="start from fresh state and empty logs")
     ap.add_argument("--require-exact", action="store_true",
                     help="if --date has no bar, print 'no session' and exit 0 instead of using an earlier session")
+    ap.add_argument("--catch-up", action="store_true",
+                    help="also run every missed session after the last date in --summary-csv, oldest first")
     ap.add_argument("--summary-csv", help="append one row per session date (skipped if the date is already there)")
     args = ap.parse_args(argv)
 
@@ -120,17 +122,19 @@ def main(argv=None):
     if not sessions:
         print("LỖI: không có phiên nào <= ngày yêu cầu", file=sys.stderr)
         return 2
-    ts = sessions[-1]
-    day = ts.date()
-    if args.require_exact and day != want:
-        print(f"no session: {want} (phiên gần nhất có dữ liệu: {day})")
-        return 0
-    prev = etf.loc[etf.index < ts]
-    if prev.empty:
-        print("LỖI: thiếu phiên trước để lấy giá tham chiếu", file=sys.stderr)
-        return 2
-    bars = {"ref": float(prev["close"].iloc[-1]), "open": float(etf.loc[ts, "open"]),
-            "close": float(etf.loc[ts, "close"])}
+    latest = sessions[-1].date()
+    exact = latest == want
+    if args.require_exact and not exact:
+        print(f"no session: {want} (phiên gần nhất có dữ liệu: {latest})")
+        if not args.catch_up:
+            return 0
+
+    todo = [sessions[-1]] if exact or not args.require_exact else []
+    last_done = _last_summary_day(Path(args.summary_csv)) if args.summary_csv else None
+    if args.catch_up and last_done:
+        todo = [t for t in sessions if t.date() > last_done]      # missed sessions, oldest first
+        if len(todo) > 1:
+            print(f"Chạy bù {len(todo) - 1} phiên bị lỡ sau {last_done}: {', '.join(str(t.date()) for t in todo[:-1])}")
 
     logs = Path(args.logs_dir)
     logs.mkdir(parents=True, exist_ok=True)
@@ -146,13 +150,35 @@ def main(argv=None):
         broker.load_dict(saved["broker"])
         state = saved["runner"]
 
+    for ts in todo:
+        rc = _session(args, want, ts, etf, vn30, closes, values, broker, state, signals_path)
+        if rc:
+            return rc
+        state_path.write_text(json.dumps({"broker": broker.to_dict(), "runner": state}, ensure_ascii=False,
+                                         indent=1), encoding="utf-8")
+    return 0
+
+
+def _last_summary_day(path):
+    if not path.exists():
+        return None
+    days = [l.split(",")[0] for l in path.read_text(encoding="utf-8").splitlines()[1:] if l.strip()]
+    return date.fromisoformat(max(days)) if days else None
+
+
+def _session(args, want, ts, etf, vn30, closes, values, broker, state, signals_path):
+    day = ts.date()
+    prev = etf.loc[etf.index < ts]
+    if prev.empty:
+        print("LỖI: thiếu phiên trước để lấy giá tham chiếu", file=sys.stderr)
+        return 2
+    bars = {"ref": float(prev["close"].iloc[-1]), "open": float(etf.loc[ts, "open"]),
+            "close": float(etf.loc[ts, "close"])}
     from trading_calendar import is_trading_day
     month_end = is_month_end(day, is_trading_day)
     data = {"VN30": vn30, "stocks_close": closes, "stocks_value": values}
     out = run_session(day, ETF, bars, data, E1Ma10Month(), [E6Ma200Breadth()], broker, state,
                       month_end, signal_journal=signals_path)
-    state_path.write_text(json.dumps({"broker": broker.to_dict(), "runner": state}, ensure_ascii=False, indent=1),
-                          encoding="utf-8")
 
     print(f"Phiên: {day} (yêu cầu {want}){' [cuối tháng]' if month_end else ''}; nguồn: {args.source}")
     if out.get("skipped"):
@@ -166,7 +192,7 @@ def main(argv=None):
         print("  Lệnh: không có")
     print(f"  Chờ khớp phiên sau: {out.get('pending')}")
     print(f"  NAV: {out['nav']:,.0f} VND (vốn đầu {INITIAL_CASH:,.0f})")
-    if args.summary_csv:
+    if args.summary_csv and not out.get("skipped"):
         _summary_row(Path(args.summary_csv), day, out)
     return 0
 

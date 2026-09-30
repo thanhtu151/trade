@@ -45,3 +45,37 @@ def test_require_exact_reports_no_session_and_exits_zero(monkeypatch, tmp_path, 
     assert rc == 0 and "no session" in capsys.readouterr().out
     assert not (tmp_path / "logs" / "summary.csv").exists()
     assert not (tmp_path / "logs" / "signals.jsonl").exists()
+
+
+def _run_on(monkeypatch, tmp_path, day, *extra):
+    monkeypatch.setattr(paper_run, "load_data_fetcher", lambda uni: _frames())
+    monkeypatch.setattr(paper_run, "liquid_candidates", lambda n=70: ["A"])
+    return paper_run.main(["--date", day, "--source", "data_fetcher", "--require-exact", "--catch-up",
+                           "--logs-dir", str(tmp_path / "logs"),
+                           "--summary-csv", str(tmp_path / "logs" / "summary.csv"), *extra])
+
+
+def _days(tmp_path):
+    rows = (tmp_path / "logs" / "summary.csv").read_text().splitlines()
+    return [r.split(",")[0] for r in rows[1:]]
+
+
+def test_catch_up_runs_two_missed_sessions_in_order_without_duplicates(monkeypatch, tmp_path, capsys):
+    assert _run_on(monkeypatch, tmp_path, "2026-03-26") == 0
+    assert _days(tmp_path) == ["2026-03-26"]
+    # machine off on 27/3 (Fri) and 30/3 (Mon); next run is 31/3
+    assert _run_on(monkeypatch, tmp_path, "2026-03-31") == 0
+    assert "Chạy bù 2 phiên" in capsys.readouterr().out
+    assert _days(tmp_path) == ["2026-03-26", "2026-03-27", "2026-03-30", "2026-03-31"]
+    sig_days = [json.loads(l)["day"] if "day" in json.loads(l) else json.loads(l)["asof"]
+                for l in (tmp_path / "logs" / "signals.jsonl").read_text().splitlines()]
+    assert len(sig_days) == 8 and sig_days == sorted(sig_days)
+    before = {p.name: p.read_text() for p in (tmp_path / "logs").iterdir()}
+    assert _run_on(monkeypatch, tmp_path, "2026-03-31") == 0                  # re-run: nothing new
+    assert {p.name: p.read_text() for p in (tmp_path / "logs").iterdir()} == before
+
+
+def test_catch_up_on_non_session_today_still_fills_earlier_gap(monkeypatch, tmp_path, capsys):
+    assert _run_on(monkeypatch, tmp_path, "2026-03-26") == 0
+    assert _run_on(monkeypatch, tmp_path, "2026-04-04") == 0                  # Sat: no bar; 27/3..31/3 missed
+    assert _days(tmp_path) == ["2026-03-26", "2026-03-27", "2026-03-30", "2026-03-31"]

@@ -34,7 +34,7 @@ if [ -z "$PY" ]; then
 fi
 
 log "start date=$DAY python=$PY"
-"$PY" paper_run.py --date "$DAY" --source data_fetcher --require-exact \
+"$PY" paper_run.py --date "$DAY" --source data_fetcher --require-exact --catch-up \
   --summary-csv paper_logs/summary.csv >> "$LOG" 2>>"$LOG"
 RC=$?
 if [ "$RC" -ne 0 ]; then
