@@ -3591,13 +3591,14 @@
     "source": "two_stage",
     "notes": "stage1_score=4.0 llm=skip",
     "entry_price": 231000.0,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 220000.0,
+    "actual_direction": -1,
+    "correct": true,
+    "pnl_pct": -4.762,
     "logged_at": "2026-09-28T12:01:07.289585",
-    "resolved": false,
-    "ledger_epoch": 1
+    "resolved": true,
+    "ledger_epoch": 1,
+    "resolved_at": "2026-10-01T16:01:51.849114"
   },
   "DCM_2026-09-28": {
     "id": "DCM_2026-09-28",
@@ -3609,13 +3610,14 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "entry_price": 33950.0,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 33700.0,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -0.736,
     "logged_at": "2026-09-28T12:01:48.926243",
-    "resolved": false,
-    "ledger_epoch": 1
+    "resolved": true,
+    "ledger_epoch": 1,
+    "resolved_at": "2026-10-01T16:01:56.785288"
   },
   "VCB_2026-09-28": {
     "id": "VCB_2026-09-28",
@@ -3627,13 +3629,14 @@
     "source": "two_stage",
     "notes": "stage1_score=2.0 llm=skip",
     "entry_price": 57700.0,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 57600.0,
+    "actual_direction": -1,
+    "correct": false,
+    "pnl_pct": -0.173,
     "logged_at": "2026-09-28T12:01:59.142963",
-    "resolved": false,
-    "ledger_epoch": 1
+    "resolved": true,
+    "ledger_epoch": 1,
+    "resolved_at": "2026-10-01T16:02:01.183713"
   },
   "PVS_2026-09-28": {
     "id": "PVS_2026-09-28",
@@ -3645,13 +3648,14 @@
     "source": "two_stage",
     "notes": "stage1_score=2.0 llm=skip",
     "entry_price": 31800.0,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 34000.0,
+    "actual_direction": 1,
+    "correct": false,
+    "pnl_pct": 6.918,
     "logged_at": "2026-09-28T12:02:10.459859",
-    "resolved": false,
-    "ledger_epoch": 1
+    "resolved": true,
+    "ledger_epoch": 1,
+    "resolved_at": "2026-10-01T16:02:05.415741"
   },
   "VIC_2026-09-29": {
     "id": "VIC_2026-09-29",
