@@ -1,7 +1,7 @@
 {
   "status": "healthy",
   "trading_allowed": true,
-  "updated_at": "2026-10-01 13:43:20",
+  "updated_at": "2026-10-01 14:37:10",
   "actions": [],
   "warnings": [
     "current epoch contains 45 legacy price(s) below 1,000 VND; history was not modified"
