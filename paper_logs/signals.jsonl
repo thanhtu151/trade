@@ -1,2 +1,4 @@
 {"day": "2026-09-30", "signal": "E1_ma10m", "monitor_only": false, "weight": 0.0, "reason": "close<ma10m", "details": {"close": 1906.81, "ma": 1972.91}}
 {"day": "2026-09-30", "signal": "E6_ma200d_b60", "monitor_only": true, "weight": 0.0, "reason": "off", "details": {"vn30": 1906.81, "ma200": 1960.19, "vn30_above": false, "breadth_pct": 28.0, "universe": 50}}
+{"day": "2026-10-01", "signal": "E1_ma10m", "monitor_only": false, "weight": 0.0, "reason": "close<ma10m", "details": {"close": 1890.57, "ma": 1958.91}}
+{"day": "2026-10-01", "signal": "E6_ma200d_b60", "monitor_only": true, "weight": 0.0, "reason": "off", "details": {"vn30": 1890.57, "ma200": 1959.72, "vn30_above": false, "breadth_pct": 26.0, "universe": 50}}
