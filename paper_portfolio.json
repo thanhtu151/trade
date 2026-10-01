@@ -1,8 +1,60 @@
 {
-  "cash": 34898105.0,
+  "cash": 2215455.0,
   "initial_cash": 100000000.0,
   "ledger_epoch": 1,
   "positions": {
+    "DGC": {
+      "atr": 825.0,
+      "avg_price": 35900.0,
+      "current_price": 35900.0,
+      "entry_date": "2026-10-01 09:21:45",
+      "entry_fees": 17950.0,
+      "hold_days": 0,
+      "kelly_fraction": 0.25,
+      "market_value": 17950000.0,
+      "plan": {
+        "atr": 825.0,
+        "hold_days": "toi da 15 phien",
+        "initial_stop_loss": 35075.0,
+        "kelly_fraction": 0.25,
+        "sell_rule": "Ban khi cham target 37,550.00, cat lo duoi 35,075.00.",
+        "stop_loss": 35075.0,
+        "target_price": 37550.0,
+        "trailing_stop_active": false
+      },
+      "pnl_pct": 0.0,
+      "qty": 500,
+      "source": "two_stage_scheduler",
+      "stop_loss": 35075.0,
+      "target_price": 37550.0,
+      "unrealized_pnl": 0.0
+    },
+    "FRT": {
+      "atr": 5471.43,
+      "avg_price": 147000.0,
+      "current_price": 147000.0,
+      "entry_date": "2026-10-01 09:21:50",
+      "entry_fees": 14700.0,
+      "hold_days": 0,
+      "kelly_fraction": 0.25,
+      "market_value": 14700000.0,
+      "plan": {
+        "atr": 5471.43,
+        "hold_days": "toi da 15 phien",
+        "initial_stop_loss": 141528.6,
+        "kelly_fraction": 0.25,
+        "sell_rule": "Ban khi cham target 157,942.90, cat lo duoi 141,528.60.",
+        "stop_loss": 141528.6,
+        "target_price": 157942.9,
+        "trailing_stop_active": false
+      },
+      "pnl_pct": 0.0,
+      "qty": 100,
+      "source": "two_stage_scheduler",
+      "stop_loss": 141528.6,
+      "target_price": 157942.9,
+      "unrealized_pnl": 0.0
+    },
     "GMD": {
       "atr": 1390.0,
       "avg_price": 76500.0,
@@ -14,12 +66,12 @@
       "plan": {
         "atr": 1390.0,
         "hold_days": "toi da 15 phien",
+        "initial_stop_loss": 75100.0,
         "kelly_fraction": 0.25,
         "sell_rule": "Ban khi cham target 79.30, cat lo duoi 75.10.",
         "stop_loss": 76500.0,
         "target_price": 79300.0,
-        "trailing_stop_active": false,
-        "initial_stop_loss": 75100.0
+        "trailing_stop_active": false
       },
       "pnl_pct": 2.0915,
       "qty": 268.5,
@@ -77,5 +129,5 @@
       "unrealized_pnl": -751240.0
     }
   },
-  "updated_at": "2026-09-30T15:07:05.051557+07:00"
+  "updated_at": "2026-10-01 09:21:50"
 }

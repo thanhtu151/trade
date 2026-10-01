@@ -1,8 +1,32 @@
 {
   "morning_prep": "2026-10-01",
   "market_analysis": "2026-10-01",
-  "auto_trade": "2026-09-30",
+  "auto_trade": "2026-10-01",
   "eod_update": "2026-09-30",
   "daily_learning": "2026-09-30",
-  "weekly_rebacktest": "2026-09-29"
+  "weekly_rebacktest": "2026-09-29",
+  "trade_idempotency": {
+    "2026-10-01:DGC:BUY:3e65cf3963b9188c1183": {
+      "status": "completed",
+      "reserved_at": "2026-10-01T09:21:39.197155+07:00",
+      "trade_date": "2026-10-01",
+      "ticker": "DGC",
+      "side": "BUY",
+      "signal_id": "3e65cf3963b9188c1183",
+      "run_id": "36805358335",
+      "completed_at": "2026-10-01T09:21:45.708336+07:00",
+      "detail": "BUY 500 @ 35900.0"
+    },
+    "2026-10-01:FRT:BUY:e4c63b5e0fb7e24bd09e": {
+      "status": "completed",
+      "reserved_at": "2026-10-01T09:21:45.984862+07:00",
+      "trade_date": "2026-10-01",
+      "ticker": "FRT",
+      "side": "BUY",
+      "signal_id": "e4c63b5e0fb7e24bd09e",
+      "run_id": "36805358335",
+      "completed_at": "2026-10-01T09:21:50.735569+07:00",
+      "detail": "BUY 100 @ 147000.0"
+    }
+  }
 }
