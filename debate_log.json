@@ -1,95 +1,5 @@
 [
   {
-    "ticker": "HDB",
-    "date": "2026-07-23",
-    "time": "2026-07-23T11:58:48.442232",
-    "market_data": {
-      "price": 25.2,
-      "rsi": 34.3,
-      "macd_bull": false,
-      "vol_ratio": 0.5,
-      "score": 3.5,
-      "ensemble_signal": "tăng mạnh",
-      "weekly_trend": "sideways",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 85919950.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": 0.4,
-    "actual_price_3d": 25.3
-  },
-  {
-    "ticker": "VND",
-    "date": "2026-07-23",
-    "time": "2026-07-23T11:59:00.413607",
-    "market_data": {
-      "price": 16.1,
-      "rsi": 26.7,
-      "macd_bull": false,
-      "vol_ratio": 0.35,
-      "score": 3.5,
-      "ensemble_signal": "tăng mạnh",
-      "weekly_trend": "sideways",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 85919950.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": -4.66,
-    "actual_price_3d": 15.35
-  },
-  {
     "ticker": "POW",
     "date": "2026-07-23",
     "time": "2026-07-23T12:00:07.585639",
@@ -4458,6 +4368,92 @@
       "score": 4.0,
       "ensemble_signal": "tăng mạnh",
       "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 34898105.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "DGC",
+    "date": "2026-10-01",
+    "time": "2026-10-01T08:33:51.148359",
+    "market_data": {
+      "price": 36000.0,
+      "rsi": 32.1,
+      "macd_bull": false,
+      "vol_ratio": 0.55,
+      "score": 3.5,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 34898105.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "FRT",
+    "date": "2026-10-01",
+    "time": "2026-10-01T08:34:01.438470",
+    "market_data": {
+      "price": 147000.0,
+      "rsi": 59.6,
+      "macd_bull": true,
+      "vol_ratio": 2.38,
+      "score": 4.5,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
       "news_sentiment": 0.0,
       "market_regime": "UNKNOWN",
       "cash_available": 34898105.0
