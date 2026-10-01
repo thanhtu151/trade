@@ -1,0 +1,17 @@
+{
+ "locked_at": "2026-09-30",
+ "task": "T54",
+ "n_total_dsr": 99,
+ "idea4": {
+  "status": "khong_ket_luan_thieu_du_lieu",
+  "configs_run": 0,
+  "note": "Khong co lich su thanh phan VN30/VNDiamond/FTSE PIT 2018-2023 trong kho hay nguon cong khai hop nhat; khong dung danh sach"
+ },
+ "idea5": {
+  "common": "pit_universe top50; MAX = max loi suat ngay thang m >= 6.5%; xep MAX giam; quyet dinh dong cua phien cuoi thang, khop mo cua phien sau; protocol_config(max_pos=10,pos_pct=0.10,max_new=10,limits=True,delist_haircut=0.30); n_params=3",
+  "configs": {
+   "M1_h1": {"hold_months": 1, "top_n": 10, "rule": "muc tieu = top10; ban ma ngoai muc tieu"},
+   "M2_h2": {"hold_months": 2, "top_n": 5, "rule": "cohort top5/thang; giu = cohort thang nay U thang truoc; toi da 10 vi the"}
+  }
+ }
+}

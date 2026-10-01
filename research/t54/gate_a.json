@@ -1,0 +1,94 @@
+{
+ "M1_h1": {
+  "lệnh FULL >= 200": {
+   "value": "403",
+   "ok": true
+  },
+  "CAGR dương cả 2 nửa": {
+   "value": "A -11.4% / B 7.4%",
+   "ok": false
+  },
+  "Sharpe FULL >= 0,5": {
+   "value": "0.01",
+   "ok": false
+  },
+  "MaxDD <= MaxDD VN-Index": {
+   "value": "-61.6% vs -45.3%",
+   "ok": false
+  },
+  "PF >= 1,2": {
+   "value": "0.86",
+   "ok": false
+  },
+  "CAGR > VN-Index và E1VFVN30": {
+   "value": "-4.2% vs 2.1% / 2.9%",
+   "ok": false
+  },
+  "Sharpe hơn ngẫu nhiên >= 2 SD": {
+   "value": "-0.27",
+   "ok": false
+  },
+  "số tham số <= lệnh/50": {
+   "value": "3 vs 8.1",
+   "ok": true
+  },
+  "vượt lõi ETF cả CAGR lẫn Sharpe": {
+   "value": "CAGR -4.2% vs 7.4% / Sharpe 0.01 vs 0.57",
+   "ok": false
+  },
+  "DSR >= 0,95": {
+   "value": "0.001",
+   "ok": false
+  },
+  "PBO <= 0,2": {
+   "value": "0.314",
+   "ok": false
+  }
+ },
+ "M2_h2": {
+  "lệnh FULL >= 200": {
+   "value": "191",
+   "ok": false
+  },
+  "CAGR dương cả 2 nửa": {
+   "value": "A -17.1% / B 4.2%",
+   "ok": false
+  },
+  "Sharpe FULL >= 0,5": {
+   "value": "-0.1",
+   "ok": false
+  },
+  "MaxDD <= MaxDD VN-Index": {
+   "value": "-63.4% vs -45.3%",
+   "ok": false
+  },
+  "PF >= 1,2": {
+   "value": "0.7",
+   "ok": false
+  },
+  "CAGR > VN-Index và E1VFVN30": {
+   "value": "-6.2% vs 2.1% / 2.9%",
+   "ok": false
+  },
+  "Sharpe hơn ngẫu nhiên >= 2 SD": {
+   "value": "-0.9",
+   "ok": false
+  },
+  "số tham số <= lệnh/50": {
+   "value": "3 vs 3.8",
+   "ok": true
+  },
+  "vượt lõi ETF cả CAGR lẫn Sharpe": {
+   "value": "CAGR -6.2% vs 7.4% / Sharpe -0.10 vs 0.57",
+   "ok": false
+  },
+  "DSR >= 0,95": {
+   "value": "0.0",
+   "ok": false
+  },
+  "PBO <= 0,2": {
+   "value": "0.314",
+   "ok": false
+  }
+ }
+}

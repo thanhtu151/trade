@@ -1,0 +1,34 @@
+{
+ "n_stocks_panel": 1717,
+ "n_stocks_with_fund": 300,
+ "fund_rows": 6636,
+ "rows_no_income_pubdate": 6,
+ "rows_pubdate_bad_lag": 179,
+ "rows_bad_lag_neg": 0,
+ "rows_bad_lag_gt100": 179,
+ "rows_total_with_pubdate": 6630,
+ "rows_A_after_pub_median_days": 17.0,
+ "rows_delayed_by_floor_pct": 78.96450162765463,
+ "min_usage_minus_pub_days": 1,
+ "rebalance_days": 24,
+ "cov_mean_universe": 49.541666666666664,
+ "cov_mean_valid": {
+  "V1_EP": 42.791666666666664,
+  "V2_BP": 45.0,
+  "V3_EPBP": 42.791666666666664
+ },
+ "first_rebalance_with_10": "2018-06-29",
+ "pead_event_days": 34,
+ "pead_events_total": 109,
+ "pead_first_event": "2021-04-01",
+ "pead_events_by_year": {
+  "2018": 0,
+  "2019": 0,
+  "2020": 0,
+  "2021": 36,
+  "2022": 36,
+  "2023": 37
+ },
+ "causal_violations": 0,
+ "causal_checks": 228
+}

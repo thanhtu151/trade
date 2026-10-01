@@ -43,7 +43,7 @@ Mỗi job dùng chung cấu hình sau:
 | 08:30 | `analysis` | |
 | 09:20 | `trade` | Bị chặn nếu ngoài phiên hoặc `TRADING_ENABLED=false` |
 | 15:05 | `eod` | Sau ATC; ETF core tính tín hiệu cuối tháng tại đây |
-| 16:00 | `learning` | |
+| 16:00 | `learning` | Job cron-job.org id 8541737 |
 | Thứ 2 07:00 | `rebacktest` | Mỗi lần chạy xử lý 5 mã; watchdog tự chạy tiếp các lượt còn lại |
 
 Ngày nghỉ lễ không cần xử lý riêng: scheduler tự bỏ qua theo `trading_calendar`.
