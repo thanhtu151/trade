@@ -1,6 +1,6 @@
 {
-  "task": "learning",
-  "created_at": "2026-10-01 16:01:45",
+  "task": "trade",
+  "created_at": "2026-10-01 16:06:23",
   "files": {
     "paper_portfolio.json": "paper_portfolio.json.pre_task.bak",
     "paper_trades.json": "paper_trades.json.pre_task.bak"
