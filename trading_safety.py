@@ -56,6 +56,9 @@ def market_session_reason(now: datetime | None = None, exit_order: bool = False)
     current = current.astimezone(VIETNAM_TZ)
     if current.weekday() >= 5:
         return "market is closed on weekends"
+    from trading_calendar import is_trading_day
+    if not is_trading_day(current.date()):
+        return "market is closed for a VN exchange holiday"
     wall_time = current.time().replace(tzinfo=None)
     afternoon_end = EXIT_SESSION_END if exit_order else time(14, 25)
     morning = time(9, 15) <= wall_time <= time(11, 25)

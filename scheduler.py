@@ -409,6 +409,10 @@ def task_auto_trade():
     if healing["status"] == "healed":
         log.warning("Self-healing repaired state before trading: %s", healing.get("actions"))
 
+    # CI runs one task per process, so the continuous intraday monitor never starts there.
+    # Check held positions against stop/target now, while the session gates are open.
+    task_intraday_monitor()
+
     try:
         if not os.path.exists(ANALYSIS_RESULTS_FILE):
             raise FileNotFoundError("No analysis_results.json found")
@@ -479,14 +483,25 @@ def task_auto_trade():
     log.info("Auto trade DONE")
 
 
-def load_portfolio_direct():
-    """Load the unified paper portfolio JSON directly."""
-    try:
-        from auto_trader import _safe_read_portfolio
+class PortfolioUnavailable(RuntimeError):
+    """The paper portfolio could not be read reliably; trading must not proceed."""
 
-        return _safe_read_portfolio()
-    except Exception:
-        return {"cash": 100_000_000, "positions": {}}
+
+def load_portfolio_direct():
+    """Load the unified paper portfolio JSON directly.
+
+    Fails closed: an unreadable or corrupt portfolio raises instead of looking like an
+    empty one, because callers write the result back and would wipe real positions.
+    """
+    from auto_trader import _safe_read_portfolio
+
+    try:
+        portfolio = _safe_read_portfolio()
+    except Exception as exc:
+        raise PortfolioUnavailable(f"portfolio read failed: {exc}") from exc
+    if not isinstance(portfolio, dict) or portfolio.get("updated_at") == "unknown":
+        raise PortfolioUnavailable("portfolio file is corrupt or empty; refusing to treat it as an empty portfolio")
+    return portfolio
 
 
 def _save_portfolio_direct(portfolio):
@@ -495,11 +510,27 @@ def _save_portfolio_direct(portfolio):
     _safe_write_portfolio(portfolio)
 
 
+_last_close_block_reason = None
+
+
+def _last_bar_date(df):
+    """Date of the newest daily bar in ``df``, or None when it cannot be determined."""
+    try:
+        import pandas as pd
+
+        return pd.to_datetime(df["time"]).max().date()
+    except Exception:
+        return None
+
+
 def _close_position_direct(portfolio, ticker, price, reason, market_df=None):
+    global _last_close_block_reason
+    _last_close_block_reason = None
     from self_healing import trading_is_allowed
 
     if not trading_is_allowed(BASE_DIR, exit_order=True):
         log.error("Direct close blocked by trading safety gate for %s", ticker)
+        _last_close_block_reason = "cổng an toàn (kill switch/phiên)"
         return False
     from auto_trader import fill_price_block_reason, log_trade, save_portfolio_and_trades, trade_costs
 
@@ -507,9 +538,16 @@ def _close_position_direct(portfolio, ticker, price, reason, market_df=None):
     pos = positions.get(ticker)
     if not pos:
         return False
+    from auto_trader import settlement_block_reason
+    unsettled = settlement_block_reason(pos)
+    if unsettled:
+        log.warning("Direct close of %s (%s) blocked: %s", ticker, reason, unsettled)
+        _last_close_block_reason = f"T+2: {unsettled}"
+        return False
     blocked = fill_price_block_reason(ticker, price, df=market_df)
     if blocked:
         log.error("Direct close of %s (%s) blocked by price gate: %s", ticker, reason, blocked)
+        _last_close_block_reason = f"cổng giá: {blocked}"
         return False
 
     qty = float(pos.get("qty", 0) or 0)
@@ -565,6 +603,13 @@ def task_intraday_monitor():
     if not (9.0 <= hour <= 14.85):
         return
 
+    from trading_safety import operational_gate
+
+    allowed, gate_reason = operational_gate(BASE_DIR, exit_order=True)
+    if not allowed:
+        log.info("Intraday monitor skipped: %s", gate_reason)
+        return
+
     log.info("Intraday monitor check...")
 
     try:
@@ -583,6 +628,13 @@ def task_intraday_monitor():
             try:
                 df = get_stock_data_cached(ticker, years=0.02, force_refresh=True)
                 if df is None or len(df) == 0:
+                    continue
+
+                last_bar = _last_bar_date(df)
+                if last_bar != now.date():
+                    # Fail closed: a prior-session close must never trigger an automatic sell.
+                    log.warning("  %s: latest bar is %s, not today %s; skipping stop/target check",
+                                ticker, last_bar, now.date())
                     continue
 
                 current_price = float(df["close"].iloc[-1])
@@ -607,8 +659,12 @@ def task_intraday_monitor():
 
                 if stop_loss > 0 and current_price <= stop_loss:
                     log.warning("  STOP LOSS HIT: %s @ %.1f (stop=%.1f)", ticker, current_price, stop_loss)
-                    _close_position_direct(portfolio, ticker, current_price, "stop_loss_intraday", market_df=df)
-                    alerts.append({"time": now.isoformat(), "message": f"🔴 {ticker}: STOP LOSS @ {current_price:,.1f}"})
+                    if _close_position_direct(portfolio, ticker, current_price, "stop_loss_intraday", market_df=df):
+                        alerts.append({"time": now.isoformat(), "message": f"🔴 {ticker}: STOP LOSS @ {current_price:,.1f}"})
+                    else:
+                        alerts.append({"time": now.isoformat(), "message": (
+                            f"⚠️ {ticker}: chạm stop @ {current_price:,.1f} nhưng KHÔNG đóng được "
+                            f"({_last_close_block_reason or 'bị chặn bởi cổng an toàn/T+2/giá'})")})
                     updated = True
                     continue
 
@@ -734,6 +790,17 @@ def run_etf_core():
     return info
 
 
+def record_eod_equity_snapshot():
+    """NAV history row per session so the daily-loss entry halt has a previous-session baseline."""
+    try:
+        from auto_trader import record_equity_snapshot
+
+        return record_equity_snapshot("eod")
+    except Exception as exc:
+        log.warning("EOD equity snapshot failed: %s", exc)
+        return None
+
+
 def task_eod_update():
     """15:00 - update trailing stops, exit stopped positions, and refresh PnL."""
     if not is_trading_day():
@@ -833,6 +900,7 @@ def task_eod_update():
         raise RuntimeError("EOD update incomplete: " + "; ".join(failures))
     from portfolio_snapshots import record_snapshot
     record_snapshot(BASE_DIR, portfolio, ict_today(), recorded_at=ict_now())
+    record_eod_equity_snapshot()
     mark_ran_today("eod_update")
     log.info("EOD update DONE")
 

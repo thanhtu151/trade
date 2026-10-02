@@ -173,9 +173,14 @@ def test_round_trip_charges_fees_to_cash_and_reconciles(monkeypatch, tmp_path):
     assert cash_after_buy == pytest.approx(100_000_000 - value * 1.001)
 
     monkeypatch.setattr(auto_trader, "current_price", lambda _s: 22_500.0)
+    # T+2: the shares just bought are only sellable once they have settled.
+    import trading_safety
+    from datetime import timedelta
+    monkeypatch.setattr(trading_safety, "vietnam_now",
+                        lambda: datetime.now(trading_safety.VIETNAM_TZ) + timedelta(days=10))
     ok, message = auto_trader.sell_position("VPB")
     assert ok is True, message
-    sell = json.loads((tmp_path / "paper_trades.json").read_text())[-1]
+    sell =json.loads((tmp_path / "paper_trades.json").read_text())[-1]
     proceeds = 400 * 22_500.0
     assert sell["fees"] == pytest.approx(proceeds * 0.002)
     assert sell["pnl"] == pytest.approx(400 * 200 - proceeds * 0.002 - value * 0.001, abs=0.02)
@@ -215,6 +220,7 @@ def test_eod_trailing_stop_updates_position_and_plan(monkeypatch, tmp_path):
     monkeypatch.setattr(scheduler, "already_ran_today", lambda _name: False)
     monkeypatch.setattr(scheduler, "mark_ran_today", lambda _name: None)
     monkeypatch.setattr(scheduler, "load_portfolio_direct", lambda: portfolio)
+    monkeypatch.setattr(scheduler, "record_eod_equity_snapshot", lambda: None)  # keep tests off the repo NAV file
     monkeypatch.setattr(scheduler, "_save_portfolio_direct", lambda _p: None)
     monkeypatch.setattr(data_fetcher, "get_stock_data_cached",
                         lambda *_a, **_k: pd.DataFrame({"close": [25_000.0, 25_500.0]}))

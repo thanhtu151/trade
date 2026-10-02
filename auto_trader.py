@@ -105,6 +105,22 @@ def now_text():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
+def stop_loss_cooldown_reason(ticker, trades, today):
+    """Reason not to re-buy ``ticker`` today because it was stopped out earlier the same day."""
+    today_text = today.isoformat()
+    for trade in trades or []:
+        if (
+            isinstance(trade, dict)
+            and trade.get("type") == "TRADE"
+            and trade.get("side") == "SELL"
+            and trade.get("symbol") == ticker
+            and str(trade.get("reason", "")).startswith("stop_loss")
+            and str(trade.get("time", ""))[:10] == today_text
+        ):
+            return f"{ticker} was closed by stop-loss today ({trade.get('reason')}); no same-day re-entry"
+    return None
+
+
 def load_json(path, default):
     if os.path.exists(path):
         try:
@@ -125,9 +141,24 @@ def save_json(path, data):
     os.replace(tmp_path, path)
 
 
-def _safe_read_portfolio():
-    """Read portfolio JSON with retries while another process is replacing it."""
+class PortfolioReadError(RuntimeError):
+    """The portfolio file exists but could not be read reliably."""
+
+
+def _safe_read_portfolio(strict=False):
+    """Read portfolio JSON with retries while another process is replacing it.
+
+    strict=False (display callers) returns a placeholder marked updated_at="unknown" on failure.
+    strict=True (anything that trades or writes back) raises PortfolioReadError instead, so a
+    corrupt file is never mistaken for an empty portfolio.
+    """
     default = {"cash": 0.0, "positions": {}, "updated_at": "unknown"}
+
+    def fail(message):
+        if strict:
+            raise PortfolioReadError(message)
+        return default
+
     for attempt in range(5):
         try:
             with _portfolio_file_lock():
@@ -136,18 +167,20 @@ def _safe_read_portfolio():
             if not content.strip():
                 raise ValueError("Empty portfolio file")
             data = json.loads(content)
-            return data if isinstance(data, dict) else default
+            return data if isinstance(data, dict) else fail("portfolio file is not a JSON object")
         except (json.JSONDecodeError, ValueError) as exc:
             if attempt == 4:
                 log.error("portfolio.json corrupted or empty: %s", exc)
-                return default
+                return fail(f"portfolio.json corrupted or empty: {exc}")
             time.sleep(0.1)
         except FileNotFoundError:
             return default_portfolio()
         except Exception as exc:
             log.warning("Read portfolio attempt %s failed: %s", attempt + 1, exc)
+            if attempt == 4:
+                return fail(f"portfolio read failed: {exc}")
             time.sleep(0.1)
-    return default
+    return fail("portfolio read failed")
 
 
 def _safe_write_portfolio(portfolio):
@@ -405,6 +438,18 @@ def _get_market_regime_simple():
     return "UNKNOWN"
 
 
+def buy_consensus(item, ensemble_result, llm_result):
+    """A BUY needs all of: score >= 3, LLM says MUA, ensemble direction +1 and reliable.
+
+    A failed/skipped LLM, GIU/BAN, or a neutral/unreliable ensemble means no buy.
+    """
+    if float(item.get("score", 0)) < 3:
+        return False
+    if not isinstance(llm_result, dict) or str(llm_result.get("action", "")).upper() not in {"MUA", "BUY"}:
+        return False
+    return int(ensemble_result.get("direction", 0)) == 1 and bool(ensemble_result.get("reliable"))
+
+
 def stage2_deep_analysis(stage1_results, use_llm=True, use_ensemble=True, use_debate=True):
     """
     Stage 2: deep analysis for Stage 1 top candidates only.
@@ -426,6 +471,14 @@ def stage2_deep_analysis(stage1_results, use_llm=True, use_ensemble=True, use_de
         from train_ensemble import ensemble_predict
     except Exception:
         ensemble_predict = None
+
+    from risk_limits import limits_from_config, market_uptrend_reason
+
+    market_block = None
+    if limits_from_config(load_ai_fund_config())["require_market_uptrend"]:
+        market_block = market_uptrend_reason()
+        if market_block:
+            log.warning("  Stage2 market gate: no new BUY candidates (%s)", market_block)
 
     results = []
     for item in stage1_results or []:
@@ -532,11 +585,7 @@ Tra ve JSON:
             if isinstance(llm_result, dict) and str(llm_result.get("action", "")).upper() == "MUA":
                 final_score += float(llm_result.get("confidence", 50) or 50) / 50.0
 
-            tradeable = (
-                float(item.get("score", 0)) >= 3
-                and int(ensemble_result.get("direction", 0)) != -1
-                and (not isinstance(llm_result, dict) or str(llm_result.get("action", "GIU")).upper() not in {"BAN", "SELL"})
-            )
+            tradeable = buy_consensus(item, ensemble_result, llm_result) and market_block is None
 
             result = {
                 **item,
@@ -628,7 +677,7 @@ def default_portfolio(initial_cash=INITIAL_CASH):
 
 def load_portfolio():
     recover_pending_transaction(BASE_DIR)
-    portfolio = _safe_read_portfolio()
+    portfolio = _safe_read_portfolio(strict=True)
     if not portfolio:
         portfolio = default_portfolio()
     portfolio.setdefault("initial_cash", INITIAL_CASH)
@@ -695,6 +744,9 @@ def default_ai_fund_config():
         "use_ollama": True,
         "last_run_at": "",
         "last_universe": [],
+        "max_daily_loss_pct": 2.0,
+        "max_drawdown_pct": 10.0,
+        "require_market_uptrend": True,
     }
 
 
@@ -1394,6 +1446,30 @@ def buy_position(symbol, reason="Manual BUY", target_value=None, max_position_pc
     return True, f"BUY {qty:,} {symbol} @ {price:,.2f}"
 
 
+SETTLEMENT_DAYS = 2  # VN equities settle T+2: bought shares cannot be sold before then
+
+
+def settlement_block_reason(position, today=None):
+    """Reason the shares are not yet sellable (T+2), or None.
+
+    Legacy positions without a parseable entry_date are allowed with a warning.
+    """
+    from trading_calendar import add_trading_days
+    from trading_safety import vietnam_now
+
+    raw = str((position or {}).get("entry_date") or "")[:10]
+    try:
+        bought = datetime.strptime(raw, "%Y-%m-%d").date()
+    except ValueError:
+        log.warning("position has no parseable entry_date (%r); T+2 cannot be checked", raw)
+        return None
+    today = today or vietnam_now().date()
+    sellable_from = add_trading_days(bought, SETTLEMENT_DAYS)
+    if today < sellable_from:
+        return f"T+{SETTLEMENT_DAYS}: shares bought {bought} are not settled until {sellable_from}"
+    return None
+
+
 def sell_position(symbol, reason="Manual SELL", qty=None):
     from self_healing import trading_permission
 
@@ -1405,6 +1481,9 @@ def sell_position(symbol, reason="Manual SELL", qty=None):
     position = portfolio.get("positions", {}).get(symbol)
     if not position:
         return False, f"KhÃ´ng cÃ³ vá»‹ tháº¿ {symbol}"
+    unsettled = settlement_block_reason(position)
+    if unsettled:
+        return False, unsettled
     price = current_price(symbol)
     if price is None or price < 1000:
         return False, f"KhÃ´ng láº¥y Ä‘Æ°á»£c giÃ¡ hiá»‡n táº¡i cho {symbol}"
@@ -1585,11 +1664,31 @@ def execute_paper_trade(
             detail = f"{ticker} already in portfolio"
             transition(state_file, idempotency_key, "skipped", detail)
             return result("skipped", detail)
+        cooldown = stop_loss_cooldown_reason(ticker, load_trades(), vietnam_now().date())
+        if cooldown:
+            log.warning("%s: BUY skipped, %s", ticker, cooldown)
+            transition(state_file, idempotency_key, "skipped", cooldown)
+            return result("skipped", cooldown)
         if cash < 1_000_000:
             log.warning("Insufficient cash: %.0f", cash)
             detail = f"Insufficient cash: {cash:,.0f}"
             transition(state_file, idempotency_key, "skipped", detail)
             return result("skipped", detail)
+        from risk_limits import alert_entry_halt, entry_halt_reason, limits_from_config
+
+        try:
+            live_equity = portfolio_equity(portfolio)
+        except Exception:
+            live_equity = equity
+        halt = entry_halt_reason(
+            live_equity, load_equity_history(), portfolio.get("initial_cash", INITIAL_CASH),
+            vietnam_now().date(), limits_from_config(load_ai_fund_config()),
+        )
+        if halt:
+            log.error("%s: BUY blocked, new entries halted: %s", ticker, halt)
+            alert_entry_halt(halt, BASE_DIR)
+            release(state_file, idempotency_key)
+            return result("blocked", f"entry halt: {halt}")
         # Circuit breaker: portfolio state (cash/equity) should never realistically
         # drift far from INITIAL_CASH for this paper fund. A bad price tick or a
         # data-corruption bug elsewhere must not get to size a real trade off of it.

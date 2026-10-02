@@ -78,3 +78,7 @@ backtest_config_audit.json
 etf_core_state.json
 trading_calendar.json
 config_review_log.json
+
+# research/ subdirectory: exclude large data cache and Python cache
+research/data/
+research/__pycache__/

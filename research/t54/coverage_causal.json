@@ -1,0 +1,11 @@
+{
+ "n_stocks": 1717,
+ "rebalance_days": 72,
+ "universe_mean": 49.94444444444444,
+ "qualifying_mean": 17.166666666666668,
+ "qualifying_min": 1,
+ "months_lt10": 21,
+ "months_lt5": 6,
+ "causal_violations": 0,
+ "causal_checks": 72
+}

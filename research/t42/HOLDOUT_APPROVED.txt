@@ -1,0 +1,6 @@
+Duyệt bởi CEO/CTO (Minh), 2026-09-30 18:00.
+Phạm vi: DÙNG HOLDOUT 2024-01-01 → dữ liệu mới nhất ĐÚNG MỘT LẦN, chỉ cho 2 cấu hình lõi ETF đã khóa:
+  - E1: ETF VN30 + MA10 tháng (lõi paper)
+  - E6: MA200 ngày + breadth 60%
+Không cấu hình nào khác. Không chỉnh tham số sau khi xem kết quả. Kết quả ghi vào trial_log.md và research/t55/REPORT.md.
+Lý do: 5/5 ý tưởng vệ tinh đã có kết luận (không đạt / không kết luận); chỉ còn lõi ETF cần xác nhận ngoài mẫu trước giai đoạn paper.

@@ -924,6 +924,23 @@ def render_data_cache_status():
         st.caption(f"Không đọc được cache status: {exc}")
 
 
+PORTFOLIO_READ_WARNING = "⚠️ Không đọc được paper_portfolio.json (file hỏng hoặc không đọc được). Không hiển thị số liệu để tránh nhầm với danh mục trống; hãy kiểm tra hoặc khôi phục file."
+
+
+def _is_portfolio_read_error(exc):
+    return type(exc).__name__ == "PortfolioReadError"
+
+
+def _render_with_portfolio_guard(render, *args):
+    """Run a paper_trader render call; a corrupt portfolio shows a warning instead of crashing or showing 0."""
+    try:
+        render(*args)
+    except Exception as exc:
+        if not _is_portfolio_read_error(exc):
+            raise
+        st.error(f"{PORTFOLIO_READ_WARNING} ({exc})")
+
+
 def render_morning_briefing():
     st.markdown('<div class="section-title">Morning Briefing</div>', unsafe_allow_html=True)
 
@@ -958,8 +975,11 @@ def render_morning_briefing():
         equity_val = f"{equity/1e6:.1f}M"
         equity_delta = f"{pnl_pct:+.1f}% · {len(positions)}p"
         equity_color = "#22c55e" if pnl_pct >= 0 else "#f43f5e"
-    except Exception:
+    except Exception as exc:
         equity_val, equity_delta, equity_color = "N/A", "", "#94a3b8"
+        if _is_portfolio_read_error(exc):
+            equity_val, equity_delta, equity_color = "LỖI FILE", "paper_portfolio.json", "#f43f5e"
+            st.warning(PORTFOLIO_READ_WARNING)
 
     try:
         state_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scheduler_state.json")
@@ -5285,13 +5305,13 @@ def render_auto_trader_section():
     trader_symbols = paper_trader.normalize_symbols(symbol_text) or default_symbols
     trader_tabs = st.tabs(["AI fund", "Signal scanner", "Portfolio & PnL", "Trade history"])
     with trader_tabs[0]:
-        paper_trader.render_ai_fund(trader_symbols)
+        _render_with_portfolio_guard(paper_trader.render_ai_fund, trader_symbols)
     with trader_tabs[1]:
-        paper_trader.render_scanner(trader_symbols, use_ollama_vote, False)
+        _render_with_portfolio_guard(paper_trader.render_scanner, trader_symbols, use_ollama_vote, False)
     with trader_tabs[2]:
-        paper_trader.render_portfolio()
+        _render_with_portfolio_guard(paper_trader.render_portfolio)
     with trader_tabs[3]:
-        paper_trader.render_history()
+        _render_with_portfolio_guard(paper_trader.render_history)
 
     analysis_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analysis_results.json")
     if os.path.exists(analysis_path):

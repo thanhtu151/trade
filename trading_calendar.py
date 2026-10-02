@@ -211,3 +211,14 @@ def is_trading_day(day=None):
     if iso in observed_open:
         return True
     return iso not in closures(current.year)
+
+
+def add_trading_days(day, n):
+    """The n-th trading day after ``day`` (weekends and exchange holidays skipped)."""
+    current = day
+    remaining = int(n)
+    while remaining > 0:
+        current += timedelta(days=1)
+        if is_trading_day(current):
+            remaining -= 1
+    return current
