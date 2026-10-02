@@ -114262,11 +114262,12 @@
     "source": "two_stage",
     "notes": "stage1_score=4.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 1
+    "ledger_epoch": 1,
+    "pnl_pct": -2.778
   },
   {
     "date": "2026-09-29",
@@ -114282,11 +114283,12 @@
     "source": "two_stage",
     "notes": "stage1_score=3.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 1
+    "ledger_epoch": 1,
+    "pnl_pct": -2.68
   },
   {
     "date": "2026-09-29",
@@ -114302,11 +114304,12 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.0 llm=GIỮ",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 1
+    "ledger_epoch": 1,
+    "pnl_pct": -6.562
   },
   {
     "date": "2026-09-29",
@@ -114322,11 +114325,12 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 1
+    "ledger_epoch": 1,
+    "pnl_pct": -2.11
   },
   {
     "date": "2026-09-29",
@@ -114342,11 +114346,12 @@
     "source": "two_stage",
     "notes": "stage1_score=1.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 1
+    "ledger_epoch": 1,
+    "pnl_pct": -6.966
   },
   {
     "date": "2026-09-30",

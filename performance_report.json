@@ -1,10 +1,10 @@
 {
-  "date": "2026-10-01",
+  "date": "2026-10-02",
   "overall": {
-    "total": 4,
-    "accuracy": 0.25,
-    "avg_pnl": 0.312
+    "total": 9,
+    "accuracy": 0.444,
+    "avg_pnl": -2.205
   },
   "by_ticker": {},
-  "generated_at": "2026-10-01T16:02:59.485574"
+  "generated_at": "2026-10-02T16:02:38.544303"
 }
