@@ -105,6 +105,22 @@ def now_text():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
+def stop_loss_cooldown_reason(ticker, trades, today):
+    """Reason not to re-buy ``ticker`` today because it was stopped out earlier the same day."""
+    today_text = today.isoformat()
+    for trade in trades or []:
+        if (
+            isinstance(trade, dict)
+            and trade.get("type") == "TRADE"
+            and trade.get("side") == "SELL"
+            and trade.get("symbol") == ticker
+            and str(trade.get("reason", "")).startswith("stop_loss")
+            and str(trade.get("time", ""))[:10] == today_text
+        ):
+            return f"{ticker} was closed by stop-loss today ({trade.get('reason')}); no same-day re-entry"
+    return None
+
+
 def load_json(path, default):
     if os.path.exists(path):
         try:
@@ -1648,6 +1664,11 @@ def execute_paper_trade(
             detail = f"{ticker} already in portfolio"
             transition(state_file, idempotency_key, "skipped", detail)
             return result("skipped", detail)
+        cooldown = stop_loss_cooldown_reason(ticker, load_trades(), vietnam_now().date())
+        if cooldown:
+            log.warning("%s: BUY skipped, %s", ticker, cooldown)
+            transition(state_file, idempotency_key, "skipped", cooldown)
+            return result("skipped", cooldown)
         if cash < 1_000_000:
             log.warning("Insufficient cash: %.0f", cash)
             detail = f"Insufficient cash: {cash:,.0f}"

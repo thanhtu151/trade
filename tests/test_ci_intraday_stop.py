@@ -13,7 +13,8 @@ OUT_OF_SESSION = datetime(2026, 9, 22, 15, 7, tzinfo=VIETNAM_TZ)
 STOP = 19_500.0
 
 
-def _env(monkeypatch, tmp_path, now=IN_SESSION, entry_date="2026-09-15 09:30:00", price=19_400.0):
+def _env(monkeypatch, tmp_path, now=IN_SESSION, entry_date="2026-09-15 09:30:00", price=19_400.0,
+         bar_date="2026-09-22"):
     import auto_trader
     import scheduler
     import self_healing
@@ -37,7 +38,7 @@ def _env(monkeypatch, tmp_path, now=IN_SESSION, entry_date="2026-09-15 09:30:00"
         "trading_allowed": True, "status": "ok", "critical": [], "inhibitors": []})
     import data_fetcher
     monkeypatch.setattr(data_fetcher, "get_stock_data_cached",
-                        lambda *_a, **_k: pd.DataFrame({"close": [price]}))
+                        lambda *_a, **_k: pd.DataFrame({"time": [pd.Timestamp(bar_date)], "close": [price]}))
     import notify
     monkeypatch.setattr(notify, "notify_trade", lambda *_a, **_k: None)
     return scheduler
@@ -103,3 +104,55 @@ def test_trade_task_runs_stop_check_before_buys(monkeypatch, tmp_path):
     scheduler.task_auto_trade()
     portfolio, trades = _state(tmp_path)
     assert "PVD" not in portfolio["positions"] and len(_sells(trades)) == 1
+
+
+# --- T118 review fixes -------------------------------------------------------------------
+
+def test_stale_last_bar_does_not_sell(monkeypatch, tmp_path):
+    """Latest bar is the previous session's close -> fail closed, no automatic sell."""
+    scheduler = _env(monkeypatch, tmp_path, bar_date="2026-09-21")
+    scheduler.task_intraday_monitor()
+    portfolio, trades = _state(tmp_path)
+    assert "PVD" in portfolio["positions"] and not _sells(trades)
+
+
+def test_blocked_close_does_not_alert_stop_loss(monkeypatch, tmp_path):
+    """T+2 blocks the close: the alert must say it was NOT closed, never plain 'STOP LOSS'."""
+    scheduler = _env(monkeypatch, tmp_path, entry_date="2026-09-21 09:30:00")
+    alerts_file = tmp_path / "intraday_alerts.json"
+    monkeypatch.setattr(scheduler, "INTRADAY_ALERTS_FILE", str(alerts_file))
+    scheduler.task_intraday_monitor()
+    messages = [a["message"] for a in json.loads(alerts_file.read_text())]
+    assert any("KHÔNG đóng được" in m and "T+2" in m for m in messages)
+    assert not any(m.startswith("🔴") for m in messages)
+
+
+def test_successful_close_alerts_stop_loss(monkeypatch, tmp_path):
+    scheduler = _env(monkeypatch, tmp_path)
+    alerts_file = tmp_path / "intraday_alerts.json"
+    monkeypatch.setattr(scheduler, "INTRADAY_ALERTS_FILE", str(alerts_file))
+    scheduler.task_intraday_monitor()
+    messages = [a["message"] for a in json.loads(alerts_file.read_text())]
+    assert any(m.startswith("🔴") and "STOP LOSS" in m for m in messages)
+
+
+def test_no_same_day_rebuy_after_stop_loss():
+    from datetime import date
+    from auto_trader import stop_loss_cooldown_reason
+
+    trades = [{"type": "TRADE", "side": "SELL", "symbol": "PVD", "reason": "stop_loss_intraday",
+               "time": "2026-09-22 09:20:00"}]
+    assert stop_loss_cooldown_reason("PVD", trades, date(2026, 9, 22))
+    assert stop_loss_cooldown_reason("PVD", trades, date(2026, 9, 23)) is None   # next day ok
+    assert stop_loss_cooldown_reason("HPG", trades, date(2026, 9, 22)) is None   # other ticker ok
+    target = [dict(trades[0], reason="target_intraday")]
+    assert stop_loss_cooldown_reason("PVD", target, date(2026, 9, 22)) is None   # only stop-loss
+
+
+def test_execute_paper_trade_skips_rebuy_after_stop(monkeypatch, tmp_path):
+    import auto_trader
+    scheduler = _env(monkeypatch, tmp_path)
+    monkeypatch.setattr(auto_trader, "now_text", lambda: "2026-09-22 10:05:00")
+    scheduler.task_intraday_monitor()                       # stops out PVD at 10:00 on 2026-09-22
+    result = auto_trader.execute_paper_trade("PVD", "BUY", 19_400.0)
+    assert result["status"] == "skipped" and "stop-loss" in result["detail"]

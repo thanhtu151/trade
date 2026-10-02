@@ -510,11 +510,27 @@ def _save_portfolio_direct(portfolio):
     _safe_write_portfolio(portfolio)
 
 
+_last_close_block_reason = None
+
+
+def _last_bar_date(df):
+    """Date of the newest daily bar in ``df``, or None when it cannot be determined."""
+    try:
+        import pandas as pd
+
+        return pd.to_datetime(df["time"]).max().date()
+    except Exception:
+        return None
+
+
 def _close_position_direct(portfolio, ticker, price, reason, market_df=None):
+    global _last_close_block_reason
+    _last_close_block_reason = None
     from self_healing import trading_is_allowed
 
     if not trading_is_allowed(BASE_DIR, exit_order=True):
         log.error("Direct close blocked by trading safety gate for %s", ticker)
+        _last_close_block_reason = "cổng an toàn (kill switch/phiên)"
         return False
     from auto_trader import fill_price_block_reason, log_trade, save_portfolio_and_trades, trade_costs
 
@@ -526,10 +542,12 @@ def _close_position_direct(portfolio, ticker, price, reason, market_df=None):
     unsettled = settlement_block_reason(pos)
     if unsettled:
         log.warning("Direct close of %s (%s) blocked: %s", ticker, reason, unsettled)
+        _last_close_block_reason = f"T+2: {unsettled}"
         return False
     blocked = fill_price_block_reason(ticker, price, df=market_df)
     if blocked:
         log.error("Direct close of %s (%s) blocked by price gate: %s", ticker, reason, blocked)
+        _last_close_block_reason = f"cổng giá: {blocked}"
         return False
 
     qty = float(pos.get("qty", 0) or 0)
@@ -612,6 +630,13 @@ def task_intraday_monitor():
                 if df is None or len(df) == 0:
                     continue
 
+                last_bar = _last_bar_date(df)
+                if last_bar != now.date():
+                    # Fail closed: a prior-session close must never trigger an automatic sell.
+                    log.warning("  %s: latest bar is %s, not today %s; skipping stop/target check",
+                                ticker, last_bar, now.date())
+                    continue
+
                 current_price = float(df["close"].iloc[-1])
                 entry_price = float(pos.get("avg_price", current_price) or current_price or 0)
                 stop_loss = position_stop_loss(pos)
@@ -634,8 +659,12 @@ def task_intraday_monitor():
 
                 if stop_loss > 0 and current_price <= stop_loss:
                     log.warning("  STOP LOSS HIT: %s @ %.1f (stop=%.1f)", ticker, current_price, stop_loss)
-                    _close_position_direct(portfolio, ticker, current_price, "stop_loss_intraday", market_df=df)
-                    alerts.append({"time": now.isoformat(), "message": f"🔴 {ticker}: STOP LOSS @ {current_price:,.1f}"})
+                    if _close_position_direct(portfolio, ticker, current_price, "stop_loss_intraday", market_df=df):
+                        alerts.append({"time": now.isoformat(), "message": f"🔴 {ticker}: STOP LOSS @ {current_price:,.1f}"})
+                    else:
+                        alerts.append({"time": now.isoformat(), "message": (
+                            f"⚠️ {ticker}: chạm stop @ {current_price:,.1f} nhưng KHÔNG đóng được "
+                            f"({_last_close_block_reason or 'bị chặn bởi cổng an toàn/T+2/giá'})")})
                     updated = True
                     continue
 
