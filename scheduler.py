@@ -591,6 +591,73 @@ def _is_plausible_price(price, reference_price, min_ratio=0.5, max_ratio=2.0):
     return min_ratio <= ratio <= max_ratio
 
 
+def _history_rebase_factor(pos, df, tolerance=0.01):
+    """
+    Detect a corporate action (stock dividend/split/rights) on a held position.
+
+    The price source back-adjusts its whole history on the ex-date while the
+    position keeps its pre-ex avg_price/stop/qty, so the first post-ex quote
+    looks like a crash through the stop (PVD 2026-07-14: 33.2 -> 20.45 "-38%",
+    VPB 2026-09-24: 28.0 -> 22.1 "-21%"). A price the book really saw on a given
+    day must lie inside that day's [low, high]; if it no longer does, the
+    history was rebased. Returns book_price / history_price (> 1 for a split),
+    or None when the history still agrees or cannot be checked.
+    """
+    if df is None or len(df) == 0 or not {"time", "low", "high"} <= set(df.columns):
+        return None
+    try:
+        import pandas as pd
+
+        dates = pd.to_datetime(df["time"]).dt.date
+        references = (
+            (pos.get("price_mark_date"), pos.get("current_price")),
+            (pos.get("entry_date"), pos.get("avg_price")),
+        )
+        for raw_date, raw_price in references:
+            if not raw_date or not raw_price:
+                continue
+            rows = df[dates == pd.to_datetime(str(raw_date)[:10]).date()]
+            if not len(rows):
+                continue
+            price = float(raw_price)
+            low, high = float(rows["low"].iloc[-1]), float(rows["high"].iloc[-1])
+            if low <= 0 or high <= 0:
+                continue
+            if price > high * (1 + tolerance):
+                return price / high
+            if price < low * (1 - tolerance):
+                return price / low
+            return None
+    except Exception as exc:
+        log.warning("Corporate-action check failed: %s", exc)
+    return None
+
+
+def _flag_corporate_action(ticker, pos, factor):
+    """Mark the position for manual adjustment; True when the flag is new."""
+    log.error(
+        "  %s: price history rebased by x%.4f since the position was marked (corporate action?); "
+        "stop/target/timeout suspended until qty/avg_price/stop are adjusted",
+        ticker, factor,
+    )
+    is_new = not pos.get("corporate_action_suspected")
+    pos["corporate_action_suspected"] = {"factor": round(factor, 4), "detected_at": ict_now().isoformat()}
+    if is_new:
+        try:
+            from notify import send_once
+
+            send_once(
+                f"corporate-action:{ticker}:{ict_today()}",
+                f"{ticker}: nghi sự kiện quyền",
+                f"Giá lịch sử lệch x{factor:.2f} so với sổ. Đã tạm dừng stop/target/timeout; "
+                "cần điều chỉnh qty/avg_price/stop của vị thế.",
+                level="warning", base_dir=BASE_DIR,
+            )
+        except Exception as exc:
+            log.warning("Corporate-action notification failed: %s", exc)
+    return is_new
+
+
 def task_intraday_monitor():
     """
     Run during trading hours and close positions immediately when stop/target hits.
@@ -651,7 +718,17 @@ def task_intraday_monitor():
                     )
                     continue
 
+                rebase = _history_rebase_factor(pos, df)
+                if rebase:
+                    if _flag_corporate_action(ticker, pos, rebase):
+                        alerts.append({"time": now.isoformat(), "message": (
+                            f"⚠️ {ticker}: nghi sự kiện quyền (giá lịch sử lệch x{rebase:.2f}); "
+                            "tạm dừng stop/target, cần điều chỉnh vị thế")})
+                    updated = True
+                    continue
+
                 pos["current_price"] = current_price
+                pos["price_mark_date"] = last_bar.isoformat()
                 pos["market_value"] = round(current_price * qty, 2)
                 pos["unrealized_pnl"] = round((current_price - entry_price) * qty, 2)
                 pos["pnl_pct"] = round((current_price / entry_price - 1) * 100, 4) if entry_price > 0 else 0.0
@@ -844,7 +921,16 @@ def task_eod_update():
                     )
                     continue
 
+                rebase = _history_rebase_factor(pos, df)
+                if rebase:
+                    _flag_corporate_action(ticker, pos, rebase)
+                    updated = True
+                    continue
+
                 pos["current_price"] = current_price
+                last_bar = _last_bar_date(df)
+                if last_bar:
+                    pos["price_mark_date"] = last_bar.isoformat()
                 pos["market_value"] = round(current_price * qty, 2)
                 pos["unrealized_pnl"] = round((current_price - entry_price) * qty, 2)
                 pos["pnl_pct"] = round((current_price / entry_price - 1) * 100, 4) if entry_price > 0 else 0.0
