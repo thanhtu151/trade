@@ -219,12 +219,13 @@ def _scheduler_trade_environment(monkeypatch, tmp_path, outcomes):
     monkeypatch.setattr(scheduler, "STATE_FILE", str(tmp_path / "scheduler_state.json"))
     monkeypatch.setattr(scheduler, "is_trading_day", lambda: True)
     monkeypatch.setattr(scheduler, "ict_now", _in_session)
-    monkeypatch.setattr(trading_safety, "operational_gate", lambda _base: (True, "ok"))
+    monkeypatch.setattr(trading_safety, "operational_gate", lambda _base, **_kw: (True, "ok"))
     monkeypatch.setattr(
         self_healing,
         "run_self_healing",
         lambda _base, repair=True: {"trading_allowed": True, "status": "healthy"},
     )
+    monkeypatch.setattr(scheduler, "task_intraday_monitor", lambda: None)  # covered by test_ci_intraday_stop
     calls = []
     sequence = iter(outcomes)
 

@@ -409,6 +409,10 @@ def task_auto_trade():
     if healing["status"] == "healed":
         log.warning("Self-healing repaired state before trading: %s", healing.get("actions"))
 
+    # CI runs one task per process, so the continuous intraday monitor never starts there.
+    # Check held positions against stop/target now, while the session gates are open.
+    task_intraday_monitor()
+
     try:
         if not os.path.exists(ANALYSIS_RESULTS_FILE):
             raise FileNotFoundError("No analysis_results.json found")
@@ -579,6 +583,13 @@ def task_intraday_monitor():
     now = ict_now()
     hour = now.hour + now.minute / 60.0
     if not (9.0 <= hour <= 14.85):
+        return
+
+    from trading_safety import operational_gate
+
+    allowed, gate_reason = operational_gate(BASE_DIR, exit_order=True)
+    if not allowed:
+        log.info("Intraday monitor skipped: %s", gate_reason)
         return
 
     log.info("Intraday monitor check...")
