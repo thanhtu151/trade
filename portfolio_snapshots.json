@@ -302,5 +302,21 @@
       "STB"
     ],
     "n_positions": 5
+  },
+  {
+    "date": "2026-10-02",
+    "time": "2026-10-02T15:07:24.466843+07:00",
+    "ledger_epoch": 1,
+    "cash": 2215455.0,
+    "market_value": 72164970.0,
+    "equity": 74380425.0,
+    "positions": [
+      "DGC",
+      "FRT",
+      "GMD",
+      "HCM",
+      "STB"
+    ],
+    "n_positions": 5
   }
 ]

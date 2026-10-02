@@ -1,7 +1,7 @@
 {
   "status": "healthy",
   "trading_allowed": true,
-  "updated_at": "2026-10-02 14:24:10",
+  "updated_at": "2026-10-02 15:07:24",
   "actions": [],
   "warnings": [
     "current epoch contains 45 legacy price(s) below 1,000 VND; history was not modified"
@@ -22,7 +22,7 @@
   },
   "checkpoint": {
     "cash": 2215455.0,
-    "equity": 75453840.0,
+    "equity": 74380425.0,
     "trade_events": 109,
     "last_event_signature": "eacedcafd7a93840"
   },

@@ -6,12 +6,12 @@
     "DGC": {
       "atr": 825.0,
       "avg_price": 35900.0,
-      "current_price": 35400.0,
+      "current_price": 35500.0,
       "entry_date": "2026-10-01 09:21:45",
       "entry_fees": 17950.0,
-      "hold_days": 1,
+      "hold_days": 2,
       "kelly_fraction": 0.25,
-      "market_value": 17700000.0,
+      "market_value": 17750000.0,
       "plan": {
         "atr": 825.0,
         "hold_days": "toi da 15 phien",
@@ -22,22 +22,22 @@
         "target_price": 37550.0,
         "trailing_stop_active": false
       },
-      "pnl_pct": -1.3928,
+      "pnl_pct": -1.1142,
       "qty": 500,
       "source": "two_stage_scheduler",
       "stop_loss": 35075.0,
       "target_price": 37550.0,
-      "unrealized_pnl": -250000.0
+      "unrealized_pnl": -200000.0
     },
     "FRT": {
       "atr": 5471.43,
       "avg_price": 147000.0,
-      "current_price": 146600.0,
+      "current_price": 142900.0,
       "entry_date": "2026-10-01 09:21:50",
       "entry_fees": 14700.0,
-      "hold_days": 1,
+      "hold_days": 2,
       "kelly_fraction": 0.25,
-      "market_value": 14660000.0,
+      "market_value": 14290000.0,
       "plan": {
         "atr": 5471.43,
         "hold_days": "toi da 15 phien",
@@ -48,21 +48,21 @@
         "target_price": 157942.9,
         "trailing_stop_active": false
       },
-      "pnl_pct": -0.2721,
+      "pnl_pct": -2.7891,
       "qty": 100,
       "source": "two_stage_scheduler",
       "stop_loss": 141528.6,
       "target_price": 157942.9,
-      "unrealized_pnl": -40000.0
+      "unrealized_pnl": -410000.0
     },
     "GMD": {
       "atr": 1390.0,
       "avg_price": 76500.0,
-      "current_price": 78500.0,
+      "current_price": 77600.0,
       "entry_date": "2026-09-21 14:32:45",
-      "hold_days": 4,
+      "hold_days": 5,
       "kelly_fraction": 0.25,
-      "market_value": 21077250.0,
+      "market_value": 20835600.0,
       "plan": {
         "atr": 1390.0,
         "hold_days": "toi da 15 phien",
@@ -73,21 +73,21 @@
         "target_price": 79300.0,
         "trailing_stop_active": false
       },
-      "pnl_pct": 2.6144,
+      "pnl_pct": 1.4379,
       "qty": 268.5,
       "source": "two_stage_scheduler",
       "stop_loss": 76500.0,
       "target_price": 79300.0,
-      "unrealized_pnl": 537000.0
+      "unrealized_pnl": 295350.0
     },
     "HCM": {
       "atr": 620.0,
       "avg_price": 24800.0,
-      "current_price": 23550.0,
+      "current_price": 23500.0,
       "entry_date": "2026-09-16 14:06:20",
-      "hold_days": 6,
+      "hold_days": 7,
       "kelly_fraction": 0.25,
-      "market_value": 939645.0,
+      "market_value": 937650.0,
       "plan": {
         "atr": 620.0,
         "hold_days": "toi da 15 phien",
@@ -97,21 +97,21 @@
         "target_price": 26100.0,
         "trailing_stop_active": false
       },
-      "pnl_pct": -5.0403,
+      "pnl_pct": -5.2419,
       "qty": 39.9,
       "source": "two_stage_scheduler",
       "stop_loss": 24800.0,
       "target_price": 26100.0,
-      "unrealized_pnl": -49875.0
+      "unrealized_pnl": -51870.0
     },
     "STB": {
       "atr": 1840.0,
       "avg_price": 76800.0,
-      "current_price": 70300.0,
+      "current_price": 68400.0,
       "entry_date": "2026-09-08 13:50:56",
-      "hold_days": 12,
+      "hold_days": 13,
       "kelly_fraction": 0.25,
-      "market_value": 18861490.0,
+      "market_value": 18351720.0,
       "plan": {
         "atr": 1840.0,
         "hold_days": "toi da 15 phien",
@@ -121,13 +121,13 @@
         "target_price": 80500.0,
         "trailing_stop_active": false
       },
-      "pnl_pct": -8.4635,
+      "pnl_pct": -10.9375,
       "qty": 268.3,
       "source": "two_stage_scheduler",
       "stop_loss": 75000.0,
       "target_price": 80500.0,
-      "unrealized_pnl": -1743950.0
+      "unrealized_pnl": -2253720.0
     }
   },
-  "updated_at": "2026-10-01T15:07:29.277021+07:00"
+  "updated_at": "2026-10-02T15:07:24.463513+07:00"
 }
