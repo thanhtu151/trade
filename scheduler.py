@@ -591,7 +591,7 @@ def _is_plausible_price(price, reference_price, min_ratio=0.5, max_ratio=2.0):
     return min_ratio <= ratio <= max_ratio
 
 
-def _history_rebase_factor(pos, df, tolerance=0.01):
+def _history_rebase_check(pos, df, tolerance=0.01):
     """
     Detect a corporate action (stock dividend/split/rights) on a held position.
 
@@ -600,8 +600,9 @@ def _history_rebase_factor(pos, df, tolerance=0.01):
     looks like a crash through the stop (PVD 2026-07-14: 33.2 -> 20.45 "-38%",
     VPB 2026-09-24: 28.0 -> 22.1 "-21%"). A price the book really saw on a given
     day must lie inside that day's [low, high]; if it no longer does, the
-    history was rebased. Returns book_price / history_price (> 1 for a split),
-    or None when the history still agrees or cannot be checked.
+    history was rebased. Returns book_price / history_price (> 1 for a split;
+    measured against the day's high, so a lower bound of the real ratio),
+    1.0 when the history agrees with the book, or None when it cannot be checked.
     """
     if df is None or len(df) == 0 or not {"time", "low", "high"} <= set(df.columns):
         return None
@@ -627,35 +628,98 @@ def _history_rebase_factor(pos, df, tolerance=0.01):
                 return price / high
             if price < low * (1 - tolerance):
                 return price / low
-            return None
+            return 1.0
     except Exception as exc:
         log.warning("Corporate-action check failed: %s", exc)
     return None
 
 
-def _flag_corporate_action(ticker, pos, factor):
-    """Mark the position for manual adjustment; True when the flag is new."""
-    log.error(
-        "  %s: price history rebased by x%.4f since the position was marked (corporate action?); "
-        "stop/target/timeout suspended until qty/avg_price/stop are adjusted",
-        ticker, factor,
-    )
-    is_new = not pos.get("corporate_action_suspected")
-    pos["corporate_action_suspected"] = {"factor": round(factor, 4), "detected_at": ict_now().isoformat()}
-    if is_new:
-        try:
-            from notify import send_once
+def _history_rebase_factor(pos, df, tolerance=0.01):
+    """book_price / history_price when the history was rebased, else None."""
+    check = _history_rebase_check(pos, df, tolerance)
+    return None if check in (None, 1.0) else check
 
-            send_once(
-                f"corporate-action:{ticker}:{ict_today()}",
-                f"{ticker}: nghi sự kiện quyền",
-                f"Giá lịch sử lệch x{factor:.2f} so với sổ. Đã tạm dừng stop/target/timeout; "
-                "cần điều chỉnh qty/avg_price/stop của vị thế.",
-                level="warning", base_dir=BASE_DIR,
-            )
-        except Exception as exc:
-            log.warning("Corporate-action notification failed: %s", exc)
-    return is_new
+
+CORPORATE_ACTION_FIELDS = "qty, avg_price, stop_loss, target_price, current_price, price_mark_date"
+
+
+def _flag_corporate_action(ticker, pos, factor=None):
+    """
+    Mark the position for manual adjustment and remind the operator.
+
+    Called on every run while the position is suspended: the Discord
+    fingerprint carries the date, so a failed send is retried on the next run
+    and a delivered one repeats at most once per day. Returns the alert line
+    for intraday_alerts.json the first time each day, else None.
+    """
+    flag = pos.get("corporate_action_suspected")
+    flag = dict(flag) if isinstance(flag, dict) else {}
+    if factor:
+        flag["factor"] = round(factor, 4)
+    flag.setdefault("detected_at", ict_now().isoformat())
+    factor = flag.get("factor")
+    # The factor is only a bound (book price vs that day's high/low), never the official ratio.
+    bound = "?" if not factor else f"{'≥' if factor > 1 else '≤'} x{factor:.2f}"
+    log.error(
+        "  %s: price history rebased by %s since the position was marked (corporate action?); "
+        "stop/target/timeout suspended until %s are adjusted",
+        ticker, bound, CORPORATE_ACTION_FIELDS,
+    )
+    today = str(ict_today())
+    message = None
+    if flag.get("alerted_on") != today:
+        flag["alerted_on"] = today
+        message = (
+            f"⚠️ {ticker}: nghi sự kiện quyền (giá lịch sử lệch {bound}); tạm dừng stop/target/timeout, "
+            f"cần sửa đủ {CORPORATE_ACTION_FIELDS}")
+    pos["corporate_action_suspected"] = flag
+    try:
+        from notify import send_once
+
+        send_once(
+            f"corporate-action:{ticker}:{today}",
+            f"{ticker}: nghi sự kiện quyền",
+            f"Giá lịch sử lệch {bound} so với sổ (chỉ là cận, KHÔNG dùng để tự nhân qty; lấy tỷ lệ quyền chính thức). "
+            f"Đã tạm dừng stop/target/timeout. Cần sửa đủ các trường: {CORPORATE_ACTION_FIELDS}. "
+            "Stop tự bật lại khi sổ khớp lại với lịch sử giá.",
+            level="warning", base_dir=BASE_DIR,
+        )
+    except Exception as exc:
+        log.warning("Corporate-action notification failed: %s", exc)
+    return message
+
+
+def _corporate_action_hold(ticker, pos, df):
+    """
+    (suspended, alert): suspended is True while stop/target/timeout must not run.
+
+    A flagged position is released only when the history positively agrees
+    with the book again; an uncheckable history keeps it suspended.
+    """
+    check = _history_rebase_check(pos, df)
+    flagged = bool(pos.get("corporate_action_suspected"))
+    if check == 1.0 or (check is None and not flagged):
+        if flagged:
+            pos.pop("corporate_action_suspected", None)
+            log.info("  %s: book agrees with price history again; stop/target/timeout resumed", ticker)
+        return False, None
+    return True, _flag_corporate_action(ticker, pos, check)
+
+
+def _append_intraday_alerts(alerts):
+    existing = []
+    try:
+        if os.path.exists(INTRADAY_ALERTS_FILE):
+            with open(INTRADAY_ALERTS_FILE, encoding="utf-8") as f:
+                existing = json.load(f)
+        if not isinstance(existing, list):
+            existing = []
+    except Exception:
+        existing = []
+    existing.extend(alerts)
+    existing = existing[-50:]
+    with open(INTRADAY_ALERTS_FILE, "w", encoding="utf-8") as f:
+        json.dump(existing, f, ensure_ascii=False, indent=2)
 
 
 def task_intraday_monitor():
@@ -718,12 +782,10 @@ def task_intraday_monitor():
                     )
                     continue
 
-                rebase = _history_rebase_factor(pos, df)
-                if rebase:
-                    if _flag_corporate_action(ticker, pos, rebase):
-                        alerts.append({"time": now.isoformat(), "message": (
-                            f"⚠️ {ticker}: nghi sự kiện quyền (giá lịch sử lệch x{rebase:.2f}); "
-                            "tạm dừng stop/target, cần điều chỉnh vị thế")})
+                suspended, alert = _corporate_action_hold(ticker, pos, df)
+                if suspended:
+                    if alert:
+                        alerts.append({"time": now.isoformat(), "message": alert})
                     updated = True
                     continue
 
@@ -787,19 +849,7 @@ def task_intraday_monitor():
             portfolio["updated_at"] = ict_now().isoformat()
             _save_portfolio_direct(portfolio)
         if alerts:
-            existing = []
-            try:
-                if os.path.exists(INTRADAY_ALERTS_FILE):
-                    with open(INTRADAY_ALERTS_FILE, encoding="utf-8") as f:
-                        existing = json.load(f)
-                if not isinstance(existing, list):
-                    existing = []
-            except Exception:
-                existing = []
-            existing.extend(alerts)
-            existing = existing[-50:]
-            with open(INTRADAY_ALERTS_FILE, "w", encoding="utf-8") as f:
-                json.dump(existing, f, ensure_ascii=False, indent=2)
+            _append_intraday_alerts(alerts)
 
         log.info("Intraday check done: %s positions, %s alerts", len(positions), len(alerts))
     except Exception as exc:
@@ -902,6 +952,7 @@ def task_eod_update():
         positions = portfolio.get("positions", {}) or {}
         updated = False
         closed = 0
+        alerts = []
 
         for ticker, pos in list(positions.items()):
             try:
@@ -921,9 +972,10 @@ def task_eod_update():
                     )
                     continue
 
-                rebase = _history_rebase_factor(pos, df)
-                if rebase:
-                    _flag_corporate_action(ticker, pos, rebase)
+                suspended, alert = _corporate_action_hold(ticker, pos, df)
+                if suspended:
+                    if alert:
+                        alerts.append({"time": ict_now().isoformat(), "message": alert})
                     updated = True
                     continue
 
@@ -977,6 +1029,11 @@ def task_eod_update():
         if updated:
             portfolio["updated_at"] = ict_now().isoformat()
             _save_portfolio_direct(portfolio)
+        if alerts:
+            try:
+                _append_intraday_alerts(alerts)
+            except Exception as exc:
+                log.warning("Could not write EOD alerts: %s", exc)
         log.info("Closed %s positions", closed)
     except Exception as exc:
         log.warning("EOD update failed: %s", exc)

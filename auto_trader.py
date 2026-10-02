@@ -944,6 +944,11 @@ def current_price(symbol):
     return normalize_vn_price(df.iloc[-1]["close"])
 
 
+def corporate_action_suspended(position):
+    """True while scheduler flagged the position: its qty/prices predate a corporate action, so no automatic sell."""
+    return bool(isinstance(position, dict) and position.get("corporate_action_suspected"))
+
+
 def close_negative_ev_positions():
     """
     Exit positions whose ticker has negative EV in the backtest config.
@@ -964,6 +969,9 @@ def close_negative_ev_positions():
     for ticker in list((portfolio.get("positions") or {}).keys()):
         ticker = str(ticker).upper()
         if ticker not in negative_ev:
+            continue
+        if corporate_action_suspended(portfolio["positions"].get(ticker)):
+            print(f"  Close {ticker} skipped: corporate action suspected, position needs manual adjustment")
             continue
         try:
             price = current_price(ticker)
@@ -1815,6 +1823,8 @@ def run_risk_checks():
     portfolio = load_portfolio()
     messages = []
     for symbol, pos in list(portfolio.get("positions", {}).items()):
+        if corporate_action_suspended(pos):
+            continue
         price = current_price(symbol)
         if price is None:
             continue
@@ -1877,6 +1887,8 @@ def check_and_close_positions():
     closed = 0
     for ticker, position in list(portfolio.get("positions", {}).items()):
         try:
+            if corporate_action_suspended(position):
+                continue
             price = current_price(ticker)
             if price is None or price <= 0:
                 continue
