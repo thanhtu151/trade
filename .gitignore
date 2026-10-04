@@ -60,6 +60,7 @@ prediction_history.json
 prediction_log.json
 paper_portfolio.json
 paper_trades.json
+paper_ai_fund_equity.json
 auto_analysis_state.json
 vn_live_data_cache.json
 performance_report.json
