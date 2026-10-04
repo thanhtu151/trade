@@ -75,6 +75,7 @@ jobs:
         vn_live_data_cache.json llm_router_usage.json self_healing_state.json
         circuit_breaker_state.json
         discord_notification_state.json
+        paper_ai_fund_equity.json
         paper_portfolio.json.bak paper_trades.json.bak
         trading_disabled.json trading_switch_audit.json self_healing_audit.json
         paper_ledger_transaction.json

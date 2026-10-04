@@ -48,6 +48,7 @@ STATE_FILES = [
     "auto_analysis_state.json",
     "vn_live_data_cache.json",
     "llm_router_usage.json",
+    "paper_ai_fund_equity.json",
 ]
 
 
