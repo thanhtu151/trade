@@ -4,6 +4,7 @@ import json
 from datetime import datetime
 
 import pandas as pd
+import pytest
 
 from test_price_sanity_gate import write_json
 from trading_safety import VIETNAM_TZ
@@ -11,6 +12,15 @@ from trading_safety import VIETNAM_TZ
 IN_SESSION = datetime(2026, 9, 22, 10, 0, tzinfo=VIETNAM_TZ)   # Tue
 OUT_OF_SESSION = datetime(2026, 9, 22, 15, 7, tzinfo=VIETNAM_TZ)
 STOP = 19_500.0
+
+
+@pytest.fixture(autouse=True)
+def discord(monkeypatch):
+    """Never reach the real Discord webhook; records fingerprints, reports 'not delivered'."""
+    import notify
+    calls = []
+    monkeypatch.setattr(notify, "send_once", lambda fingerprint, *_a, **_k: calls.append(fingerprint) or False)
+    return calls
 
 
 def _env(monkeypatch, tmp_path, now=IN_SESSION, entry_date="2026-09-15 09:30:00", price=19_400.0,
@@ -156,3 +166,229 @@ def test_execute_paper_trade_skips_rebuy_after_stop(monkeypatch, tmp_path):
     scheduler.task_intraday_monitor()                       # stops out PVD at 10:00 on 2026-09-22
     result = auto_trader.execute_paper_trade("PVD", "BUY", 19_400.0)
     assert result["status"] == "skipped" and "stop-loss" in result["detail"]
+
+
+# ---- T129: corporate actions must not look like a stop-loss crash ----------
+
+def _bars(rows):
+    return pd.DataFrame(rows, columns=["time", "open", "high", "low", "close"]).assign(
+        time=lambda d: pd.to_datetime(d["time"]))
+
+
+def test_history_rebase_factor_detects_pvd_and_vpb():
+    import scheduler
+
+    # PVD: bought 33.2 on 2026-07-10; after the 07-14 ex-date the source shows 07-10 as 19.47-19.95.
+    pvd = _bars([("2026-07-10", 19.95, 19.95, 19.47, 19.47), ("2026-07-15", 20.15, 20.70, 19.45, 20.45)])
+    factor = scheduler._history_rebase_factor({"avg_price": 33.2, "entry_date": "2026-07-10 10:44:22"}, pvd)
+    assert round(factor, 2) == 1.66
+    # VPB: bought 28.0 on 2026-09-21; after the 09-24 ex-date 09-21 reads 21.90-22.57.
+    vpb = _bars([("2026-09-21", 22.10, 22.57, 21.90, 22.57), ("2026-09-24", 22.25, 22.55, 22.10, 22.10)])
+    factor = scheduler._history_rebase_factor({"avg_price": 28.0, "entry_date": "2026-09-21 14:32:48"}, vpb)
+    assert round(factor, 2) == 1.24
+
+
+def test_history_rebase_factor_ignores_real_moves_and_unknown_history():
+    import scheduler
+
+    # TCB 2026-07: entry 32.0 inside the entry-day range; the later -9.4% slide is a real loss.
+    tcb = _bars([("2026-07-15", 32.05, 32.20, 31.50, 31.50), ("2026-07-22", 29.90, 30.30, 29.00, 29.00)])
+    pos = {"avg_price": 32.0, "entry_date": "2026-07-15 09:24:07"}
+    assert scheduler._history_rebase_factor(pos, tcb) is None
+    assert scheduler._history_rebase_factor(pos, tcb[tcb["time"] > "2026-07-20"]) is None  # entry bar not in window
+    assert scheduler._history_rebase_factor(pos, pd.DataFrame({"close": [29.0]})) is None
+    # The last mark wins over the entry: marked 31.45 on 07-17, history still agrees.
+    marked = dict(pos, current_price=31.45, price_mark_date="2026-07-17")
+    bars = _bars([("2026-07-17", 31.90, 31.90, 31.45, 31.45), ("2026-07-20", 31.40, 31.40, 29.95, 29.95)])
+    assert scheduler._history_rebase_factor(marked, bars) is None
+
+
+def test_rebased_history_suspends_stop_instead_of_selling(monkeypatch, tmp_path):
+    import data_fetcher
+
+    scheduler = _env(monkeypatch, tmp_path)  # PVD avg 19,800, stop 19,500, entry 2026-09-15
+    # Ex-date today: the source now shows the entry day at 11,700-12,000 and today at 11,900.
+    monkeypatch.setattr(data_fetcher, "get_stock_data_cached", lambda *_a, **_k: _bars([
+        ("2026-09-15", 11_900.0, 12_000.0, 11_700.0, 11_880.0),
+        ("2026-09-22", 11_900.0, 11_950.0, 11_800.0, 11_900.0)]))
+    monkeypatch.setattr(scheduler, "INTRADAY_ALERTS_FILE", str(tmp_path / "intraday_alerts.json"))
+    scheduler.task_intraday_monitor()
+    scheduler.task_intraday_monitor()
+    portfolio, trades = _state(tmp_path)
+    assert _sells(trades) == []
+    pos = portfolio["positions"]["PVD"]
+    assert pos["corporate_action_suspected"]["factor"] == 1.65
+    assert "current_price" not in pos and pos["stop_loss"] == STOP
+    alerts = json.loads((tmp_path / "intraday_alerts.json").read_text(encoding="utf-8"))
+    assert len(alerts) == 1 and "sự kiện quyền" in alerts[0]["message"]
+
+
+def test_eod_does_not_stop_out_on_rebased_history(monkeypatch, tmp_path):
+    import data_fetcher
+    import scheduler
+
+    # VPB 2026-09-24: marked 28.0 on 09-21, history rebased x1.26 on the ex-date.
+    pos = {"qty": 600, "avg_price": 28_000.0, "atr": 730.0, "stop_loss": 27_300.0, "target_price": 29_500.0,
+           "hold_days": 0, "entry_date": "2026-09-21 14:32:48"}
+    portfolio = {"cash": 0.0, "ledger_epoch": 1, "positions": {"VPB": pos}}
+    monkeypatch.setattr(scheduler, "BASE_DIR", str(tmp_path))
+    monkeypatch.setattr(scheduler, "is_trading_day", lambda: True)
+    monkeypatch.setattr(scheduler, "already_ran_today", lambda _name: False)
+    monkeypatch.setattr(scheduler, "mark_ran_today", lambda _name: None)
+    monkeypatch.setattr(scheduler, "run_etf_core", lambda: None)
+    monkeypatch.setattr(scheduler, "load_portfolio_direct", lambda: portfolio)
+    monkeypatch.setattr(scheduler, "record_eod_equity_snapshot", lambda: None)
+    monkeypatch.setattr(scheduler, "_save_portfolio_direct", lambda _p: None)
+    closes = []
+    monkeypatch.setattr(scheduler, "_close_position_direct", lambda *a, **_k: closes.append(a) or True)
+    monkeypatch.setattr(data_fetcher, "get_stock_data_cached", lambda *_a, **_k: _bars([
+        ("2026-09-21", 22_100.0, 22_570.0, 21_900.0, 22_570.0),
+        ("2026-09-24", 22_250.0, 22_550.0, 22_100.0, 22_100.0)]))
+    scheduler.task_eod_update()
+    assert closes == []
+    assert pos["corporate_action_suspected"]["factor"] == 1.2406 and pos["hold_days"] == 0
+
+
+# ---- T135: review fixes B1/B2/N3 for the corporate-action guard -------------
+
+SPLIT_BARS = [("2026-09-15", 11_900.0, 12_000.0, 11_700.0, 11_880.0),
+              ("2026-09-22", 11_900.0, 11_950.0, 11_800.0, 11_900.0)]
+
+
+def _split_env(monkeypatch, tmp_path, bars=SPLIT_BARS, **extra):
+    """PVD marked 19,750 on 2026-09-15, then the source rebases its history by ~x1.65."""
+    import auto_trader
+    import data_fetcher
+
+    scheduler = _env(monkeypatch, tmp_path)
+    monkeypatch.setattr(scheduler, "INTRADAY_ALERTS_FILE", str(tmp_path / "intraday_alerts.json"))
+    monkeypatch.setattr(data_fetcher, "get_stock_data_cached", lambda *_a, **_k: _bars(bars))
+    monkeypatch.setattr(auto_trader, "market_reference", lambda *_a, **_k: {
+        "prev_close": 11_950.0, "day_low": 11_800.0, "day_high": 11_950.0})
+    _edit_pvd(tmp_path, current_price=19_750.0, price_mark_date="2026-09-15", **extra)
+    return scheduler
+
+
+def _edit_pvd(tmp_path, **fields):
+    portfolio = json.loads((tmp_path / "paper_portfolio.json").read_text())
+    portfolio["positions"]["PVD"].update(fields)
+    write_json(tmp_path / "paper_portfolio.json", portfolio)
+
+
+def _alerts(tmp_path):
+    return json.loads((tmp_path / "intraday_alerts.json").read_text(encoding="utf-8"))
+
+
+def test_failed_corporate_action_notification_is_retried_every_run(monkeypatch, tmp_path, discord):
+    scheduler = _split_env(monkeypatch, tmp_path)
+    for _ in range(3):
+        scheduler.task_intraday_monitor()
+    assert discord == ["corporate-action:PVD:2026-09-22"] * 3   # send_once dedupes per day once delivered
+    alerts = _alerts(tmp_path)
+    assert len(alerts) == 1
+    for field in ("qty", "avg_price", "stop_loss", "target_price", "current_price", "price_mark_date"):
+        assert field in alerts[0]["message"]
+    assert "≥ x1.65" in alerts[0]["message"]
+    assert not _sells(_state(tmp_path)[1])
+
+
+def test_eod_corporate_action_writes_alert_and_notifies(monkeypatch, tmp_path, discord):
+    import data_fetcher
+    import scheduler
+
+    pos = {"qty": 600, "avg_price": 28_000.0, "atr": 730.0, "stop_loss": 27_300.0, "target_price": 29_500.0,
+           "hold_days": 0, "entry_date": "2026-09-21 14:32:48"}
+    portfolio = {"cash": 0.0, "ledger_epoch": 1, "positions": {"VPB": pos}}
+    monkeypatch.setattr(scheduler, "BASE_DIR", str(tmp_path))
+    monkeypatch.setattr(scheduler, "INTRADAY_ALERTS_FILE", str(tmp_path / "intraday_alerts.json"))
+    monkeypatch.setattr(scheduler, "is_trading_day", lambda: True)
+    monkeypatch.setattr(scheduler, "already_ran_today", lambda _name: False)
+    monkeypatch.setattr(scheduler, "mark_ran_today", lambda _name: None)
+    monkeypatch.setattr(scheduler, "run_etf_core", lambda: None)
+    monkeypatch.setattr(scheduler, "load_portfolio_direct", lambda: portfolio)
+    monkeypatch.setattr(scheduler, "record_eod_equity_snapshot", lambda: None)
+    monkeypatch.setattr(scheduler, "_save_portfolio_direct", lambda _p: None)
+    closes = []
+    monkeypatch.setattr(scheduler, "_close_position_direct", lambda *a, **_k: closes.append(a) or True)
+    monkeypatch.setattr(data_fetcher, "get_stock_data_cached", lambda *_a, **_k: _bars([
+        ("2026-09-21", 22_100.0, 22_570.0, 21_900.0, 22_570.0),
+        ("2026-09-24", 22_250.0, 22_550.0, 22_100.0, 22_100.0)]))
+    scheduler.task_eod_update()
+    scheduler.task_eod_update()
+    assert closes == []
+    assert len(discord) == 2 and all(fp.startswith("corporate-action:VPB:") for fp in discord)
+    alerts = _alerts(tmp_path)
+    assert len(alerts) == 1 and "VPB" in alerts[0]["message"] and "≥ x1.24" in alerts[0]["message"]
+
+
+def test_stop_resumes_after_operator_adjusts_marked_position(monkeypatch, tmp_path):
+    scheduler = _split_env(monkeypatch, tmp_path)
+    scheduler.task_intraday_monitor()
+    assert _state(tmp_path)[0]["positions"]["PVD"]["corporate_action_suspected"]["factor"] == 1.6458
+
+    # Partial fix (mark untouched): still suspended, never a phantom sell.
+    _edit_pvd(tmp_path, qty=1650, avg_price=12_000.0, stop_loss=11_950.0)
+    scheduler.task_intraday_monitor()
+    portfolio, trades = _state(tmp_path)
+    assert "corporate_action_suspected" in portfolio["positions"]["PVD"] and not _sells(trades)
+
+    # Every listed field fixed: flag clears itself and the stop (11,900 <= 11,950) sells the adjusted qty.
+    _edit_pvd(tmp_path, target_price=13_000.0, current_price=11_880.0, price_mark_date="2026-09-15")
+    scheduler.task_intraday_monitor()
+    portfolio, trades = _state(tmp_path)
+    assert "PVD" not in portfolio["positions"]
+    sells = _sells(trades)
+    assert len(sells) == 1 and sells[0]["reason"] == "stop_loss_intraday" and float(sells[0]["qty"]) == 1650
+
+
+def test_flagged_position_stays_suspended_when_history_cannot_be_checked(monkeypatch, tmp_path):
+    """The short intraday window may no longer hold the reference bars: that must not release the stop."""
+    scheduler = _split_env(monkeypatch, tmp_path, bars=SPLIT_BARS[1:],
+                           corporate_action_suspected={"factor": 1.6458, "detected_at": "2026-09-16T10:00:00"})
+    scheduler.task_intraday_monitor()
+    portfolio, trades = _state(tmp_path)
+    assert "corporate_action_suspected" in portfolio["positions"]["PVD"] and not _sells(trades)
+    assert len(_alerts(tmp_path)) == 1
+
+
+def test_second_corporate_action_alerts_again(monkeypatch, tmp_path, discord):
+    import data_fetcher
+    import trading_safety
+
+    # Operator already adjusted the book after the first event; price is above the stop.
+    scheduler = _split_env(monkeypatch, tmp_path, bars=[SPLIT_BARS[0], ("2026-09-22", 12_100.0, 12_200.0, 12_050.0, 12_100.0)],
+                           corporate_action_suspected={"factor": 1.6458, "detected_at": "2026-09-16T10:00:00",
+                                                       "alerted_on": "2026-09-16"})
+    _edit_pvd(tmp_path, qty=1650, avg_price=12_000.0, stop_loss=11_500.0, current_price=11_880.0)
+    scheduler.task_intraday_monitor()
+    pos = _state(tmp_path)[0]["positions"]["PVD"]
+    assert "corporate_action_suspected" not in pos and pos["price_mark_date"] == "2026-09-22"
+    assert discord == []
+
+    # Next session the history is rebased again (x1.25): flagged and alerted again.
+    tomorrow = datetime(2026, 9, 23, 10, 0, tzinfo=VIETNAM_TZ)
+    monkeypatch.setattr(scheduler, "ict_now", lambda: tomorrow)
+    monkeypatch.setattr(trading_safety, "vietnam_now", lambda: tomorrow)
+    monkeypatch.setattr(data_fetcher, "get_stock_data_cached", lambda *_a, **_k: _bars([
+        ("2026-09-22", 9_680.0, 9_760.0, 9_640.0, 9_680.0), ("2026-09-23", 9_700.0, 9_750.0, 9_650.0, 9_700.0)]))
+    scheduler.task_intraday_monitor()
+    portfolio, trades = _state(tmp_path)
+    assert portfolio["positions"]["PVD"]["corporate_action_suspected"]["factor"] == 1.2398 and not _sells(trades)
+    assert discord == ["corporate-action:PVD:2026-09-23"]
+    assert len(_alerts(tmp_path)) == 1 and "PVD" in _alerts(tmp_path)[0]["message"]
+
+
+def test_negative_ev_exit_skips_flagged_position(monkeypatch):
+    import auto_trader
+    import backtester
+
+    portfolio = {"positions": {"VHM": {"qty": 100, "avg_price": 138_900.0,
+                                       "corporate_action_suspected": {"factor": 2.0}},
+                               "VIC": {"qty": 100, "avg_price": 50_000.0}}}
+    sold = []
+    monkeypatch.setattr(backtester, "load_backtest_config_file", lambda: {"negative_ev_tickers": ["VHM", "VIC"]})
+    monkeypatch.setattr(auto_trader, "load_portfolio", lambda: portfolio)
+    monkeypatch.setattr(auto_trader, "current_price", lambda _t: 60_000.0)
+    monkeypatch.setattr(auto_trader, "sell_position", lambda ticker, reason="": sold.append(ticker) or (True, "ok"))
+    assert auto_trader.close_negative_ev_positions() == ["VIC"]
+    assert sold == ["VIC"]
