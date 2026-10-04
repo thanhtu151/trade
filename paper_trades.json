@@ -1730,5 +1730,14 @@
     "time": "2026-10-01 09:21:50",
     "type": "TRADE",
     "value": 14700000.0
+  },
+  {
+    "actor": "CEO-Minh/T119",
+    "cash_after": 100000000.0,
+    "epoch_id": 2,
+    "positions_after": {},
+    "reason": "T119: reset paper ledger to 100M, no positions, to measure strategy under new gates (PR #26)",
+    "time": "2026-10-05 00:31:00",
+    "type": "RESET"
   }
 ]
