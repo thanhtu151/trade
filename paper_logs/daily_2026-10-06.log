@@ -1,0 +1,34 @@
+  VCK: source VCI failed: insufficient_data: VCK: VCI: coverage 52.5% (197/375 exchange sessions), first=2025-12-16, required_start<=2025-06-02
+source_manager: VCI failed (1x)
+source_manager: switching to MSN
+  VCK: source MSN failed: insufficient_data: VCK: MSN: coverage 52.5% (197/375 exchange sessions), first=2025-12-16, required_start<=2025-06-02
+source_manager: MSN failed (1x)
+source_manager: all sources exhausted, will use stale cache
+  VCK: all sources failed: insufficient_data: VCK: MSN: coverage 52.5% (197/375 exchange sessions), first=2025-12-16, required_start<=2025-06-02
+  MSR: source MSN failed: insufficient_data: MSR: MSN: coverage 25.3% (95/375 exchange sessions), first=2025-04-07, required_start<=2025-06-02
+source_manager: MSN failed (1x)
+source_manager: all sources exhausted, will use stale cache
+  TCX: source VCI failed: insufficient_data: TCX: VCI: coverage 63.2% (237/375 exchange sessions), first=2025-10-21, required_start<=2025-06-02
+source_manager: VCI failed (1x)
+source_manager: switching to MSN
+  TCX: source MSN failed: insufficient_data: TCX: MSN: coverage 63.2% (237/375 exchange sessions), first=2025-10-21, required_start<=2025-06-02
+source_manager: MSN failed (2x)
+source_manager: all sources exhausted, will use stale cache
+  TCX: all sources failed: insufficient_data: TCX: MSN: coverage 63.2% (237/375 exchange sessions), first=2025-10-21, required_start<=2025-06-02
+  GEL: source MSN failed: insufficient_data: GEL: MSN: coverage 47.5% (178/375 exchange sessions), first=2025-04-09, required_start<=2025-06-02
+source_manager: MSN failed (1x)
+source_manager: all sources exhausted, will use stale cache
+  GEL: source VCI failed: insufficient_data: GEL: VCI: coverage 42.9% (161/375 exchange sessions), first=2026-02-06, required_start<=2025-06-02
+source_manager: VCI failed (2x)
+  GEL: all sources failed: insufficient_data: GEL: VCI: coverage 42.9% (161/375 exchange sessions), first=2026-02-06, required_start<=2025-06-02
+  MCH: source MSN failed: insufficient_data: MCH: MSN: coverage 50.7% (190/375 exchange sessions), first=2025-12-25, required_start<=2025-06-02
+source_manager: MSN failed (2x)
+source_manager: all sources exhausted, will use stale cache
+Cảnh báo: không lấy được giá 3 mã: VCK,TCX,GEL
+no session: 2026-10-06 (phiên gần nhất có dữ liệu: 2026-10-05)
+Phiên: 2026-10-05 (yêu cầu 2026-10-06); nguồn: data_fetcher
+  E1_ma10m: OFF (close<ma10m) {'close': 1894.46, 'ma': 1959.3} [điều khiển lệnh, chỉ đổi ở cuối tháng]
+  E6_ma200d_b60: OFF (off) {'vn30': 1894.46, 'ma200': 1958.98, 'vn30_above': False, 'breadth_pct': 28.0, 'universe': 50} [theo dõi]
+  Lệnh: không có
+  Chờ khớp phiên sau: None
+  NAV: 100,000,000 VND (vốn đầu 100,000,000)
