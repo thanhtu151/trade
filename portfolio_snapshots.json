@@ -318,5 +318,15 @@
       "STB"
     ],
     "n_positions": 5
+  },
+  {
+    "date": "2026-10-05",
+    "time": "2026-10-05T15:06:59.328536+07:00",
+    "ledger_epoch": 2,
+    "cash": 100000000.0,
+    "market_value": 0,
+    "equity": 100000000.0,
+    "positions": [],
+    "n_positions": 0
   }
 ]
