@@ -1,30 +1,28 @@
 {
   "status": "healthy",
   "trading_allowed": true,
-  "updated_at": "2026-10-02 22:12:39",
+  "updated_at": "2026-10-05 07:02:49",
   "actions": [],
-  "warnings": [
-    "current epoch contains 45 legacy price(s) below 1,000 VND; history was not modified"
-  ],
+  "warnings": [],
   "critical": [],
   "inhibitors": [],
   "metrics": {
-    "cash": 2215455.0,
-    "positions": 5,
-    "trade_events": 109,
+    "cash": 100000000.0,
+    "positions": 0,
+    "trade_events": 110,
     "duplicate_events_removed": 0,
     "malformed_events": 0,
-    "current_epoch": 1,
-    "current_epoch_events": 48,
-    "expected_cash": 2215455.0,
+    "current_epoch": 2,
+    "current_epoch_events": 1,
+    "expected_cash": 100000000.0,
     "cash_drift": 0.0,
-    "low_price_events": 45
+    "low_price_events": 0
   },
   "checkpoint": {
-    "cash": 2215455.0,
-    "equity": 74380425.0,
-    "trade_events": 109,
-    "last_event_signature": "eacedcafd7a93840"
+    "cash": 100000000.0,
+    "equity": 100000000.0,
+    "trade_events": 110,
+    "last_event_signature": "3e1a96ed7ce2abef"
   },
   "ledger_baseline": {}
 }
