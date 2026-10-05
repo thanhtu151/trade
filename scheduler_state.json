@@ -3,7 +3,7 @@
   "market_analysis": "2026-10-05",
   "auto_trade": "2026-10-05",
   "eod_update": "2026-10-05",
-  "daily_learning": "2026-10-02",
+  "daily_learning": "2026-10-05",
   "weekly_rebacktest": "2026-09-29",
   "trade_idempotency": {
     "2026-10-01:DGC:BUY:3e65cf3963b9188c1183": {

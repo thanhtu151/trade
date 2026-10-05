@@ -4314,8 +4314,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 3.52,
+    "actual_price_3d": 147000.0
   },
   {
     "ticker": "DGC",
@@ -4357,8 +4359,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": -2.5,
+    "actual_price_3d": 35100.0
   },
   {
     "ticker": "FRT",
@@ -4400,8 +4404,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 3.52,
+    "actual_price_3d": 147000.0
   },
   {
     "ticker": "FRT",
@@ -4443,8 +4449,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "",
+    "pnl_pct": 3.52,
+    "actual_price_3d": 147000.0
   },
   {
     "ticker": "SSI",
