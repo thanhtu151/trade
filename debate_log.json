@@ -1,50 +1,5 @@
 [
   {
-    "ticker": "STB",
-    "date": "2026-07-27",
-    "time": "2026-07-27T12:25:45.549891",
-    "market_data": {
-      "price": 74.0,
-      "rsi": 61.1,
-      "macd_bull": true,
-      "vol_ratio": 0.2,
-      "score": 3.0,
-      "ensemble_signal": "tăng mạnh",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 21483590.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": -3.24,
-    "actual_price_3d": 71.6
-  },
-  {
     "ticker": "POW",
     "date": "2026-07-27",
     "time": "2026-07-27T12:27:23.609382",
@@ -4463,6 +4418,49 @@
       "news_sentiment": 0.0,
       "market_regime": "UNKNOWN",
       "cash_available": 2215455.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "SSI",
+    "date": "2026-10-05",
+    "time": "2026-10-05T08:34:12.254461",
+    "market_data": {
+      "price": 19700.0,
+      "rsi": 40.6,
+      "macd_bull": false,
+      "vol_ratio": 1.22,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
     },
     "bull_case": {
       "stance": "BULL",
