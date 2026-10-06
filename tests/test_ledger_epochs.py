@@ -584,3 +584,84 @@ def test_legacy_raw_pnl_rows_are_signed_in_stats(monkeypatch, tmp_path):
     stats = engine.calculate_accuracy_stats()
     assert stats["VIC"]["avg_pnl_pct"] == 4.0
     assert stats["_overall"]["avg_pnl"] == 4.0
+
+
+def _resolve_env(monkeypatch, tmp_path, preds, price):
+    from datetime import date, timedelta
+
+    for p in preds.values():
+        p["date"] = (date.today() - timedelta(days=5)).isoformat()
+        p.setdefault("resolved", False)
+        p.setdefault("ledger_epoch", 1)
+    engine = _learning_env(monkeypatch, tmp_path, preds, epoch=1)
+    monkeypatch.setattr(engine, "_latest_close", lambda t: price)
+    monkeypatch.setattr(engine, "_update_history_outcome", lambda *a, **k: None)
+
+    class _Now(engine.datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return engine.datetime(2026, 1, 1, 16, 0)
+
+    monkeypatch.setattr(engine, "datetime", _Now)
+    return engine
+
+
+def test_unit_mismatch_is_flagged_invalid_and_excluded_from_stats(monkeypatch, tmp_path):
+    preds = {"GAS_x": {"id": "GAS_x", "ticker": "GAS", "predicted_direction": 1, "entry_price": 0.02}}
+    engine = _resolve_env(monkeypatch, tmp_path, preds, price=74.6)
+    assert engine.resolve_predictions() == 0
+    row = json.loads((tmp_path / "prediction_log.json").read_text(encoding="utf-8"))["GAS_x"]
+    assert row["resolved"] is True and row["invalid"] is True
+    assert row["correct"] is None and row["pnl_pct"] is None
+    assert "unit mismatch" in row["invalid_reason"]
+    stats = engine.calculate_accuracy_stats()
+    assert stats["_overall"]["total"] == 0
+
+
+def test_stats_skip_legacy_rows_with_implausible_move(monkeypatch, tmp_path):
+    rows = {
+        f"g{i}": {"ticker": "GAS", "date": f"2026-09-0{i}", "resolved": True, "correct": True,
+                  "predicted_direction": 1, "pnl_pct": 2.0, "ledger_epoch": 1}
+        for i in range(1, 4)
+    }
+    rows["bad"] = {"ticker": "GAS", "date": "2026-09-09", "resolved": True, "correct": True,
+                   "predicted_direction": 1, "pnl_pct": 372900.0, "ledger_epoch": 1}
+    engine = _learning_env(monkeypatch, tmp_path, rows, epoch=1)
+    stats = engine.calculate_accuracy_stats()
+    assert stats["_overall"]["total"] == 3
+    assert stats["_overall"]["avg_pnl"] == 2.0
+
+
+def test_flat_price_is_never_correct_and_pnl_zero(monkeypatch, tmp_path):
+    preds = {
+        "A_x": {"id": "A_x", "ticker": "A", "predicted_direction": -1, "entry_price": 10.0},
+        "B_x": {"id": "B_x", "ticker": "B", "predicted_direction": 1, "entry_price": 10.0},
+    }
+    engine = _resolve_env(monkeypatch, tmp_path, preds, price=10.0)
+    assert engine.resolve_predictions() == 2
+    out = json.loads((tmp_path / "prediction_log.json").read_text(encoding="utf-8"))
+    for key in ("A_x", "B_x"):
+        assert out[key]["correct"] is False
+        assert out[key]["pnl_pct"] == 0.0
+        assert out[key]["actual_direction"] == 0
+
+
+def test_legacy_flat_row_not_counted_correct_and_win_rate_is_pnl_based(monkeypatch, tmp_path):
+    rows = {
+        "w": {"ticker": "POW", "date": "2026-09-01", "resolved": True, "correct": True,
+              "predicted_direction": 1, "pnl_pct": 3.0, "ledger_epoch": 1},
+        "flat": {"ticker": "POW", "date": "2026-09-02", "resolved": True, "correct": True,
+                 "predicted_direction": -1, "pnl_pct": 0.0, "ledger_epoch": 1},
+        "l": {"ticker": "POW", "date": "2026-09-03", "resolved": True, "correct": False,
+              "predicted_direction": 1, "pnl_pct": -1.0, "ledger_epoch": 1},
+        "short_win": {"ticker": "POW", "date": "2026-09-04", "resolved": True, "correct": True,
+                      "predicted_direction": -1, "pnl_pct": -2.0, "ledger_epoch": 1},
+    }
+    engine = _learning_env(monkeypatch, tmp_path, rows, epoch=1)
+    overall = engine.calculate_accuracy_stats()["_overall"]
+    assert overall["accuracy"] == 0.5  # w + short_win; flat legacy row no longer counted
+    assert overall["win_rate"] == 0.5  # signed pnl: +3, 0, -1, +2 -> 2/4 > 0
+    rows["l"]["correct"] = True  # accuracy and win_rate are now independent measures
+    write_json(tmp_path / "prediction_log.json", rows)
+    overall = engine.calculate_accuracy_stats()["_overall"]
+    assert overall["accuracy"] == 0.75 and overall["win_rate"] == 0.5

@@ -67,6 +67,11 @@ def _save_memory(data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
+# A VN stock cannot move more than a few tens of percent in 3 days (daily limit +-7%/10%/15%),
+# so a larger move means the entry and the exit price are in different units (nghin dong vs dong).
+MAX_PLAUSIBLE_MOVE_PCT = 30.0
+
+
 def _latest_close(ticker):
     try:
         from data_fetcher import get_stock_data_cached
@@ -222,8 +227,20 @@ def resolve_predictions():
             continue
 
         entry_price = float(pred["entry_price"])
-        actual_direction = 1 if current_price > entry_price else -1
-        price_change_pct = (current_price - entry_price) / entry_price * 100 if entry_price else 0.0
+        if entry_price <= 0:
+            continue
+        price_change_pct = (current_price - entry_price) / entry_price * 100
+        if abs(price_change_pct) > MAX_PLAUSIBLE_MOVE_PCT:
+            pred["actual_price_3d"] = float(current_price)
+            pred["correct"] = None
+            pred["pnl_pct"] = None
+            pred["resolved"] = True
+            pred["invalid"] = True
+            pred["invalid_reason"] = f"price unit mismatch: {entry_price} -> {current_price} ({price_change_pct:+.1f}%)"
+            pred["resolved_at"] = datetime.now().isoformat()
+            continue
+        # Flat price (no move) is neither up nor down: no call can be right.
+        actual_direction = 1 if current_price > entry_price else (-1 if current_price < entry_price else 0)
         predicted_direction = int(pred.get("predicted_direction", 0))
         # pnl_pct is the return of following the prediction (a correct bearish call is positive).
         pnl_pct = price_change_pct * predicted_direction
@@ -251,6 +268,26 @@ def _signed_pnl_pct(pred):
     return pnl * int(pred.get("predicted_direction") or 0)
 
 
+def _raw_price_change_pct(pred):
+    if "price_change_pct" in pred:
+        return float(pred.get("price_change_pct") or 0.0)
+    return float(pred.get("pnl_pct") or 0.0)  # legacy rows stored the raw change
+
+
+def _is_valid_outcome(pred):
+    """Skip rows flagged invalid and legacy rows with an implausible move (unit mismatch)."""
+    if pred.get("invalid") or pred.get("correct") is None:
+        return False
+    return abs(_raw_price_change_pct(pred)) <= MAX_PLAUSIBLE_MOVE_PCT
+
+
+def _is_correct(pred):
+    """A flat price (legacy rows counted it as 'down') makes no directional call right."""
+    if not pred.get("correct"):
+        return False
+    return not (_raw_price_change_pct(pred) == 0.0 and int(pred.get("predicted_direction") or 0) != 0)
+
+
 def calculate_accuracy_stats():
     """
     Calculate stats per ticker and store them in memory.
@@ -259,7 +296,7 @@ def calculate_accuracy_stats():
     active_epoch = _active_ledger_epoch()
     resolved = [
         p for p in predictions.values()
-        if p.get("resolved") and int(p.get("ledger_epoch", 0)) == active_epoch
+        if p.get("resolved") and int(p.get("ledger_epoch", 0)) == active_epoch and _is_valid_outcome(p)
     ]
     if not resolved:
         # Do not keep stats of a previous epoch: overwrite with an explicit empty marker.
@@ -279,11 +316,11 @@ def calculate_accuracy_stats():
         if len(ticker_preds) < 3:
             continue
 
-        correct = sum(1 for p in ticker_preds if p.get("correct"))
+        correct = sum(1 for p in ticker_preds if _is_correct(p))
         total = len(ticker_preds)
         pnl_values = [_signed_pnl_pct(p) for p in ticker_preds]
         recent_5 = ticker_preds[-5:]
-        recent_acc = sum(1 for p in recent_5 if p.get("correct")) / max(1, len(recent_5))
+        recent_acc = sum(1 for p in recent_5 if _is_correct(p)) / max(1, len(recent_5))
 
         stats[ticker] = {
             "total_predictions": total,
@@ -292,17 +329,17 @@ def calculate_accuracy_stats():
             "avg_pnl_pct": round(float(np.mean(pnl_values)), 3),
             "trend": "improving" if recent_acc > (correct / total) else "declining",
             "last_5": [
-                {"date": p.get("date"), "correct": bool(p.get("correct")), "pnl": round(_signed_pnl_pct(p), 3)}
+                {"date": p.get("date"), "correct": _is_correct(p), "pnl": round(_signed_pnl_pct(p), 3)}
                 for p in recent_5
             ],
         }
 
-    overall_correct = sum(1 for p in resolved if p.get("correct"))
+    overall_correct = sum(1 for p in resolved if _is_correct(p))
     stats["_overall"] = {
         "total": len(resolved),
         "accuracy": round(overall_correct / len(resolved), 3),
         "avg_pnl": round(float(np.mean([_signed_pnl_pct(p) for p in resolved])), 3),
-        "win_rate": round(overall_correct / len(resolved), 3),
+        "win_rate": round(sum(1 for p in resolved if _signed_pnl_pct(p) > 0) / len(resolved), 3),
         "epoch": active_epoch,
     }
 
