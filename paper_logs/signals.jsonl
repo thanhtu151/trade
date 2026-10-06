@@ -6,3 +6,5 @@
 {"day": "2026-10-02", "signal": "E6_ma200d_b60", "monitor_only": true, "weight": 0.0, "reason": "off", "details": {"vn30": 1875.99, "ma200": 1959.24, "vn30_above": false, "breadth_pct": 26.0, "universe": 50}}
 {"day": "2026-10-05", "signal": "E1_ma10m", "monitor_only": false, "weight": 0.0, "reason": "close<ma10m", "details": {"close": 1894.46, "ma": 1959.3}}
 {"day": "2026-10-05", "signal": "E6_ma200d_b60", "monitor_only": true, "weight": 0.0, "reason": "off", "details": {"vn30": 1894.46, "ma200": 1958.98, "vn30_above": false, "breadth_pct": 28.0, "universe": 50}}
+{"day": "2026-10-06", "signal": "E1_ma10m", "monitor_only": false, "weight": 0.0, "reason": "close<ma10m", "details": {"close": 1898.82, "ma": 1959.73}}
+{"day": "2026-10-06", "signal": "E6_ma200d_b60", "monitor_only": true, "weight": 0.0, "reason": "off", "details": {"vn30": 1898.82, "ma200": 1958.85, "vn30_above": false, "breadth_pct": 28.0, "universe": 50}}
