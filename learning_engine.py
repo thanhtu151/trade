@@ -223,12 +223,16 @@ def resolve_predictions():
 
         entry_price = float(pred["entry_price"])
         actual_direction = 1 if current_price > entry_price else -1
-        pnl_pct = (current_price - entry_price) / entry_price * 100 if entry_price else 0.0
-        correct = actual_direction == int(pred.get("predicted_direction", 0))
+        price_change_pct = (current_price - entry_price) / entry_price * 100 if entry_price else 0.0
+        predicted_direction = int(pred.get("predicted_direction", 0))
+        # pnl_pct is the return of following the prediction (a correct bearish call is positive).
+        pnl_pct = price_change_pct * predicted_direction
+        correct = actual_direction == predicted_direction
 
         pred["actual_price_3d"] = float(current_price)
         pred["actual_direction"] = int(actual_direction)
         pred["correct"] = bool(correct)
+        pred["price_change_pct"] = round(float(price_change_pct), 3)
         pred["pnl_pct"] = round(float(pnl_pct), 3)
         pred["resolved"] = True
         pred["resolved_at"] = datetime.now().isoformat()
@@ -237,6 +241,14 @@ def resolve_predictions():
 
     _save_predictions(predictions)
     return resolved_count
+
+
+def _signed_pnl_pct(pred):
+    """Return of following the prediction. Legacy rows (no price_change_pct) stored the raw price change."""
+    pnl = float(pred.get("pnl_pct") or 0.0)
+    if "price_change_pct" in pred:
+        return pnl
+    return pnl * int(pred.get("predicted_direction") or 0)
 
 
 def calculate_accuracy_stats():
@@ -250,7 +262,13 @@ def calculate_accuracy_stats():
         if p.get("resolved") and int(p.get("ledger_epoch", 0)) == active_epoch
     ]
     if not resolved:
-        return {}
+        # Do not keep stats of a previous epoch: overwrite with an explicit empty marker.
+        stats = {"_overall": {"total": 0, "accuracy": 0.0, "avg_pnl": 0.0, "win_rate": None, "epoch": active_epoch}}
+        memory = _load_memory()
+        memory["accuracy_stats"] = stats
+        memory["updated_at"] = datetime.now().isoformat()
+        _save_memory(memory)
+        return stats
 
     resolved = sorted(resolved, key=lambda p: (p.get("ticker", ""), p.get("date", "")))
     stats = {}
@@ -263,7 +281,7 @@ def calculate_accuracy_stats():
 
         correct = sum(1 for p in ticker_preds if p.get("correct"))
         total = len(ticker_preds)
-        pnl_values = [float(p.get("pnl_pct") or 0.0) for p in ticker_preds]
+        pnl_values = [_signed_pnl_pct(p) for p in ticker_preds]
         recent_5 = ticker_preds[-5:]
         recent_acc = sum(1 for p in recent_5 if p.get("correct")) / max(1, len(recent_5))
 
@@ -274,7 +292,7 @@ def calculate_accuracy_stats():
             "avg_pnl_pct": round(float(np.mean(pnl_values)), 3),
             "trend": "improving" if recent_acc > (correct / total) else "declining",
             "last_5": [
-                {"date": p.get("date"), "correct": bool(p.get("correct")), "pnl": p.get("pnl_pct")}
+                {"date": p.get("date"), "correct": bool(p.get("correct")), "pnl": round(_signed_pnl_pct(p), 3)}
                 for p in recent_5
             ],
         }
@@ -283,7 +301,9 @@ def calculate_accuracy_stats():
     stats["_overall"] = {
         "total": len(resolved),
         "accuracy": round(overall_correct / len(resolved), 3),
-        "avg_pnl": round(float(np.mean([float(p.get("pnl_pct") or 0.0) for p in resolved])), 3),
+        "avg_pnl": round(float(np.mean([_signed_pnl_pct(p) for p in resolved])), 3),
+        "win_rate": round(overall_correct / len(resolved), 3),
+        "epoch": active_epoch,
     }
 
     memory = _load_memory()
