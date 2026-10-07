@@ -218,12 +218,16 @@ Trả về JSON:
         max_tokens=400,
     )
     if not isinstance(result, dict) or not result:
+        # No verdict from the LLM (router down / empty or unparsable reply).
+        # Flag it so the buy gate does not read this placeholder GIỮ as a veto.
+        log.warning("  %s: portfolio manager got no LLM verdict — placeholder GIỮ, llm_unavailable", ticker)
         return {
             "action": "GIỮ",
             "confidence": 30,
             "position_size_pct": 0,
             "agreed_with": "neither",
             "key_reason": "Không đủ thông tin để quyết định",
+            "llm_unavailable": True,
         }
     result.setdefault("action", "GIỮ")
     result.setdefault("confidence", 30)

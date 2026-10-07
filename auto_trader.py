@@ -441,11 +441,15 @@ def _get_market_regime_simple():
 def buy_consensus(item, ensemble_result, llm_result):
     """A BUY needs all of: score >= 3, LLM says MUA, ensemble direction +1 and reliable.
 
-    A failed/skipped LLM, GIU/BAN, or a neutral/unreliable ensemble means no buy.
+    A real LLM verdict of GIU/BAN, a skipped LLM (None), or a neutral/unreliable
+    ensemble means no buy. When stage 2 flags ``llm_unavailable`` (router down,
+    no verdict) the LLM leg is waived and score + ensemble decide on their own.
     """
     if float(item.get("score", 0)) < 3:
         return False
-    if not isinstance(llm_result, dict) or str(llm_result.get("action", "")).upper() not in {"MUA", "BUY"}:
+    if not isinstance(llm_result, dict):
+        return False
+    if not llm_result.get("llm_unavailable") and str(llm_result.get("action", "")).upper() not in {"MUA", "BUY"}:
         return False
     return int(ensemble_result.get("direction", 0)) == 1 and bool(ensemble_result.get("reliable"))
 
@@ -548,6 +552,7 @@ def stage2_deep_analysis(stage1_results, use_llm=True, use_ensemble=True, use_de
                                 "bull_summary": bull_case.get("summary"),
                                 "bear_summary": bear_case.get("summary"),
                                 "agreed_with": final_decision.get("agreed_with"),
+                                "llm_unavailable": bool(final_decision.get("llm_unavailable")),
                             }
                         except Exception as exc:
                             log.warning("  Stage2 %s debate failed, fallback to single LLM: %s", ticker, exc)
@@ -577,6 +582,20 @@ Tra ve JSON:
                 except Exception as exc:
                     log.warning("  Stage2 %s LLM failed: %s", ticker, exc)
 
+            # The LLM was due (same condition as above) but produced no verdict.
+            llm_unavailable = (
+                float(item.get("score", 0)) >= 3
+                and int(ensemble_result.get("direction", 0)) != -1
+                and (
+                    not isinstance(llm_result, dict)
+                    or not llm_result
+                    or bool(llm_result.get("llm_unavailable"))
+                )
+            )
+            if llm_unavailable:
+                log.warning("  Stage2 %s: LLM unavailable, falling back to score + ensemble consensus", ticker)
+                llm_result = {**(llm_result if isinstance(llm_result, dict) else {}), "llm_unavailable": True}
+
             final_score = float(item.get("weighted_score", 0))
             if ensemble_result.get("high_confidence"):
                 final_score += 1.0
@@ -596,6 +615,7 @@ Tra ve JSON:
                 "bear_case": bear_case,
                 "final_score": round(final_score, 2),
                 "tradeable": tradeable,
+                "llm_unavailable": llm_unavailable,
                 "weekly_trend": weekly_trend,
                 "news_sentiment": round(news_sentiment, 2),
             }
