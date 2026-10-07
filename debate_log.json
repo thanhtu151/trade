@@ -1,141 +1,6 @@
 [
   {
     "ticker": "VNM",
-    "date": "2026-07-29",
-    "time": "2026-07-29T11:54:09.109016",
-    "market_data": {
-      "price": 60.3,
-      "rsi": 68.0,
-      "macd_bull": true,
-      "vol_ratio": 0.93,
-      "score": 3.0,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 21617295.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": 0.0,
-    "actual_price_3d": 60.3
-  },
-  {
-    "ticker": "PVD",
-    "date": "2026-07-29",
-    "time": "2026-07-29T11:54:40.383352",
-    "market_data": {
-      "price": 18.4,
-      "rsi": 40.5,
-      "macd_bull": false,
-      "vol_ratio": 0.11,
-      "score": 3.0,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "sideways",
-      "news_sentiment": 1.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 21617295.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": -1.63,
-    "actual_price_3d": 18.1
-  },
-  {
-    "ticker": "VNM",
-    "date": "2026-07-30",
-    "time": "2026-07-30T11:41:45.405387",
-    "market_data": {
-      "price": 61.1,
-      "rsi": 67.7,
-      "macd_bull": true,
-      "vol_ratio": 0.92,
-      "score": 3.0,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 19775335.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": 0.0,
-    "actual_price_3d": 60.3
-  },
-  {
-    "ticker": "VNM",
     "date": "2026-07-31",
     "time": "2026-07-31T12:07:07.973923",
     "market_data": {
@@ -4461,6 +4326,135 @@
       "vol_ratio": 1.03,
       "score": 3.0,
       "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "SSI",
+    "date": "2026-10-07",
+    "time": "2026-10-07T08:34:17.769991",
+    "market_data": {
+      "price": 19750.0,
+      "rsi": 36.2,
+      "macd_bull": false,
+      "vol_ratio": 1.67,
+      "score": 4.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "MBB",
+    "date": "2026-10-07",
+    "time": "2026-10-07T08:34:24.970134",
+    "market_data": {
+      "price": 19200.0,
+      "rsi": 28.8,
+      "macd_bull": false,
+      "vol_ratio": 1.49,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "confidence": 50,
+      "top_3_reasons": [
+        "Không đủ data"
+      ],
+      "summary": "Bull case không xác định"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "confidence": 50,
+      "top_3_risks": [
+        "Không đủ data"
+      ],
+      "summary": "Bear case không xác định"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định"
+    },
+    "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "FRT",
+    "date": "2026-10-07",
+    "time": "2026-10-07T08:34:31.961519",
+    "market_data": {
+      "price": 145000.0,
+      "rsi": 74.4,
+      "macd_bull": true,
+      "vol_ratio": 0.89,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
       "weekly_trend": "uptrend",
       "news_sentiment": 0.0,
       "market_regime": "UNKNOWN",

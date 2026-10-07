@@ -4161,5 +4161,41 @@
     "logged_at": "2026-10-06T08:34:12.429438",
     "resolved": false,
     "ledger_epoch": 2
+  },
+  "ACB_2026-10-07": {
+    "id": "ACB_2026-10-07",
+    "ticker": "ACB",
+    "date": "2026-10-07",
+    "predicted_direction": 1,
+    "predicted_price": 20600.0,
+    "confidence": 59.6,
+    "source": "two_stage",
+    "notes": "stage1_score=1.5 llm=skip",
+    "entry_price": 20600.0,
+    "actual_price_3d": null,
+    "actual_direction": null,
+    "correct": null,
+    "pnl_pct": null,
+    "logged_at": "2026-10-07T08:34:49.346473",
+    "resolved": false,
+    "ledger_epoch": 2
+  },
+  "VIC_2026-10-07": {
+    "id": "VIC_2026-10-07",
+    "ticker": "VIC",
+    "date": "2026-10-07",
+    "predicted_direction": -1,
+    "predicted_price": 232000.0,
+    "confidence": 51.7,
+    "source": "two_stage",
+    "notes": "stage1_score=1.5 llm=skip",
+    "entry_price": 232000.0,
+    "actual_price_3d": null,
+    "actual_direction": null,
+    "correct": null,
+    "pnl_pct": null,
+    "logged_at": "2026-10-07T08:35:00.323029",
+    "resolved": false,
+    "ledger_epoch": 2
   }
 }
