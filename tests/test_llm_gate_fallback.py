@@ -45,7 +45,8 @@ def test_portfolio_manager_flags_placeholder_when_llm_returns_nothing(monkeypatc
     assert decision["action"] == "GIỮ" and decision["llm_unavailable"] is True
     assert "llm_unavailable" in caplog.text
 
-    monkeypatch.setattr(llm_router, "call_llm_json", lambda **_k: {"action": "GIỮ", "confidence": 60})
+    monkeypatch.setattr(llm_router, "call_llm_json", lambda **_k: {
+        "decision": "GIỮ", "confidence": 60, "reasons": ["rủi ro cao"], "risks": []})
     assert "llm_unavailable" not in debate_agents.portfolio_manager("SSI", {}, {}, {})
 
 

@@ -14,6 +14,7 @@ import pandas as pd
 import requests
 import streamlit as st
 from llm_router import call_llm, call_llm_json
+from llm_verdict import VERDICT_EXAMPLES, VERDICT_OUTPUT_FORMAT, parse_verdict
 from ledger_store import (
     commit_portfolio_and_ledger,
     current_epoch_id,
@@ -559,26 +560,44 @@ def stage2_deep_analysis(stage1_results, use_llm=True, use_ensemble=True, use_de
                             use_debate = False
 
                     if not use_debate:
-                        prompt = f"""{llm_context}
-Phan tich co phieu {ticker}:
-- Gia: {item.get('price', 0):,.0f} VND
-- RSI: {item.get('rsi', 0)}
-- MACD: {'bullish' if item.get('macd_bull') else 'bearish'}
-- SMA cross: {'golden' if item.get('sma_bull') else 'death'}
-- Volume ratio: {item.get('vol_ratio', 0)}x | ATR: {item.get('atr_pct', 0)}%
-- Bollinger position: {float(item.get('bb_pos', 0)):.1%}
-- Weekly trend: {weekly_str} (RSI weekly={weekly_rsi})
-- Confluence score: {item.get('score', 0)}/7
-- Ensemble: {ensemble_result.get('signal', 'N/A')} (confidence={ensemble_result.get('confidence', 0):.0f}%)
-- Signals: {item.get('signals', {})}
+                        prompt = f"""<context>
+<ticker>{ticker}</ticker>
+<technical>
+Giá: {item.get('price', 0):,.0f} VND
+RSI: {item.get('rsi', 0)}
+MACD: {'bullish' if item.get('macd_bull') else 'bearish'}
+SMA cross: {'golden' if item.get('sma_bull') else 'death'}
+Volume ratio: {item.get('vol_ratio', 0)}x TB20 | ATR: {item.get('atr_pct', 0)}%
+Bollinger position: {float(item.get('bb_pos', 0)):.1%}
+Confluence score: {item.get('score', 0)}/7
+Signals: {item.get('signals', {})}
+</technical>
+<ml>Ensemble: {ensemble_result.get('signal', 'N/A')} (confidence={ensemble_result.get('confidence', 0):.0f}%)</ml>
+<news>Sentiment tin tức (-1 đến 1): {news_sentiment:.2f}</news>
+<market>Weekly trend: {weekly_str} (RSI weekly={weekly_rsi})</market>
+<past_decisions>
+{(llm_context or '').strip() or 'Chưa có lịch sử dự đoán cho mã này.'}
+</past_decisions>
+</context>
 
-Tra ve JSON:
-{{"action": "MUA/BAN/GIU", "confidence": 0-100, "target_pct": <ti le tang>, "stoploss_pct": <ti le cat lo>, "reason": "<1 cau>"}}"""
-                        llm_result = call_llm_json(
+<instructions>
+Đánh giá {ticker} cho nhịp giao dịch vài phiên tới và chọn MUA, GIỮ hoặc BÁN, chỉ dựa trên số liệu trong <context>.
+</instructions>
+
+{VERDICT_EXAMPLES}
+
+{VERDICT_OUTPUT_FORMAT}"""
+                        verdict = parse_verdict(call_llm_json(
                             prompt=prompt,
-                            system="Ban la chuyen gia phan tich co phieu VN. Chi tra ve JSON.",
-                            max_tokens=200,
-                        )
+                            system="Bạn là chuyên viên phân tích cổ phiếu Việt Nam (HoSE/HNX). Bạn trả lời bằng một JSON object.",
+                            max_tokens=400,
+                        ))
+                        # A reply outside the schema stays empty -> llm_unavailable below, not a GIỮ.
+                        llm_result = {
+                            **verdict,
+                            "action": verdict["decision"],
+                            "reason": verdict["reasons"][0],
+                        } if verdict else {}
                 except Exception as exc:
                     log.warning("  Stage2 %s LLM failed: %s", ticker, exc)
 
