@@ -1741,8 +1741,8 @@ def execute_paper_trade(
         # data-corruption bug elsewhere must not get to size a real trade off of it.
         if equity > INITIAL_CASH * 50:
             log.error(
-                "%s: refusing BUY, equity %,.0f looks corrupted (>50x initial cash %,.0f)",
-                ticker, equity, INITIAL_CASH,
+                "%s: refusing BUY, equity %s looks corrupted (>50x initial cash %s)",
+                ticker, f"{equity:,.0f}", f"{INITIAL_CASH:,.0f}",
             )
             detail = f"Equity {equity:,.0f} looks corrupted, refusing to size trade"
             transition(state_file, idempotency_key, "skipped", detail)
@@ -1785,7 +1785,7 @@ def execute_paper_trade(
             transition(state_file, idempotency_key, "skipped", detail)
             return result("skipped", detail)
         if value + costs["fees"] > cash:
-            log.error("%s: cost %,.0f > cash %,.0f, abort", ticker, value + costs["fees"], cash)
+            log.error("%s: cost %s > cash %s, abort", ticker, f"{value + costs['fees']:,.0f}", f"{cash:,.0f}")
             detail = f"{ticker}: cost {value + costs['fees']:,.0f} > cash {cash:,.0f}"
             transition(state_file, idempotency_key, "skipped", detail)
             return result("skipped", detail)
@@ -1806,10 +1806,10 @@ def execute_paper_trade(
         from notify import notify_trade
         notify_trade(ticker, "BUY", shares, price)
         log.info(
-            "BUY %s: %s cp @ %,.0f Kelly=%.1f%% (%.1f%% portfolio)",
+            "BUY %s: %s cp @ %s Kelly=%.1f%% (%.1f%% portfolio)",
             ticker,
             shares,
-            price,
+            f"{price:,.0f}",
             kelly_fraction * 100,
             float(sizing.get("pct_portfolio", 0)),
         )
