@@ -524,12 +524,20 @@ def _last_bar_date(df):
         return None
 
 
-def _close_position_direct(portfolio, ticker, price, reason, market_df=None):
+def _close_position_direct(portfolio, ticker, price, reason, market_df=None, eod_close=False):
     global _last_close_block_reason
     _last_close_block_reason = None
     from self_healing import trading_is_allowed
 
-    if not trading_is_allowed(BASE_DIR, exit_order=True):
+    if eod_close:
+        # After the ATC the only valid fill is today's official close: refuse a stale bar.
+        bar_date = _last_bar_date(market_df) if market_df is not None else None
+        if bar_date != ict_today():
+            log.error("EOD close of %s blocked: latest bar %s is not today %s", ticker, bar_date, ict_today())
+            _last_close_block_reason = "EOD: chưa có nến đóng cửa của hôm nay"
+            return False
+    gate_kwargs = {"eod_close": True} if eod_close else {}
+    if not trading_is_allowed(BASE_DIR, exit_order=True, **gate_kwargs):
         log.error("Direct close blocked by trading safety gate for %s", ticker)
         _last_close_block_reason = "cổng an toàn (kill switch/phiên)"
         return False
@@ -1007,19 +1015,19 @@ def task_eod_update():
                         log.info("  %s: trailing stop -> +1ATR %.0f", ticker, new_stop)
 
                 if current_price <= stop_loss:
-                    if _close_position_direct(portfolio, ticker, current_price, "stop_loss", market_df=df):
+                    if _close_position_direct(portfolio, ticker, current_price, "stop_loss", market_df=df, eod_close=True):
                         closed += 1
                         updated = True
                         continue
 
                 if current_price >= target:
-                    if _close_position_direct(portfolio, ticker, current_price, "target", market_df=df):
+                    if _close_position_direct(portfolio, ticker, current_price, "target", market_df=df, eod_close=True):
                         closed += 1
                         updated = True
                         continue
 
                 if int(pos.get("hold_days", 0)) >= 15:
-                    if _close_position_direct(portfolio, ticker, current_price, "timeout", market_df=df):
+                    if _close_position_direct(portfolio, ticker, current_price, "timeout", market_df=df, eod_close=True):
                         closed += 1
                         updated = True
                         continue

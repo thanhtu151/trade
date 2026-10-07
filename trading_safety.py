@@ -19,6 +19,7 @@ ENABLE_CONFIRMATION = "ENABLE_TRADING"
 # HoSE daily price band; a paper fill further than this from the previous close is bad data.
 MAX_FILL_DEVIATION = 0.07
 EXIT_SESSION_END = time(14, 45)  # end of the ATC auction
+EOD_CLOSE_END = time(16, 30)  # EOD task may book exits at the official close until here (CI start delays)
 
 
 def vietnam_now() -> datetime:
@@ -44,7 +45,8 @@ def kill_switch_reason(base_dir=None) -> str | None:
     return None
 
 
-def market_session_reason(now: datetime | None = None, exit_order: bool = False) -> str | None:
+def market_session_reason(now: datetime | None = None, exit_order: bool = False,
+                          eod_close: bool = False) -> str | None:
     """Entries trade 09:15-11:25/13:00-14:25; exits may also use the ATC call.
 
     HoSE/HNX close with the ATC auction 14:30-14:45, so a stop-loss or EOD exit
@@ -61,6 +63,10 @@ def market_session_reason(now: datetime | None = None, exit_order: bool = False)
         return "market is closed for a VN exchange holiday"
     wall_time = current.time().replace(tzinfo=None)
     afternoon_end = EXIT_SESSION_END if exit_order else time(14, 25)
+    if eod_close:
+        # Paper fill at the already-published official close (ATC price); the caller must
+        # prove the bar is today's. Only after the ATC ends, never before 13:00.
+        afternoon_end = EOD_CLOSE_END
     morning = time(9, 15) <= wall_time <= time(11, 25)
     afternoon = time(13, 0) <= wall_time <= afternoon_end
     if not (morning or afternoon):
@@ -70,11 +76,12 @@ def market_session_reason(now: datetime | None = None, exit_order: bool = False)
     return None
 
 
-def operational_gate(base_dir=None, now: datetime | None = None, exit_order: bool = False) -> tuple[bool, str]:
+def operational_gate(base_dir=None, now: datetime | None = None, exit_order: bool = False,
+                     eod_close: bool = False) -> tuple[bool, str]:
     reason = kill_switch_reason(base_dir)
     if reason:
         return False, reason
-    reason = market_session_reason(now, exit_order=exit_order)
+    reason = market_session_reason(now, exit_order=exit_order, eod_close=eod_close)
     if reason:
         return False, reason
     return True, "operational gates passed"
