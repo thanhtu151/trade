@@ -442,11 +442,11 @@ def run_self_healing(base_dir=None, repair=True):
     return report
 
 
-def trading_permission(base_dir=None, exit_order=False):
+def trading_permission(base_dir=None, exit_order=False, eod_close=False):
     """Return a fail-closed decision and an operator-readable reason."""
     from trading_safety import operational_gate
 
-    operational, reason = operational_gate(base_dir=base_dir, exit_order=exit_order)
+    operational, reason = operational_gate(base_dir=base_dir, exit_order=exit_order, eod_close=eod_close)
     if not operational:
         return False, reason
     report = run_self_healing(base_dir=base_dir, repair=True)
@@ -496,9 +496,9 @@ def write_github_blocked_summary(report):
             handle.write("Kill switch is active; non-trading task state remains healthy.\n")
 
 
-def trading_is_allowed(base_dir=None, exit_order=False):
+def trading_is_allowed(base_dir=None, exit_order=False, eod_close=False):
     """Backward-compatible boolean gate; new callers should retain the reason."""
-    return trading_permission(base_dir, exit_order=exit_order)[0]
+    return trading_permission(base_dir, exit_order=exit_order, eod_close=eod_close)[0]
 
 
 def rebaseline(base_dir=None, reason="", operator=""):
