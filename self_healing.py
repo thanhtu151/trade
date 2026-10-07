@@ -462,6 +462,27 @@ def audit_exit_code(report):
     return 2 if non_switch else 0
 
 
+def heal_task_state(report):
+    """Map an audit report to a system_status task state, mirroring scheduler's run_heal."""
+    critical = [str(item) for item in report.get("critical") or []]
+    if [item for item in critical if not item.lower().startswith("trading kill switch:")]:
+        return "failed", "self-healing found critical state: " + "; ".join(critical)
+    if not report.get("trading_allowed") and critical and not report.get("inhibitors"):
+        return "blocked", "; ".join(critical)
+    return "success", None
+
+
+def record_heal_status(report, base_dir=None):
+    """The daily audit refreshes tasks.heal so the EOD summary never shows a stale row."""
+    try:
+        from system_status import update_task
+
+        state, reason = heal_task_state(report)
+        update_task(base_dir or Path(__file__).resolve().parent, "heal", state, error=reason)
+    except Exception as exc:
+        logging.getLogger(__name__).warning("Recording heal status failed safely: %s", type(exc).__name__)
+
+
 def write_github_blocked_summary(report):
     if audit_exit_code(report) != 0:
         return
@@ -663,6 +684,7 @@ if __name__ == "__main__":
     result = run_self_healing()
     print(json.dumps(result, ensure_ascii=False, indent=2))
     write_github_blocked_summary(result)
+    record_heal_status(result)
     if args.maintenance_audit:
         raise SystemExit(audit_exit_code(result))
     raise SystemExit(audit_exit_code(result))

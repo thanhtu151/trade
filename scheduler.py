@@ -356,6 +356,7 @@ def task_market_analysis():
                 "tradeable": tradeable,
                 "tradeable_tickers": tradeable_tickers,
                 "eligible_tickers": tradeable_tickers,
+                "llm_unavailable": [row.get("ticker") for row in stage2_results if row.get("llm_unavailable")],
             },
             f,
             ensure_ascii=False,

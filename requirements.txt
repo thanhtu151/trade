@@ -36,6 +36,10 @@ beautifulsoup4==4.15.0
 soupsieve==2.8.4
 lxml==6.1.1
 
+# --- LLM (llm_router uses the OpenAI-compatible client for every provider;
+# without it every LLM call fails and the debate judge returns a placeholder) ---
+openai==3.26.0
+
 # --- ML (tabular ensemble; TensorFlow/Keras are in requirements-ml.txt) ---
 scikit-learn==1.7.2
 xgboost==3.2.0

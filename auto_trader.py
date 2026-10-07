@@ -14,6 +14,7 @@ import pandas as pd
 import requests
 import streamlit as st
 from llm_router import call_llm, call_llm_json
+from llm_verdict import VERDICT_EXAMPLES, VERDICT_OUTPUT_FORMAT, parse_verdict
 from ledger_store import (
     commit_portfolio_and_ledger,
     current_epoch_id,
@@ -441,11 +442,15 @@ def _get_market_regime_simple():
 def buy_consensus(item, ensemble_result, llm_result):
     """A BUY needs all of: score >= 3, LLM says MUA, ensemble direction +1 and reliable.
 
-    A failed/skipped LLM, GIU/BAN, or a neutral/unreliable ensemble means no buy.
+    A real LLM verdict of GIU/BAN, a skipped LLM (None), or a neutral/unreliable
+    ensemble means no buy. When stage 2 flags ``llm_unavailable`` (router down,
+    no verdict) the LLM leg is waived and score + ensemble decide on their own.
     """
     if float(item.get("score", 0)) < 3:
         return False
-    if not isinstance(llm_result, dict) or str(llm_result.get("action", "")).upper() not in {"MUA", "BUY"}:
+    if not isinstance(llm_result, dict):
+        return False
+    if not llm_result.get("llm_unavailable") and str(llm_result.get("action", "")).upper() not in {"MUA", "BUY"}:
         return False
     return int(ensemble_result.get("direction", 0)) == 1 and bool(ensemble_result.get("reliable"))
 
@@ -548,34 +553,67 @@ def stage2_deep_analysis(stage1_results, use_llm=True, use_ensemble=True, use_de
                                 "bull_summary": bull_case.get("summary"),
                                 "bear_summary": bear_case.get("summary"),
                                 "agreed_with": final_decision.get("agreed_with"),
+                                "llm_unavailable": bool(final_decision.get("llm_unavailable")),
                             }
                         except Exception as exc:
                             log.warning("  Stage2 %s debate failed, fallback to single LLM: %s", ticker, exc)
                             use_debate = False
 
                     if not use_debate:
-                        prompt = f"""{llm_context}
-Phan tich co phieu {ticker}:
-- Gia: {item.get('price', 0):,.0f} VND
-- RSI: {item.get('rsi', 0)}
-- MACD: {'bullish' if item.get('macd_bull') else 'bearish'}
-- SMA cross: {'golden' if item.get('sma_bull') else 'death'}
-- Volume ratio: {item.get('vol_ratio', 0)}x | ATR: {item.get('atr_pct', 0)}%
-- Bollinger position: {float(item.get('bb_pos', 0)):.1%}
-- Weekly trend: {weekly_str} (RSI weekly={weekly_rsi})
-- Confluence score: {item.get('score', 0)}/7
-- Ensemble: {ensemble_result.get('signal', 'N/A')} (confidence={ensemble_result.get('confidence', 0):.0f}%)
-- Signals: {item.get('signals', {})}
+                        prompt = f"""<context>
+<ticker>{ticker}</ticker>
+<technical>
+Giá: {item.get('price', 0):,.0f} VND
+RSI: {item.get('rsi', 0)}
+MACD: {'bullish' if item.get('macd_bull') else 'bearish'}
+SMA cross: {'golden' if item.get('sma_bull') else 'death'}
+Volume ratio: {item.get('vol_ratio', 0)}x TB20 | ATR: {item.get('atr_pct', 0)}%
+Bollinger position: {float(item.get('bb_pos', 0)):.1%}
+Confluence score: {item.get('score', 0)}/7
+Signals: {item.get('signals', {})}
+</technical>
+<ml>Ensemble: {ensemble_result.get('signal', 'N/A')} (confidence={ensemble_result.get('confidence', 0):.0f}%)</ml>
+<news>Sentiment tin tức (-1 đến 1): {news_sentiment:.2f}</news>
+<market>Weekly trend: {weekly_str} (RSI weekly={weekly_rsi})</market>
+<past_decisions>
+{(llm_context or '').strip() or 'Chưa có lịch sử dự đoán cho mã này.'}
+</past_decisions>
+</context>
 
-Tra ve JSON:
-{{"action": "MUA/BAN/GIU", "confidence": 0-100, "target_pct": <ti le tang>, "stoploss_pct": <ti le cat lo>, "reason": "<1 cau>"}}"""
-                        llm_result = call_llm_json(
+<instructions>
+Đánh giá {ticker} cho nhịp giao dịch vài phiên tới và chọn MUA, GIỮ hoặc BÁN, chỉ dựa trên số liệu trong <context>.
+</instructions>
+
+{VERDICT_EXAMPLES}
+
+{VERDICT_OUTPUT_FORMAT}"""
+                        verdict = parse_verdict(call_llm_json(
                             prompt=prompt,
-                            system="Ban la chuyen gia phan tich co phieu VN. Chi tra ve JSON.",
-                            max_tokens=200,
-                        )
+                            system="Bạn là chuyên viên phân tích cổ phiếu Việt Nam (HoSE/HNX). Bạn trả lời bằng một JSON object.",
+                            max_tokens=400,
+                        ))
+                        # A reply outside the schema stays empty -> llm_unavailable below, not a GIỮ.
+                        llm_result = {
+                            **verdict,
+                            "action": verdict["decision"],
+                            "reason": verdict["reasons"][0],
+                        } if verdict else {}
                 except Exception as exc:
                     log.warning("  Stage2 %s LLM failed: %s", ticker, exc)
+
+            # The LLM was due (same condition as above) but produced no verdict.
+            llm_unavailable = (
+                float(item.get("score", 0)) >= 3
+                and int(ensemble_result.get("direction", 0)) != -1
+                and (
+                    not isinstance(llm_result, dict)
+                    or not llm_result
+                    or bool(llm_result.get("llm_unavailable"))
+                )
+            )
+            if llm_unavailable:
+                log.warning("  Stage2 %s: LLM unavailable, falling back to score + ensemble consensus", ticker)
+                llm_result = {**(llm_result if isinstance(llm_result, dict) else {}), "llm_unavailable": True}
 
             final_score = float(item.get("weighted_score", 0))
             if ensemble_result.get("high_confidence"):
@@ -596,6 +634,7 @@ Tra ve JSON:
                 "bear_case": bear_case,
                 "final_score": round(final_score, 2),
                 "tradeable": tradeable,
+                "llm_unavailable": llm_unavailable,
                 "weekly_trend": weekly_trend,
                 "news_sentiment": round(news_sentiment, 2),
             }

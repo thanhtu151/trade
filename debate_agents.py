@@ -9,6 +9,7 @@ from datetime import datetime
 from pathlib import Path
 import time
 
+from llm_verdict import VERDICT_EXAMPLES, VERDICT_OUTPUT_FORMAT, parse_verdict
 
 BASE_DIR = Path(__file__).parent
 log = logging.getLogger("debate_agents")
@@ -65,54 +66,76 @@ def get_past_decisions(ticker, max_recent=3):
     return "\n".join(lines)
 
 
+def _market_context(ticker, market_data, learning_context="", extra=""):
+    """Data block placed first in every debate prompt; instructions follow it."""
+    md = market_data or {}
+    past = (learning_context or "").strip() or "Chưa có quyết định trước cho mã này."
+    return f"""<context>
+<ticker>{ticker}</ticker>
+<technical>
+Giá: {_safe_float(md.get('price', 0)):,.0f} VND
+RSI: {md.get('rsi', 'N/A')}
+MACD: {"bullish" if md.get('macd_bull') else "bearish"}
+Volume: {_safe_float(md.get('vol_ratio', 1), 1.0):.1f}x TB20
+Stage1 score: {_safe_float(md.get('score', 0)):,.1f}/7
+</technical>
+<ml>Ensemble: {md.get('ensemble_signal', 'N/A')}</ml>
+<news>Sentiment tin tức (-1 đến 1): {_safe_float(md.get('news_sentiment', 0), 0.0):.2f}</news>
+<market>
+Weekly trend: {md.get('weekly_trend', 'N/A')}
+Market regime: {md.get('market_regime', 'UNKNOWN')}
+</market>
+<past_decisions>
+{past}
+</past_decisions>{extra}
+</context>"""
+
+
+def _case_text(case, legacy_key):
+    if not case or case.get("llm_unavailable"):
+        return "Không có ý kiến (LLM không phản hồi)."
+    reasons = case.get("reasons") or case.get(legacy_key) or []
+    risks = case.get("risks") or []
+    return (
+        f"Quyết định: {case.get('decision', 'N/A')}\n"
+        f"Luận điểm: {'; '.join(map(str, reasons)) or 'N/A'}\n"
+        f"Điểm yếu: {'; '.join(map(str, risks)) or 'N/A'}"
+    )
+
+
 def bull_analyst(ticker, market_data, learning_context=""):
     """
     Bull Analyst: Tìm lý do TẠI SAO NÊN MUA.
     """
     from llm_router import call_llm_json
 
-    prompt = f"""Bạn là Bull Analyst chuyên gia tìm cơ hội MUA.
-Nhiệm vụ: Đưa ra CASE TỐT NHẤT để MUA {ticker}.
-Chỉ tập trung vào upside, đừng đề cập downside.
+    prompt = f"""{_market_context(ticker, market_data, learning_context)}
 
-DỮ LIỆU:
-- Giá: {_safe_float(market_data.get('price', 0)):,.0f} VND
-- RSI: {market_data.get('rsi', 'N/A')}
-- MACD: {"bullish" if market_data.get('macd_bull') else "bearish"}
-- Volume: {_safe_float(market_data.get('vol_ratio', 1), 1.0):.1f}x TB20
-- Stage1 Score: {_safe_float(market_data.get('score', 0)):,.1f}/7
-- Ensemble: {market_data.get('ensemble_signal', 'N/A')}
-- Weekly trend: {market_data.get('weekly_trend', 'N/A')}
-- News sentiment: {_safe_float(market_data.get('news_sentiment', 0), 0.0):.2f}
-{learning_context}
+<instructions>
+Bạn đóng vai Bull trong cuộc tranh luận về {ticker}. Hãy trình bày luận điểm mua mạnh nhất mà dữ liệu trong <context> cho phép; Bear sẽ trình bày phía ngược lại nên bạn không cần cân bằng hai phía.
+- Chỉ dùng số liệu có trong <context>, không thêm tin tức hay con số khác.
+- Chọn MUA khi có luận điểm tăng giá đáng tin; nếu dữ liệu không ủng hộ, chọn GIỮ với confidence thấp.
+- reasons là các luận điểm tăng giá; risks là điều kiện khiến luận điểm mua sai.
+</instructions>
 
-Trả về JSON:
-{{
-  "stance": "BULL",
-  "confidence": <0-100>,
-  "top_3_reasons": ["lý do 1", "lý do 2", "lý do 3"],
-  "target_price": <giá mục tiêu>,
-  "catalyst": "<trigger chính để giá tăng>",
-  "summary": "<1 câu tóm tắt case bull>"
-}}"""
+{VERDICT_EXAMPLES}
 
-    result = call_llm_json(
+{VERDICT_OUTPUT_FORMAT}"""
+
+    verdict = parse_verdict(call_llm_json(
         prompt=prompt,
-        system="Bạn là bull analyst chuyên nghiệp. Trả về chỉ JSON.",
+        system="Bạn là chuyên viên phân tích cổ phiếu Việt Nam (HoSE/HNX), đóng vai Bull trong cuộc tranh luận Bull/Bear. Bạn trả lời bằng một JSON object.",
         max_tokens=400,
-    )
-    if not isinstance(result, dict) or not result:
+    ))
+    if verdict is None:
         return {
             "stance": "BULL",
             "confidence": 50,
             "top_3_reasons": ["Không đủ data"],
             "summary": "Bull case không xác định",
+            "llm_unavailable": True,
         }
-    result.setdefault("stance", "BULL")
-    result.setdefault("confidence", 50)
-    result.setdefault("top_3_reasons", ["Không đủ data"])
-    result.setdefault("summary", "Bull case không xác định")
-    return result
+    return {"stance": "BULL", **verdict, "top_3_reasons": verdict["reasons"][:3], "summary": verdict["reasons"][0]}
 
 
 def bear_analyst(ticker, market_data, learning_context=""):
@@ -121,49 +144,33 @@ def bear_analyst(ticker, market_data, learning_context=""):
     """
     from llm_router import call_llm_json
 
-    prompt = f"""Bạn là Bear Analyst chuyên gia nhận diện rủi ro.
-Nhiệm vụ: Đưa ra CASE TỐT NHẤT để KHÔNG MUA hoặc BÁN {ticker}.
-Chỉ tập trung vào downside, đừng đề cập upside.
+    prompt = f"""{_market_context(ticker, market_data, learning_context)}
 
-DỮ LIỆU:
-- Giá: {_safe_float(market_data.get('price', 0)):,.0f} VND
-- RSI: {market_data.get('rsi', 'N/A')}
-- MACD: {"bullish" if market_data.get('macd_bull') else "bearish"}
-- Volume: {_safe_float(market_data.get('vol_ratio', 1), 1.0):.1f}x TB20
-- Stage1 Score: {_safe_float(market_data.get('score', 0)):,.1f}/7
-- Ensemble: {market_data.get('ensemble_signal', 'N/A')}
-- Weekly trend: {market_data.get('weekly_trend', 'N/A')}
-- News sentiment: {_safe_float(market_data.get('news_sentiment', 0), 0.0):.2f}
-- Market regime: {market_data.get('market_regime', 'UNKNOWN')}
-{learning_context}
+<instructions>
+Bạn đóng vai Bear trong cuộc tranh luận về {ticker}. Hãy trình bày luận điểm mạnh nhất để không mua hoặc bán mã này dựa trên dữ liệu trong <context>; Bull sẽ trình bày phía ngược lại nên bạn không cần cân bằng hai phía.
+- Chỉ dùng số liệu có trong <context>, không thêm tin tức hay con số khác.
+- Chọn BÁN khi rủi ro giảm giá rõ ràng; nếu dữ liệu không cho thấy rủi ro đáng kể, chọn GIỮ với confidence thấp.
+- reasons là các rủi ro giảm giá; risks là điều kiện khiến luận điểm Bear sai.
+</instructions>
 
-Trả về JSON:
-{{
-  "stance": "BEAR",
-  "confidence": <0-100>,
-  "top_3_risks": ["rủi ro 1", "rủi ro 2", "rủi ro 3"],
-  "downside_target": <giá giảm có thể>,
-  "main_risk": "<rủi ro lớn nhất>",
-  "summary": "<1 câu tóm tắt case bear>"
-}}"""
+{VERDICT_EXAMPLES}
 
-    result = call_llm_json(
+{VERDICT_OUTPUT_FORMAT}"""
+
+    verdict = parse_verdict(call_llm_json(
         prompt=prompt,
-        system="Bạn là bear analyst chuyên nghiệp. Trả về chỉ JSON.",
+        system="Bạn là chuyên viên quản trị rủi ro cổ phiếu Việt Nam (HoSE/HNX), đóng vai Bear trong cuộc tranh luận Bull/Bear. Bạn trả lời bằng một JSON object.",
         max_tokens=400,
-    )
-    if not isinstance(result, dict) or not result:
+    ))
+    if verdict is None:
         return {
             "stance": "BEAR",
             "confidence": 50,
             "top_3_risks": ["Không đủ data"],
             "summary": "Bear case không xác định",
+            "llm_unavailable": True,
         }
-    result.setdefault("stance", "BEAR")
-    result.setdefault("confidence", 50)
-    result.setdefault("top_3_risks", ["Không đủ data"])
-    result.setdefault("summary", "Bear case không xác định")
-    return result
+    return {"stance": "BEAR", **verdict, "top_3_risks": verdict["reasons"][:3], "summary": verdict["reasons"][0]}
 
 
 def portfolio_manager(ticker, bull_case, bear_case, market_data, learning_context=""):
@@ -174,63 +181,52 @@ def portfolio_manager(ticker, bull_case, bear_case, market_data, learning_contex
 
     bull_conf = _safe_float(bull_case.get("confidence", 50), 50)
     bear_conf = _safe_float(bear_case.get("confidence", 50), 50)
+    debate = f"""
+<bull_case confidence="{bull_conf:.0f}">
+{_case_text(bull_case, "top_3_reasons")}
+</bull_case>
+<bear_case confidence="{bear_conf:.0f}">
+{_case_text(bear_case, "top_3_risks")}
+</bear_case>
+<portfolio>Tiền mặt khả dụng: {_safe_float((market_data or {}).get('cash_available', 0)):,.0f} VND</portfolio>"""
 
-    prompt = f"""Bạn là Portfolio Manager người ra quyết định cuối cùng.
-Bạn đã nghe Bull Analyst và Bear Analyst tranh luận về {ticker}.
-Hãy đưa ra quyết định CUỐI CÙNG dựa trên cả 2 case.
+    prompt = f"""{_market_context(ticker, market_data, learning_context, extra=debate)}
 
-BULL CASE (confidence {bull_conf}%):
-- {bull_case.get('summary', 'N/A')}
-- Top reasons: {bull_case.get('top_3_reasons', [])}
-- Target: {bull_case.get('target_price', 'N/A')}
+<instructions>
+Bạn là Portfolio Manager, người ra quyết định cuối cùng cho {ticker} sau khi nghe Bull và Bear tranh luận. Cân nhắc cả hai phía dựa trên số liệu trong <context> rồi đưa ra một quyết định rõ ràng: MUA, GIỮ hoặc BÁN.
+Quy tắc quyết định:
+1. Khi market regime là BEAR_TREND, chỉ chọn MUA nếu Bull confidence > 70 và Bear confidence < 40.
+2. Khi ensemble bearish, không chọn MUA dù luận điểm Bull mạnh.
+3. Chỉ chọn MUA khi Risk/Reward (lợi nhuận kỳ vọng / mức lỗ tới điểm cắt lỗ) > 1.5; ghi tỷ lệ ước tính trong reasons.
+</instructions>
 
-BEAR CASE (confidence {bear_conf}%):
-- {bear_case.get('summary', 'N/A')}
-- Top risks: {bear_case.get('top_3_risks', [])}
-- Downside: {bear_case.get('downside_target', 'N/A')}
+{VERDICT_EXAMPLES}
 
-CONTEXT:
-- Market regime: {market_data.get('market_regime', 'UNKNOWN')}
-- Giá hiện tại: {_safe_float(market_data.get('price', 0)):,.0f}
-- Portfolio cash available: {_safe_float(market_data.get('cash_available', 0)):,.0f} VND
-{learning_context}
+{VERDICT_OUTPUT_FORMAT}"""
 
-QUY TẮC:
-- Nếu market regime = BEAR_TREND chỉ MUA khi bull_conf > 70 VÀ bear_conf < 40
-- Nếu ensemble bearish không MUA dù bull case mạnh
-- Risk/Reward phải > 1.5 để MUA
-
-Trả về JSON:
-{{
-  "action": "MUA/BÁN/GIỮ",
-  "confidence": <0-100>,
-  "position_size_pct": <% portfolio nên dùng, 0 nếu GIỮ>,
-  "agreed_with": "bull/bear/neither",
-  "key_reason": "<lý do quyết định chính>",
-  "risk_reward": <tỷ lệ risk/reward>,
-  "target": <giá mục tiêu>,
-  "stoploss": <giá cắt lỗ>
-}}"""
-
-    result = call_llm_json(
+    verdict = parse_verdict(call_llm_json(
         prompt=prompt,
-        system="Bạn là portfolio manager chuyên nghiệp. Quyết định dứt khoát. Trả về chỉ JSON.",
+        system="Bạn là Portfolio Manager của một quỹ cổ phiếu Việt Nam (HoSE/HNX), ra quyết định cuối cùng sau tranh luận Bull/Bear. Bạn trả lời bằng một JSON object.",
         max_tokens=400,
-    )
-    if not isinstance(result, dict) or not result:
+    ))
+    if verdict is None:
+        # No usable verdict (router down, empty reply, or reply outside the schema).
+        # Flag it so the buy gate does not read this placeholder GIỮ as a veto.
+        log.warning("  %s: portfolio manager got no LLM verdict — placeholder GIỮ, llm_unavailable", ticker)
         return {
             "action": "GIỮ",
             "confidence": 30,
             "position_size_pct": 0,
             "agreed_with": "neither",
             "key_reason": "Không đủ thông tin để quyết định",
+            "llm_unavailable": True,
         }
-    result.setdefault("action", "GIỮ")
-    result.setdefault("confidence", 30)
-    result.setdefault("position_size_pct", 0)
-    result.setdefault("agreed_with", "neither")
-    result.setdefault("key_reason", "Không đủ thông tin để quyết định")
-    return result
+    return {
+        **verdict,
+        "action": verdict["decision"],
+        "agreed_with": {"MUA": "bull", "BÁN": "bear"}.get(verdict["decision"], "neither"),
+        "key_reason": verdict["reasons"][0],
+    }
 
 
 def run_debate(ticker, market_data):

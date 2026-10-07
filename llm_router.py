@@ -290,6 +290,10 @@ def call_llm(
     skip = set(skip_providers or [])
 
     if OpenAI is None:
+        log.warning(
+            "[LLMRouter] LLM unavailable: package 'openai' is not installed "
+            "(pip install -r requirements.txt) — every LLM call fails"
+        )
         return {
             "content": None,
             "provider": None,
@@ -350,6 +354,10 @@ def call_llm(
 
     usage["fail_calls"] = int(usage.get("fail_calls", 0)) + 1
     _save_usage(usage)
+    log.warning(
+        "[LLMRouter] LLM unavailable: %s",
+        last_error or f"no usable provider ({len(providers)} configured)",
+    )
     return {
         "content": None,
         "provider": None,
