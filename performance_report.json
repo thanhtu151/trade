@@ -1,10 +1,12 @@
 {
-  "date": "2026-10-06",
+  "date": "2026-10-07",
   "overall": {
     "total": 0,
     "accuracy": 0.0,
-    "avg_pnl": 0.0
+    "avg_pnl": 0.0,
+    "win_rate": null,
+    "epoch": 2
   },
   "by_ticker": {},
-  "generated_at": "2026-10-06T00:36:52.457910"
+  "generated_at": "2026-10-07T16:02:57.872391"
 }
