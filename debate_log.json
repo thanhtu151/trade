@@ -4089,8 +4089,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Cần xác định rõ bull case và bear case để đưa ra quyết định đầu tư chính xác hơn.",
+    "pnl_pct": -3.3,
+    "actual_price_3d": 19050.0
   },
   {
     "ticker": "SSI",
@@ -4132,8 +4134,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Cần xác định rõ bull case và bear case trước khi đưa ra quyết định đầu tư để giảm thiểu rủi ro và tăng cơ hội lợi nhuận.",
+    "pnl_pct": -3.3,
+    "actual_price_3d": 19050.0
   },
   {
     "ticker": "FRT",
@@ -4218,8 +4222,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Cần xác định rõ bull case và bear case để đưa ra quyết định đầu tư chính xác hơn.",
+    "pnl_pct": -3.3,
+    "actual_price_3d": 19050.0
   },
   {
     "ticker": "MBB",
@@ -4597,7 +4603,9 @@
       "key_reason": "RSI 18.7 quá bán nhưng MACD bearish cho thấy xu hướng giảm"
     },
     "elapsed_sec": 10.3,
-    "outcome": null,
-    "reflection": null
+    "outcome": "correct",
+    "reflection": "Cần kết hợp nhiều chỉ số kỹ thuật để đánh giá xu hướng chính xác hơn",
+    "pnl_pct": -3.3,
+    "actual_price_3d": 19050.0
   }
 ]
