@@ -1,185 +1,5 @@
 [
   {
-    "ticker": "VNM",
-    "date": "2026-07-31",
-    "time": "2026-07-31T12:07:07.973923",
-    "market_data": {
-      "price": 60.5,
-      "rsi": 70.7,
-      "macd_bull": true,
-      "vol_ratio": 0.41,
-      "score": 3.0,
-      "ensemble_signal": "tăng mạnh",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 19775335.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": 0.0,
-    "actual_price_3d": 60.3
-  },
-  {
-    "ticker": "FRT",
-    "date": "2026-08-03",
-    "time": "2026-08-03T12:15:51.061303",
-    "market_data": {
-      "price": 133.1,
-      "rsi": 73.2,
-      "macd_bull": true,
-      "vol_ratio": 2.74,
-      "score": 3.5,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 19775335.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": -0.75,
-    "actual_price_3d": 132.1
-  },
-  {
-    "ticker": "VNM",
-    "date": "2026-08-03",
-    "time": "2026-08-03T12:16:01.877165",
-    "market_data": {
-      "price": 60.3,
-      "rsi": 68.1,
-      "macd_bull": true,
-      "vol_ratio": 0.51,
-      "score": 3.0,
-      "ensemble_signal": "tăng mạnh",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 19775335.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": 0.0,
-    "actual_price_3d": 60.3
-  },
-  {
-    "ticker": "GMD",
-    "date": "2026-08-03",
-    "time": "2026-08-03T12:16:14.287143",
-    "market_data": {
-      "price": 76.8,
-      "rsi": 47.9,
-      "macd_bull": true,
-      "vol_ratio": 0.25,
-      "score": 3.0,
-      "ensemble_signal": "tăng mạnh",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 19775335.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": 0.39,
-    "actual_price_3d": 77.1
-  },
-  {
     "ticker": "PVD",
     "date": "2026-08-05",
     "time": "2026-08-05T11:50:23.045046",
@@ -4484,6 +4304,299 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "VIB",
+    "date": "2026-10-08",
+    "time": "2026-10-08T08:33:42.771401",
+    "market_data": {
+      "price": 13900.0,
+      "rsi": 58.3,
+      "macd_bull": true,
+      "vol_ratio": 2.36,
+      "score": 4.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "decision": "MUA",
+      "confidence": 60,
+      "reasons": [
+        "MACD bullish và volume 2.4x TB20 cho thấy dòng tiền mạnh",
+        "Weekly trend uptrend ủng hộ xu hướng tăng"
+      ],
+      "risks": [
+        "RSI 58.3 có thể vào vùng quá mua nếu tăng thêm vài phiên",
+        "Ensemble không rõ ràng có thể ảnh hưởng đến quyết định mua"
+      ],
+      "top_3_reasons": [
+        "MACD bullish và volume 2.4x TB20 cho thấy dòng tiền mạnh",
+        "Weekly trend uptrend ủng hộ xu hướng tăng"
+      ],
+      "summary": "MACD bullish và volume 2.4x TB20 cho thấy dòng tiền mạnh"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "decision": "GIỮ",
+      "confidence": 40,
+      "reasons": [
+        "RSI 58.3 chưa vào vùng quá mua",
+        "Volume 2.4x TB20 cao nhưng không rõ xu hướng",
+        "Sentiment tin tức 0.00 trung tính"
+      ],
+      "risks": [
+        "MACD bullish có thể kéo giá lên",
+        "Weekly trend uptrend có thể tiếp tục"
+      ],
+      "top_3_risks": [
+        "RSI 58.3 chưa vào vùng quá mua",
+        "Volume 2.4x TB20 cao nhưng không rõ xu hướng",
+        "Sentiment tin tức 0.00 trung tính"
+      ],
+      "summary": "RSI 58.3 chưa vào vùng quá mua"
+    },
+    "final_decision": {
+      "decision": "MUA",
+      "confidence": 65,
+      "reasons": [
+        "MACD bullish và volume 2.4x TB20 cho thấy dòng tiền mạnh",
+        "Weekly trend uptrend ủng hộ xu hướng tăng"
+      ],
+      "risks": [
+        "RSI 58.3 có thể vào vùng quá mua nếu tăng thêm vài phiên",
+        "Ensemble không rõ ràng có thể ảnh hưởng đến quyết định mua"
+      ],
+      "action": "MUA",
+      "agreed_with": "bull",
+      "key_reason": "MACD bullish và volume 2.4x TB20 cho thấy dòng tiền mạnh"
+    },
+    "elapsed_sec": 10.8,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "FRT",
+    "date": "2026-10-08",
+    "time": "2026-10-08T08:33:58.728188",
+    "market_data": {
+      "price": 150500.0,
+      "rsi": 76.8,
+      "macd_bull": true,
+      "vol_ratio": 1.9,
+      "score": 4.5,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "decision": "MUA",
+      "confidence": 80,
+      "reasons": [
+        "Ensemble tăng mạnh cùng chiều weekly uptrend",
+        "MACD bullish, volume 1.9x TB20 xác nhận dòng tiền mạnh",
+        "Stage1 score 4.5/7 cho thấy tiềm năng tăng trưởng"
+      ],
+      "risks": [
+        "RSI 76.8 đã vào vùng quá mua, có thể điều chỉnh ngắn hạn"
+      ],
+      "top_3_reasons": [
+        "Ensemble tăng mạnh cùng chiều weekly uptrend",
+        "MACD bullish, volume 1.9x TB20 xác nhận dòng tiền mạnh",
+        "Stage1 score 4.5/7 cho thấy tiềm năng tăng trưởng"
+      ],
+      "summary": "Ensemble tăng mạnh cùng chiều weekly uptrend"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "decision": "GIỮ",
+      "confidence": 40,
+      "reasons": [
+        "RSI 76.8 quá mua có thể dẫn đến điều chỉnh",
+        "Volume 1.9x TB20 chưa đủ mạnh để xác nhận uptrend",
+        "Sentiment tin tức trung lập 0.00 không ủng hộ tăng mạnh"
+      ],
+      "risks": [
+        "Ensemble tăng mạnh có thể kéo giá lên ngắn hạn",
+        "Weekly trend uptrend có thể tiếp tục nếu có tín hiệu kỹ thuật hỗ trợ"
+      ],
+      "top_3_risks": [
+        "RSI 76.8 quá mua có thể dẫn đến điều chỉnh",
+        "Volume 1.9x TB20 chưa đủ mạnh để xác nhận uptrend",
+        "Sentiment tin tức trung lập 0.00 không ủng hộ tăng mạnh"
+      ],
+      "summary": "RSI 76.8 quá mua có thể dẫn đến điều chỉnh"
+    },
+    "final_decision": {
+      "decision": "MUA",
+      "confidence": 80,
+      "reasons": [
+        "Ensemble tăng mạnh cùng chiều weekly uptrend",
+        "MACD bullish, volume 1.9x TB20 xác nhận dòng tiền mạnh",
+        "Risk/Reward ước tính 2.2"
+      ],
+      "risks": [
+        "RSI 76.8 đã vào vùng quá mua, có thể điều chỉnh ngắn hạn"
+      ],
+      "action": "MUA",
+      "agreed_with": "bull",
+      "key_reason": "Ensemble tăng mạnh cùng chiều weekly uptrend"
+    },
+    "elapsed_sec": 10.7,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "DGC",
+    "date": "2026-10-08",
+    "time": "2026-10-08T08:34:19.488902",
+    "market_data": {
+      "price": 33150.0,
+      "rsi": 34.8,
+      "macd_bull": false,
+      "vol_ratio": 1.33,
+      "score": 4.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "decision": "GIỮ",
+      "confidence": 40,
+      "reasons": [
+        "RSI 34.8 cho thấy cổ phiếu không quá mua",
+        "Volume 1.3x TB20 cho thấy vẫn có dòng tiền tham gia"
+      ],
+      "risks": [
+        "MACD bearish có thể dẫn đến giảm giá",
+        "Ensemble không rõ ràng khiến khó dự đoán xu hướng",
+        "Weekly trend sideways không ủng hộ tăng giá mạnh"
+      ],
+      "top_3_reasons": [
+        "RSI 34.8 cho thấy cổ phiếu không quá mua",
+        "Volume 1.3x TB20 cho thấy vẫn có dòng tiền tham gia"
+      ],
+      "summary": "RSI 34.8 cho thấy cổ phiếu không quá mua"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "decision": "GIỮ",
+      "confidence": 40,
+      "reasons": [
+        "RSI 34.8 chưa cho thấy tín hiệu quá bán",
+        "MACD bearish nhưng volume chỉ 1.3x TB20",
+        "Sentiment tin tức 0.00 không có tác động rõ ràng"
+      ],
+      "risks": [
+        "Có thể lỡ nhịp tăng nếu MACD đảo chiều",
+        "Ensemble không rõ có thể ẩn chứa tín hiệu tăng trưởng"
+      ],
+      "top_3_risks": [
+        "RSI 34.8 chưa cho thấy tín hiệu quá bán",
+        "MACD bearish nhưng volume chỉ 1.3x TB20",
+        "Sentiment tin tức 0.00 không có tác động rõ ràng"
+      ],
+      "summary": "RSI 34.8 chưa cho thấy tín hiệu quá bán"
+    },
+    "final_decision": {
+      "decision": "GIỮ",
+      "confidence": 50,
+      "reasons": [
+        "RSI 34.8 cho thấy cổ phiếu không quá mua",
+        "Volume 1.3x TB20 cho thấy vẫn có dòng tiền tham gia"
+      ],
+      "risks": [
+        "MACD bearish có thể dẫn đến giảm giá",
+        "Ensemble không rõ ràng khiến khó dự đoán xu hướng"
+      ],
+      "action": "GIỮ",
+      "agreed_with": "neither",
+      "key_reason": "RSI 34.8 cho thấy cổ phiếu không quá mua"
+    },
+    "elapsed_sec": 10.2,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "SSI",
+    "date": "2026-10-08",
+    "time": "2026-10-08T08:34:34.954565",
+    "market_data": {
+      "price": 19650.0,
+      "rsi": 18.7,
+      "macd_bull": false,
+      "vol_ratio": 0.49,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "decision": "GIỮ",
+      "confidence": 40,
+      "reasons": [
+        "RSI 18.7 cho thấy cổ phiếu đang ở vùng quá bán"
+      ],
+      "risks": [
+        "MACD bearish và volume thấp có thể khiến giá tiếp tục giảm",
+        "Ensemble không rõ ràng nên không có tín hiệu mua mạnh"
+      ],
+      "top_3_reasons": [
+        "RSI 18.7 cho thấy cổ phiếu đang ở vùng quá bán"
+      ],
+      "summary": "RSI 18.7 cho thấy cổ phiếu đang ở vùng quá bán"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "decision": "BÁN",
+      "confidence": 80,
+      "reasons": [
+        "RSI 18.7 quá bán nhưng MACD bearish cho thấy xu hướng giảm",
+        "Volume 0.5x TB20 thấp cho thấy thiếu lực cầu",
+        "Sentiment tin tức 0.00 trung lập không ủng hộ tăng giá"
+      ],
+      "risks": [
+        "Nhịp hồi kỹ thuật có thể kéo giá lên ngắn hạn",
+        "Ensemble không rõ có thể đảo chiều nếu có tín hiệu tăng mạnh"
+      ],
+      "top_3_risks": [
+        "RSI 18.7 quá bán nhưng MACD bearish cho thấy xu hướng giảm",
+        "Volume 0.5x TB20 thấp cho thấy thiếu lực cầu",
+        "Sentiment tin tức 0.00 trung lập không ủng hộ tăng giá"
+      ],
+      "summary": "RSI 18.7 quá bán nhưng MACD bearish cho thấy xu hướng giảm"
+    },
+    "final_decision": {
+      "decision": "BÁN",
+      "confidence": 80,
+      "reasons": [
+        "RSI 18.7 quá bán nhưng MACD bearish cho thấy xu hướng giảm",
+        "Volume 0.5x TB20 thấp cho thấy thiếu lực cầu",
+        "Sentiment tin tức 0.00 trung lập không ủng hộ tăng giá"
+      ],
+      "risks": [
+        "Nhịp hồi kỹ thuật có thể kéo giá lên ngắn hạn",
+        "Ensemble không rõ có thể đảo chiều nếu có tín hiệu tăng mạnh"
+      ],
+      "action": "BÁN",
+      "agreed_with": "bear",
+      "key_reason": "RSI 18.7 quá bán nhưng MACD bearish cho thấy xu hướng giảm"
+    },
+    "elapsed_sec": 10.3,
     "outcome": null,
     "reflection": null
   }

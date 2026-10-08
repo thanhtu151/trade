@@ -4,5 +4,19 @@
       "failures": 0,
       "opened_at": null
     }
+  },
+  "llm": {
+    "groq": {
+      "failures": 3,
+      "opened_at": 1791423219.8998518
+    },
+    "cerebras": {
+      "failures": 3,
+      "opened_at": 1791423220.049668
+    },
+    "cloudflare": {
+      "failures": 0,
+      "opened_at": null
+    }
   }
 }
