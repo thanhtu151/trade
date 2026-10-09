@@ -3999,8 +3999,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Cần xác định rõ bull case và bear case để đưa ra quyết định đầu tư chính xác hơn.",
+    "pnl_pct": 1.77,
+    "actual_price_3d": 149600.0
   },
   {
     "ticker": "SSI",
@@ -4130,8 +4132,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Cần xác định rõ bull case và bear case để đưa ra quyết định đầu tư chính xác hơn.",
+    "pnl_pct": 1.77,
+    "actual_price_3d": 149600.0
   },
   {
     "ticker": "VIB",
@@ -4277,8 +4281,10 @@
       "key_reason": "Ensemble tăng mạnh cùng chiều weekly uptrend"
     },
     "elapsed_sec": 10.7,
-    "outcome": null,
-    "reflection": null
+    "outcome": "correct",
+    "reflection": "Cần cân nhắc cả yếu tố kỹ thuật và chỉ số RSI khi đưa ra quyết định mua bán để tránh rủi ro điều chỉnh thị trường.",
+    "pnl_pct": 1.77,
+    "actual_price_3d": 149600.0
   },
   {
     "ticker": "DGC",
@@ -4720,7 +4726,9 @@
       "key_reason": "Ensemble tăng mạnh cùng chiều weekly uptrend"
     },
     "elapsed_sec": 9.3,
-    "outcome": null,
-    "reflection": null
+    "outcome": "correct",
+    "reflection": "Cần cân nhắc thêm chỉ số RSI khi đưa ra quyết định mua để tránh rủi ro điều chỉnh",
+    "pnl_pct": 1.77,
+    "actual_price_3d": 149600.0
   }
 ]

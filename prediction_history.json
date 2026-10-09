@@ -114745,11 +114745,12 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.0 llm=GIỮ",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": 1.769
   },
   {
     "date": "2026-10-06",
@@ -114765,11 +114766,12 @@
     "source": "two_stage",
     "notes": "stage1_score=1.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": -1.866
   },
   {
     "date": "2026-10-06",
@@ -114785,11 +114787,12 @@
     "source": "two_stage",
     "notes": "stage1_score=1.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": 2.802
   },
   {
     "date": "2026-10-06",
@@ -114805,11 +114808,12 @@
     "source": "two_stage",
     "notes": "stage1_score=1.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": -4.048
   },
   {
     "date": "2026-10-07",
