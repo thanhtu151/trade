@@ -8,11 +8,11 @@
   "llm": {
     "groq": {
       "failures": 3,
-      "opened_at": 1791450200.3373773
+      "opened_at": 1791509662.366298
     },
     "cerebras": {
       "failures": 3,
-      "opened_at": 1791450200.4348834
+      "opened_at": 1791509662.4711764
     },
     "cloudflare": {
       "failures": 0,

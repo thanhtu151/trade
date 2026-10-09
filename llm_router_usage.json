@@ -1,8 +1,8 @@
 {
-  "date": "2026-10-08",
+  "date": "2026-10-09",
   "groq_calls": 0,
   "cerebras_calls": 0,
-  "cloudflare_calls": 16,
+  "cloudflare_calls": 12,
   "gateway_calls": 0,
   "gemini_calls": 0,
   "deepseek_calls": 0,
@@ -10,8 +10,8 @@
   "fail_calls": 0,
   "keys_tried_today": 0,
   "errors": {
-    "groq": 6,
-    "cerebras": 6
+    "groq": 3,
+    "cerebras": 3
   },
   "last_provider": "cloudflare",
   "last_model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
