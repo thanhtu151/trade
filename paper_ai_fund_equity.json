@@ -43,5 +43,14 @@
     "pnl": 0.0,
     "pnl_pct": 0.0,
     "positions": []
+  },
+  {
+    "time": "2026-10-09 15:06:46",
+    "label": "eod",
+    "cash": 100000000.0,
+    "equity": 100000000.0,
+    "pnl": 0.0,
+    "pnl_pct": 0.0,
+    "positions": []
   }
 ]
