@@ -277,10 +277,22 @@ def _call_provider(provider, prompt, system, max_tokens, require_json):
     try:
         return client.chat.completions.create(**kwargs)
     except Exception as exc:
+        if "extra_body" in kwargs and _is_bad_request(exc):
+            # Provider rejected reasoning_effort (HTTP 400): retry once without it.
+            log.warning("[LLMRouter] %s rejected reasoning_effort, retrying without it", provider.get("name"))
+            kwargs.pop("extra_body", None)
+            try:
+                return client.chat.completions.create(**kwargs)
+            except Exception as exc2:
+                exc = exc2
         if require_json and "response_format" in kwargs:
             kwargs.pop("response_format", None)
             return client.chat.completions.create(**kwargs)
         raise exc
+
+
+def _is_bad_request(exc):
+    return getattr(exc, "status_code", None) == 400 or "400" in str(exc)[:80]
 
 
 def call_llm(
@@ -332,6 +344,8 @@ def call_llm(
                 is_transient=is_transient_network_error,
             )
             content = response.choices[0].message.content
+            if not isinstance(content, str) or not content.strip():
+                raise ValueError("empty_content")
             latency = int((time.time() - start) * 1000)
 
             call_key = f"{provider['provider']}_calls"

@@ -42,3 +42,46 @@ def test_reasoning_params_for_gpt_oss(monkeypatch):
     seen.clear()
     llm_router._call_provider({**prov, "model": "other"}, "p", "s", 600, False)
     assert seen["max_tokens"] == 600 and "extra_body" not in seen
+
+
+def _router(monkeypatch, tmp_path, creates):
+    """creates: dict provider-model -> list of callables/values per call."""
+    monkeypatch.setattr(llm_router, "_load_usage", lambda: {})
+    monkeypatch.setattr(llm_router, "_save_usage", lambda u: None)
+    monkeypatch.setattr(llm_router, "_provider_templates", lambda preferred_model=None: [
+        {"provider": "groq", "name": "groq", "base_url": "g", "api_key": "k", "model": "openai/gpt-oss-120b", "timeout": 1, "supports_json": False},
+        {"provider": "cerebras", "name": "cerebras", "base_url": "c", "api_key": "k", "model": "other", "timeout": 1, "supports_json": False},
+    ])
+
+    class FakeClient:
+        def __init__(self, **kw):
+            self.base = kw["base_url"]
+            self.chat = type("C", (), {"completions": self})()
+
+        def create(self, **kw):
+            creates.setdefault(self.base, []).append(kw)
+            r = creates["_plan"][self.base].pop(0)
+            if isinstance(r, Exception):
+                raise r
+            return type("R", (), {"choices": [type("Ch", (), {"message": type("M", (), {"content": r})()})()]})()
+
+    monkeypatch.setattr(llm_router, "OpenAI", FakeClient)
+
+
+def test_empty_content_falls_back(monkeypatch, tmp_path, caplog):
+    calls = {"_plan": {"g": ["   "], "c": ["hello"]}}
+    _router(monkeypatch, tmp_path, calls)
+    out = llm_router.call_llm("p")
+    assert out["success"] and out["provider"] == "cerebras" and out["content"] == "hello"
+    assert "empty_content" in caplog.text
+
+
+def test_reasoning_effort_400_retries_without_extra_body(monkeypatch, tmp_path):
+    class Bad(Exception):
+        status_code = 400
+
+    calls = {"_plan": {"g": [Bad("400 unknown param reasoning_effort"), "ok"], "c": []}}
+    _router(monkeypatch, tmp_path, calls)
+    out = llm_router.call_llm("p")
+    assert out["success"] and out["provider"] == "groq"
+    assert "extra_body" in calls["g"][0] and "extra_body" not in calls["g"][1]
