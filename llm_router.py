@@ -38,6 +38,14 @@ except ImportError:
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Override with GROQ_MODEL / CEREBRAS_MODEL when a provider retires a model (404 model_not_found).
+DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
+DEFAULT_CEREBRAS_MODEL = "gpt-oss-120b"
+# gpt-oss is a reasoning model: reasoning tokens count against max_tokens, so keep it short
+# and give completions a floor, otherwise `message.content` can come back empty.
+REASONING_EFFORT = "low"
+MIN_REASONING_MAX_TOKENS = 1500
 USAGE_FILE = os.path.join(BASE_DIR, "llm_router_usage.json")
 
 GATEWAY_URL = os.getenv("GATEWAY_URL", "https://aiapiv2.pekpik.com/v1")
@@ -108,7 +116,7 @@ def _provider_templates(preferred_model=None):
             "name": "groq",
             "base_url": "https://api.groq.com/openai/v1",
             "api_key": groq_key,
-            "model": "llama-3.3-70b-versatile",
+            "model": os.getenv("GROQ_MODEL", "").strip() or DEFAULT_GROQ_MODEL,
             "timeout": 10,
             "supports_json": True,
         })
@@ -120,7 +128,7 @@ def _provider_templates(preferred_model=None):
             "name": "cerebras",
             "base_url": "https://api.cerebras.ai/v1",
             "api_key": cerebras_key,
-            "model": "llama-3.3-70b",
+            "model": os.getenv("CEREBRAS_MODEL", "").strip() or DEFAULT_CEREBRAS_MODEL,
             "timeout": 10,
             "supports_json": True,
         })
@@ -260,16 +268,31 @@ def _call_provider(provider, prompt, system, max_tokens, require_json):
         "messages": _messages(prompt, system),
         "max_tokens": max_tokens,
     }
+    if "gpt-oss" in provider["model"].lower():
+        kwargs["max_tokens"] = max(int(max_tokens), MIN_REASONING_MAX_TOKENS)
+        kwargs["extra_body"] = {"reasoning_effort": REASONING_EFFORT}
     if require_json and provider.get("supports_json"):
         kwargs["response_format"] = {"type": "json_object"}
 
     try:
         return client.chat.completions.create(**kwargs)
     except Exception as exc:
+        if "extra_body" in kwargs and _is_bad_request(exc):
+            # Provider rejected reasoning_effort (HTTP 400): retry once without it.
+            log.warning("[LLMRouter] %s rejected reasoning_effort, retrying without it", provider.get("name"))
+            kwargs.pop("extra_body", None)
+            try:
+                return client.chat.completions.create(**kwargs)
+            except Exception as exc2:
+                exc = exc2
         if require_json and "response_format" in kwargs:
             kwargs.pop("response_format", None)
             return client.chat.completions.create(**kwargs)
         raise exc
+
+
+def _is_bad_request(exc):
+    return getattr(exc, "status_code", None) == 400 or "400" in str(exc)[:80]
 
 
 def call_llm(
@@ -321,6 +344,8 @@ def call_llm(
                 is_transient=is_transient_network_error,
             )
             content = response.choices[0].message.content
+            if not isinstance(content, str) or not content.strip():
+                raise ValueError("empty_content")
             latency = int((time.time() - start) * 1000)
 
             call_key = f"{provider['provider']}_calls"
