@@ -38,6 +38,14 @@ except ImportError:
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Override with GROQ_MODEL / CEREBRAS_MODEL when a provider retires a model (404 model_not_found).
+DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
+DEFAULT_CEREBRAS_MODEL = "gpt-oss-120b"
+# gpt-oss is a reasoning model: reasoning tokens count against max_tokens, so keep it short
+# and give completions a floor, otherwise `message.content` can come back empty.
+REASONING_EFFORT = "low"
+MIN_REASONING_MAX_TOKENS = 1500
 USAGE_FILE = os.path.join(BASE_DIR, "llm_router_usage.json")
 
 GATEWAY_URL = os.getenv("GATEWAY_URL", "https://aiapiv2.pekpik.com/v1")
@@ -108,7 +116,7 @@ def _provider_templates(preferred_model=None):
             "name": "groq",
             "base_url": "https://api.groq.com/openai/v1",
             "api_key": groq_key,
-            "model": "llama-3.3-70b-versatile",
+            "model": os.getenv("GROQ_MODEL", "").strip() or DEFAULT_GROQ_MODEL,
             "timeout": 10,
             "supports_json": True,
         })
@@ -120,7 +128,7 @@ def _provider_templates(preferred_model=None):
             "name": "cerebras",
             "base_url": "https://api.cerebras.ai/v1",
             "api_key": cerebras_key,
-            "model": "llama-3.3-70b",
+            "model": os.getenv("CEREBRAS_MODEL", "").strip() or DEFAULT_CEREBRAS_MODEL,
             "timeout": 10,
             "supports_json": True,
         })
@@ -260,6 +268,9 @@ def _call_provider(provider, prompt, system, max_tokens, require_json):
         "messages": _messages(prompt, system),
         "max_tokens": max_tokens,
     }
+    if "gpt-oss" in provider["model"].lower():
+        kwargs["max_tokens"] = max(int(max_tokens), MIN_REASONING_MAX_TOKENS)
+        kwargs["extra_body"] = {"reasoning_effort": REASONING_EFFORT}
     if require_json and provider.get("supports_json"):
         kwargs["response_format"] = {"type": "json_object"}
 
