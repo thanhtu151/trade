@@ -3954,8 +3954,10 @@
       "key_reason": "Không đủ thông tin để quyết định"
     },
     "elapsed_sec": 1.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Cần xác định rõ các kịch bản bull và bear trước khi quyết định, tránh giữ vị thế mà không có kế hoạch dự phòng.",
+    "pnl_pct": -0.26,
+    "actual_price_3d": 19150.0
   },
   {
     "ticker": "FRT",
@@ -4072,8 +4074,10 @@
       "key_reason": "MACD bullish và volume 2.4x TB20 cho thấy dòng tiền mạnh"
     },
     "elapsed_sec": 10.8,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "Không nên dựa vào MACD và volume duy nhất; cần xem xét RSI và các chỉ báo khác để tránh quyết định mua sai.",
+    "pnl_pct": -1.44,
+    "actual_price_3d": 13700.0
   },
   {
     "ticker": "FRT",
@@ -4222,8 +4226,10 @@
       "key_reason": "RSI 34.8 cho thấy cổ phiếu không quá mua"
     },
     "elapsed_sec": 10.2,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Khi RSI thấp, không nên dựa chỉ vào mức quá mua/bán mà cần kết hợp thêm các chỉ báo khác để xác định xu hướng rõ ràng hơn.",
+    "pnl_pct": -0.45,
+    "actual_price_3d": 33000.0
   },
   {
     "ticker": "SSI",
@@ -4371,8 +4377,10 @@
       "key_reason": "Sentiment tin tức tích cực 1.00"
     },
     "elapsed_sec": 12.7,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "Khi tín hiệu kỹ thuật và tin tức mâu thuẫn, cần cân nhắc trọng số và không dựa vào một yếu tố duy nhất.",
+    "pnl_pct": 0.0,
+    "actual_price_3d": 19050.0
   },
   {
     "ticker": "DGC",
@@ -4443,8 +4451,10 @@
       "key_reason": "RSI 25.5 quá bán nhưng MACD bearish cho thấy xu hướng giảm"
     },
     "elapsed_sec": 9.5,
-    "outcome": null,
-    "reflection": null
+    "outcome": "correct",
+    "reflection": "Khi RSI quá bán, cần kết hợp thêm tín hiệu MACD để xác nhận xu hướng trước khi quyết định bán.",
+    "pnl_pct": -0.45,
+    "actual_price_3d": 33000.0
   },
   {
     "ticker": "VIB",
@@ -4519,8 +4529,10 @@
       "key_reason": "Ensemble tăng mạnh ủng hộ xu hướng tăng"
     },
     "elapsed_sec": 10.6,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "Khi quyết định mua, cần xác nhận xu hướng tăng mạnh và tránh vào vị thế khi RSI chưa vào vùng quá mua để giảm rủi ro.",
+    "pnl_pct": -1.44,
+    "actual_price_3d": 13700.0
   },
   {
     "ticker": "FRT",
@@ -4671,8 +4683,10 @@
       "key_reason": "MACD bullish xác nhận xu hướng tăng cùng khối lượng 1.4x TB20 hỗ trợ"
     },
     "elapsed_sec": 3.6,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "Khi tín hiệu MACD không mạnh và Stage1 điểm yếu, cần thận trọng hơn trước khi mua; ưu tiên xác nhận đa chỉ báo để giảm rủi ro.",
+    "pnl_pct": -1.44,
+    "actual_price_3d": 13700.0
   },
   {
     "ticker": "SSI",
@@ -4740,8 +4754,10 @@
       "llm_unavailable": true
     },
     "elapsed_sec": 3.2,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Khi chỉ dựa vào các chỉ báo kỹ thuật mà không xem xét xu hướng chung, nên kết hợp thêm phân tích cơ bản để quyết định giữ vị thế.",
+    "pnl_pct": 0.0,
+    "actual_price_3d": 19050.0
   },
   {
     "ticker": "FRT",
