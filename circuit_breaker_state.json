@@ -7,8 +7,8 @@
   },
   "llm": {
     "groq": {
-      "failures": 3,
-      "opened_at": 1791536559.0171163
+      "failures": 0,
+      "opened_at": null
     },
     "cerebras": {
       "failures": 3,
