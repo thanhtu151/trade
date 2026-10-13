@@ -32,3 +32,36 @@ Phiên: 2026-10-12 (yêu cầu 2026-10-13); nguồn: data_fetcher
   Lệnh: không có
   Chờ khớp phiên sau: None
   NAV: 100,000,000 VND (vốn đầu 100,000,000)
+  VCK: source VCI failed: insufficient_data: VCK: VCI: coverage 54.0% (203/376 exchange sessions), first=2025-12-16, required_start<=2025-06-06
+source_manager: VCI failed (1x)
+source_manager: switching to MSN
+  VCK: source MSN failed: insufficient_data: VCK: MSN: coverage 54.0% (203/376 exchange sessions), first=2025-12-16, required_start<=2025-06-06
+source_manager: MSN failed (1x)
+source_manager: all sources exhausted, will use stale cache
+  VCK: all sources failed: insufficient_data: VCK: MSN: coverage 54.0% (203/376 exchange sessions), first=2025-12-16, required_start<=2025-06-06
+  MSR: source MSN failed: insufficient_data: MSR: MSN: coverage 25.8% (97/376 exchange sessions), first=2025-06-04, required_start<=2025-06-06
+source_manager: MSN failed (1x)
+source_manager: all sources exhausted, will use stale cache
+  TCX: source VCI failed: insufficient_data: TCX: VCI: coverage 64.6% (243/376 exchange sessions), first=2025-10-21, required_start<=2025-06-06
+source_manager: VCI failed (1x)
+source_manager: switching to MSN
+  TCX: source MSN failed: insufficient_data: TCX: MSN: coverage 64.6% (243/376 exchange sessions), first=2025-10-21, required_start<=2025-06-06
+source_manager: MSN failed (2x)
+source_manager: all sources exhausted, will use stale cache
+  TCX: all sources failed: insufficient_data: TCX: MSN: coverage 64.6% (243/376 exchange sessions), first=2025-10-21, required_start<=2025-06-06
+  GEL: source MSN failed: insufficient_data: GEL: MSN: coverage 47.6% (179/376 exchange sessions), first=2025-04-15, required_start<=2025-06-06
+source_manager: MSN failed (1x)
+source_manager: all sources exhausted, will use stale cache
+  GEL: source VCI failed: insufficient_data: GEL: VCI: coverage 44.4% (167/376 exchange sessions), first=2026-02-06, required_start<=2025-06-06
+source_manager: VCI failed (2x)
+  GEL: all sources failed: insufficient_data: GEL: VCI: coverage 44.4% (167/376 exchange sessions), first=2026-02-06, required_start<=2025-06-06
+  MCH: source MSN failed: insufficient_data: MCH: MSN: coverage 52.1% (196/376 exchange sessions), first=2025-12-25, required_start<=2025-06-06
+source_manager: MSN failed (2x)
+source_manager: all sources exhausted, will use stale cache
+Cảnh báo: không lấy được giá 3 mã: VCK,TCX,GEL
+Phiên: 2026-10-13 (yêu cầu 2026-10-13); nguồn: data_fetcher
+  E1_ma10m: OFF (close<ma10m) {'close': 1860.99, 'ma': 1955.95} [điều khiển lệnh, chỉ đổi ở cuối tháng]
+  E6_ma200d_b60: OFF (off) {'vn30': 1860.99, 'ma200': 1958.48, 'vn30_above': False, 'breadth_pct': 22.0, 'universe': 50} [theo dõi]
+  Lệnh: không có
+  Chờ khớp phiên sau: None
+  NAV: 100,000,000 VND (vốn đầu 100,000,000)
