@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-13",
+  "date": "2026-10-14",
   "method": "two_stage",
   "prediction_horizon_days": 3,
   "prediction_horizon_sessions": 6,
@@ -12,14 +12,14 @@
       "score": 4.5,
       "weighted_score": 4.5,
       "weight": 1.0,
-      "rsi": 58.3,
+      "rsi": 57.1,
       "macd_bull": true,
       "sma_bull": true,
-      "vol_ratio": 1.7,
-      "atr_pct": 1.8,
-      "bb_pos": 0.79,
+      "vol_ratio": 1.81,
+      "atr_pct": 1.79,
+      "bb_pos": 0.88,
       "weekly_trend": 1,
-      "weekly_rsi": 59.2,
+      "weekly_rsi": 60.8,
       "news_sentiment": 0.0,
       "signals": {
         "macd": "bullish",
@@ -28,14 +28,14 @@
         "momentum": "positive",
         "weekly": "uptrend"
       },
-      "price": 13700.0,
+      "price": 13800.0,
       "ensemble": {
         "reliable": true,
-        "direction": 0,
-        "probability": 0.559,
-        "confidence": 11.7,
-        "signal": "không rõ",
-        "high_confidence": false,
+        "direction": 1,
+        "probability": 0.615,
+        "confidence": 23.0,
+        "signal": "tăng mạnh",
+        "high_confidence": true,
         "votes": {
           "xgb": 1,
           "lgbm": 1,
@@ -49,15 +49,15 @@
         "sentiment_score": 0.0
       },
       "llm": {
-        "action": "GIỮ",
-        "confidence": 60,
+        "action": "MUA",
+        "confidence": 70,
         "target": null,
         "stoploss": null,
-        "reason": "MACD bullish nhưng Stage1 score chỉ 4.5/7 cho thấy tín hiệu chưa mạnh",
+        "reason": "Ensemble dự báo tăng mạnh và weekly trend đang uptrend",
         "risk_reward": null,
-        "bull_summary": "MACD bullish xác nhận xu hướng tăng",
-        "bear_summary": "MACD bullish nhưng Stage1 score chỉ 4.5/7, chưa đủ sức hỗ trợ giá lên mạnh",
-        "agreed_with": "neither",
+        "bull_summary": "Ensemble dự báo tăng mạnh và weekly trend đang uptrend",
+        "bear_summary": "Các quyết định mua gần đây dựa trên cùng các tín hiệu đã dẫn đến kết quả sai, cho thấy mô hình hiện tại chưa đáng tin cậy",
+        "agreed_with": "bull",
         "llm_unavailable": false
       },
       "debate": true,
@@ -66,225 +66,43 @@
         "decision": "MUA",
         "confidence": 68,
         "reasons": [
-          "MACD bullish xác nhận xu hướng tăng",
-          "Volume 1.7x TB20 mạnh hỗ trợ dòng tiền lên giá",
-          "Weekly trend đang uptrend tạo môi trường thuận lợi"
+          "Ensemble dự báo tăng mạnh và weekly trend đang uptrend",
+          "MACD bullish kết hợp khối lượng 1.8x TB20 xác nhận áp lực mua",
+          "Stage1 score 4.5/7 cho thấy xu hướng đang tích lũy hỗ trợ tăng"
         ],
         "risks": [
-          "RSI 58.3 chưa ở vùng quá mua nhưng có thể tăng nhanh và vượt ngưỡng quá mua",
-          "Stage1 score 4.5/7 chỉ trung bình, tín hiệu chưa mạnh mẽ"
+          "RSI 57.1 có thể tiến vào vùng quá mua nếu giá tiếp tục lên",
+          "Stage1 chưa đạt mức cao nhất, có thể giảm độ chắc chắn của xu hướng",
+          "Regime thị trường UNKNOWN, có thể thay đổi đột ngột"
         ],
         "top_3_reasons": [
-          "MACD bullish xác nhận xu hướng tăng",
-          "Volume 1.7x TB20 mạnh hỗ trợ dòng tiền lên giá",
-          "Weekly trend đang uptrend tạo môi trường thuận lợi"
+          "Ensemble dự báo tăng mạnh và weekly trend đang uptrend",
+          "MACD bullish kết hợp khối lượng 1.8x TB20 xác nhận áp lực mua",
+          "Stage1 score 4.5/7 cho thấy xu hướng đang tích lũy hỗ trợ tăng"
         ],
-        "summary": "MACD bullish xác nhận xu hướng tăng"
-      },
-      "bear_case": {
-        "stance": "BEAR",
-        "decision": "BÁN",
-        "confidence": 62,
-        "reasons": [
-          "MACD bullish nhưng Stage1 score chỉ 4.5/7, chưa đủ sức hỗ trợ giá lên mạnh",
-          "Volume 1.7x TB20 có thể là tín hiệu mua bùng nổ ngắn hạn, dễ giảm nhanh khi không có xác nhận RSI quá mua",
-          "Lịch sử ba quyết định mua liên tiếp đều sai, cho thấy mô hình hiện tại dễ gây sai lầm"
-        ],
-        "risks": [
-          "RSI 58 chưa vào vùng quá mua, giá vẫn còn tiềm năng tăng nếu các chỉ báo khác củng cố",
-          "Weekly trend vẫn uptrend, có thể kéo giá lên ngắn hạn trước khi điều chỉnh"
-        ],
-        "top_3_risks": [
-          "MACD bullish nhưng Stage1 score chỉ 4.5/7, chưa đủ sức hỗ trợ giá lên mạnh",
-          "Volume 1.7x TB20 có thể là tín hiệu mua bùng nổ ngắn hạn, dễ giảm nhanh khi không có xác nhận RSI quá mua",
-          "Lịch sử ba quyết định mua liên tiếp đều sai, cho thấy mô hình hiện tại dễ gây sai lầm"
-        ],
-        "summary": "MACD bullish nhưng Stage1 score chỉ 4.5/7, chưa đủ sức hỗ trợ giá lên mạnh"
-      },
-      "final_score": 5.0,
-      "tradeable": false,
-      "llm_unavailable": false
-    },
-    {
-      "ticker": "SSI",
-      "score": 2.5,
-      "weighted_score": 2.5,
-      "weight": 1.0,
-      "rsi": 8.7,
-      "macd_bull": false,
-      "sma_bull": false,
-      "vol_ratio": 0.52,
-      "atr_pct": 2.83,
-      "bb_pos": 0.1,
-      "weekly_trend": 0,
-      "weekly_rsi": 34.9,
-      "news_sentiment": 0.0,
-      "signals": {
-        "rsi": "oversold",
-        "bb": "oversold"
-      },
-      "price": 19050.0,
-      "ensemble": {
-        "reliable": true,
-        "direction": 1,
-        "probability": 0.605,
-        "confidence": 21.0,
-        "signal": "tăng mạnh",
-        "high_confidence": true,
-        "votes": {
-          "xgb": 1,
-          "lgbm": 1,
-          "rf": 1,
-          "lstm": 1
-        },
-        "bullish_votes": 4,
-        "bearish_votes": 0,
-        "total_models": 4,
-        "consensus": true,
-        "sentiment_score": 0.0
-      },
-      "llm": null,
-      "debate": false,
-      "bull_case": null,
-      "bear_case": null,
-      "final_score": 4.0,
-      "tradeable": false,
-      "llm_unavailable": false
-    },
-    {
-      "ticker": "DGC",
-      "score": 2.5,
-      "weighted_score": 2.5,
-      "weight": 1.0,
-      "rsi": 32.7,
-      "macd_bull": false,
-      "sma_bull": false,
-      "vol_ratio": 0.63,
-      "atr_pct": 2.49,
-      "bb_pos": 0.05,
-      "weekly_trend": 0,
-      "weekly_rsi": 29.2,
-      "news_sentiment": 0.0,
-      "signals": {
-        "rsi": "oversold",
-        "bb": "oversold"
-      },
-      "price": 33000.0,
-      "ensemble": {
-        "reliable": true,
-        "direction": 1,
-        "probability": 0.662,
-        "confidence": 32.4,
-        "signal": "tăng mạnh",
-        "high_confidence": true,
-        "votes": {
-          "xgb": 1,
-          "lgbm": 1,
-          "rf": 1,
-          "lstm": 1
-        },
-        "bullish_votes": 4,
-        "bearish_votes": 0,
-        "total_models": 4,
-        "consensus": true,
-        "sentiment_score": 0.0
-      },
-      "llm": null,
-      "debate": false,
-      "bull_case": null,
-      "bear_case": null,
-      "final_score": 4.0,
-      "tradeable": false,
-      "llm_unavailable": false
-    },
-    {
-      "ticker": "VIC",
-      "score": 3.5,
-      "weighted_score": 3.5,
-      "weight": 1.0,
-      "rsi": 26.5,
-      "macd_bull": false,
-      "sma_bull": true,
-      "vol_ratio": 0.77,
-      "atr_pct": 2.99,
-      "bb_pos": 0.04,
-      "weekly_trend": 0,
-      "weekly_rsi": 32.6,
-      "news_sentiment": 0.0,
-      "signals": {
-        "rsi": "oversold",
-        "sma": "golden_cross",
-        "bb": "oversold"
-      },
-      "price": 219000.0,
-      "ensemble": {
-        "reliable": true,
-        "direction": 0,
-        "probability": 0.52,
-        "confidence": 3.9,
-        "signal": "không rõ",
-        "high_confidence": false,
-        "votes": {
-          "xgb": 1,
-          "lgbm": 1,
-          "rf": -1,
-          "lstm": -1
-        },
-        "bullish_votes": 2,
-        "bearish_votes": 2,
-        "total_models": 4,
-        "consensus": false,
-        "sentiment_score": 0.0
-      },
-      "llm": {
-        "action": "GIỮ",
-        "confidence": 55,
-        "target": null,
-        "stoploss": null,
-        "reason": "RSI 26.5 quá bán nhưng MACD bearish cho thấy xu hướng giảm vẫn còn mạnh",
-        "risk_reward": null,
-        "bull_summary": "RSI 26.5 cho thấy mức quá bán mạnh, tiềm năng hồi phục ngắn hạn",
-        "bear_summary": "MACD bearish cho thấy xu hướng giảm đang chi phối",
-        "agreed_with": "neither",
-        "llm_unavailable": false
-      },
-      "debate": true,
-      "bull_case": {
-        "stance": "BULL",
-        "decision": "MUA",
-        "confidence": 45,
-        "reasons": [
-          "RSI 26.5 cho thấy mức quá bán mạnh, tiềm năng hồi phục ngắn hạn",
-          "Stage1 score 3.5/7 phản ánh một phần sức mạnh tiềm ẩn trong xu hướng hiện tại",
-          "Thị trường tuần đang sideway, tạo không gian cho giá VIC tăng lên khi có tín hiệu mua"
-        ],
-        "risks": [
-          "MACD đang ở trạng thái bearish, chưa có dấu hiệu đảo chiều"
-        ],
-        "top_3_reasons": [
-          "RSI 26.5 cho thấy mức quá bán mạnh, tiềm năng hồi phục ngắn hạn",
-          "Stage1 score 3.5/7 phản ánh một phần sức mạnh tiềm ẩn trong xu hướng hiện tại",
-          "Thị trường tuần đang sideway, tạo không gian cho giá VIC tăng lên khi có tín hiệu mua"
-        ],
-        "summary": "RSI 26.5 cho thấy mức quá bán mạnh, tiềm năng hồi phục ngắn hạn"
+        "summary": "Ensemble dự báo tăng mạnh và weekly trend đang uptrend"
       },
       "bear_case": {
         "stance": "BEAR",
         "decision": "BÁN",
         "confidence": 60,
         "reasons": [
-          "MACD bearish cho thấy xu hướng giảm đang chi phối"
+          "Các quyết định mua gần đây dựa trên cùng các tín hiệu đã dẫn đến kết quả sai, cho thấy mô hình hiện tại chưa đáng tin cậy",
+          "Stage1 score 4.5/7 cho thấy sức mạnh tín hiệu chưa đủ mạnh để hỗ trợ xu hướng tăng mạnh",
+          "RSI 57.1 chưa ở mức quá bán, giảm khả năng hỗ trợ tăng giá tiếp theo"
         ],
         "risks": [
-          "RSI 26.5 quá bán có thể tạo tín hiệu đảo chiều ngắn hạn",
-          "Thị trường đang sideway và regime chưa xác định, có thể chuyển sang xu hướng tăng"
+          "Ensemble dự báo tăng mạnh và weekly trend đang trong xu hướng tăng có thể tạo đà tiếp tục lên",
+          "MACD bullish và khối lượng 1.8x TB20 vẫn đang xác nhận sức mua"
         ],
         "top_3_risks": [
-          "MACD bearish cho thấy xu hướng giảm đang chi phối"
+          "Các quyết định mua gần đây dựa trên cùng các tín hiệu đã dẫn đến kết quả sai, cho thấy mô hình hiện tại chưa đáng tin cậy",
+          "Stage1 score 4.5/7 cho thấy sức mạnh tín hiệu chưa đủ mạnh để hỗ trợ xu hướng tăng mạnh",
+          "RSI 57.1 chưa ở mức quá bán, giảm khả năng hỗ trợ tăng giá tiếp theo"
         ],
-        "summary": "MACD bearish cho thấy xu hướng giảm đang chi phối"
+        "summary": "Các quyết định mua gần đây dựa trên cùng các tín hiệu đã dẫn đến kết quả sai, cho thấy mô hình hiện tại chưa đáng tin cậy"
       },
-      "final_score": 3.5,
+      "final_score": 7.4,
       "tradeable": false,
       "llm_unavailable": false
     },
@@ -293,96 +111,235 @@
       "score": 3.0,
       "weighted_score": 3.0,
       "weight": 1.0,
-      "rsi": 74.7,
+      "rsi": 55.4,
       "macd_bull": true,
       "sma_bull": true,
-      "vol_ratio": 0.71,
-      "atr_pct": 3.58,
-      "bb_pos": 0.78,
+      "vol_ratio": 1.41,
+      "atr_pct": 3.73,
+      "bb_pos": 0.58,
       "weekly_trend": 1,
-      "weekly_rsi": 62.2,
+      "weekly_rsi": 60.2,
       "news_sentiment": 0.0,
       "signals": {
         "macd": "bullish",
         "sma": "golden_cross",
-        "momentum": "positive",
+        "volume": "above_avg",
         "weekly": "uptrend"
       },
-      "price": 149500.0,
+      "price": 143800.0,
       "ensemble": {
         "reliable": true,
-        "direction": 0,
-        "probability": 0.488,
-        "confidence": 2.4,
-        "signal": "không rõ",
-        "high_confidence": false,
+        "direction": 1,
+        "probability": 0.628,
+        "confidence": 25.6,
+        "signal": "tăng mạnh",
+        "high_confidence": true,
         "votes": {
-          "xgb": -1,
-          "lgbm": -1,
+          "xgb": 1,
+          "lgbm": 1,
           "rf": 1,
           "lstm": 1
         },
-        "bullish_votes": 2,
-        "bearish_votes": 2,
+        "bullish_votes": 4,
+        "bearish_votes": 0,
         "total_models": 4,
-        "consensus": false,
+        "consensus": true,
         "sentiment_score": 0.0
       },
       "llm": {
-        "action": "BÁN",
-        "confidence": 65,
+        "action": "GIỮ",
+        "confidence": 60,
         "target": null,
         "stoploss": null,
-        "reason": "RSI 74.7 nằm trong vùng quá mua, tăng nguy cơ điều chỉnh giảm giá",
+        "reason": "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật chưa mạnh",
         "risk_reward": null,
-        "bull_summary": "MACD bullish cho thấy xu hướng tăng tiềm năng",
-        "bear_summary": "RSI 74.7 cho thấy quá mua, tăng nguy cơ điều chỉnh giảm giá",
-        "agreed_with": "bear",
+        "bull_summary": "Ensemble dự báo tăng mạnh đồng thời weekly trend đang lên",
+        "bear_summary": "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu và chưa đủ sức hỗ trợ xu hướng tăng mạnh",
+        "agreed_with": "neither",
         "llm_unavailable": false
       },
       "debate": true,
       "bull_case": {
         "stance": "BULL",
-        "decision": "GIỮ",
-        "confidence": 45,
+        "decision": "MUA",
+        "confidence": 71,
         "reasons": [
-          "MACD bullish cho thấy xu hướng tăng tiềm năng",
-          "Weekly trend đang uptrend hỗ trợ giá tiếp tục tăng",
-          "Lịch sử quyết định mua gần đây đã đúng, tăng niềm tin vào tín hiệu mua"
+          "Ensemble dự báo tăng mạnh đồng thời weekly trend đang lên",
+          "MACD bullish và khối lượng 1.4x TB20 xác nhận sức mua",
+          "RSI 55.4 chưa vào vùng quá mua, còn dư không gian tăng"
         ],
         "risks": [
-          "RSI 74.7 trong vùng quá mua có thể gây điều chỉnh giảm",
-          "Khối lượng giao dịch chỉ 0.7x TB20 không xác nhận sức mạnh mua",
-          "Stage1 score 3/7 và ensemble không rõ làm giảm độ tin"
+          "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật chưa mạnh"
         ],
         "top_3_reasons": [
-          "MACD bullish cho thấy xu hướng tăng tiềm năng",
-          "Weekly trend đang uptrend hỗ trợ giá tiếp tục tăng",
-          "Lịch sử quyết định mua gần đây đã đúng, tăng niềm tin vào tín hiệu mua"
+          "Ensemble dự báo tăng mạnh đồng thời weekly trend đang lên",
+          "MACD bullish và khối lượng 1.4x TB20 xác nhận sức mua",
+          "RSI 55.4 chưa vào vùng quá mua, còn dư không gian tăng"
         ],
-        "summary": "MACD bullish cho thấy xu hướng tăng tiềm năng"
+        "summary": "Ensemble dự báo tăng mạnh đồng thời weekly trend đang lên"
       },
       "bear_case": {
         "stance": "BEAR",
         "decision": "BÁN",
         "confidence": 60,
         "reasons": [
-          "RSI 74.7 cho thấy quá mua, tăng nguy cơ điều chỉnh giảm giá",
-          "Khối lượng giao dịch 0.7x TB20 quá yếu để xác nhận xu hướng MACD bullish",
-          "Score kỹ thuật Stage1 chỉ 3/7, phản ánh tín hiệu yếu"
+          "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu và chưa đủ sức hỗ trợ xu hướng tăng mạnh",
+          "Khối lượng 1.4x TB20 dù trên mức trung bình nhưng chưa đủ mạnh để xác nhận xu hướng bullish khi RSI chỉ 55.4, gần mức trung tính",
+          "Regime thị trường UNKNOWN làm tăng tính bất định và rủi ro cho xu hướng lên"
         ],
         "risks": [
-          "MACD bullish và xu hướng tuần lên có thể duy trì đà tăng ngắn hạn",
-          "Thị trường chưa xác định regime, có thể chuyển sang bullish trend"
+          "Ensemble dự đoán tăng mạnh có thể phản ánh mô hình máy học quá tối ưu và không phản ánh thực tế",
+          "MACD bullish và weekly uptrend có thể duy trì giá, khiến quyết định bán bỏ lỡ lợi nhuận ngắn hạn"
         ],
         "top_3_risks": [
-          "RSI 74.7 cho thấy quá mua, tăng nguy cơ điều chỉnh giảm giá",
-          "Khối lượng giao dịch 0.7x TB20 quá yếu để xác nhận xu hướng MACD bullish",
-          "Score kỹ thuật Stage1 chỉ 3/7, phản ánh tín hiệu yếu"
+          "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu và chưa đủ sức hỗ trợ xu hướng tăng mạnh",
+          "Khối lượng 1.4x TB20 dù trên mức trung bình nhưng chưa đủ mạnh để xác nhận xu hướng bullish khi RSI chỉ 55.4, gần mức trung tính",
+          "Regime thị trường UNKNOWN làm tăng tính bất định và rủi ro cho xu hướng lên"
         ],
-        "summary": "RSI 74.7 cho thấy quá mua, tăng nguy cơ điều chỉnh giảm giá"
+        "summary": "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu và chưa đủ sức hỗ trợ xu hướng tăng mạnh"
       },
-      "final_score": 3.0,
+      "final_score": 4.5,
+      "tradeable": false,
+      "llm_unavailable": false
+    },
+    {
+      "ticker": "VIC",
+      "score": 2.5,
+      "weighted_score": 2.5,
+      "weight": 1.0,
+      "rsi": 35.4,
+      "macd_bull": false,
+      "sma_bull": true,
+      "vol_ratio": 0.94,
+      "atr_pct": 2.9,
+      "bb_pos": 0.18,
+      "weekly_trend": 0,
+      "weekly_rsi": 36.3,
+      "news_sentiment": 0.0,
+      "signals": {
+        "rsi": "low",
+        "sma": "golden_cross",
+        "bb": "oversold"
+      },
+      "price": 222000.0,
+      "ensemble": {
+        "reliable": true,
+        "direction": 0,
+        "probability": 0.502,
+        "confidence": 0.5,
+        "signal": "không rõ",
+        "high_confidence": false,
+        "votes": {
+          "xgb": 1,
+          "lgbm": -1,
+          "rf": -1,
+          "lstm": -1
+        },
+        "bullish_votes": 1,
+        "bearish_votes": 3,
+        "total_models": 4,
+        "consensus": false,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 2.5,
+      "tradeable": false,
+      "llm_unavailable": false
+    },
+    {
+      "ticker": "SSI",
+      "score": 1.0,
+      "weighted_score": 1.0,
+      "weight": 1.0,
+      "rsi": 8.5,
+      "macd_bull": false,
+      "sma_bull": false,
+      "vol_ratio": 0.56,
+      "atr_pct": 2.82,
+      "bb_pos": 0.1,
+      "weekly_trend": -1,
+      "weekly_rsi": 33.7,
+      "news_sentiment": 0.0,
+      "signals": {
+        "rsi": "oversold",
+        "bb": "oversold",
+        "weekly": "downtrend"
+      },
+      "price": 18900.0,
+      "ensemble": {
+        "reliable": true,
+        "direction": 1,
+        "probability": 0.658,
+        "confidence": 31.7,
+        "signal": "tăng mạnh",
+        "high_confidence": true,
+        "votes": {
+          "xgb": 1,
+          "lgbm": 1,
+          "rf": 1,
+          "lstm": 1
+        },
+        "bullish_votes": 4,
+        "bearish_votes": 0,
+        "total_models": 4,
+        "consensus": true,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 2.5,
+      "tradeable": false,
+      "llm_unavailable": false
+    },
+    {
+      "ticker": "VCI",
+      "score": 1.0,
+      "weighted_score": 1.0,
+      "weight": 1.0,
+      "rsi": 25.3,
+      "macd_bull": false,
+      "sma_bull": false,
+      "vol_ratio": 0.69,
+      "atr_pct": 3.43,
+      "bb_pos": 0.13,
+      "weekly_trend": -1,
+      "weekly_rsi": 40.9,
+      "news_sentiment": 0.0,
+      "signals": {
+        "rsi": "oversold",
+        "bb": "oversold",
+        "weekly": "downtrend"
+      },
+      "price": 18350.0,
+      "ensemble": {
+        "reliable": true,
+        "direction": 0,
+        "probability": 0.551,
+        "confidence": 10.2,
+        "signal": "không rõ",
+        "high_confidence": false,
+        "votes": {
+          "xgb": 1,
+          "lgbm": 1,
+          "rf": 1,
+          "lstm": 1
+        },
+        "bullish_votes": 4,
+        "bearish_votes": 0,
+        "total_models": 4,
+        "consensus": true,
+        "sentiment_score": 0.0
+      },
+      "llm": null,
+      "debate": false,
+      "bull_case": null,
+      "bear_case": null,
+      "final_score": 1.5,
       "tradeable": false,
       "llm_unavailable": false
     },
@@ -394,22 +351,22 @@
       "rsi": 24.3,
       "macd_bull": false,
       "sma_bull": false,
-      "vol_ratio": 0.88,
-      "atr_pct": 1.57,
-      "bb_pos": 0.24,
+      "vol_ratio": 0.61,
+      "atr_pct": 1.56,
+      "bb_pos": 0.22,
       "weekly_trend": -1,
-      "weekly_rsi": 42.1,
+      "weekly_rsi": 41.6,
       "news_sentiment": 0.0,
       "signals": {
         "rsi": "oversold",
         "weekly": "downtrend"
       },
-      "price": 19150.0,
+      "price": 19050.0,
       "ensemble": {
         "reliable": true,
         "direction": 1,
-        "probability": 0.683,
-        "confidence": 36.6,
+        "probability": 0.721,
+        "confidence": 44.1,
         "signal": "tăng mạnh",
         "high_confidence": true,
         "votes": {
@@ -437,12 +394,12 @@
       "score": 0.0,
       "weighted_score": 0.0,
       "weight": 1.0,
-      "rsi": 17.0,
+      "rsi": 18.6,
       "macd_bull": false,
       "sma_bull": false,
-      "vol_ratio": 0.98,
-      "atr_pct": 1.83,
-      "bb_pos": 0.2,
+      "vol_ratio": 0.53,
+      "atr_pct": 1.78,
+      "bb_pos": 0.23,
       "weekly_trend": -1,
       "weekly_rsi": 33.7,
       "news_sentiment": 0.0,
@@ -454,8 +411,8 @@
       "ensemble": {
         "reliable": true,
         "direction": 1,
-        "probability": 0.691,
-        "confidence": 38.2,
+        "probability": 0.621,
+        "confidence": 24.2,
         "signal": "tăng mạnh",
         "high_confidence": true,
         "votes": {
@@ -479,30 +436,30 @@
       "llm_unavailable": false
     },
     {
-      "ticker": "VCI",
+      "ticker": "DGC",
       "score": 1.0,
       "weighted_score": 1.0,
       "weight": 1.0,
-      "rsi": 24.7,
+      "rsi": 33.8,
       "macd_bull": false,
       "sma_bull": false,
-      "vol_ratio": 0.71,
-      "atr_pct": 3.52,
-      "bb_pos": 0.12,
+      "vol_ratio": 0.53,
+      "atr_pct": 2.46,
+      "bb_pos": 0.08,
       "weekly_trend": -1,
-      "weekly_rsi": 38.9,
+      "weekly_rsi": 32.1,
       "news_sentiment": 0.0,
       "signals": {
         "rsi": "oversold",
         "bb": "oversold",
         "weekly": "downtrend"
       },
-      "price": 18450.0,
+      "price": 32900.0,
       "ensemble": {
         "reliable": true,
         "direction": 0,
-        "probability": 0.442,
-        "confidence": 11.6,
+        "probability": 0.506,
+        "confidence": 1.2,
         "signal": "không rõ",
         "high_confidence": false,
         "votes": {
