@@ -18,3 +18,5 @@
 {"day": "2026-10-12", "signal": "E6_ma200d_b60", "monitor_only": true, "weight": 0.0, "reason": "off", "details": {"vn30": 1869.38, "ma200": 1958.7, "vn30_above": false, "breadth_pct": 22.0, "universe": 50}}
 {"day": "2026-10-13", "signal": "E1_ma10m", "monitor_only": false, "weight": 0.0, "reason": "close<ma10m", "details": {"close": 1860.99, "ma": 1955.95}}
 {"day": "2026-10-13", "signal": "E6_ma200d_b60", "monitor_only": true, "weight": 0.0, "reason": "off", "details": {"vn30": 1860.99, "ma200": 1958.48, "vn30_above": false, "breadth_pct": 22.0, "universe": 50}}
+{"day": "2026-10-14", "signal": "E1_ma10m", "monitor_only": false, "weight": 0.0, "reason": "close<ma10m", "details": {"close": 1852.44, "ma": 1955.09}}
+{"day": "2026-10-14", "signal": "E6_ma200d_b60", "monitor_only": true, "weight": 0.0, "reason": "off", "details": {"vn30": 1852.44, "ma200": 1958.08, "vn30_above": false, "breadth_pct": 22.0, "universe": 50}}
