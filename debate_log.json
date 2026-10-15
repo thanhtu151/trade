@@ -4563,8 +4563,10 @@
       "key_reason": "Ensemble dự báo tăng mạnh nhưng khối lượng giao dịch chỉ 0.8x TB20 chưa đủ hỗ trợ"
     },
     "elapsed_sec": 19.6,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Khi RSI vượt mức quá mua, cần thận trọng hơn trong việc giữ vị thế để tránh thua lỗ lớn.",
+    "pnl_pct": -5.75,
+    "actual_price_3d": 141000.0
   },
   {
     "ticker": "VIB",
@@ -4785,8 +4787,10 @@
       "key_reason": "RSI 74.7 nằm trong vùng quá mua, tăng nguy cơ điều chỉnh giảm giá"
     },
     "elapsed_sec": 40.4,
-    "outcome": null,
-    "reflection": null
+    "outcome": "correct",
+    "reflection": "Khi RSI ở mức quá mua, cần thận trọng hơn với tín hiệu MACD và cân nhắc giảm kích thước vị thế.",
+    "pnl_pct": -5.75,
+    "actual_price_3d": 141000.0
   },
   {
     "ticker": "VIB",
@@ -4937,8 +4941,10 @@
       "key_reason": "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật chưa mạnh"
     },
     "elapsed_sec": 3.2,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Khi tín hiệu kỹ thuật yếu, nên cân nhắc giảm mức rủi ro ngay cả khi dự báo tăng mạnh",
+    "pnl_pct": -5.75,
+    "actual_price_3d": 141000.0
   },
   {
     "ticker": "VIB",

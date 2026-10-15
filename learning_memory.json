@@ -1,10 +1,10 @@
 {
   "last_trained": {
     "MBB": "2026-10-14",
-    "ACB": "2026-10-14",
+    "ACB": "2026-10-15",
     "VCB": "2026-09-29",
     "TCB": "2026-09-29",
-    "VIC": "2026-10-08",
+    "VIC": "2026-10-15",
     "PC1": "2026-09-29",
     "VRE": "2026-09-29",
     "VND": "2026-09-29",
@@ -36,10 +36,10 @@
   },
   "accuracy_stats": {
     "ACB": {
-      "total_predictions": 4,
-      "accuracy": 0.25,
-      "recent_5_accuracy": 0.25,
-      "avg_pnl_pct": -1.96,
+      "total_predictions": 5,
+      "accuracy": 0.4,
+      "recent_5_accuracy": 0.4,
+      "avg_pnl_pct": -1.121,
       "trend": "declining",
       "last_5": [
         {
@@ -61,14 +61,19 @@
           "date": "2026-10-09",
           "correct": true,
           "pnl": 0.491
+        },
+        {
+          "date": "2026-10-12",
+          "correct": true,
+          "pnl": 2.233
         }
       ]
     },
     "FRT": {
-      "total_predictions": 3,
-      "accuracy": 0.333,
-      "recent_5_accuracy": 0.333,
-      "avg_pnl_pct": 0.059,
+      "total_predictions": 4,
+      "accuracy": 0.25,
+      "recent_5_accuracy": 0.25,
+      "avg_pnl_pct": -1.393,
       "trend": "declining",
       "last_5": [
         {
@@ -85,6 +90,11 @@
           "date": "2026-10-09",
           "correct": false,
           "pnl": -0.928
+        },
+        {
+          "date": "2026-10-12",
+          "correct": false,
+          "pnl": -5.749
         }
       ]
     },
@@ -113,10 +123,10 @@
       ]
     },
     "VIC": {
-      "total_predictions": 4,
-      "accuracy": 0.75,
-      "recent_5_accuracy": 0.75,
-      "avg_pnl_pct": 2.851,
+      "total_predictions": 5,
+      "accuracy": 0.8,
+      "recent_5_accuracy": 0.8,
+      "avg_pnl_pct": 2.946,
       "trend": "declining",
       "last_5": [
         {
@@ -138,22 +148,27 @@
           "date": "2026-10-08",
           "correct": true,
           "pnl": 4.783
+        },
+        {
+          "date": "2026-10-12",
+          "correct": true,
+          "pnl": 3.326
         }
       ]
     },
     "_overall": {
-      "total": 17,
-      "accuracy": 0.412,
-      "avg_pnl": 0.118,
-      "win_rate": 0.412,
+      "total": 21,
+      "accuracy": 0.429,
+      "avg_pnl": -0.062,
+      "win_rate": 0.429,
       "epoch": 2
     }
   },
-  "updated_at": "2026-10-14T16:03:17.750373",
+  "updated_at": "2026-10-15T16:02:39.372683",
   "last_trained_lstm": {
     "HDB": "2026-08-07",
     "SHS": "2026-09-29",
-    "ACB": "2026-10-14",
+    "ACB": "2026-10-15",
     "PVD": "2026-09-29",
     "POW": "2026-07-31",
     "VIC": "2026-10-09",
@@ -165,8 +180,8 @@
     "DPM": "2026-09-24",
     "CTG": "2026-09-07",
     "MBB": "2026-10-14",
-    "VIB": "2026-10-08",
-    "SSI": "2026-10-08",
+    "VIB": "2026-10-15",
+    "SSI": "2026-10-15",
     "VCI": "2026-10-08",
     "DGC": "2026-10-09"
   }
