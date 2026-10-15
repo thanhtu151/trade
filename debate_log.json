@@ -1,50 +1,5 @@
 [
   {
-    "ticker": "HCM",
-    "date": "2026-08-12",
-    "time": "2026-08-12T10:45:05.304868",
-    "market_data": {
-      "price": 26.5,
-      "rsi": 56.2,
-      "macd_bull": true,
-      "vol_ratio": 0.15,
-      "score": 3.0,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 20675130.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": -4.53,
-    "actual_price_3d": 25.3
-  },
-  {
     "ticker": "FRT",
     "date": "2026-08-12",
     "time": "2026-08-12T10:45:17.148755",
@@ -4982,6 +4937,83 @@
       "key_reason": "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật chưa mạnh"
     },
     "elapsed_sec": 3.2,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "VIB",
+    "date": "2026-10-15",
+    "time": "2026-10-15T08:34:03.280267",
+    "market_data": {
+      "price": 13950.0,
+      "rsi": 63.9,
+      "macd_bull": true,
+      "vol_ratio": 1.67,
+      "score": 4.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "decision": "MUA",
+      "confidence": 68,
+      "reasons": [
+        "MACD bullish cho thấy xu hướng tăng đang mạnh",
+        "Khối lượng giao dịch 1.7x TB20 xác nhận dòng tiền mua vào",
+        "Weekly trend đang uptrend hỗ trợ xu hướng tăng"
+      ],
+      "risks": [
+        "Score Stage1 chỉ 4/7, chưa đủ mạnh để chắc chắn",
+        "Ensemble không rõ, có thể giảm độ tin cậy",
+        "Regime thị trường UNKNOWN và quyết định mua trước đó sai, tăng rủi ro"
+      ],
+      "top_3_reasons": [
+        "MACD bullish cho thấy xu hướng tăng đang mạnh",
+        "Khối lượng giao dịch 1.7x TB20 xác nhận dòng tiền mua vào",
+        "Weekly trend đang uptrend hỗ trợ xu hướng tăng"
+      ],
+      "summary": "MACD bullish cho thấy xu hướng tăng đang mạnh"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "decision": "GIỮ",
+      "confidence": 40,
+      "reasons": [
+        "Stage1 score chỉ 4/7 cho thấy sức mạnh mua chưa đủ mạnh",
+        "Ensemble không xác định gây mất độ tin cậy cho tín hiệu",
+        "Lịch sử mua gần đây (13/10) sai lầm khi MACD không mạnh và Stage1 yếu"
+      ],
+      "risks": [
+        "MACD bullish và khối lượng giao dịch 1.7x TB20 có thể tiếp tục đẩy giá lên",
+        "Weekly trend đang trong xu hướng tăng, hỗ trợ lực mua"
+      ],
+      "top_3_risks": [
+        "Stage1 score chỉ 4/7 cho thấy sức mạnh mua chưa đủ mạnh",
+        "Ensemble không xác định gây mất độ tin cậy cho tín hiệu",
+        "Lịch sử mua gần đây (13/10) sai lầm khi MACD không mạnh và Stage1 yếu"
+      ],
+      "summary": "Stage1 score chỉ 4/7 cho thấy sức mạnh mua chưa đủ mạnh"
+    },
+    "final_decision": {
+      "decision": "GIỮ",
+      "confidence": 55,
+      "reasons": [
+        "Stage1 score chỉ 4/7 cho thấy sức mạnh mua chưa đủ mạnh",
+        "Ensemble không rõ, giảm độ tin cậy của tín hiệu Bull",
+        "Weekly trend uptrend nhưng market regime UNKNOWN tạo độ không chắc"
+      ],
+      "risks": [
+        "MACD bullish và khối lượng 1.7x TB20 có thể đẩy giá lên, gây mất cơ hội tăng",
+        "Lịch sử mua gần đây sai khi MACD không mạnh"
+      ],
+      "action": "GIỮ",
+      "agreed_with": "neither",
+      "key_reason": "Stage1 score chỉ 4/7 cho thấy sức mạnh mua chưa đủ mạnh"
+    },
+    "elapsed_sec": 3.6,
     "outcome": null,
     "reflection": null
   }

@@ -4591,5 +4591,41 @@
     "logged_at": "2026-10-14T08:34:59.971863",
     "resolved": false,
     "ledger_epoch": 2
+  },
+  "MBB_2026-10-15": {
+    "id": "MBB_2026-10-15",
+    "ticker": "MBB",
+    "date": "2026-10-15",
+    "predicted_direction": -1,
+    "predicted_price": 19350.0,
+    "confidence": 21.0,
+    "source": "two_stage",
+    "notes": "stage1_score=0.0 llm=skip",
+    "entry_price": 19350.0,
+    "actual_price_3d": null,
+    "actual_direction": null,
+    "correct": null,
+    "pnl_pct": null,
+    "logged_at": "2026-10-15T08:34:26.594277",
+    "resolved": false,
+    "ledger_epoch": 2
+  },
+  "ACB_2026-10-15": {
+    "id": "ACB_2026-10-15",
+    "ticker": "ACB",
+    "date": "2026-10-15",
+    "predicted_direction": -1,
+    "predicted_price": 20450.0,
+    "confidence": 26.4,
+    "source": "two_stage",
+    "notes": "stage1_score=0.0 llm=skip",
+    "entry_price": 20450.0,
+    "actual_price_3d": null,
+    "actual_direction": null,
+    "correct": null,
+    "pnl_pct": null,
+    "logged_at": "2026-10-15T08:34:36.564540",
+    "resolved": false,
+    "ledger_epoch": 2
   }
 }
