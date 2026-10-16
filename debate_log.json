@@ -4638,8 +4638,10 @@
       "key_reason": "MACD bullish nhưng Stage1 score chỉ 4.5/7 cho thấy tín hiệu chưa mạnh"
     },
     "elapsed_sec": 3.5,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Khi tín hiệu MACD bullish nhưng điểm Stage1 thấp, nên kết hợp thêm các chỉ báo khác trước khi quyết định giữ vị trí.",
+    "pnl_pct": 1.09,
+    "actual_price_3d": 13850.0
   },
   {
     "ticker": "VIC",
@@ -4710,8 +4712,10 @@
       "key_reason": "RSI 26.5 quá bán nhưng MACD bearish cho thấy xu hướng giảm vẫn còn mạnh"
     },
     "elapsed_sec": 5.4,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Khi RSI quá bán mạnh nhưng MACD vẫn bearish, cần kết hợp thêm tín hiệu khác trước khi giữ vị thế để giảm rủi ro.",
+    "pnl_pct": -1.83,
+    "actual_price_3d": 215000.0
   },
   {
     "ticker": "FRT",
@@ -4866,8 +4870,10 @@
       "key_reason": "Ensemble dự báo tăng mạnh và weekly trend đang uptrend"
     },
     "elapsed_sec": 3.7,
-    "outcome": null,
-    "reflection": null
+    "outcome": "correct",
+    "reflection": "Cần kết hợp đa dạng tín hiệu và kiểm tra độ tin cậy mô hình trước khi quyết định mua để giảm rủi ro.",
+    "pnl_pct": 1.09,
+    "actual_price_3d": 13850.0
   },
   {
     "ticker": "FRT",
@@ -5020,7 +5026,9 @@
       "key_reason": "Stage1 score chỉ 4/7 cho thấy sức mạnh mua chưa đủ mạnh"
     },
     "elapsed_sec": 3.6,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Khi tín hiệu MACD mạnh nhưng điểm Stage1 thấp, nên kết hợp thêm các chỉ báo khác để xác nhận sức mạnh mua trước khi giữ vị thế.",
+    "pnl_pct": 1.09,
+    "actual_price_3d": 13850.0
   }
 ]

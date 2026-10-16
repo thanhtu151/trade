@@ -115102,11 +115102,12 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": 2.1
   },
   {
     "date": "2026-10-13",
@@ -115122,11 +115123,12 @@
     "source": "two_stage",
     "notes": "stage1_score=2.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": -0.606
   },
   {
     "date": "2026-10-13",
@@ -115142,11 +115144,12 @@
     "source": "two_stage",
     "notes": "stage1_score=0.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": 3.655
   },
   {
     "date": "2026-10-13",
@@ -115162,11 +115165,12 @@
     "source": "two_stage",
     "notes": "stage1_score=0.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": 0.733
   },
   {
     "date": "2026-10-14",
