@@ -115186,11 +115186,12 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=4.5 llm=MUA",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": -0.362
   },
   {
     "date": "2026-10-14",
@@ -115206,11 +115207,12 @@
     "source": "two_stage_debate",
     "notes": "stage1_score=3.0 llm=GIỮ",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": 1.53
   },
   {
     "date": "2026-10-14",
@@ -115226,11 +115228,12 @@
     "source": "two_stage",
     "notes": "stage1_score=1.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": 4.762
   },
   {
     "date": "2026-10-14",
@@ -115246,11 +115249,12 @@
     "source": "two_stage",
     "notes": "stage1_score=0.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": 3.412
   },
   {
     "date": "2026-10-14",
@@ -115266,11 +115270,12 @@
     "source": "two_stage",
     "notes": "stage1_score=0.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": -0.978
   },
   {
     "date": "2026-10-15",
@@ -115286,11 +115291,12 @@
     "source": "two_stage",
     "notes": "stage1_score=0.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": -1.809
   },
   {
     "date": "2026-10-15",
@@ -115306,11 +115312,12 @@
     "source": "two_stage",
     "notes": "stage1_score=0.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": 0.978
   },
   {
     "date": "2026-10-16",
@@ -115326,11 +115333,12 @@
     "source": "two_stage",
     "notes": "stage1_score=4.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": 5.046
   },
   {
     "date": "2026-10-16",
@@ -115346,11 +115354,12 @@
     "source": "two_stage",
     "notes": "stage1_score=1.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": false,
+    "outcome": "incorrect",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": -1.005
   },
   {
     "date": "2026-10-16",
@@ -115366,11 +115375,12 @@
     "source": "two_stage",
     "notes": "stage1_score=0.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": 1.699
   },
   {
     "date": "2026-10-19",
