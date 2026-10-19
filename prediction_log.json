@@ -4697,5 +4697,41 @@
     "logged_at": "2026-10-16T08:34:40.947154",
     "resolved": false,
     "ledger_epoch": 2
+  },
+  "SSI_2026-10-19": {
+    "id": "SSI_2026-10-19",
+    "ticker": "SSI",
+    "date": "2026-10-19",
+    "predicted_direction": 1,
+    "predicted_price": 19450.0,
+    "confidence": 20.4,
+    "source": "two_stage",
+    "notes": "stage1_score=0.5 llm=skip",
+    "entry_price": 19450.0,
+    "actual_price_3d": null,
+    "actual_direction": null,
+    "correct": null,
+    "pnl_pct": null,
+    "logged_at": "2026-10-19T08:34:40.241719",
+    "resolved": false,
+    "ledger_epoch": 2
+  },
+  "MBB_2026-10-19": {
+    "id": "MBB_2026-10-19",
+    "ticker": "MBB",
+    "date": "2026-10-19",
+    "predicted_direction": 1,
+    "predicted_price": 19850.0,
+    "confidence": 50.4,
+    "source": "two_stage",
+    "notes": "stage1_score=0.0 llm=skip",
+    "entry_price": 19850.0,
+    "actual_price_3d": null,
+    "actual_direction": null,
+    "correct": null,
+    "pnl_pct": null,
+    "logged_at": "2026-10-19T08:34:55.740882",
+    "resolved": false,
+    "ledger_epoch": 2
   }
 }
