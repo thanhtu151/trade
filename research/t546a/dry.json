@@ -1,0 +1,22 @@
+{
+ "causal_bad": 0,
+ "info": [
+  {
+   "window": "2021",
+   "n_train": 194,
+   "train_pos": 0.37628865979381443,
+   "train_nan_rate": 0.0,
+   "oof_auc": 0.4790558134269218,
+   "tau": 0.38171233558705386,
+   "n_test": 251,
+   "n_keep": 200,
+   "n_raw_test": 1663,
+   "n_raw_keep": 1458
+  }
+ ],
+ "a5_count": {
+  "S1": 176,
+  "S2": 73
+ },
+ "a5_signal": "S1"
+}
