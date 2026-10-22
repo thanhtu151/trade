@@ -4924,8 +4924,10 @@
       "key_reason": "MACD đang bearish và khối lượng 0.9x TB20 chưa đủ xác nhận lực mua"
     },
     "elapsed_sec": 3.8,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Khi tín hiệu RSI quá bán nhưng MACD báo xu hướng giảm, cần kết hợp thêm các chỉ báo khác để xác nhận xu hướng trước khi quyết định giữ vị thế.",
+    "pnl_pct": 8.33,
+    "actual_price_3d": 232900.0
   },
   {
     "ticker": "VIB",
@@ -4984,8 +4986,10 @@
       "key_reason": "RSI 70.6 cho thấy trạng thái quá mua mạnh, tăng rủi ro giảm giá"
     },
     "elapsed_sec": 3.3,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "Không dựa vào chỉ số RSI quá mua mà cần xác nhận xu hướng và quản lý rủi ro trước khi quyết định bán.",
+    "pnl_pct": 1.44,
+    "actual_price_3d": 14050.0
   },
   {
     "ticker": "VIB",
@@ -5062,8 +5066,10 @@
       "key_reason": "MACD bullish và khối lượng 2.2x TB20 hỗ trợ xu hướng tăng"
     },
     "elapsed_sec": 3.8,
-    "outcome": null,
-    "reflection": null
+    "outcome": "correct",
+    "reflection": "Khi RSI gần mức quá mua, cần thận trọng và kết hợp thêm tín hiệu khác trước khi mở lệnh mua.",
+    "pnl_pct": 1.44,
+    "actual_price_3d": 14050.0
   },
   {
     "ticker": "FRT",

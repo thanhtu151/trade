@@ -115396,11 +115396,12 @@
     "source": "two_stage",
     "notes": "stage1_score=0.5 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": 3.599
   },
   {
     "date": "2026-10-19",
@@ -115416,11 +115417,12 @@
     "source": "two_stage",
     "notes": "stage1_score=0.0 llm=skip",
     "actual_price": null,
-    "correct": null,
-    "outcome": null,
-    "resolved": false,
+    "correct": true,
+    "outcome": "correct",
+    "resolved": true,
     "synced_from": "prediction_log",
-    "ledger_epoch": 2
+    "ledger_epoch": 2,
+    "pnl_pct": 0.252
   },
   {
     "date": "2026-10-20",

@@ -4728,13 +4728,15 @@
     "source": "two_stage",
     "notes": "stage1_score=0.5 llm=skip",
     "entry_price": 19450.0,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 20150.0,
+    "actual_direction": 1,
+    "correct": true,
+    "pnl_pct": 3.599,
     "logged_at": "2026-10-19T08:34:40.241719",
-    "resolved": false,
-    "ledger_epoch": 2
+    "resolved": true,
+    "ledger_epoch": 2,
+    "price_change_pct": 3.599,
+    "resolved_at": "2026-10-22T16:01:53.921226"
   },
   "MBB_2026-10-19": {
     "id": "MBB_2026-10-19",
@@ -4746,13 +4748,15 @@
     "source": "two_stage",
     "notes": "stage1_score=0.0 llm=skip",
     "entry_price": 19850.0,
-    "actual_price_3d": null,
-    "actual_direction": null,
-    "correct": null,
-    "pnl_pct": null,
+    "actual_price_3d": 19900.0,
+    "actual_direction": 1,
+    "correct": true,
+    "pnl_pct": 0.252,
     "logged_at": "2026-10-19T08:34:55.740882",
-    "resolved": false,
-    "ledger_epoch": 2
+    "resolved": true,
+    "ledger_epoch": 2,
+    "price_change_pct": 0.252,
+    "resolved_at": "2026-10-22T16:01:59.761585"
   },
   "FRT_2026-10-20": {
     "id": "FRT_2026-10-20",
