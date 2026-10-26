@@ -5004,8 +5004,10 @@
       "key_reason": "Ensemble dự báo tăng mạnh và weekly trend đang uptrend"
     },
     "elapsed_sec": 3.2,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "Cần kết hợp đánh giá tín hiệu mạnh và xác nhận xu hướng weekly trước khi quyết định mua để tránh quyết định sai lệch.",
+    "pnl_pct": -2.63,
+    "actual_price_3d": 148000.0
   },
   {
     "ticker": "VIB",
@@ -5069,8 +5071,10 @@
       "key_reason": "MACD bullish và khối lượng 1.2x TB20 hỗ trợ xu hướng tăng trong weekly uptrend"
     },
     "elapsed_sec": 3.0,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Xác định rõ tiêu chuẩn vào/ra lệnh và tuân thủ chúng để tránh giữ vị thế khi không có tín hiệu chắc chắn.",
+    "pnl_pct": -0.71,
+    "actual_price_3d": 13950.0
   },
   {
     "ticker": "FRT",
@@ -5142,8 +5146,10 @@
       "key_reason": "Ensemble dự báo tăng mạnh hỗ trợ xu hướng uptrend tuần"
     },
     "elapsed_sec": 3.2,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "Khi quyết định giao dịch, cần kết hợp phân tích khối lượng thực tế để xác nhận sức mạnh mua vào, tránh dựa quá nhiều vào dự báo mô hình.",
+    "pnl_pct": -2.63,
+    "actual_price_3d": 148000.0
   },
   {
     "ticker": "FRT",
@@ -5214,7 +5220,9 @@
       "key_reason": "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu"
     },
     "elapsed_sec": 3.6,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Khi giữ vị thế mà không đủ khối lượng hỗ trợ, cần xem xét lại tiêu chí vào lệnh để giảm thiểu rủi ro",
+    "pnl_pct": -2.63,
+    "actual_price_3d": 148000.0
   }
 ]
