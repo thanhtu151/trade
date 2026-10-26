@@ -1,50 +1,5 @@
 [
   {
-    "ticker": "HDB",
-    "date": "2026-08-26",
-    "time": "2026-08-26T09:54:40.754866",
-    "market_data": {
-      "price": 27.2,
-      "rsi": 59.2,
-      "macd_bull": true,
-      "vol_ratio": 0.2,
-      "score": 3.0,
-      "ensemble_signal": "tăng mạnh",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 1045100.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": 2.21,
-    "actual_price_3d": 27.8
-  },
-  {
     "ticker": "GAS",
     "date": "2026-08-26",
     "time": "2026-08-26T09:54:53.018001",
@@ -5187,6 +5142,78 @@
       "key_reason": "Ensemble dự báo tăng mạnh hỗ trợ xu hướng uptrend tuần"
     },
     "elapsed_sec": 3.2,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "FRT",
+    "date": "2026-10-26",
+    "time": "2026-10-26T08:34:32.293180",
+    "market_data": {
+      "price": 150000.0,
+      "rsi": 54.7,
+      "macd_bull": true,
+      "vol_ratio": 0.75,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "decision": "MUA",
+      "confidence": 65,
+      "reasons": [
+        "Ensemble dự báo tăng mạnh"
+      ],
+      "risks": [
+        "Khối lượng giao dịch 0.8x TB20 chưa xác nhận dòng tiền",
+        "Stage1 score 3/7 cho thấy tín hiệu kỹ thuật yếu"
+      ],
+      "top_3_reasons": [
+        "Ensemble dự báo tăng mạnh"
+      ],
+      "summary": "Ensemble dự báo tăng mạnh"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "decision": "GIỮ",
+      "confidence": 40,
+      "reasons": [
+        "Khối lượng 0.8x TB20 chưa đủ hỗ trợ tín hiệu MACD bullish",
+        "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu",
+        "RSI 54.7 không nằm trong vùng quá bán, tăng giá khó đạt đà mạnh khi regime chưa xác định"
+      ],
+      "risks": [
+        "Ensemble dự báo tăng mạnh và MACD bullish có thể kéo giá lên",
+        "Weekly trend đang trong xu hướng tăng, thị trường có thể tiếp tục hỗ trợ"
+      ],
+      "top_3_risks": [
+        "Khối lượng 0.8x TB20 chưa đủ hỗ trợ tín hiệu MACD bullish",
+        "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu",
+        "RSI 54.7 không nằm trong vùng quá bán, tăng giá khó đạt đà mạnh khi regime chưa xác định"
+      ],
+      "summary": "Khối lượng 0.8x TB20 chưa đủ hỗ trợ tín hiệu MACD bullish"
+    },
+    "final_decision": {
+      "decision": "GIỮ",
+      "confidence": 58,
+      "reasons": [
+        "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu",
+        "Khối lượng 0.8x TB20 chưa xác nhận dòng tiền cho MACD bullish",
+        "Risk/Reward ước tính dưới ngưỡng 1.5"
+      ],
+      "risks": [
+        "Nếu khối lượng tăng mạnh, giá có thể bật lên và bỏ lỡ lợi nhuận",
+        "Regime thị trường chưa xác định có thể làm giảm độ tin cậy của xu hướng lên"
+      ],
+      "action": "GIỮ",
+      "agreed_with": "neither",
+      "key_reason": "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu"
+    },
+    "elapsed_sec": 3.6,
     "outcome": null,
     "reflection": null
   }
