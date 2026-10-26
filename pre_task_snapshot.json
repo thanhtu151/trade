@@ -1,6 +1,6 @@
 {
-  "task": "rebacktest",
-  "created_at": "2026-10-26 17:12:01",
+  "task": "eod",
+  "created_at": "2026-10-26 21:45:25",
   "files": {
     "paper_portfolio.json": "paper_portfolio.json.pre_task.bak",
     "paper_trades.json": "paper_trades.json.pre_task.bak"
