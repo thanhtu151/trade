@@ -2,16 +2,16 @@
   "status": "idle",
   "message": "AI tự động đã phân tích xong",
   "detail": "Hoàn tất 50 mã trong training watchlist",
-  "updated_at": "2026-10-26T07:56:09.813183+00:00",
+  "updated_at": "2026-10-26T08:06:44.877332+00:00",
   "version": 1,
   "tasks": {
     "heal": {
       "consecutive_failures": 0,
       "state": "success",
-      "last_update": "2026-10-26T07:56:09.813183+00:00",
-      "run_id": "40288745023",
+      "last_update": "2026-10-26T08:06:44.877332+00:00",
+      "run_id": "40289852982",
       "last_error": null,
-      "last_success": "2026-10-26T07:56:09.813183+00:00"
+      "last_success": "2026-10-26T08:06:44.877332+00:00"
     },
     "prep": {
       "consecutive_failures": 0,
@@ -51,9 +51,9 @@
     "eod": {
       "consecutive_failures": 0,
       "state": "success",
-      "last_update": "2026-10-23T13:00:56.619787+00:00",
-      "run_id": "39957540239",
-      "last_success": "2026-10-23T13:00:56.619787+00:00",
+      "last_update": "2026-10-26T08:06:44.323558+00:00",
+      "run_id": "40289852982",
+      "last_success": "2026-10-26T08:06:44.323558+00:00",
       "last_error": null
     },
     "learning": {
@@ -83,9 +83,9 @@
     "etf_core": {
       "consecutive_failures": 0,
       "state": "success",
-      "last_update": "2026-10-23T13:00:56.618251+00:00",
-      "run_id": "39957540239",
-      "last_success": "2026-10-23T13:00:56.618251+00:00",
+      "last_update": "2026-10-26T08:06:43.393218+00:00",
+      "run_id": "40289852982",
+      "last_success": "2026-10-26T08:06:43.393218+00:00",
       "last_error": null
     }
   }
