@@ -1,95 +1,5 @@
 [
   {
-    "ticker": "GAS",
-    "date": "2026-08-26",
-    "time": "2026-08-26T09:54:53.018001",
-    "market_data": {
-      "price": 85.3,
-      "rsi": 74.6,
-      "macd_bull": true,
-      "vol_ratio": 0.27,
-      "score": 3.0,
-      "ensemble_signal": "tăng mạnh",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 1045100.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": -1.29,
-    "actual_price_3d": 84.2
-  },
-  {
-    "ticker": "DPM",
-    "date": "2026-08-26",
-    "time": "2026-08-26T09:55:05.097241",
-    "market_data": {
-      "price": 22.2,
-      "rsi": 60.9,
-      "macd_bull": true,
-      "vol_ratio": 0.17,
-      "score": 3.0,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 1045100.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": -0.9,
-    "actual_price_3d": 22.0
-  },
-  {
     "ticker": "HCM",
     "date": "2026-08-26",
     "time": "2026-08-26T09:55:49.465449",
@@ -5224,5 +5134,156 @@
     "reflection": "Khi giữ vị thế mà không đủ khối lượng hỗ trợ, cần xem xét lại tiêu chí vào lệnh để giảm thiểu rủi ro",
     "pnl_pct": -2.63,
     "actual_price_3d": 148000.0
+  },
+  {
+    "ticker": "VIB",
+    "date": "2026-10-27",
+    "time": "2026-10-27T08:33:49.838628",
+    "market_data": {
+      "price": 13950.0,
+      "rsi": 61.0,
+      "macd_bull": true,
+      "vol_ratio": 0.77,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "decision": "MUA",
+      "confidence": 60,
+      "reasons": [
+        "MACD bullish xác nhận xu hướng tăng",
+        "Weekly trend đang uptrend tạo bối cảnh thuận lợi",
+        "RSI 61 cho thấy chưa quá mua, còn dư không gian tăng"
+      ],
+      "risks": [
+        "Khối lượng 0.8x TB20 yếu, chưa chắc hỗ trợ đà tăng",
+        "Stage1 score chỉ 3/7 cho thấy tín hiệu yếu",
+        "Market regime UNKNOWN có thể gây biến động bất ngờ"
+      ],
+      "top_3_reasons": [
+        "MACD bullish xác nhận xu hướng tăng",
+        "Weekly trend đang uptrend tạo bối cảnh thuận lợi",
+        "RSI 61 cho thấy chưa quá mua, còn dư không gian tăng"
+      ],
+      "summary": "MACD bullish xác nhận xu hướng tăng"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "decision": "BÁN",
+      "confidence": 55,
+      "reasons": [
+        "Stage1 score chỉ 3/7 cho thấy sức mạnh kỹ thuật yếu",
+        "Khối lượng giao dịch 0.8x TB20 chưa xác nhận xu hướng bullish của MACD",
+        "RSI 61 đang gần mức quá mua, tăng nguy cơ đảo chiều"
+      ],
+      "risks": [
+        "Weekly trend vẫn đang lên, có thể duy trì đà tăng",
+        "MACD bullish có thể kéo giá lên ngắn hạn"
+      ],
+      "top_3_risks": [
+        "Stage1 score chỉ 3/7 cho thấy sức mạnh kỹ thuật yếu",
+        "Khối lượng giao dịch 0.8x TB20 chưa xác nhận xu hướng bullish của MACD",
+        "RSI 61 đang gần mức quá mua, tăng nguy cơ đảo chiều"
+      ],
+      "summary": "Stage1 score chỉ 3/7 cho thấy sức mạnh kỹ thuật yếu"
+    },
+    "final_decision": {
+      "decision": "GIỮ",
+      "confidence": 58,
+      "reasons": [
+        "MACD bullish và weekly trend đang uptrend tạo bối cảnh tăng tiềm năng",
+        "Stage1 score chỉ 3/7 và khối lượng 0.8x TB20 yếu, chưa đủ xác nhận sức mạnh"
+      ],
+      "risks": [
+        "Khối lượng giao dịch yếu có thể không hỗ trợ đà tăng",
+        "Market regime UNKNOWN có thể gây biến động bất ngờ"
+      ],
+      "action": "GIỮ",
+      "agreed_with": "neither",
+      "key_reason": "MACD bullish và weekly trend đang uptrend tạo bối cảnh tăng tiềm năng"
+    },
+    "elapsed_sec": 3.3,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "FRT",
+    "date": "2026-10-27",
+    "time": "2026-10-27T08:33:57.869088",
+    "market_data": {
+      "price": 148000.0,
+      "rsi": 54.7,
+      "macd_bull": true,
+      "vol_ratio": 0.4,
+      "score": 3.0,
+      "ensemble_signal": "tăng mạnh",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "decision": "MUA",
+      "confidence": 65,
+      "reasons": [
+        "Ensemble dự báo tăng mạnh đồng thời xu hướng weekly đang lên",
+        "MACD bullish xác nhận tín hiệu tăng giá"
+      ],
+      "risks": [
+        "Khối lượng giao dịch chỉ 0.4x TB20, chưa đủ sức hỗ trợ xu hướng lên",
+        "Stage1 score thấp 3/7 cho thấy tín hiệu chưa mạnh"
+      ],
+      "top_3_reasons": [
+        "Ensemble dự báo tăng mạnh đồng thời xu hướng weekly đang lên",
+        "MACD bullish xác nhận tín hiệu tăng giá"
+      ],
+      "summary": "Ensemble dự báo tăng mạnh đồng thời xu hướng weekly đang lên"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "decision": "BÁN",
+      "confidence": 60,
+      "reasons": [
+        "Khối lượng giao dịch chỉ 0.4x TB20, không hỗ trợ xu hướng bullish và có thể gây giảm giá nếu không có lực mua đủ mạnh",
+        "Stage1 score chỉ 3/7 cho thấy tín hiệu chưa đủ mạnh để duy trì tăng giá",
+        "Các quyết định mua gần đây dựa trên mô hình đã sai, cho thấy rủi ro cao khi dựa vào ensemble tăng mạnh duy nhất"
+      ],
+      "risks": [
+        "MACD bullish và xu hướng weekly uptrend có thể kéo giá lên nếu khối lượng tăng mạnh",
+        "Ensemble dự báo tăng mạnh có thể phản ánh tín hiệu mô hình thay vì thực tế thị trường"
+      ],
+      "top_3_risks": [
+        "Khối lượng giao dịch chỉ 0.4x TB20, không hỗ trợ xu hướng bullish và có thể gây giảm giá nếu không có lực mua đủ mạnh",
+        "Stage1 score chỉ 3/7 cho thấy tín hiệu chưa đủ mạnh để duy trì tăng giá",
+        "Các quyết định mua gần đây dựa trên mô hình đã sai, cho thấy rủi ro cao khi dựa vào ensemble tăng mạnh duy nhất"
+      ],
+      "summary": "Khối lượng giao dịch chỉ 0.4x TB20, không hỗ trợ xu hướng bullish và có thể gây giảm giá nếu không có lực mua đủ mạnh"
+    },
+    "final_decision": {
+      "decision": "GIỮ",
+      "confidence": 55,
+      "reasons": [
+        "Khối lượng giao dịch chỉ 0.4x TB20 không đủ hỗ trợ xu hướng bullish",
+        "Stage1 score thấp 3/7 cho thấy tín hiệu chưa mạnh",
+        "Các quyết định mua gần đây dựa trên ensemble tăng mạnh đã sai, tăng rủi ro"
+      ],
+      "risks": [
+        "Nếu khối lượng tăng mạnh giá có thể bật lên, làm mất cơ hội lợi nhuận",
+        "Ensemble tăng mạnh có thể là tín hiệu mô hình không phản ánh thực tế thị trường",
+        "Regime thị trường không xác định khiến xu hướng weekly có thể đảo chiều"
+      ],
+      "action": "GIỮ",
+      "agreed_with": "neither",
+      "key_reason": "Khối lượng giao dịch chỉ 0.4x TB20 không đủ hỗ trợ xu hướng bullish"
+    },
+    "elapsed_sec": 3.2,
+    "outcome": null,
+    "reflection": null
   }
 ]
