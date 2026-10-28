@@ -1,50 +1,5 @@
 [
   {
-    "ticker": "HCM",
-    "date": "2026-08-26",
-    "time": "2026-08-26T09:55:49.465449",
-    "market_data": {
-      "price": 26.1,
-      "rsi": 57.4,
-      "macd_bull": true,
-      "vol_ratio": 0.13,
-      "score": 3.0,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 1045100.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": -0.19,
-    "actual_price_3d": 26.05
-  },
-  {
     "ticker": "GMD",
     "date": "2026-08-27",
     "time": "2026-08-27T18:57:46.007611",
@@ -5283,6 +5238,84 @@
       "key_reason": "Khối lượng giao dịch chỉ 0.4x TB20 không đủ hỗ trợ xu hướng bullish"
     },
     "elapsed_sec": 3.2,
+    "outcome": null,
+    "reflection": null
+  },
+  {
+    "ticker": "VIB",
+    "date": "2026-10-28",
+    "time": "2026-10-28T08:34:03.991171",
+    "market_data": {
+      "price": 14100.0,
+      "rsi": 55.6,
+      "macd_bull": true,
+      "vol_ratio": 1.18,
+      "score": 3.0,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "decision": "MUA",
+      "confidence": 60,
+      "reasons": [
+        "MACD đang ở trạng thái bullish xác nhận xu hướng tăng",
+        "Khối lượng giao dịch 1.2x TB20 vượt mức trung bình hỗ trợ dòng tiền lên giá",
+        "Weekly trend đang trong xu hướng tăng, tạo môi trường thuận lợi cho cổ phiếu"
+      ],
+      "risks": [
+        "RSI 55.6 đang tiến gần vùng quá mua, có thể gây áp lực giảm nếu tiếp tục tăng",
+        "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật chưa mạnh",
+        "Regime thị trường không xác định và ensemble không rõ, có thể làm giảm độ tin cậy của xu hướng"
+      ],
+      "top_3_reasons": [
+        "MACD đang ở trạng thái bullish xác nhận xu hướng tăng",
+        "Khối lượng giao dịch 1.2x TB20 vượt mức trung bình hỗ trợ dòng tiền lên giá",
+        "Weekly trend đang trong xu hướng tăng, tạo môi trường thuận lợi cho cổ phiếu"
+      ],
+      "summary": "MACD đang ở trạng thái bullish xác nhận xu hướng tăng"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "decision": "GIỮ",
+      "confidence": 38,
+      "reasons": [
+        "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu",
+        "Ensemble ML không rõ, không có hỗ trợ cho xu hướng bullish",
+        "Regime thị trường UNKNOWN làm mất độ tin cậy của weekly uptrend"
+      ],
+      "risks": [
+        "MACD bullish có thể tiếp tục kéo giá lên",
+        "RSI 55.6 có thể tăng vào vùng quá mua",
+        "Khối lượng 1.2x TB20 có thể chỉ là áp lực mua ngắn hạn"
+      ],
+      "top_3_risks": [
+        "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu",
+        "Ensemble ML không rõ, không có hỗ trợ cho xu hướng bullish",
+        "Regime thị trường UNKNOWN làm mất độ tin cậy của weekly uptrend"
+      ],
+      "summary": "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu"
+    },
+    "final_decision": {
+      "decision": "GIỮ",
+      "confidence": 55,
+      "reasons": [
+        "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu",
+        "RSI 55.6 đang tiến gần vùng quá mua có thể gây áp lực giảm",
+        "Ensemble không rõ, không cung cấp hỗ trợ thêm cho xu hướng bullish"
+      ],
+      "risks": [
+        "MACD bullish và khối lượng 1.2x TB20 có thể kéo giá lên ngắn hạn",
+        "Regime thị trường UNKNOWN làm giảm độ tin cậy của weekly uptrend"
+      ],
+      "action": "GIỮ",
+      "agreed_with": "neither",
+      "key_reason": "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu"
+    },
+    "elapsed_sec": 5.7,
     "outcome": null,
     "reflection": null
   }
