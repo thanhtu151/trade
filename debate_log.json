@@ -5163,8 +5163,10 @@
       "key_reason": "MACD bullish và weekly trend đang uptrend tạo bối cảnh tăng tiềm năng"
     },
     "elapsed_sec": 3.3,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Khi tín hiệu MACD bullish nhưng Stage1 yếu, cần đợi xác nhận mạnh hơn trước khi giữ vị thế.",
+    "pnl_pct": -1.08,
+    "actual_price_3d": 13800.0
   },
   {
     "ticker": "FRT",
@@ -5238,8 +5240,10 @@
       "key_reason": "Khối lượng giao dịch chỉ 0.4x TB20 không đủ hỗ trợ xu hướng bullish"
     },
     "elapsed_sec": 3.2,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Khi quyết định giữ neutral, cần cân nhắc cả khối lượng giao dịch và xu hướng giá để tránh mất cơ hội hoặc rủi ro khi thị trường thay đổi.",
+    "pnl_pct": 0.47,
+    "actual_price_3d": 148700.0
   },
   {
     "ticker": "VIB",
@@ -5316,7 +5320,9 @@
       "key_reason": "Stage1 score chỉ 3/7 cho thấy tín hiệu kỹ thuật yếu"
     },
     "elapsed_sec": 5.7,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Khi tín hiệu kỹ thuật yếu, cần kết hợp thêm các chỉ báo khác trước khi quyết định giữ vị thế.",
+    "pnl_pct": -1.08,
+    "actual_price_3d": 13800.0
   }
 ]
