@@ -116441,5 +116441,25 @@
     "resolved": false,
     "synced_from": "prediction_log",
     "ledger_epoch": 2
+  },
+  {
+    "date": "2026-11-04",
+    "symbol": "ACB",
+    "ticker": "ACB",
+    "price_at_prediction": 20250.0,
+    "prediction": "BÁN",
+    "action": "BÁN",
+    "target": 19440.0,
+    "stoploss": 20655.0,
+    "timeframe": "3 phiên",
+    "confidence": 21.8,
+    "source": "two_stage",
+    "notes": "stage1_score=0.0 llm=skip",
+    "actual_price": null,
+    "correct": null,
+    "outcome": null,
+    "resolved": false,
+    "synced_from": "prediction_log",
+    "ledger_epoch": 2
   }
 ]

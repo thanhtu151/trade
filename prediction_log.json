@@ -5715,5 +5715,23 @@
     "logged_at": "2026-11-03T08:35:25.781115",
     "resolved": false,
     "ledger_epoch": 2
+  },
+  "ACB_2026-11-04": {
+    "id": "ACB_2026-11-04",
+    "ticker": "ACB",
+    "date": "2026-11-04",
+    "predicted_direction": -1,
+    "predicted_price": 20250.0,
+    "confidence": 21.8,
+    "source": "two_stage",
+    "notes": "stage1_score=0.0 llm=skip",
+    "entry_price": 20250.0,
+    "actual_price_3d": null,
+    "actual_direction": null,
+    "correct": null,
+    "pnl_pct": null,
+    "logged_at": "2026-11-04T08:33:57.961853",
+    "resolved": false,
+    "ledger_epoch": 2
   }
 }
