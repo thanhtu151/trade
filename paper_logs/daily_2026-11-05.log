@@ -1,0 +1,31 @@
+  VCK: source VCI failed: insufficient_data: VCK: VCI: coverage 58.2% (220/378 exchange sessions), first=2025-12-16, required_start<=2025-06-27
+source_manager: VCI failed (1x)
+source_manager: switching to MSN
+  VCK: source MSN failed: insufficient_data: VCK: MSN: coverage 58.2% (220/378 exchange sessions), first=2025-12-16, required_start<=2025-06-27
+source_manager: MSN failed (1x)
+source_manager: all sources exhausted, will use stale cache
+  VCK: all sources failed: insufficient_data: VCK: MSN: coverage 58.2% (220/378 exchange sessions), first=2025-12-16, required_start<=2025-06-27
+  PDR: source MSN failed: Failed to connect to MSN API: 504 Server Error: Gateway Time-out for url: https://assets.msn.com/resolver/api/resolve/v3/config/?expType=AppConfig&expInstance=default&apptype=finance&v=20240430.168&targetScope=%7B%22audienceMode%22:%22adult%22,%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22browser%22:%7B%22browserType%22:%22chrome%22,%22version%22:%220%22,%22ismobile%22:%22false%22%7D,%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22deviceFormFactor%22:%22desktop%22,%22domain%22:%22www.msn.com%22,%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22locale%22:%7B%22content%22:%7B%22language%22:%22vi%22,%22market%22:%22vn%22%7D,%22display%22:%7B%22language%22:%22vi%22,%22market%22:%22vn%22%7D%7D,%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22ocid%22:%22hpmsn%22,%22os%22:%22macos%22,%22platform%22:%22web%22,%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22pageType%22:%22financestockdetails%22%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20
+source_manager: MSN failed (2x)
+source_manager: all sources exhausted, will use stale cache
+  TCX: source VCI failed: insufficient_data: TCX: VCI: coverage 68.8% (260/378 exchange sessions), first=2025-10-21, required_start<=2025-06-27
+source_manager: VCI failed (1x)
+source_manager: switching to MSN
+  TCX: source MSN failed: insufficient_data: TCX: MSN: coverage 68.8% (260/378 exchange sessions), first=2025-10-21, required_start<=2025-06-27
+source_manager: MSN failed (3x)
+source_manager: all sources exhausted, will use stale cache
+  TCX: all sources failed: insufficient_data: TCX: MSN: coverage 68.8% (260/378 exchange sessions), first=2025-10-21, required_start<=2025-06-27
+  VPL: skipping MSN because circuit is open
+  GEL: source VCI failed: insufficient_data: GEL: VCI: coverage 48.7% (184/378 exchange sessions), first=2026-02-06, required_start<=2025-06-27
+source_manager: VCI failed (1x)
+source_manager: switching to MSN
+  GEL: skipping MSN because circuit is open
+  GEL: all sources failed: circuit open for MSN
+  MCH: skipping MSN because circuit is open
+Cảnh báo: không lấy được giá 3 mã: VCK,TCX,GEL
+Phiên: 2026-11-05 (yêu cầu 2026-11-05); nguồn: data_fetcher
+  E1_ma10m: OFF (close<ma10m) {'close': 1865.23, 'ma': 1938.9} [điều khiển lệnh, chỉ đổi ở cuối tháng]
+  E6_ma200d_b60: OFF (off) {'vn30': 1865.23, 'ma200': 1944.42, 'vn30_above': False, 'breadth_pct': 22.0, 'universe': 50} [theo dõi]
+  Lệnh: không có
+  Chờ khớp phiên sau: None
+  NAV: 100,000,000 VND (vốn đầu 100,000,000)
