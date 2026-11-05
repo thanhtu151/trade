@@ -7,7 +7,7 @@
  "cash": 100000000.0,
  "units": 0,
  "started": "2026-09-29",
- "last_session": "2026-11-04",
+ "last_session": "2026-11-05",
  "pending": null,
  "signal": "OFF",
  "trades": [],
@@ -197,6 +197,13 @@
   {
    "session": "2026-11-04",
    "close": 33720.0,
+   "units": 0,
+   "cash": 100000000.0,
+   "equity": 100000000.0
+  },
+  {
+   "session": "2026-11-05",
+   "close": 33640.0,
    "units": 0,
    "cash": 100000000.0,
    "equity": 100000000.0
