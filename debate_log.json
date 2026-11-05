@@ -1,50 +1,5 @@
 [
   {
-    "ticker": "GMD",
-    "date": "2026-08-27",
-    "time": "2026-08-27T18:57:46.007611",
-    "market_data": {
-      "price": 79.8,
-      "rsi": 63.5,
-      "macd_bull": true,
-      "vol_ratio": 0.32,
-      "score": 3.0,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 1045100.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": -0.38,
-    "actual_price_3d": 79.5
-  },
-  {
     "ticker": "VCB",
     "date": "2026-08-27",
     "time": "2026-08-27T18:57:56.437002",
@@ -5324,5 +5279,82 @@
     "reflection": "Khi tín hiệu kỹ thuật yếu, cần kết hợp thêm các chỉ báo khác trước khi quyết định giữ vị thế.",
     "pnl_pct": -1.08,
     "actual_price_3d": 13800.0
+  },
+  {
+    "ticker": "VCI",
+    "date": "2026-11-05",
+    "time": "2026-11-05T08:33:55.566373",
+    "market_data": {
+      "price": 20250.0,
+      "rsi": 67.1,
+      "macd_bull": true,
+      "vol_ratio": 2.57,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "uptrend",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "decision": "MUA",
+      "confidence": 68,
+      "reasons": [
+        "MACD bullish và khối lượng giao dịch 2.6x TB20 xác nhận sức mua mạnh",
+        "Weekly trend đang ở dạng uptrend hỗ trợ xu hướng tăng",
+        "RSI 67.1 chưa vào vùng quá mua, còn dư không gian tăng tiếp"
+      ],
+      "risks": [
+        "Stage1 score chỉ 3.5/7, tín hiệu chưa mạnh hoàn toàn",
+        "Nếu RSI vượt 70 có thể gây áp lực bán ngắn hạn"
+      ],
+      "top_3_reasons": [
+        "MACD bullish và khối lượng giao dịch 2.6x TB20 xác nhận sức mua mạnh",
+        "Weekly trend đang ở dạng uptrend hỗ trợ xu hướng tăng",
+        "RSI 67.1 chưa vào vùng quá mua, còn dư không gian tăng tiếp"
+      ],
+      "summary": "MACD bullish và khối lượng giao dịch 2.6x TB20 xác nhận sức mua mạnh"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "decision": "BÁN",
+      "confidence": 60,
+      "reasons": [
+        "RSI 67.1 cho thấy mức mua quá mức và có khả năng đảo chiều",
+        "Score Stage1 chỉ 3.5/7 phản ánh tín hiệu yếu và tiềm năng giảm giá",
+        "Weekly trend đang lên nhưng chưa có hỗ trợ từ tin tức hoặc ensemble, tăng rủi ro khi xu hướng chạm đáy"
+      ],
+      "risks": [
+        "MACD bullish và khối lượng 2.6x TB20 có thể duy trì xu hướng tăng ngắn hạn",
+        "Thị trường regime UNKNOWN, có thể chuyển sang xu hướng tăng mạnh",
+        "Tin tức trung tính (sentiment 0.00) không tạo áp lực bán mạnh"
+      ],
+      "top_3_risks": [
+        "RSI 67.1 cho thấy mức mua quá mức và có khả năng đảo chiều",
+        "Score Stage1 chỉ 3.5/7 phản ánh tín hiệu yếu và tiềm năng giảm giá",
+        "Weekly trend đang lên nhưng chưa có hỗ trợ từ tin tức hoặc ensemble, tăng rủi ro khi xu hướng chạm đáy"
+      ],
+      "summary": "RSI 67.1 cho thấy mức mua quá mức và có khả năng đảo chiều"
+    },
+    "final_decision": {
+      "decision": "MUA",
+      "confidence": 66,
+      "reasons": [
+        "MACD bullish và khối lượng 2.6x TB20 xác nhận sức mua mạnh",
+        "Weekly trend đang ở dạng uptrend hỗ trợ xu hướng tăng",
+        "Risk/Reward ước tính 1.6 (>1.5)"
+      ],
+      "risks": [
+        "RSI 67.1 gần mức quá mua, nếu vượt 70 có thể gây áp lực bán ngắn hạn",
+        "Stage1 score chỉ 3.5/7 cho thấy tín hiệu chưa mạnh hoàn toàn"
+      ],
+      "action": "MUA",
+      "agreed_with": "bull",
+      "key_reason": "MACD bullish và khối lượng 2.6x TB20 xác nhận sức mua mạnh"
+    },
+    "elapsed_sec": 3.6,
+    "outcome": null,
+    "reflection": null
   }
 ]
