@@ -1,7 +1,7 @@
 {
   "last_trained": {
-    "MBB": "2026-11-05",
-    "ACB": "2026-11-05",
+    "MBB": "2026-11-06",
+    "ACB": "2026-11-06",
     "VCB": "2026-09-29",
     "TCB": "2026-09-29",
     "VIC": "2026-11-05",
@@ -16,10 +16,10 @@
     "KDH": "2026-09-29",
     "VHM": "2026-09-29",
     "CTG": "2026-09-29",
-    "VCI": "2026-11-05",
+    "VCI": "2026-11-06",
     "GMD": "2026-09-29",
     "PVS": "2026-09-29",
-    "VIB": "2026-10-30",
+    "VIB": "2026-11-06",
     "PVD": "2026-09-29",
     "VPB": "2026-09-29",
     "HDB": "2026-09-28",
@@ -31,22 +31,17 @@
     "SHS": "2026-09-29",
     "DCM": "2026-09-29",
     "DXG": "2026-09-23",
-    "SSI": "2026-11-05",
-    "DGC": "2026-11-05"
+    "SSI": "2026-11-06",
+    "DGC": "2026-11-06"
   },
   "accuracy_stats": {
     "ACB": {
-      "total_predictions": 13,
-      "accuracy": 0.462,
-      "recent_5_accuracy": 0.4,
-      "avg_pnl_pct": -0.927,
+      "total_predictions": 14,
+      "accuracy": 0.429,
+      "recent_5_accuracy": 0.2,
+      "avg_pnl_pct": -0.879,
       "trend": "declining",
       "last_5": [
-        {
-          "date": "2026-10-16",
-          "correct": true,
-          "pnl": 1.699
-        },
         {
           "date": "2026-10-22",
           "correct": true,
@@ -66,6 +61,11 @@
           "date": "2026-10-30",
           "correct": false,
           "pnl": -4.695
+        },
+        {
+          "date": "2026-11-03",
+          "correct": false,
+          "pnl": -0.246
         }
       ]
     },
@@ -104,17 +104,12 @@
       ]
     },
     "FRT": {
-      "total_predictions": 13,
-      "accuracy": 0.462,
+      "total_predictions": 14,
+      "accuracy": 0.429,
       "recent_5_accuracy": 0.6,
-      "avg_pnl_pct": -0.161,
+      "avg_pnl_pct": -0.341,
       "trend": "improving",
       "last_5": [
-        {
-          "date": "2026-10-23",
-          "correct": false,
-          "pnl": -2.31
-        },
         {
           "date": "2026-10-26",
           "correct": false,
@@ -134,21 +129,21 @@
           "date": "2026-11-02",
           "correct": true,
           "pnl": 3.833
+        },
+        {
+          "date": "2026-11-03",
+          "correct": false,
+          "pnl": -2.675
         }
       ]
     },
     "MBB": {
-      "total_predictions": 13,
-      "accuracy": 0.538,
+      "total_predictions": 14,
+      "accuracy": 0.5,
       "recent_5_accuracy": 0.4,
-      "avg_pnl_pct": 0.626,
+      "avg_pnl_pct": 0.391,
       "trend": "declining",
       "last_5": [
-        {
-          "date": "2026-10-22",
-          "correct": false,
-          "pnl": -2.25
-        },
         {
           "date": "2026-10-26",
           "correct": false,
@@ -168,21 +163,21 @@
           "date": "2026-11-02",
           "correct": false,
           "pnl": -1.036
+        },
+        {
+          "date": "2026-11-03",
+          "correct": false,
+          "pnl": -2.667
         }
       ]
     },
     "SSI": {
-      "total_predictions": 12,
-      "accuracy": 0.417,
+      "total_predictions": 13,
+      "accuracy": 0.385,
       "recent_5_accuracy": 0.2,
-      "avg_pnl_pct": -0.224,
+      "avg_pnl_pct": -0.839,
       "trend": "declining",
       "last_5": [
-        {
-          "date": "2026-10-23",
-          "correct": false,
-          "pnl": -1.737
-        },
         {
           "date": "2026-10-26",
           "correct": false,
@@ -202,21 +197,21 @@
           "date": "2026-11-02",
           "correct": false,
           "pnl": -5.699
+        },
+        {
+          "date": "2026-11-03",
+          "correct": false,
+          "pnl": -8.223
         }
       ]
     },
     "VCI": {
-      "total_predictions": 7,
-      "accuracy": 0.143,
+      "total_predictions": 8,
+      "accuracy": 0.125,
       "recent_5_accuracy": 0.0,
-      "avg_pnl_pct": -2.947,
+      "avg_pnl_pct": -3.764,
       "trend": "declining",
       "last_5": [
-        {
-          "date": "2026-10-22",
-          "correct": false,
-          "pnl": -2.792
-        },
         {
           "date": "2026-10-28",
           "correct": false,
@@ -236,21 +231,21 @@
           "date": "2026-11-02",
           "correct": false,
           "pnl": -8.378
+        },
+        {
+          "date": "2026-11-03",
+          "correct": false,
+          "pnl": -9.485
         }
       ]
     },
     "VIB": {
-      "total_predictions": 9,
-      "accuracy": 0.444,
-      "recent_5_accuracy": 0.6,
-      "avg_pnl_pct": 0.009,
-      "trend": "improving",
+      "total_predictions": 10,
+      "accuracy": 0.4,
+      "recent_5_accuracy": 0.4,
+      "avg_pnl_pct": -0.286,
+      "trend": "declining",
       "last_5": [
-        {
-          "date": "2026-10-21",
-          "correct": true,
-          "pnl": 1.455
-        },
         {
           "date": "2026-10-26",
           "correct": true,
@@ -270,6 +265,11 @@
           "date": "2026-11-02",
           "correct": false,
           "pnl": -2.174
+        },
+        {
+          "date": "2026-11-03",
+          "correct": false,
+          "pnl": -2.941
         }
       ]
     },
@@ -308,18 +308,18 @@
       ]
     },
     "_overall": {
-      "total": 80,
-      "accuracy": 0.45,
-      "avg_pnl": -0.263,
-      "win_rate": 0.45,
+      "total": 86,
+      "accuracy": 0.419,
+      "avg_pnl": -0.55,
+      "win_rate": 0.419,
       "epoch": 2
     }
   },
-  "updated_at": "2026-11-05T16:03:36.581211",
+  "updated_at": "2026-11-06T16:04:00.493078",
   "last_trained_lstm": {
     "HDB": "2026-08-07",
     "SHS": "2026-09-29",
-    "ACB": "2026-10-15",
+    "ACB": "2026-11-06",
     "PVD": "2026-09-29",
     "POW": "2026-07-31",
     "VIC": "2026-10-16",
@@ -333,7 +333,7 @@
     "MBB": "2026-10-29",
     "VIB": "2026-10-28",
     "SSI": "2026-11-05",
-    "VCI": "2026-11-05",
-    "DGC": "2026-11-05"
+    "VCI": "2026-11-06",
+    "DGC": "2026-11-06"
   }
 }
