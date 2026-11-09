@@ -578,5 +578,15 @@
     "equity": 100000000.0,
     "positions": [],
     "n_positions": 0
+  },
+  {
+    "date": "2026-11-10",
+    "time": "2026-11-10T01:07:26.710864+07:00",
+    "ledger_epoch": 2,
+    "cash": 100000000.0,
+    "market_value": 0,
+    "equity": 100000000.0,
+    "positions": [],
+    "n_positions": 0
   }
 ]
