@@ -5309,8 +5309,10 @@
       "key_reason": "MACD bullish và khối lượng 2.6x TB20 xác nhận sức mua mạnh"
     },
     "elapsed_sec": 3.6,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "Khi RSI vượt mức quá mua, nên cân nhắc giảm vị thế dù MACD và khối lượng mạnh.",
+    "pnl_pct": -2.72,
+    "actual_price_3d": 19700.0
   },
   {
     "ticker": "VCI",
@@ -5380,7 +5382,9 @@
       "key_reason": "Ensemble dự báo tăng mạnh và khớp với weekly uptrend"
     },
     "elapsed_sec": 3.6,
-    "outcome": null,
-    "reflection": null
+    "outcome": "incorrect",
+    "reflection": "Khi mô hình dự báo mạnh nhưng điểm sức mạnh cơ bản thấp, cần cân nhắc thêm yếu tố cơ bản trước khi quyết định mua.",
+    "pnl_pct": -2.72,
+    "actual_price_3d": 19700.0
   }
 ]
