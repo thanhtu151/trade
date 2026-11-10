@@ -26,7 +26,6 @@ pydantic==2.13.5
 packaging==26.3
 importlib-metadata==9.0.1
 tenacity==9.1.4
-vnstock_ezchart==1.0.2
 pytz==2026.3.post1
 cffi==2.1.1
 yfinance==1.4.1
