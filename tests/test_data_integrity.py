@@ -55,6 +55,8 @@ def test_all_truncated_sources_raise_explicit_insufficient_data(monkeypatch):
     monkeypatch.setattr(source_manager, "report_success", lambda _source: pytest.fail("must not report success"))
     monkeypatch.setattr(source_manager, "report_failure", lambda _source: None)
     monkeypatch.setattr(data_fetcher, "_history_via_worker", lambda *_a, **_k: _frame("2026-08-24", 24))
+    import dnse_client
+    monkeypatch.setattr(dnse_client, "fetch_history", lambda *_a, **_k: _frame("2026-08-24", 24))  # DNSE is a source too: keep the test offline
 
     with pytest.raises(data_fetcher.InsufficientDataError) as exc_info:
         data_fetcher.fetch_with_fallback("DXG", "2024-09-28", "2026-09-28")
