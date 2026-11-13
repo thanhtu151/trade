@@ -3,6 +3,10 @@
     "vnstock:VCI": {
       "failures": 0,
       "opened_at": null
+    },
+    "vnstock:DNSE": {
+      "failures": 1,
+      "opened_at": null
     }
   },
   "llm": {
