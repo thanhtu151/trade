@@ -1,6 +1,7 @@
 """
-Thread-safe vnstock source manager.
-Rotates VCI → MSN on failure, resets to VCI every 10 minutes.
+Thread-safe price-source manager.
+Rotates VCI → MSN (vnstock) → DNSE (public HTTP API, works without vnstock) on failure,
+resets to VCI every 10 minutes.
 """
 import logging
 import threading
@@ -8,7 +9,8 @@ import time
 
 log = logging.getLogger("source_manager")
 
-SOURCES = ["VCI", "MSN"]
+SOURCES = ["VCI", "MSN", "DNSE"]
+VNSTOCK_SOURCES = ("VCI", "MSN")  # need the vnstock package; DNSE does not
 _VCI_RESET_INTERVAL = 600  # 10 minutes
 
 

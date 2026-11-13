@@ -313,14 +313,62 @@ def test_llm_router_has_no_public_key_scraper():
     assert '"keys": keys' not in source
 
 
+def _vendor_requirement_blocks(text):
+    """Logical requirement lines of a pip requirements file: `\\`-continued lines are joined,
+    comments and blank lines dropped. Zero blocks is a valid (empty) file."""
+    blocks, buf = [], ""
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not buf and (not line or line.startswith("#")):
+            continue
+        if line.endswith("\\"):
+            buf += line[:-1].strip() + " "
+            continue
+        blocks.append((buf + line).strip())
+        buf = ""
+    if buf.strip():
+        blocks.append(buf.strip())
+    return blocks
+
+
+def _vendor_problems(text):
+    """Supply-chain rules for requirements-vnstock.txt (installed with --require-hashes from a
+    private index): every requirement is pinned with == and carries >=1 sha256 hash, no index/URL
+    options hide in the file, and no stray --hash lines exist outside a requirement."""
+    import re
+    problems, blocks = [], _vendor_requirement_blocks(text)
+    for block in blocks:
+        if not re.match(r"^[A-Za-z0-9_.\-]+==[^\s;]+", block):
+            problems.append(f"not pinned with ==: {block[:60]}")
+        if not re.search(r"--hash=sha256:[0-9a-f]{64}\b", block):
+            problems.append(f"no sha256 hash: {block[:60]}")
+        if re.search(r"(^|\s)(-i|--index-url|--extra-index-url|--find-links|-f|-e)\b|://|git\+", block):
+            problems.append(f"index/URL option in requirement: {block[:60]}")
+    if text.count("--hash=sha256:") != sum(b.count("--hash=sha256:") for b in blocks):
+        problems.append("--hash outside a requirement block")
+    return problems
+
+
 def test_vendor_install_is_pinned_hashed_and_not_extra_index():
     root = Path(__file__).resolve().parent.parent
     vendor = (root / "requirements-vnstock.txt").read_text(encoding="utf-8")
     workflow = (root / ".github" / "workflows" / "scheduler.yml").read_text(encoding="utf-8")
-    assert "vnstock==" in vendor and "vnai==" in vendor
-    assert vendor.count("--hash=sha256:") == 2
+    # 0 requirements is allowed (vnstock is optional now: DNSE is the price source); any that remain
+    # must be pinned and hashed.
+    assert _vendor_problems(vendor) == []
     assert "--index-url https://vnstocks.com/api/simple --no-deps --only-binary=:all: --require-hashes" in workflow
     assert "--extra-index-url" not in workflow
+
+
+def test_vendor_requirement_checker_still_bites():
+    h = "a" * 64
+    assert _vendor_problems("# only comments\n\n") == []
+    assert _vendor_problems(f"vnstock==4.0.9 \\\n    --hash=sha256:{h}\nvnai==2.6.2 \\\n    --hash=sha256:{h} \\\n    --hash=sha256:{'b' * 64}\n") == []
+    assert _vendor_problems("vnstock>=4.0.9\n")                                   # not pinned, no hash
+    assert _vendor_problems("vnstock==4.0.9\n")                                   # pinned, no hash
+    assert _vendor_problems(f"vnstock==4.0.9 --hash=sha256:{h}\n--extra-index-url https://x/simple\n")
+    assert _vendor_problems(f"vnstock==4.0.9 \\\n  --hash=sha256:{h}\n--hash=sha256:{h}\n")  # orphan hash line
+    assert _vendor_problems(f"vnstock @ https://x/v.whl --hash=sha256:{h}\n")     # URL requirement
 
 
 def test_analysis_failure_is_not_marked_success(monkeypatch, tmp_path):

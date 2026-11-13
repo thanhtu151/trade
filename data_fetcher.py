@@ -260,17 +260,28 @@ def _ttl_hours_for_vnstock():
     return 4 if 8 <= now_hour <= 16 else 12
 
 
-def fetch_with_fallback(ticker: str, start: str, end: str, interval: str = "1D"):
-    """Fetch OHLCV trying VCI → TCBS → MSN. Returns (DataFrame, source_used)."""
-    import source_manager
-    from market_data_adapter import VendorPackageUnavailable, provider_availability
-    from runtime_reliability import CircuitOpenError, market_data_circuit, retry_transient
+def _history_for_source(ticker, source, start, end, interval="1D"):
+    """One price download from one named source (DNSE over HTTP, VCI/MSN through the vnstock worker)."""
+    if source == "DNSE":
+        import dnse_client
+        return dnse_client.fetch_history(ticker, start, end, interval)
+    return _history_via_worker(ticker, source, start, end, interval)
 
-    if not provider_availability()["available"]:
-        raise VendorPackageUnavailable("vnstock unavailable; provider is in degraded mode")
+
+def fetch_with_fallback(ticker: str, start: str, end: str, interval: str = "1D"):
+    """Fetch OHLCV trying VCI → MSN (vnstock) → DNSE. Returns (DataFrame, source_used).
+
+    Without the vnstock package the vnstock sources are skipped and DNSE (plain HTTP) is used.
+    """
+    import source_manager
+    from market_data_adapter import provider_availability
+    from runtime_reliability import CircuitOpenError, market_data_circuit, retry_transient
 
     current = source_manager.get_source()
     ordered = [current] + [s for s in source_manager.SOURCES if s != current]
+    if not provider_availability()["available"]:
+        ordered = [s for s in ordered if s not in source_manager.VNSTOCK_SOURCES]
+        log.info("  %s: vnstock unavailable, using %s only", ticker, "/".join(ordered))
 
     last_exc = None
     for source in ordered:
@@ -281,11 +292,11 @@ def fetch_with_fallback(ticker: str, start: str, end: str, interval: str = "1D")
             continue
         try:
             df = retry_transient(
-                lambda: _history_via_worker(ticker, source, start, end, interval),
+                lambda: _history_for_source(ticker, source, start, end, interval),
                 attempts=3,
                 base_delay=0.5,
                 max_delay=4.0,
-                is_transient=lambda _exc: True,
+                is_transient=lambda exc: getattr(exc, "transient", True),
             )
             if df is None or df.empty:
                 raise ValueError(f"empty response from {source}")
@@ -373,7 +384,7 @@ def get_stock_data_cached(ticker, years=1, force_refresh=False):
         except Exception as exc:
             log.warning("  Cache read failed for %s: %s", ticker, exc)
 
-    log.info("  %s: fetching from vnstock API (with source fallback)...", ticker)
+    log.info("  %s: fetching prices (vnstock VCI/MSN if installed, else DNSE; with source fallback)...", ticker)
     try:
         df, source = fetch_with_fallback(ticker, start, end)
         attrs = dict(df.attrs)
