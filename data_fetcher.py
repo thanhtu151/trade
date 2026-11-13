@@ -384,7 +384,7 @@ def get_stock_data_cached(ticker, years=1, force_refresh=False):
         except Exception as exc:
             log.warning("  Cache read failed for %s: %s", ticker, exc)
 
-    log.info("  %s: fetching from vnstock API (with source fallback)...", ticker)
+    log.info("  %s: fetching prices (vnstock VCI/MSN if installed, else DNSE; with source fallback)...", ticker)
     try:
         df, source = fetch_with_fallback(ticker, start, end)
         attrs = dict(df.attrs)

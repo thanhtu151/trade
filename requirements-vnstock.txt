@@ -6,5 +6,5 @@
 #     --require-hashes -r requirements-vnstock.txt
 # fails. With no requirement lines this command is a no-op and succeeds.
 # Effect: vnstock is absent at runtime; market_data_adapter reports "cached/non-vendor data only"
-# and source_manager/yfinance fallbacks apply. Restore pins here once gen 6 is approved.
+# and the DNSE source (dnse_client.py) supplies prices. Restore pins here once gen 6 is approved.
 # Old pins (hashes in git history, commit 99d9b48): vnstock==4.0.9, vnai==2.6.2.
