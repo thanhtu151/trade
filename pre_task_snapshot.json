@@ -1,6 +1,6 @@
 {
-  "task": "trade",
-  "created_at": "2026-11-17 17:52:13",
+  "task": "eod",
+  "created_at": "2026-11-18 00:17:24",
   "files": {
     "paper_portfolio.json": "paper_portfolio.json.pre_task.bak",
     "paper_trades.json": "paper_trades.json.pre_task.bak"
