@@ -5317,8 +5317,10 @@
       "llm_unavailable": true
     },
     "elapsed_sec": 3.5,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Khi xu hướng MACD bullish nhưng khối lượng giao dịch yếu, cần cân nhắc giảm vị thế để tránh rủi ro khi sức mua không đủ hỗ trợ.",
+    "pnl_pct": 0.82,
+    "actual_price_3d": 245000.0
   },
   {
     "ticker": "FRT",
@@ -5394,8 +5396,10 @@
       "key_reason": "Volume chỉ 0.3x TB20 không xác nhận sức mạnh mua vào dù MACD bullish"
     },
     "elapsed_sec": 3.8,
-    "outcome": null,
-    "reflection": null
+    "outcome": "neutral",
+    "reflection": "Không nên dựa quá nhiều vào tín hiệu kỹ thuật khi khối lượng giao dịch yếu, nên kết hợp thêm yếu tố khối lượng để xác nhận xu hướng.",
+    "pnl_pct": 1.09,
+    "actual_price_3d": 148600.0
   },
   {
     "ticker": "FRT",
@@ -5468,7 +5472,9 @@
       "key_reason": "MACD bullish và khối lượng 1.6x TB20 xác nhận sức mua mạnh"
     },
     "elapsed_sec": 3.3,
-    "outcome": null,
-    "reflection": null
+    "outcome": "correct",
+    "reflection": "Khi MACD bullish và khối lượng vượt mức trung bình, nên giữ vị thế mua, nhưng cần theo dõi RSI để kịp thời giảm rủi ro nếu áp lực bán xuất hiện.",
+    "pnl_pct": 1.09,
+    "actual_price_3d": 148600.0
   }
 ]
