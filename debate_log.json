@@ -1,50 +1,5 @@
 [
   {
-    "ticker": "NVL",
-    "date": "2026-08-27",
-    "time": "2026-08-27T18:58:47.531045",
-    "market_data": {
-      "price": 13.2,
-      "rsi": 29.7,
-      "macd_bull": false,
-      "vol_ratio": 0.39,
-      "score": 3.5,
-      "ensemble_signal": "không rõ",
-      "weekly_trend": "uptrend",
-      "news_sentiment": 0.0,
-      "market_regime": "UNKNOWN",
-      "cash_available": 1045100.0
-    },
-    "bull_case": {
-      "stance": "BULL",
-      "confidence": 50,
-      "top_3_reasons": [
-        "Không đủ data"
-      ],
-      "summary": "Bull case không xác định"
-    },
-    "bear_case": {
-      "stance": "BEAR",
-      "confidence": 50,
-      "top_3_risks": [
-        "Không đủ data"
-      ],
-      "summary": "Bear case không xác định"
-    },
-    "final_decision": {
-      "action": "GIỮ",
-      "confidence": 30,
-      "position_size_pct": 0,
-      "agreed_with": "neither",
-      "key_reason": "Không đủ thông tin để quyết định"
-    },
-    "elapsed_sec": 1.0,
-    "outcome": "neutral",
-    "reflection": "",
-    "pnl_pct": -1.14,
-    "actual_price_3d": 13.05
-  },
-  {
     "ticker": "VIB",
     "date": "2026-08-27",
     "time": "2026-08-27T18:58:58.222429",
@@ -5476,5 +5431,65 @@
     "reflection": "Khi MACD bullish và khối lượng vượt mức trung bình, nên giữ vị thế mua, nhưng cần theo dõi RSI để kịp thời giảm rủi ro nếu áp lực bán xuất hiện.",
     "pnl_pct": 1.09,
     "actual_price_3d": 148600.0
+  },
+  {
+    "ticker": "VIB",
+    "date": "2026-11-26",
+    "time": "2026-11-26T08:32:58.656427",
+    "market_data": {
+      "price": 13250.0,
+      "rsi": 18.7,
+      "macd_bull": false,
+      "vol_ratio": 0.5,
+      "score": 3.5,
+      "ensemble_signal": "không rõ",
+      "weekly_trend": "sideways",
+      "news_sentiment": 0.0,
+      "market_regime": "UNKNOWN",
+      "cash_available": 100000000.0
+    },
+    "bull_case": {
+      "stance": "BULL",
+      "decision": "MUA",
+      "confidence": 45,
+      "reasons": [
+        "RSI 18.7 cho thấy cổ phiếu đang trong vùng quá bán, tiềm năng đảo chiều lên"
+      ],
+      "risks": [
+        "MACD đang bearish và khối lượng giao dịch yếu 0.5x TB20 cho thấy sức mua chưa mạnh",
+        "Weekly trend sideway và Stage1 score chỉ 3.5/7 cho thấy tín hiệu chưa đủ mạnh"
+      ],
+      "top_3_reasons": [
+        "RSI 18.7 cho thấy cổ phiếu đang trong vùng quá bán, tiềm năng đảo chiều lên"
+      ],
+      "summary": "RSI 18.7 cho thấy cổ phiếu đang trong vùng quá bán, tiềm năng đảo chiều lên"
+    },
+    "bear_case": {
+      "stance": "BEAR",
+      "decision": "BÁN",
+      "confidence": 60,
+      "reasons": [
+        "MACD đang ở trạng thái bearish cho thấy xu hướng giảm đang mạnh"
+      ],
+      "risks": [
+        "RSI chỉ 18.7 cho thấy cổ phiếu đang quá bán, có thể gây phản hồi tăng ngắn hạn",
+        "Khối lượng giao dịch chỉ 0.5x TB20 thể hiện sức mua yếu và có thể thay đổi nhanh nếu dòng tiền quay lại"
+      ],
+      "top_3_risks": [
+        "MACD đang ở trạng thái bearish cho thấy xu hướng giảm đang mạnh"
+      ],
+      "summary": "MACD đang ở trạng thái bearish cho thấy xu hướng giảm đang mạnh"
+    },
+    "final_decision": {
+      "action": "GIỮ",
+      "confidence": 30,
+      "position_size_pct": 0,
+      "agreed_with": "neither",
+      "key_reason": "Không đủ thông tin để quyết định",
+      "llm_unavailable": true
+    },
+    "elapsed_sec": 3.1,
+    "outcome": null,
+    "reflection": null
   }
 ]
