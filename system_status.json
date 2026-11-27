@@ -2,16 +2,16 @@
   "status": "idle",
   "message": "AI tự động đã phân tích xong",
   "detail": "Hoàn tất 50 mã trong training watchlist",
-  "updated_at": "2026-11-27T17:47:24.906314+00:00",
+  "updated_at": "2026-11-27T18:36:47.136181+00:00",
   "version": 1,
   "tasks": {
     "heal": {
       "consecutive_failures": 0,
       "state": "success",
-      "last_update": "2026-11-27T17:47:24.906314+00:00",
-      "run_id": "46044360523",
+      "last_update": "2026-11-27T18:36:47.136181+00:00",
+      "run_id": "46050496607",
       "last_error": null,
-      "last_success": "2026-11-27T17:47:24.906314+00:00"
+      "last_success": "2026-11-27T18:36:47.136181+00:00"
     },
     "prep": {
       "consecutive_failures": 0,
@@ -59,9 +59,9 @@
     "learning": {
       "consecutive_failures": 0,
       "state": "success",
-      "last_update": "2026-11-27T09:01:50.923873+00:00",
-      "run_id": "45970106408",
-      "last_success": "2026-11-27T09:01:50.923873+00:00",
+      "last_update": "2026-11-27T18:36:46.394454+00:00",
+      "run_id": "46050496607",
+      "last_success": "2026-11-27T18:36:46.394454+00:00",
       "last_error": null
     },
     "calendar": {
